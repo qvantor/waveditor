@@ -1,15 +1,22 @@
-import styled from 'styled-components';
-import NxWelcome from './nx-welcome';
+// import styled from 'styled-components';
+// import { TextEditor } from "@waveditors/text-editor";
+import { MailBuilder } from './mail-builder';
 
-const StyledApp = styled.div`
-  // Your style here
-`;
+// const StyledEditor = styled(TextEditor)`
+//   p {
+//     margin: 0;
+//     padding: 0;
+//   }
+//
+//   outline: none;
+//   border: 1px solid gray;
+// `
 
 export function App() {
+  // const [content, setContent] = useState('<p>hi!</p>')
   return (
-    <StyledApp>
-      <NxWelcome title="wavemail" />
-    </StyledApp>
+    /*<StyledEditor onChange={setContent} content={content}/>*/
+    <MailBuilder />
   );
 }
 
