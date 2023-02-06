@@ -22,7 +22,7 @@ export function TextEditor({
   onChange,
   content,
   className,
-  editable = true,
+  editable = false,
 }: Props) {
   const editor = useEditor({
     extensions: [

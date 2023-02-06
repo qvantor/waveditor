@@ -63,6 +63,7 @@ export const MailBuilder = () => {
           selected.setSelected(event.payload)
         )
         .with({ type: 'ElementUnselected' }, selected.unselect)
+        .with({type: 'MoveElement'}, console.log)
         .exhaustive()
     );
     return () => sb.unsubscribe();

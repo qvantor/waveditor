@@ -21,6 +21,6 @@ export function useObservable<T, E>(
     return () => {
       subscription.unsubscribe();
     };
-  }, [observable, setValue, mapper]);
+  }, [setValue, mapper]);
   return value;
 }

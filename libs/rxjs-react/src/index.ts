@@ -1,1 +1,1 @@
-export { useObservable, useBehaviorSubject } from './hooks';
+export { useObservable, useBehaviorSubject, useSubscription } from './hooks';
