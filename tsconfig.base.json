@@ -17,7 +17,8 @@
     "paths": {
       "@waveditors/layout-editor": ["libs/layout-editor/src/index.ts"],
       "@waveditors/rxjs-react": ["libs/rxjs-react/src/index.ts"],
-      "@waveditors/text-editor": ["libs/text-editor/src/index.ts"]
+      "@waveditors/text-editor": ["libs/text-editor/src/index.ts"],
+      "@waveditors/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

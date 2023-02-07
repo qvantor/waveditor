@@ -10,8 +10,8 @@ import {
   LayoutStore,
 } from '@waveditors/layout-editor';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { hoverStore, selectedStore } from '../../common/store';
 import { match } from 'ts-pattern';
+import { hoverStore, selectedStore } from '../../common/store';
 
 const Root = styled.div`
   display: flex;
