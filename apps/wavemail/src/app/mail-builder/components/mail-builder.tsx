@@ -4,6 +4,10 @@ import {
   ElementStore,
   LayoutEditor,
   EditorEvents,
+  LinkElementToLayoutEvent,
+  ElementsStore,
+  isLayoutStore,
+  LayoutStore,
 } from '@waveditors/layout-editor';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { hoverStore, selectedStore } from '../../common/store';
@@ -14,6 +18,54 @@ const Root = styled.div`
   justify-content: center;
 `;
 
+const findElementParent = (elements: ElementsStore, elementId: string) => {
+  const parent = Object.entries(elements.value).find(
+    (element): element is [string, LayoutStore] => {
+      const [, store] = element;
+      if (!isLayoutStore(store)) return false;
+      return Boolean(
+        store.value.params.columns.find((column) =>
+          column.find((cElementId) => cElementId === elementId)
+        )
+      );
+    }
+  );
+  return parent ? parent[1] : null;
+};
+const unlinkElementFromLayout = (
+  elements: ElementsStore,
+  elementId: string
+) => {
+  const parent = findElementParent(elements, elementId);
+  if (!parent) return null;
+  const newColumns = parent.value.params.columns.map((column) =>
+    column.filter((cElementId) => cElementId !== elementId)
+  );
+  parent.next({
+    ...parent.value,
+    params: { ...parent.value.params, columns: newColumns },
+  });
+};
+const linkElementToLayout = (
+  elements: ElementsStore,
+  {
+    element,
+    position: { layout, column, index, next },
+  }: LinkElementToLayoutEvent['payload']
+) => {
+  const parent = elements.value[layout];
+  if (!isLayoutStore(parent)) return null;
+  const newColumns = parent.value.params.columns.map((col, i) => {
+    if (i !== column) return col;
+    const plus = next ? 1 : 0;
+    return [...col.slice(0, index + plus), element, ...col.slice(index + plus)];
+  });
+  parent.next({
+    ...parent.value,
+    params: { ...parent.value.params, columns: newColumns },
+  });
+};
+
 export const MailBuilder = () => {
   const elements = useMemo(
     () =>
@@ -22,13 +74,13 @@ export const MailBuilder = () => {
           id: '1',
           type: 'layout',
           params: {
-            columns: [['2', '4'], ['5'], []],
+            columns: [['2', '4', '6', '7'], ['5'], []],
           },
         }),
         '2': new BehaviorSubject({
           id: '2',
           type: 'text',
-          params: { content: 'Hello world' },
+          params: { content: 'Hello world 0' },
         }),
         '3': new BehaviorSubject({
           id: '3',
@@ -47,6 +99,16 @@ export const MailBuilder = () => {
           type: 'layout',
           params: { columns: [[], ['3']] },
         }),
+        '6': new BehaviorSubject({
+          id: '2',
+          type: 'text',
+          params: { content: 'Hello world 1' },
+        }),
+        '7': new BehaviorSubject({
+          id: '2',
+          type: 'text',
+          params: { content: 'Hello world 2' },
+        }),
       }),
     []
   );
@@ -63,11 +125,16 @@ export const MailBuilder = () => {
           selected.setSelected(event.payload)
         )
         .with({ type: 'ElementUnselected' }, selected.unselect)
-        .with({type: 'MoveElement'}, console.log)
+        .with({ type: 'UnlinkElementFromLayout' }, (event) =>
+          unlinkElementFromLayout(elements, event.payload)
+        )
+        .with({ type: 'LinkElementToLayout' }, (event) =>
+          linkElementToLayout(elements, event.payload)
+        )
         .exhaustive()
     );
     return () => sb.unsubscribe();
-  }, [selected, hover, editorEvents]);
+  }, [selected, hover, editorEvents, elements]);
 
   return (
     <Root className='canvas'>

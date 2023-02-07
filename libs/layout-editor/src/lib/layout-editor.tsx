@@ -14,6 +14,8 @@ import {
   Subject,
   map,
   distinctUntilChanged,
+  mergeWith,
+  delay,
 } from 'rxjs';
 import { TextEditor } from '@waveditors/text-editor';
 import styled from 'styled-components';
@@ -51,7 +53,7 @@ export interface Layout {
   };
 }
 
-type LayoutStore = BehaviorSubject<Layout>;
+export type LayoutStore = BehaviorSubject<Layout>;
 
 interface Text {
   id: string;
@@ -83,14 +85,25 @@ export type SelectionEvents =
   | { type: 'ElementSelected'; payload: string }
   | { type: 'ElementUnselected'; payload: null };
 
-export type MoveElementEvent = {
-  type: 'MoveElement';
+export type LinkElementToLayoutEvent = {
+  type: 'LinkElementToLayout';
   payload: {
     element: string;
-    position: { layout: string; column: number; index: number; next: boolean };
+    position: {
+      layout: string;
+      column: number;
+      index: number;
+      next: boolean;
+    };
   };
 };
-export type MutationEvents = MoveElementEvent;
+export type UnlinkElementFromLayoutEvent = {
+  type: 'UnlinkElementFromLayout';
+  payload: string;
+};
+export type MutationEvents =
+  | LinkElementToLayoutEvent
+  | UnlinkElementFromLayoutEvent;
 export type EditorEvents = HoverEvents | SelectionEvents | MutationEvents;
 
 type RootMouseMoveEvent = { type: 'RootMouseMove'; payload: MouseEvent };
@@ -103,6 +116,9 @@ type DragIconMouseDownEvent = { type: 'DragIconMouseDown'; payload: string };
 type InternalDndEvents = DragIconMouseDownEvent;
 
 type InternalEvents = InternalMouseEvents | InternalDndEvents;
+
+export const isLayoutStore = (element: ElementStore): element is LayoutStore =>
+  element.value.type === 'layout';
 
 interface Props {
   root: string;
@@ -139,21 +155,31 @@ const RenderColumn = ({
 }: {
   column: string[];
   width: number;
-  dndPreview?: MoveElementEvent['payload']['position'];
+  dndPreview?: LinkElementToLayoutEvent['payload']['position'];
 }) => {
   return (
-    <div className='column' style={{ width }}>
+    <div style={{ width }}>
       {column.map((element, i) => {
         const dndHere = dndPreview?.index === i;
         return (
           <Fragment key={element}>
-            {dndHere && !dndPreview.next && <div>drop here</div>}
-            <ElementRender element={element} key={element} width={width} />
-            {dndHere && dndPreview.next && <div>drop here</div>}
+            {dndHere && !dndPreview.next && (
+              <div
+                style={{ height: 4, border: '1px dashed gray', margin: 5 }}
+              />
+            )}
+            <ElementRender element={element} width={width} />
+            {dndHere && dndPreview.next && (
+              <div
+                style={{ height: 4, border: '1px dashed gray', margin: 5 }}
+              />
+            )}
           </Fragment>
         );
       })}
-      {column.length === 0 && dndPreview && <div>drop here</div>}
+      {column.length === 0 && dndPreview && (
+        <div style={{ height: 4, border: '1px dashed gray', margin: 5 }} />
+      )}
     </div>
   );
 };
@@ -178,16 +204,26 @@ const LayoutRender = ({ element, width }: LayoutProps) => {
     ),
     null
   );
+  const isDnd = useBehaviorSubject(internalState.isDnd);
+  const columnStyle = isDnd
+    ? {
+        outline: '1px dashed red',
+        outlineOffset: -1,
+      }
+    : {};
   const layout = element.getValue();
   const columnWidth = width / layout.params.columns.length;
   return (
-    <table style={{ borderSpacing: 0 }}>
+    <table style={{ borderSpacing: 0, minHeight: 10 }}>
       <tbody>
         <tr>
           {layout.params.columns.map((column, i) => {
             return (
               <td
-                style={{ padding: 0 }}
+                style={{
+                  ...columnStyle,
+                  padding: 0,
+                }}
                 datatype={COLUMN_DATATYPE}
                 data-column={i}
                 key={i}
@@ -224,7 +260,11 @@ const ElementRenderSwitch = ({ id, width }: { id: string; width: number }) => {
     ))
     .with(typeSelector('text'), (element) => <TextRender element={element} />)
     .with(typeSelector('image'), (element) => (
-      <img src='https://placekitten.com/200/150' alt='cat' />
+      <img
+        src='https://placekitten.com/200/150'
+        style={{ maxWidth: '100%', pointerEvents: 'none' }}
+        alt='cat'
+      />
     ))
     .exhaustive();
 };
@@ -303,6 +343,7 @@ const useDnd = ({
   elements,
   internalEvents,
   internalState: { isDnd, dndPreview },
+  events,
 }: LayoutEditorContext) => {
   useSubscription(() =>
     internalEvents
@@ -314,6 +355,7 @@ const useDnd = ({
       )
       .subscribe(({ payload: id }) => {
         isDnd.next(true);
+        events.next({ type: 'UnlinkElementFromLayout', payload: id });
 
         // error in mouseMove MouseEvent type it should not be from react
         const mouseMove = (e: any) => {
@@ -329,10 +371,7 @@ const useDnd = ({
               const diffCenter = element.value.params.columns[columnIndex].map(
                 (id) => {
                   const htmlChild = document.getElementById(id);
-                  if (!htmlChild)
-                    throw new Error(
-                      `Layout ${layout.id} column ${columnIndex} element id ${id} is not found`
-                    );
+                  if (!htmlChild) return null;
                   const { top, height } = htmlChild.getBoundingClientRect();
 
                   const center = top + height / 2;
@@ -341,8 +380,12 @@ const useDnd = ({
               );
               const { index, next } = diffCenter.reduce(
                 (sum, diff, index) => {
-                  if (Math.abs(diff) < sum.min)
-                    return { min: Math.abs(diff), index, next: diff > 0 };
+                  if (diff && Math.abs(diff) < sum.min)
+                    return {
+                      min: Math.abs(diff),
+                      index,
+                      next: diff > 0,
+                    };
                   return sum;
                 },
                 { min: Infinity, index: 0, next: false }
@@ -365,6 +408,12 @@ const useDnd = ({
         document.addEventListener('mousemove', mouseMove);
 
         document.addEventListener('mouseup', () => {
+          if (dndPreview.value)
+            events.next({
+              type: 'LinkElementToLayout',
+              payload: dndPreview.value,
+            });
+
           isDnd.next(false);
           dndPreview.next(null);
           document.removeEventListener('mousemove', mouseMove);
@@ -425,14 +474,23 @@ const DragIcon = styled(AiOutlineDrag)`
 `;
 
 export const SelectedFrame = () => {
-  const { selected, internalEvents } = useLayoutEditorContext();
+  const { selected, internalEvents, internalState } = useLayoutEditorContext();
   const selectedToRect = useCallback(
     (selected: string | null) => mapValue(selected, elementIdToDOMRect),
     []
   );
-  const rect = useBehaviorSubject(selected, selectedToRect);
+  const rect = useObservable(
+    selected.pipe(
+      mergeWith(internalState.isDnd.pipe(delay(16))),
+      map(() => selected.value)
+    ),
+    selected.value,
+    selectedToRect
+  );
+  if (!rect) return null;
 
-  return mapValue(rect, ({ left, top, width, height }) => (
+  const { left, top, width, height } = rect;
+  return (
     <SelectedRect style={{ left, top, width, height }}>
       <DragIcon
         onMouseDown={() =>
@@ -443,15 +501,15 @@ export const SelectedFrame = () => {
         }
       />
     </SelectedRect>
-  ));
+  );
 };
 
 const useLayoutEditorInternalState = () => {
   return useMemo(() => {
     const isDnd = new BehaviorSubject(false);
-    const dndPreview = new BehaviorSubject<null | MoveElementEvent['payload']>(
-      null
-    );
+    const dndPreview = new BehaviorSubject<
+      null | LinkElementToLayoutEvent['payload']
+    >(null);
     return { isDnd, dndPreview };
   }, []);
 };
