@@ -1,8 +1,9 @@
-import { useBehaviorSubject } from '@waveditors/rxjs-react';
+import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { useCallback } from 'react';
 import { mapValue } from '@waveditors/utils';
 import { match } from 'ts-pattern';
 import styled from 'styled-components';
+import { delay, map, mergeWith } from 'rxjs';
 import { elementIdToDOMRect } from '../services';
 import { useLayoutEditorContext } from '../hooks';
 
@@ -15,7 +16,7 @@ export const FrameRoot = styled.div`
 `;
 
 export const HoverFrame = () => {
-  const { hover, selected } = useLayoutEditorContext();
+  const { hover, selected, internalState } = useLayoutEditorContext();
   const selectedId = useBehaviorSubject(selected);
 
   const hoverIdToRect = useCallback(
@@ -29,7 +30,14 @@ export const HoverFrame = () => {
     [selectedId]
   );
 
-  const rect = useBehaviorSubject(hover, hoverIdToRect);
+  const rect = useObservable(
+    hover.pipe(
+      mergeWith(internalState.isDnd.pipe(delay(16))),
+      map(() => hover.value)
+    ),
+    hover.value,
+    hoverIdToRect
+  );
 
   return mapValue(rect, ({ left, top, width, height }) => (
     <FrameRoot style={{ left, top, width, height }} />

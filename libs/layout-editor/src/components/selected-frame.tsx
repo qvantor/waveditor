@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 import { AiOutlineDrag } from 'react-icons/ai';
-import { useCallback } from 'react';
-import { mapValue } from '@waveditors/utils';
 import { useObservable } from '@waveditors/rxjs-react';
-import { delay, map, mergeWith } from 'rxjs';
-import { elementIdToDOMRect } from '../services';
+import { map, filter, switchMap } from 'rxjs';
 import { useLayoutEditorContext } from '../hooks';
+import { resizeObservable } from '../services';
 import { FrameRoot } from './hover-frame';
 
 const SelectedRect = styled(FrameRoot)`
@@ -24,19 +22,18 @@ const DragIcon = styled(AiOutlineDrag)`
   pointer-events: all;
 `;
 
+const notNullish = <T,>(value?: T | null): value is T =>
+  value !== undefined && value !== null;
 export const SelectedFrame = () => {
-  const { selected, internalEvents, internalState } = useLayoutEditorContext();
-  const selectedToRect = useCallback(
-    (selected: string | null) => mapValue(selected, elementIdToDOMRect),
-    []
-  );
+  const { selected, internalEvents } = useLayoutEditorContext();
   const rect = useObservable(
     selected.pipe(
-      mergeWith(internalState.isDnd.pipe(delay(16))),
-      map(() => selected.value)
+      filter(notNullish),
+      map((value) => document.getElementById(value)),
+      filter(notNullish),
+      switchMap(resizeObservable)
     ),
-    selected.value,
-    selectedToRect
+    null
   );
   if (!rect) return null;
 

@@ -42,7 +42,6 @@ export function LayoutEditor(
         onMouseLeave={rootMouseLeave}
         onClick={rootClick}
         style={{
-          width: config.width,
           background: 'yellowgreen',
           userSelect: 'none',
         }}

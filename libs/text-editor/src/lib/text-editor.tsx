@@ -45,6 +45,7 @@ export function TextEditor({
   });
   useEffect(() => {
     editor?.setEditable(editable);
+    if (editable) editor?.chain().focus('end').run();
   }, [editor, editable]);
   if (!editor) return null;
 
