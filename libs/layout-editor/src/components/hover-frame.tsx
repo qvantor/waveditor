@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { mapValue } from '@waveditors/utils';
 import { match } from 'ts-pattern';
 import styled from 'styled-components';
-import { delay, map, mergeWith } from 'rxjs';
+import { delay, filter, map, mergeWith } from 'rxjs';
 import { elementIdToDOMRect } from '../services';
 import { useLayoutEditorContext } from '../hooks';
 
@@ -16,7 +16,7 @@ export const FrameRoot = styled.div`
 `;
 
 export const HoverFrame = () => {
-  const { hover, selected, internalState } = useLayoutEditorContext();
+  const { root, hover, selected, internalState } = useLayoutEditorContext();
   const selectedId = useBehaviorSubject(selected);
 
   const hoverIdToRect = useCallback(
@@ -32,6 +32,7 @@ export const HoverFrame = () => {
 
   const rect = useObservable(
     hover.pipe(
+      filter((hover) => hover !== root),
       mergeWith(internalState.isDnd.pipe(delay(16))),
       map(() => hover.value)
     ),

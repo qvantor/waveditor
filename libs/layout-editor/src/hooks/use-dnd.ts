@@ -2,8 +2,9 @@ import { useSubscription } from '@waveditors/rxjs-react';
 import { filter, noop } from 'rxjs';
 import { match, P } from 'ts-pattern';
 import { returnValue } from '@waveditors/utils';
+import { LayoutStore } from '@waveditors/editor-model';
 import { COLUMN_DATATYPE, ELEMENT_DATATYPE } from '../constants';
-import { Context, DragIconMouseDownEvent, LayoutStore } from '../types';
+import { Context, DragIconMouseDownEvent } from '../types';
 
 export const useDnd = ({
   elements,
@@ -32,17 +33,17 @@ export const useDnd = ({
             .with(P.array(P.not(P.nullish)), ([layout, column]) => {
               const columnIndex = Number(column.getAttribute('data-column'));
               if (Number.isNaN(columnIndex)) return null;
-              const element = elements.value[layout.id] as LayoutStore;
-              const diffCenter = element.value.params.columns[columnIndex].map(
-                (id) => {
+              const element = elements.getValue()[layout.id] as LayoutStore;
+              const diffCenter = element
+                .getValue()
+                .params.columns[columnIndex].map((id) => {
                   const htmlChild = document.getElementById(id);
                   if (!htmlChild) return null;
                   const { top, height } = htmlChild.getBoundingClientRect();
 
                   const center = top + height / 2;
                   return e.clientY - center;
-                }
-              );
+                });
               const { index, next } = diffCenter.reduce(
                 (sum, diff, index) => {
                   if (diff && Math.abs(diff) < sum.min)
@@ -78,6 +79,7 @@ export const useDnd = ({
               type: 'LinkElementToLayout',
               payload: dndPreview.value,
             });
+          console.log(dndPreview.value);
 
           isDnd.next(false);
           dndPreview.next(null);

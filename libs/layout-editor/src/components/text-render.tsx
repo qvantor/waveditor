@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TextEditor } from '@waveditors/text-editor';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
-import { TextStore } from '../types';
+import { TextStore } from '@waveditors/editor-model';
 import { setContent } from '../services';
 
 interface Props {
@@ -14,15 +14,14 @@ const StyledEditor = styled(TextEditor)`
     margin: 0;
     padding: 0;
   }
-
-  outline: none;
 `;
 
+// @todo move setContent to TextStore
 export const TextRender = ({ element, selected }: Props) => {
-  const text = useBehaviorSubject(element);
+  const text = useBehaviorSubject(element.bs);
   return (
     <StyledEditor
-      onChange={setContent(element)}
+      onChange={setContent(element.bs)}
       content={text.params.content}
       editable={selected}
     />

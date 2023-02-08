@@ -1,8 +1,8 @@
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { distinctUntilChanged, map } from 'rxjs';
+import { LayoutStore } from '@waveditors/editor-model';
 import { useLayoutEditorContext } from '../hooks';
 import { COLUMN_DATATYPE } from '../constants';
-import { LayoutStore } from '../types';
 import { RenderColumn } from './render-column';
 
 interface Props {
@@ -18,7 +18,7 @@ export const LayoutRender = ({ element, width }: Props) => {
       map((val) => {
         if (!val) return undefined;
         const { position } = val;
-        if (position.layout !== element.value.id) return undefined;
+        if (position.layout !== element.bs.value.id) return undefined;
         return position;
       }),
       distinctUntilChanged()
@@ -26,13 +26,13 @@ export const LayoutRender = ({ element, width }: Props) => {
     null
   );
   const isDnd = useBehaviorSubject(internalState.isDnd);
+  const layout = useBehaviorSubject(element.bs);
   const columnStyle = isDnd
     ? {
         outline: '1px dashed red',
         outlineOffset: -1,
       }
     : {};
-  const layout = element.getValue();
   const columnWidth = width / layout.params.columns.length;
   return (
     <table style={{ borderSpacing: 0, minHeight: 10 }}>

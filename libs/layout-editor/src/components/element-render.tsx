@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import { match } from 'ts-pattern';
 import { map, distinctUntilChanged } from 'rxjs';
 import { useObservable } from '@waveditors/rxjs-react';
+import { ElementStore } from '@waveditors/editor-model';
 import { ELEMENT_DATATYPE } from '../constants';
 import { useLayoutEditorContext } from '../hooks';
-import { ElementStore } from '../types';
 import { LayoutRender } from './layout-render';
 import { TextRender } from './text-render';
 
@@ -13,9 +13,9 @@ interface Props {
   width: number;
 }
 
-const typeSelector = <T extends ElementStore['value']['type']>(type: T) => ({
-  value: { type },
-});
+const typeSelector = <T extends ElementStore['bs']['value']['type']>(
+  type: T
+) => ({ bs: { value: { type } } });
 const ElementRenderSwitch = ({ id, width }: Props) => {
   const { elements, selected } = useLayoutEditorContext();
   const isSelected = useObservable(
@@ -25,7 +25,7 @@ const ElementRenderSwitch = ({ id, width }: Props) => {
     ),
     false
   );
-  const element = useMemo(() => elements.value[id], [id, elements]);
+  const element = useMemo(() => elements.bs.value[id], [id, elements]);
   return match(element)
     .with(typeSelector('layout'), (element) => (
       <LayoutRender element={element} width={width} />
@@ -35,7 +35,7 @@ const ElementRenderSwitch = ({ id, width }: Props) => {
     ))
     .with(typeSelector('image'), (element) => (
       <img
-        src='https://placekitten.com/200/150'
+        src='https://placekitten'
         style={{ maxWidth: '100%', pointerEvents: 'none' }}
         alt='cat'
       />

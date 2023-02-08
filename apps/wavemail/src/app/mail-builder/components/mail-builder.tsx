@@ -1,148 +1,138 @@
 import { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import {
-  ElementStore,
   LayoutEditor,
   EditorEvents,
-  LinkElementToLayoutEvent,
-  ElementsStore,
   isLayoutStore,
-  LayoutStore,
 } from '@waveditors/layout-editor';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, fromEvent, filter } from 'rxjs';
+import {
+  unsubscribableHookConstructor,
+  undoRedoModule,
+} from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
-import { hoverStore, selectedStore } from '../../common/store';
+import {
+  layoutStore,
+  useElementsStore,
+  UndoRedoEvents,
+  getElementParent,
+} from '@waveditors/editor-model';
+import { useHoverStore, selectedStore } from '../../common/store';
 
 const Root = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const findElementParent = (elements: ElementsStore, elementId: string) => {
-  const parent = Object.entries(elements.value).find(
-    (element): element is [string, LayoutStore] => {
-      const [, store] = element;
-      if (!isLayoutStore(store)) return false;
-      return Boolean(
-        store.value.params.columns.find((column) =>
-          column.find((cElementId) => cElementId === elementId)
-        )
-      );
-    }
-  );
-  return parent ? parent[1] : null;
-};
-const unlinkElementFromLayout = (
-  elements: ElementsStore,
-  elementId: string
-) => {
-  const parent = findElementParent(elements, elementId);
-  if (!parent) return null;
-  const newColumns = parent.value.params.columns.map((column) =>
-    column.filter((cElementId) => cElementId !== elementId)
-  );
-  parent.next({
-    ...parent.value,
-    params: { ...parent.value.params, columns: newColumns },
-  });
-};
-const linkElementToLayout = (
-  elements: ElementsStore,
-  {
-    element,
-    position: { layout, column, index, next },
-  }: LinkElementToLayoutEvent['payload']
-) => {
-  const parent = elements.value[layout];
-  if (!isLayoutStore(parent)) return null;
-  const newColumns = parent.value.params.columns.map((col, i) => {
-    if (i !== column) return col;
-    const plus = next ? 1 : 0;
-    return [...col.slice(0, index + plus), element, ...col.slice(index + plus)];
-  });
-  parent.next({
-    ...parent.value,
-    params: { ...parent.value.params, columns: newColumns },
-  });
-};
-
+const useUndoRedo = unsubscribableHookConstructor(() =>
+  undoRedoModule<UndoRedoEvents>()
+);
 export const MailBuilder = () => {
-  const elements = useMemo(
-    () =>
-      new BehaviorSubject<Record<string, ElementStore>>({
-        '1': new BehaviorSubject({
-          id: '1',
-          type: 'layout',
-          params: {
-            columns: [['2', '4', '6', '7'], ['5'], []],
-          },
-        }),
-        '2': new BehaviorSubject({
+  const undoRedo = useUndoRedo();
+  const elementsStore = useElementsStore(
+    {
+      '1': layoutStore({ undoRedo }).run({
+        id: '1',
+        type: 'layout',
+        params: {
+          columns: [['2', '4', '6', '7'], ['5'], []],
+        },
+      }),
+      '2': {
+        bs: new BehaviorSubject({
           id: '2',
           type: 'text',
           params: { content: 'Hello world 0' },
         }),
-        '3': new BehaviorSubject({
+      },
+      '3': {
+        bs: new BehaviorSubject({
           id: '3',
           type: 'text',
           params: { content: '<p>Test is <strong>here</strong></p>' },
         }),
-        '4': new BehaviorSubject({
+      },
+      '4': {
+        bs: new BehaviorSubject({
           id: '4',
           type: 'image',
           params: {
             url: '',
           },
         }),
-        '5': new BehaviorSubject({
-          id: '5',
-          type: 'layout',
-          params: { columns: [[], ['3']] },
-        }),
-        '6': new BehaviorSubject({
+      },
+      '5': layoutStore({ undoRedo }).run({
+        id: '5',
+        type: 'layout',
+        params: { columns: [[], ['3']] },
+      }),
+      '6': {
+        bs: new BehaviorSubject({
           id: '2',
           type: 'text',
           params: { content: 'Hello world 1' },
         }),
-        '7': new BehaviorSubject({
+      },
+      '7': {
+        bs: new BehaviorSubject({
           id: '2',
           type: 'text',
           params: { content: 'Hello world 2' },
         }),
-      }),
-    []
+      },
+    },
+    { undoRedo }
   );
+  const hoverStore = useHoverStore(null, []);
+  useEffect(() => {
+    fromEvent<KeyboardEvent>(document, 'keydown')
+      .pipe(filter((event) => ['z', 'x'].includes(event.key)))
+      .subscribe((e) => {
+        match(e)
+          .with({ key: 'z' }, () => undoRedo.undo.next())
+          .otherwise(() => undoRedo.redo.next());
+      });
+  }, []);
   const editorEvents = useMemo(() => new Subject<EditorEvents>(), []);
-  const hover = useMemo(() => hoverStore(), []);
   const selected = useMemo(() => selectedStore(), []);
 
   useEffect(() => {
     const sb = editorEvents.subscribe((e) =>
       match(e)
-        .with({ type: 'MouseEnter' }, (event) => hover.addHover(event.payload))
-        .with({ type: 'MouseLeave' }, hover.removeHover)
+        .with({ type: 'MouseEnter' }, (event) =>
+          hoverStore.actions.addHover(event.payload)
+        )
+        .with({ type: 'MouseLeave' }, () => hoverStore.actions.removeHover())
         .with({ type: 'ElementSelected' }, (event) =>
           selected.setSelected(event.payload)
         )
         .with({ type: 'ElementUnselected' }, selected.unselect)
-        .with({ type: 'UnlinkElementFromLayout' }, (event) =>
-          unlinkElementFromLayout(elements, event.payload)
-        )
-        .with({ type: 'LinkElementToLayout' }, (event) =>
-          linkElementToLayout(elements, event.payload)
-        )
+        .with({ type: 'UnlinkElementFromLayout' }, (event) => {
+          const parent = getElementParent(
+            elementsStore.bs.value,
+            event.payload
+          );
+          if (!parent) return;
+          parent.actions.removeChild(event.payload);
+          undoRedo.setGroupSize(1);
+        })
+        .with({ type: 'LinkElementToLayout' }, (event) => {
+          const parent = elementsStore.bs.value[event.payload.position.layout];
+          if (!parent || !isLayoutStore(parent)) return;
+          parent.actions.addChild(event.payload);
+        })
         .exhaustive()
     );
     return () => sb.unsubscribe();
-  }, [selected, hover, editorEvents, elements]);
+  }, [selected, hoverStore, editorEvents, elementsStore]);
 
   return (
-    <Root className='canvas'>
+    <Root>
       <LayoutEditor
         root='1'
-        elements={elements}
+        elements={elementsStore}
         events={editorEvents}
-        hover={hover.hover}
+        hover={hoverStore.bs}
         selected={selected.selected}
       />
     </Root>

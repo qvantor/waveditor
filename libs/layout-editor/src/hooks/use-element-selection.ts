@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import { filter, noop } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
 import { ELEMENT_DATATYPE } from '../constants';
-import { Context, RootMouseMoveEvent } from '../types';
+import { Context, RootMouseMoveEvent, SelectionEvents } from '../types';
 
 export const useElementSelection = ({
   events,
@@ -25,11 +25,11 @@ export const useElementSelection = ({
   }, [events]);
 
   const onClick = useCallback(() => {
-    match(currentHover.current)
-      .with('', () => events.next({ type: 'ElementUnselected', payload: null }))
-      .otherwise((payload) =>
-        events.next({ type: 'ElementSelected', payload })
-      );
+    events.next(
+      match<string, SelectionEvents>(currentHover.current)
+        .with('', () => ({ type: 'ElementUnselected', payload: null }))
+        .otherwise((payload) => ({ type: 'ElementSelected', payload }))
+    );
   }, [events]);
 
   const onMouseMove = useCallback(

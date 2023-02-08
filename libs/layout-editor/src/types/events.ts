@@ -1,3 +1,5 @@
+import { LayoutAddChild } from '@waveditors/editor-model';
+
 export type HoverEvents =
   | { type: 'MouseEnter'; payload: string }
   | { type: 'MouseLeave'; payload: null };
@@ -7,15 +9,7 @@ export type SelectionEvents =
 
 export type LinkElementToLayoutEvent = {
   type: 'LinkElementToLayout';
-  payload: {
-    element: string;
-    position: {
-      layout: string;
-      column: number;
-      index: number;
-      next: boolean;
-    };
-  };
+  payload: LayoutAddChild;
 };
 export type UnlinkElementFromLayoutEvent = {
   type: 'UnlinkElementFromLayout';

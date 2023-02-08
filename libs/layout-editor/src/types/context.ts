@@ -1,7 +1,8 @@
 import { BehaviorSubject, Subject } from 'rxjs';
+import { ElementsStore } from '@waveditors/editor-model';
 import { useInternalState } from '../hooks';
 import { InternalEvents } from './internal-events';
-import { EditorEvents, ElementsStore } from './';
+import { EditorEvents } from './';
 
 export type Context = {
   root: string;

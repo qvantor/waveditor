@@ -1,6 +1,6 @@
-import { TextStore } from '../types';
+import { TextStore } from '@waveditors/editor-model';
 
-export const setContent = (text: TextStore) => (content: string) => {
+export const setContent = (text: TextStore['bs']) => (content: string) => {
   const { value } = text;
   text.next({
     ...value,
