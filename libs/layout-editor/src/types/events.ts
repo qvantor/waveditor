@@ -9,7 +9,7 @@ export type SelectionEvents =
 
 export type LinkElementToLayoutEvent = {
   type: 'LinkElementToLayout';
-  payload: LayoutAddChild;
+  payload: LayoutAddChild & { samePosition: boolean };
 };
 export type UnlinkElementFromLayoutEvent = {
   type: 'UnlinkElementFromLayout';

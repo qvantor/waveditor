@@ -1,4 +1,9 @@
-export { layoutStore, isLayoutStore, isParentOf } from './layout';
+export {
+  layoutStore,
+  isLayoutStore,
+  isParentOf,
+  getElementPosition,
+} from './layout';
 export type {
   LayoutStore,
   Layout,

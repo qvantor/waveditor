@@ -6,10 +6,7 @@ import {
   isLayoutStore,
 } from '@waveditors/layout-editor';
 import { BehaviorSubject, Subject, fromEvent, filter } from 'rxjs';
-import {
-  unsubscribableHookConstructor,
-  undoRedoModule,
-} from '@waveditors/rxjs-react';
+import { undoRedoModule, useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
   layoutStore,
@@ -24,11 +21,8 @@ const Root = styled.div`
   justify-content: center;
 `;
 
-const useUndoRedo = unsubscribableHookConstructor(() =>
-  undoRedoModule<UndoRedoEvents>()
-);
 export const MailBuilder = () => {
-  const undoRedo = useUndoRedo();
+  const undoRedo = useUnsubscribable(() => undoRedoModule<UndoRedoEvents>());
   const elementsStore = useElementsStore(
     {
       '1': layoutStore({ undoRedo }).run({
@@ -120,6 +114,7 @@ export const MailBuilder = () => {
           const parent = elementsStore.bs.value[event.payload.position.layout];
           if (!parent || !isLayoutStore(parent)) return;
           parent.actions.addChild(event.payload);
+          if (event.payload.samePosition) undoRedo.removeLastEvent();
         })
         .exhaustive()
     );

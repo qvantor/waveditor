@@ -5,5 +5,5 @@ export type {
   LayoutAddChild,
   LayoutStoreUndoRedoEvent,
 } from './layout.types';
-export { isParentOf } from './layout.selectors';
+export { isParentOf, getElementPosition } from './layout.selectors';
 export { isLayoutStore } from './layout.guards';

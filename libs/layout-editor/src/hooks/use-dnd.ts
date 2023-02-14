@@ -1,8 +1,12 @@
 import { useSubscription } from '@waveditors/rxjs-react';
 import { filter, noop } from 'rxjs';
 import { match, P } from 'ts-pattern';
-import { returnValue } from '@waveditors/utils';
-import { LayoutStore } from '@waveditors/editor-model';
+import { mapValue, returnValue } from '@waveditors/utils';
+import {
+  getElementParent,
+  getElementPosition,
+  LayoutStore,
+} from '@waveditors/editor-model';
 import { COLUMN_DATATYPE, ELEMENT_DATATYPE } from '../constants';
 import { Context, DragIconMouseDownEvent } from '../types';
 
@@ -22,6 +26,10 @@ export const useDnd = ({
       )
       .subscribe(({ payload: id }) => {
         isDnd.next(true);
+        const position = mapValue(
+          getElementParent(elements.getValue(), id),
+          (parent) => getElementPosition(parent.getValue(), id)
+        );
         events.next({ type: 'UnlinkElementFromLayout', payload: id });
 
         const mouseMove = (e: MouseEvent) => {
@@ -71,20 +79,39 @@ export const useDnd = ({
             .with(dndPreview.value, noop)
             .otherwise((value) => dndPreview.next(value));
         };
-        document.addEventListener('mousemove', mouseMove);
+        const mouseUp = () => {
+          const payload = match(dndPreview.value)
+            .with(P.nullish, () =>
+              position ? { element: id, position, samePosition: true } : null
+            )
+            .with(
+              {
+                position: {
+                  layout: position?.layout,
+                  column: position?.column,
+                },
+              },
+              (value) => ({
+                ...value,
+                samePosition: true,
+              })
+            )
+            .otherwise((value) => ({
+              ...value,
+              samePosition: false,
+            }));
 
-        document.addEventListener('mouseup', () => {
-          if (dndPreview.value)
-            events.next({
-              type: 'LinkElementToLayout',
-              payload: dndPreview.value,
-            });
-          console.log(dndPreview.value);
+          if (payload) events.next({ type: 'LinkElementToLayout', payload });
 
           isDnd.next(false);
           dndPreview.next(null);
           document.removeEventListener('mousemove', mouseMove);
-        });
+          document.removeEventListener('mouseup', mouseUp);
+        };
+
+        document.addEventListener('mousemove', mouseMove);
+
+        document.addEventListener('mouseup', mouseUp);
       })
   );
 };

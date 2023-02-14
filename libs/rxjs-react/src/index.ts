@@ -1,8 +1,9 @@
 export * from './types';
-export { useObservable, useBehaviorSubject, useSubscription } from './hooks';
 export {
-  createStore,
-  storeHookConstructor,
-  unsubscribableHookConstructor,
-} from './services';
+  useObservable,
+  useBehaviorSubject,
+  useSubscription,
+  useUnsubscribable,
+} from './hooks';
+export { createStore, storeHookConstructor } from './services';
 export * from './modules';

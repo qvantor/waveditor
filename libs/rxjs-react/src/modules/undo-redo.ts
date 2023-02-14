@@ -1,4 +1,4 @@
-import { filter, map, Subject, Unsubscribable, pipe } from 'rxjs';
+import { filter, map, pipe, Subject, Unsubscribable } from 'rxjs';
 import { notNullish } from '@waveditors/utils';
 import { createStore } from '../services';
 import { Effect } from '../types';
@@ -28,6 +28,7 @@ export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>>
   onRedo: Subject<E>;
 
   setGroupSize: (value: number) => void;
+  removeLastEvent: () => void;
   createUndoRedoEffect: <V, A, T extends string>(
     type: T,
     config?: UndoRedoEffectConfig<V, E, T>
@@ -100,6 +101,8 @@ export const undoRedoModule = <
       addEvents: (value: UndoRedoEvent<E>, state) => [...state, value],
       removeEvent: (eventId: string, state) =>
         state.filter((value) => value.id !== eventId),
+      removeLastEvent: (_, state) =>
+        state.filter((_, index) => index !== state.length - 1),
     })
     .addEffect(() => ({
       subscriptions: ({ actions, bs }) => [
@@ -160,6 +163,7 @@ export const undoRedoModule = <
     onChange,
     createUndoRedoEffect,
     setGroupSize: groupSize.actions.setValue,
+    removeLastEvent: undoStore.actions.removeLastEvent,
     unsubscribe,
   };
 };
