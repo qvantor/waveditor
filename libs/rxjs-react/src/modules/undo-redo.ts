@@ -1,5 +1,5 @@
 import { filter, map, pipe, Subject, Unsubscribable } from 'rxjs';
-import { notNullish } from '@waveditors/utils';
+import { notNullish, returnValue } from '@waveditors/utils';
 import { createStore } from '../services';
 import { Effect } from '../types';
 
@@ -37,9 +37,9 @@ export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>>
 
 type UndoRedoEvent<E> = { id: string; events: E[] };
 type UndoRedoEvents<E> = UndoRedoEvent<E>[];
-export const undoRedoModule = <
-  E extends CommonUndoEvent<string, unknown>
->(): UndoRedoModule<E> => {
+export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
+  size = 10
+): UndoRedoModule<E> => {
   const onChange = new Subject<E>();
 
   const undo = new Subject<void>();
@@ -61,6 +61,7 @@ export const undoRedoModule = <
       addEvent: (value: UndoRedoEvent<E>, state) => [...state, value],
       removeEvent: (eventId: string, state) =>
         state.filter((value) => value.id !== eventId),
+      empty: returnValue([]),
     })
     .addEffect(() => ({
       subscriptions: ({ bs, actions }) => [
@@ -101,6 +102,7 @@ export const undoRedoModule = <
       addEvents: (value: UndoRedoEvent<E>, state) => [...state, value],
       removeEvent: (eventId: string, state) =>
         state.filter((value) => value.id !== eventId),
+      removeFirst: (_, state) => state.filter((_, index) => index !== 0),
       removeLastEvent: (_, state) =>
         state.filter((_, index) => index !== state.length - 1),
     })
@@ -117,6 +119,9 @@ export const undoRedoModule = <
             redoStore.actions.addEvent(lastAction);
           }),
         onChange.subscribe(actions.addEvent),
+        bs
+          .pipe(filter((events) => events.length > size))
+          .subscribe(actions.removeFirst),
       ],
     }))
     .run([]);
@@ -131,6 +136,7 @@ export const undoRedoModule = <
           type,
           payload: { prev: bs.value, next },
         } as unknown as E);
+        if (redoStore.getValue().length > 0) redoStore.actions.empty();
         return true;
       },
       subscriptions: ({ bs }) => {
