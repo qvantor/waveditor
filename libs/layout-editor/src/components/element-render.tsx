@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { match } from 'ts-pattern';
 import { map, distinctUntilChanged } from 'rxjs';
 import { useObservable } from '@waveditors/rxjs-react';
-import { ElementStore } from '@waveditors/editor-model';
+import { ElementType } from '@waveditors/editor-model';
 import { ELEMENT_DATATYPE } from '../constants';
 import { useLayoutEditorContext } from '../hooks';
 import { LayoutRender } from './layout-render';
@@ -13,9 +13,9 @@ interface Props {
   width: number;
 }
 
-const typeSelector = <T extends ElementStore['bs']['value']['type']>(
-  type: T
-) => ({ bs: { value: { type } } });
+const typeSelector = <T extends ElementType>(type: T) => ({
+  bs: { value: { type } },
+});
 const ElementRenderSwitch = ({ id, width }: Props) => {
   const { elements, selected } = useLayoutEditorContext();
   const isSelected = useObservable(
@@ -33,7 +33,7 @@ const ElementRenderSwitch = ({ id, width }: Props) => {
     .with(typeSelector('text'), (element) => (
       <TextRender selected={isSelected} element={element} />
     ))
-    .with(typeSelector('image'), (element) => (
+    .with(typeSelector('image'), () => (
       <img
         src='https://placekitten'
         style={{ maxWidth: '100%', pointerEvents: 'none' }}

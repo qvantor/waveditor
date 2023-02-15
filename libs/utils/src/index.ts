@@ -1,2 +1,3 @@
-export * from './lib/utils';
-export * from './lib/guards';
+export * from './utils';
+export * from './guards';
+export * from './generators';

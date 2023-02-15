@@ -1,13 +1,10 @@
 import { useMemo } from 'react';
 import { BehaviorSubject } from 'rxjs';
-import { LinkElementToLayoutEvent } from '../types';
+import { LayoutAddChild } from '@waveditors/editor-model';
 
 export const useInternalState = () =>
   useMemo(() => {
     const isDnd = new BehaviorSubject(false);
-    const dndPreview = new BehaviorSubject<null | Omit<
-      LinkElementToLayoutEvent['payload'],
-      'samePosition'
-    >>(null);
+    const dndPreview = new BehaviorSubject<null | LayoutAddChild>(null);
     return { isDnd, dndPreview };
   }, []);

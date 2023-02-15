@@ -11,11 +11,17 @@ export type {
   LayoutStoreUndoRedoEvent,
 } from './layout';
 
-export { useElementsStore, getElementParent } from './elements';
+export {
+  useElementsStore,
+  getElementParent,
+  createInitialElement,
+} from './elements';
 export type {
   ElementStoreUndoRedoEvent,
   ElementStore,
   TextStore,
   ImgStore,
+  Element,
   ElementsStore,
+  ElementType,
 } from './elements';

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   LayoutEditor,
   EditorEvents,
-  isLayoutStore,
+  ExternalEvents,
 } from '@waveditors/layout-editor';
 import { BehaviorSubject, Subject, fromEvent, filter } from 'rxjs';
 import { undoRedoModule, useUnsubscribable } from '@waveditors/rxjs-react';
@@ -13,12 +13,16 @@ import {
   useElementsStore,
   UndoRedoEvents,
   getElementParent,
+  isLayoutStore,
 } from '@waveditors/editor-model';
 import { useHoverStore, selectedStore } from '../../common/store';
+import { MailBuilderContext } from '../common/constants';
+import { ElementCreation } from './element-creation';
 
 const Root = styled.div`
   display: flex;
   justify-content: center;
+  gap: 10px;
 `;
 
 export const MailBuilder = () => {
@@ -86,12 +90,18 @@ export const MailBuilder = () => {
           .with({ key: 'z' }, () => undoRedo.undo.next())
           .otherwise(() => undoRedo.redo.next());
       });
-  }, []);
-  const editorEvents = useMemo(() => new Subject<EditorEvents>(), []);
+  }, [undoRedo]);
+  const { editorEvents, externalEvents } = useMemo(
+    () => ({
+      editorEvents: new Subject<EditorEvents>(),
+      externalEvents: new Subject<ExternalEvents>(),
+    }),
+    []
+  );
   const selected = useMemo(() => selectedStore(), []);
 
-  useEffect(() => {
-    const sb = editorEvents.subscribe((e) =>
+  useUnsubscribable(() =>
+    editorEvents.subscribe((e) =>
       match(e)
         .with({ type: 'MouseEnter' }, (event) =>
           hoverStore.actions.addHover(event.payload)
@@ -106,7 +116,10 @@ export const MailBuilder = () => {
             elementsStore.bs.value,
             event.payload
           );
-          if (!parent) return;
+          if (!parent)
+            return console.error(
+              `UnlinkElementFromLayout error, with ${event.payload}`
+            );
           parent.actions.removeChild(event.payload);
           undoRedo.setGroupSize(1);
         })
@@ -117,19 +130,32 @@ export const MailBuilder = () => {
           if (event.payload.samePosition) undoRedo.removeLastEvent();
         })
         .exhaustive()
-    );
-    return () => sb.unsubscribe();
-  }, [selected, hoverStore, editorEvents, elementsStore]);
+    )
+  );
 
   return (
-    <Root>
-      <LayoutEditor
-        root='1'
-        elements={elementsStore}
-        events={editorEvents}
-        hover={hoverStore.bs}
-        selected={selected.selected}
-      />
-    </Root>
+    <MailBuilderContext.Provider
+      value={{
+        stores: {
+          elements: elementsStore,
+        },
+        editor: {
+          events: editorEvents,
+          externalEvents: externalEvents,
+        },
+      }}
+    >
+      <Root>
+        <ElementCreation />
+        <LayoutEditor
+          root='1'
+          elements={elementsStore}
+          events={editorEvents}
+          externalEvents={externalEvents}
+          hover={hoverStore.bs}
+          selected={selected.selected}
+        />
+      </Root>
+    </MailBuilderContext.Provider>
   );
 };
