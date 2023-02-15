@@ -1,8 +1,6 @@
-import { CommonUndoEvent } from '@waveditors/rxjs-react';
+import { ElementCommon } from '../element/element.types';
 
-export interface Layout {
-  id: string;
-  type: 'layout';
+export interface Layout extends ElementCommon<'layout'> {
   params: {
     columns: string[][];
   };
@@ -17,5 +15,3 @@ export interface LayoutAddChild {
     next: boolean;
   };
 }
-
-export type LayoutStoreUndoRedoEvent = CommonUndoEvent<'layout', Layout>;

@@ -2,23 +2,19 @@ import {
   createStore,
   storeHookConstructor,
   StoreHookResult,
-  UndoRedoModule,
 } from '@waveditors/rxjs-react';
-import { UndoRedoEvents } from '../../types';
-import { ElementStore } from './elements.types';
+import { ElementStoreDeps } from '../element';
+import { elementToElementStore } from './elements.creators';
+import { Element, ElementStore } from './elements.types';
 
-interface ElementsStoreDeps {
-  undoRedo: UndoRedoModule<UndoRedoEvents>;
-}
-
-export const elementsStore = ({
-  undoRedo: { createUndoRedoEffect },
-}: ElementsStoreDeps) =>
+export const elementsStore = ({ undoRedo }: ElementStoreDeps) =>
   createStore<Record<string, ElementStore>>()
     .addActions({
-      addElement: (value: ElementStore, current) => {
-        // return { ...current, [value.value.id]: value }; //@todo uncomment after all elements will be instance of the store
-        return current;
+      addElement: (element: Element, current) => {
+        return {
+          ...current,
+          [element.id]: elementToElementStore(element, { undoRedo }),
+        };
       },
       removeElement: (key: string, current) => {
         const copy = { ...current };
@@ -26,7 +22,7 @@ export const elementsStore = ({
         return copy;
       },
     })
-    .addEffect(createUndoRedoEffect('ElementsStore'));
+    .addEffect(undoRedo.createUndoRedoEffect('ElementsStore'));
 
 export const useElementsStore = storeHookConstructor(elementsStore);
 export type ElementsStore = StoreHookResult<typeof elementsStore>;

@@ -1,12 +1,10 @@
 export type {
-  ElementStoreUndoRedoEvent,
+  ElementsStoreUndoRedoEvent,
   Element,
   ElementStore,
   ElementType,
-  TextStore,
-  ImgStore,
 } from './elements.types';
 export type { ElementsStore } from './elements';
 export { useElementsStore } from './elements';
-export { getElementParent } from './elements.selectors';
-export { createInitialElement } from './elements.creators';
+export { getParentElement, getLayoutElement } from './elements.selectors';
+export { createEmptyElement, elementToElementStore } from './elements.creators';

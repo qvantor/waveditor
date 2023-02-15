@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { createInitialElement, ElementType } from '@waveditors/editor-model';
+import { createEmptyElement, ElementType } from '@waveditors/editor-model';
 import { useMailBuilderContext } from '../common/hooks';
 
 const Root = styled.div`
@@ -15,7 +15,7 @@ export const ElementCreation = () => {
     (type: ElementType) => () =>
       externalEvents.next({
         type: 'OutsideDragStarted',
-        payload: createInitialElement(type),
+        payload: createEmptyElement(type),
       }),
     [externalEvents]
   );

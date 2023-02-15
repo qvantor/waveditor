@@ -4,23 +4,24 @@ export {
   isParentOf,
   getElementPosition,
 } from './layout';
-export type {
-  LayoutStore,
-  Layout,
-  LayoutAddChild,
-  LayoutStoreUndoRedoEvent,
-} from './layout';
+export type { LayoutStore, Layout, LayoutAddChild } from './layout';
+
+export { textStore } from './text';
+export type { TextStore } from './text';
+
+export { imageStore } from './image';
+export type { ImageStore } from './image';
 
 export {
   useElementsStore,
-  getElementParent,
-  createInitialElement,
+  getParentElement,
+  getLayoutElement,
+  createEmptyElement,
+  elementToElementStore,
 } from './elements';
 export type {
-  ElementStoreUndoRedoEvent,
+  ElementsStoreUndoRedoEvent,
   ElementStore,
-  TextStore,
-  ImgStore,
   Element,
   ElementsStore,
   ElementType,

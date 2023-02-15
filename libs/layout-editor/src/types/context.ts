@@ -6,9 +6,9 @@ import { EditorEvents, ExternalEvents } from './';
 
 export type Context = {
   root: string;
-  elements: ElementsStore;
+  elements: ElementsStore['bs'];
   events: Subject<EditorEvents>;
-  externalEvents: Subject<ExternalEvents>
+  externalEvents: Subject<ExternalEvents>;
   hover: BehaviorSubject<string | null>;
   selected: BehaviorSubject<string | null>;
   internalState: ReturnType<typeof useInternalState>;

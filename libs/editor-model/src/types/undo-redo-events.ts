@@ -1,8 +1,6 @@
-import {
-  ElementStoreUndoRedoEvent,
-  LayoutStoreUndoRedoEvent,
-} from '../elements';
+import { ElementsStoreUndoRedoEvent } from '../elements';
+import { ElementStoreUndoRedoEvent } from '../elements/element/element.types';
 
 export type UndoRedoEvents =
-  | ElementStoreUndoRedoEvent
-  | LayoutStoreUndoRedoEvent;
+  | ElementsStoreUndoRedoEvent
+  | ElementStoreUndoRedoEvent;

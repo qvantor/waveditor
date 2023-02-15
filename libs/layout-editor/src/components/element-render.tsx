@@ -25,7 +25,7 @@ const ElementRenderSwitch = ({ id, width }: Props) => {
     ),
     false
   );
-  const element = useMemo(() => elements.bs.value[id], [id, elements]);
+  const element = useMemo(() => elements.value[id], [id, elements]);
   return match(element)
     .with(typeSelector('layout'), (element) => (
       <LayoutRender element={element} width={width} />
