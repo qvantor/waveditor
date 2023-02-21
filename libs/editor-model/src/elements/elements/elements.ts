@@ -10,12 +10,10 @@ import { Element, ElementStore } from './elements.types';
 export const elementsStore = ({ undoRedo }: ElementStoreDeps) =>
   createStore<Record<string, ElementStore>>()
     .addActions({
-      addElement: (element: Element, current) => {
-        return {
-          ...current,
-          [element.id]: elementToElementStore(element, { undoRedo }),
-        };
-      },
+      addElement: (element: Element, current) => ({
+        ...current,
+        [element.id]: elementToElementStore(element, { undoRedo }),
+      }),
       removeElement: (key: string, current) => {
         const copy = { ...current };
         delete copy[key];

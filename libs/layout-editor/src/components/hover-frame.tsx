@@ -1,10 +1,7 @@
-import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
-import { useCallback } from 'react';
-import { mapValue } from '@waveditors/utils';
-import { match } from 'ts-pattern';
+import { useObservable } from '@waveditors/rxjs-react';
 import styled from 'styled-components';
-import { delay, filter, map, mergeWith } from 'rxjs';
-import { elementIdToDOMRect } from '../services';
+import { map, switchMap, merge, of } from 'rxjs';
+import { resizeObservable } from '../services';
 import { useLayoutEditorContext } from '../hooks';
 
 export const FrameRoot = styled.div`
@@ -16,31 +13,22 @@ export const FrameRoot = styled.div`
 `;
 
 export const HoverFrame = () => {
-  const { root, hover, selected, internalState } = useLayoutEditorContext();
-  const selectedId = useBehaviorSubject(selected);
-
-  const hoverIdToRect = useCallback(
-    (value: string | null) =>
-      mapValue(value, (value) =>
-        // if selected and hovered is equal, hide hovered frame
-        match(selectedId)
-          .with(value, () => null)
-          .otherwise(() => elementIdToDOMRect(value))
-      ),
-    [selectedId]
-  );
+  const { hover, selected } = useLayoutEditorContext();
 
   const rect = useObservable(
-    hover.pipe(
-      filter((hover) => hover !== root),
-      mergeWith(internalState.isDnd.pipe(delay(16))),
-      map(() => hover.value)
+    merge(hover, selected).pipe(
+      map(() => hover.getValue()),
+      switchMap((value) => {
+        if (value === null || value === selected.getValue()) return of(null);
+        const element = document.getElementById(value);
+        if (!element) return of(null);
+        return resizeObservable(element);
+      })
     ),
-    hover.value,
-    hoverIdToRect
+    null
   );
 
-  return mapValue(rect, ({ left, top, width, height }) => (
-    <FrameRoot style={{ left, top, width, height }} />
-  ));
+  if (!rect) return null;
+
+  return <FrameRoot style={{ ...rect }} />;
 };

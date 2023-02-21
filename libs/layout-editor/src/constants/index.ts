@@ -1,2 +1,2 @@
-export * from './datatypes';
+export * from './attributes';
 export * from './context';

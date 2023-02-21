@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { createEmptyElement, ElementType } from '@waveditors/editor-model';
-import { useMailBuilderContext } from '../common/hooks';
+import { useMailBuilderContext } from '../../common/hooks';
 
 const Root = styled.div`
   user-select: none;

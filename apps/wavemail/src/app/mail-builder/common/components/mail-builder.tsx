@@ -1,10 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import {
-  LayoutEditor,
-  EditorEvents,
-  ExternalEvents,
-} from '@waveditors/layout-editor';
+import { EditorEvents, ExternalEvents } from '@waveditors/layout-editor';
 import { Subject, fromEvent, filter } from 'rxjs';
 import { undoRedoModule, useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
@@ -16,15 +12,38 @@ import {
   UndoRedoEvents,
   getParentElement,
   getLayoutElement,
+  useHoverStore,
+  useSelectedStore,
 } from '@waveditors/editor-model';
-import { useHoverStore, selectedStore } from '../../common/store';
-import { MailBuilderContext } from '../common/constants';
-import { ElementCreation } from './element-creation';
+import { tokens } from '@waveditors/theme';
+import { MailBuilderContext } from '../constants';
+import { LeftSidebar } from '../../left-sidebar';
+import { Canvas } from '../../canvas';
 
 const Root = styled.div`
-  display: flex;
+  height: 100vh;
+  //overflow: hidden;
+`;
+const Header = styled.div`
+  height: ${tokens.size.headerHeight};
+  background: ${tokens.color.surface.tertiary};
+`;
+const Content = styled.div`
+  height: calc(100vh - ${tokens.size.headerHeight});
+  display: grid;
+  grid-template-columns: 320px 1fr;
   justify-content: center;
-  gap: 10px;
+  background: ${tokens.color.surface.primary};
+`;
+
+const CanvasContainer = styled.div`
+  height: calc(100vh - ${tokens.size.headerHeight});
+`;
+
+const Footer = styled.div`
+  height: calc(${tokens.size.footerHeight} - 1px);
+  background: ${tokens.color.surface.secondary};
+  border-top: 1px solid ${tokens.color.border.primary};
 `;
 
 export const MailBuilder = () => {
@@ -75,6 +94,7 @@ export const MailBuilder = () => {
     { undoRedo }
   );
   const hoverStore = useHoverStore(null, []);
+  const selectedStore = useSelectedStore(null, []);
   useEffect(() => {
     fromEvent<KeyboardEvent>(document, 'keydown')
       .pipe(filter((event) => ['z', 'x'].includes(event.key)))
@@ -91,7 +111,6 @@ export const MailBuilder = () => {
     }),
     []
   );
-  const selected = useMemo(() => selectedStore(), []);
 
   useUnsubscribable(() =>
     editorEvents.subscribe((e) =>
@@ -101,9 +120,9 @@ export const MailBuilder = () => {
         )
         .with({ type: 'MouseLeave' }, () => hoverStore.actions.removeHover())
         .with({ type: 'ElementSelected' }, (event) =>
-          selected.setSelected(event.payload)
+          selectedStore.actions.setSelected(event.payload)
         )
-        .with({ type: 'ElementUnselected' }, selected.unselect)
+        .with({ type: 'ElementUnselected' }, selectedStore.actions.unselect)
         .with({ type: 'UnlinkElementFromLayout' }, (event) => {
           const parent = getParentElement(
             elementsStore.getValue(),
@@ -144,8 +163,13 @@ export const MailBuilder = () => {
   return (
     <MailBuilderContext.Provider
       value={{
+        config: {
+          viewportWidth: 600,
+        },
         stores: {
           elements: elementsStore,
+          selected: selectedStore,
+          hover: hoverStore,
         },
         editor: {
           events: editorEvents,
@@ -157,15 +181,14 @@ export const MailBuilder = () => {
       }}
     >
       <Root>
-        <ElementCreation />
-        <LayoutEditor
-          root='1'
-          elements={elementsStore.bs}
-          events={editorEvents}
-          externalEvents={externalEvents}
-          hover={hoverStore.bs}
-          selected={selected.selected}
-        />
+        <Header />
+        <Content>
+          <LeftSidebar />
+          <CanvasContainer>
+            <Canvas />
+            <Footer />
+          </CanvasContainer>
+        </Content>
       </Root>
     </MailBuilderContext.Provider>
   );

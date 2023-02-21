@@ -3,6 +3,7 @@ import { AiOutlineDrag } from 'react-icons/ai';
 import { useObservable } from '@waveditors/rxjs-react';
 import { map, filter, switchMap } from 'rxjs';
 import { notNullish } from '@waveditors/utils';
+import { useCallback } from 'react';
 import { useLayoutEditorContext } from '../hooks';
 import { resizeObservable } from '../services';
 import { FrameRoot } from './hover-frame';
@@ -35,19 +36,17 @@ export const SelectedFrame = () => {
     ),
     null
   );
+  const onMouseDown = useCallback(() => {
+    const payload = selected.getValue();
+    if (!payload) return console.error('DragIconMouseDown selected is empty');
+    internalEvents.next({ type: 'DragIconMouseDown', payload });
+  }, [internalEvents, selected]);
   if (!rect) return null;
 
   const { left, top, width, height } = rect;
   return (
     <SelectedRect style={{ left, top, width, height }}>
-      <DragIcon
-        onMouseDown={() =>
-          internalEvents.next({
-            type: 'DragIconMouseDown',
-            payload: selected.getValue() as string,
-          })
-        }
-      />
+      <DragIcon onMouseDown={onMouseDown} />
     </SelectedRect>
   );
 };
