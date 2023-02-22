@@ -1,5 +1,5 @@
 import { GlobalStyle } from '@waveditors/theme';
-import { MailBuilder } from './mail-builder';
+import { MailBuilder } from './common/components';
 
 export function App() {
   return (

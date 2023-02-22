@@ -20,10 +20,12 @@ const StyledEditor = styled(TextEditor)`
 export const TextRender = ({ element, selected }: Props) => {
   const text = useBehaviorSubject(element.bs);
   return (
-    <StyledEditor
-      onChange={setContent(element.bs)}
-      content={text.params.content}
-      editable={selected}
-    />
+    <div style={{ ...text.style }}>
+      <StyledEditor
+        onChange={setContent(element.bs)}
+        content={text.params.content}
+        editable={selected}
+      />
+    </div>
   );
 };

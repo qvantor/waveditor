@@ -18,6 +18,7 @@ export function createEmptyElement<T extends ElementType>(type: T) {
         params: {
           url: '',
         },
+        style: {},
       };
     case 'text':
       return {
@@ -26,6 +27,7 @@ export function createEmptyElement<T extends ElementType>(type: T) {
         params: {
           content: 'Empty text',
         },
+        style: {},
       };
     default:
       return createInitialLayout();

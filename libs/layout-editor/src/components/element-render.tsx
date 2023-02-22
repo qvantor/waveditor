@@ -35,7 +35,7 @@ const ElementRenderSwitch = ({ id, width }: Props) => {
     ))
     .with(typeSelector('image'), () => (
       <img
-        src='https://placekitten'
+        src='https://placekitten.com/100/100'
         style={{ maxWidth: '100%', pointerEvents: 'none' }}
         alt='cat'
       />

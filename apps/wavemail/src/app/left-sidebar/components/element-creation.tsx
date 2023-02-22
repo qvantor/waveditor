@@ -7,6 +7,7 @@ const Root = styled.div`
   user-select: none;
 `;
 
+// @todo move to subdomain
 export const ElementCreation = () => {
   const {
     editor: { externalEvents },

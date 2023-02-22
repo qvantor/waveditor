@@ -1,2 +1,2 @@
 export { elementStore } from './element';
-export type { ElementStoreDeps } from './element.types';
+export type { ElementStoreDeps, ElementCommon } from './element.types';

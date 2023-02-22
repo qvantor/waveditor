@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { AiOutlineDrag } from 'react-icons/ai';
 import { useObservable } from '@waveditors/rxjs-react';
-import { map, filter, switchMap } from 'rxjs';
-import { notNullish } from '@waveditors/utils';
+import { switchMap, of } from 'rxjs';
 import { useCallback } from 'react';
 import { useLayoutEditorContext } from '../hooks';
 import { resizeObservable } from '../services';
@@ -25,14 +24,15 @@ const DragIcon = styled(AiOutlineDrag)`
 `;
 
 export const SelectedFrame = () => {
-  const { selected, internalEvents, root } = useLayoutEditorContext();
+  const { selected, internalEvents } = useLayoutEditorContext();
   const rect = useObservable(
     selected.pipe(
-      filter((selected) => selected !== root),
-      filter(notNullish),
-      map((value) => document.getElementById(value)),
-      filter(notNullish),
-      switchMap(resizeObservable)
+      switchMap((value) => {
+        if (!value) return of(null);
+        const element = document.getElementById(value);
+        if (!element) return of(null);
+        return resizeObservable(element);
+      })
     ),
     null
   );

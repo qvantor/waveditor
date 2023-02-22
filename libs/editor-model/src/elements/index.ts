@@ -1,3 +1,5 @@
+export type { ElementCommon } from './element';
+
 export {
   layoutStore,
   isLayoutStore,

@@ -56,17 +56,20 @@ export const MailBuilder = () => {
         params: {
           columns: [['2', '4', '6', '7'], ['5'], []],
         },
+        style: {},
       }),
       '2': textStore({ undoRedo }).run({
         id: '2',
         type: 'text',
         params: { content: 'Hello world 0' },
+        style: {},
       }),
 
       '3': textStore({ undoRedo }).run({
         id: '3',
         type: 'text',
         params: { content: '<p>Test is <strong>here</strong></p>' },
+        style: {},
       }),
       '4': imageStore({ undoRedo }).run({
         id: '4',
@@ -74,21 +77,25 @@ export const MailBuilder = () => {
         params: {
           url: '',
         },
+        style: {},
       }),
       '5': layoutStore({ undoRedo }).run({
         id: '5',
         type: 'layout',
         params: { columns: [[], ['3']] },
+        style: {},
       }),
       '6': textStore({ undoRedo }).run({
         id: '2',
         type: 'text',
         params: { content: 'Hello world 1' },
+        style: {},
       }),
       '7': textStore({ undoRedo }).run({
         id: '2',
         type: 'text',
         params: { content: 'Hello world 2' },
+        style: {},
       }),
     },
     { undoRedo }

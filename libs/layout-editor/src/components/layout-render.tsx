@@ -35,7 +35,14 @@ export const LayoutRender = ({ element, width }: Props) => {
     : {};
   const columnWidth = width / layout.params.columns.length;
   return (
-    <table style={{ borderSpacing: 0, minHeight: 10, background: 'white' }}>
+    <table
+      style={{
+        borderSpacing: 0,
+        minHeight: 10,
+        background: 'white',
+        ...layout.style,
+      }}
+    >
       <tbody>
         <tr>
           {layout.params.columns.map((column, i) => {
