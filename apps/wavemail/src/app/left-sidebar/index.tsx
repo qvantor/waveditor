@@ -22,5 +22,9 @@ export const LeftSidebar = () => {
     ),
     null
   );
-  return <Root>{element ? <StyleEditor element={element}/> : <ElementCreation />}</Root>;
+  return (
+    <Root>
+      {element ? <StyleEditor element={element} /> : <ElementCreation />}
+    </Root>
+  );
 };

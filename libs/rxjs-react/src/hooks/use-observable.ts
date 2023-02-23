@@ -1,26 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Observable } from 'rxjs';
 
-export function useObservable<T>(observable: Observable<T>, initialValue: T): T;
-export function useObservable<T, E>(
+export function useObservable<T, D extends unknown[]>(
   observable: Observable<T>,
   initialValue: T,
-  mapper?: (value: T) => E
-): E;
-
-export function useObservable<T, E>(
-  observable: Observable<T>,
-  initialValue: T,
-  mapper?: (value: T) => E
+  deps?: D
 ) {
-  const [value, setValue] = useState<T | E>(initialValue);
+  const [value, setValue] = useState<T>(initialValue);
   useEffect(() => {
-    const subscription = observable.subscribe((value) =>
-      setValue(mapper ? mapper(value) : value)
-    );
+    const subscription = observable.subscribe((value) => setValue(value));
     return () => {
       subscription.unsubscribe();
     };
-  }, [setValue, mapper]);
+  }, [setValue, ...(deps ?? [])]);
   return value;
 }

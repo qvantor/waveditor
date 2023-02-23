@@ -19,9 +19,9 @@ export const elementStore = <T extends ElementCommon>({
     })
     .addEffect(
       createUndoRedoEffect('element', {
-        filter: (event, value) => event.payload.next.id === value.id,
+        filter: ({ payload }, value) => payload.next.id === value.id,
       })
-    )
-    // .addEffect(() => ({
-    //   subscriptions: (config) => [config.bs.subscribe(console.log)],
-    // }));
+    );
+// .addEffect(() => ({
+//   subscriptions: (config) => [config.bs.subscribe(console.log)],
+// }));

@@ -1,12 +1,14 @@
 import { CommonUndoEvent, UndoRedoModule } from '@waveditors/rxjs-react';
-import * as CSS from 'csstype';
+import { Property } from 'csstype';
 import { UndoRedoEvents } from '../../types';
 
 export type ElementCommon<T extends string = 'layout' | 'text' | 'image'> = {
   id: string;
   type: T;
 
-  style: Pick<CSS.Properties<string | number>, 'padding'>;
+  style: {
+    padding?: Property.Padding<string>;
+  };
 };
 
 export type ElementStoreDeps = {

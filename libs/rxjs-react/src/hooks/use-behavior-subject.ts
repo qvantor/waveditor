@@ -1,15 +1,9 @@
 import { BehaviorSubject } from 'rxjs';
 import { useObservable } from './use-observable';
 
-export function useBehaviorSubject<T>(behaviorSubject: BehaviorSubject<T>): T;
-export function useBehaviorSubject<T, E>(
+export function useBehaviorSubject<T, D extends unknown[]>(
   behaviorSubject: BehaviorSubject<T>,
-  mapper: (value: T) => E
-): E;
-
-export function useBehaviorSubject<T, E>(
-  behaviorSubject: BehaviorSubject<T>,
-  mapper?: (value: T) => E
+  deps?: D
 ) {
-  return useObservable(behaviorSubject, behaviorSubject.value, mapper);
+  return useObservable(behaviorSubject, behaviorSubject.value, deps);
 }

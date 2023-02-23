@@ -5,6 +5,9 @@ export const theme = {
     headerHeight: '28px',
     footerHeight: '28px',
   },
+  borderRadius: {
+    m: '6px',
+  },
   color: {
     surface: {
       primary: '#EAF0F0',

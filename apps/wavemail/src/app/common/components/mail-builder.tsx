@@ -22,7 +22,6 @@ import { Canvas } from '../../canvas';
 
 const Root = styled.div`
   height: 100vh;
-  //overflow: hidden;
 `;
 const Header = styled.div`
   height: ${tokens.size.headerHeight};
@@ -31,7 +30,7 @@ const Header = styled.div`
 const Content = styled.div`
   height: calc(100vh - ${tokens.size.headerHeight});
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 300px 1fr;
   justify-content: center;
   background: ${tokens.color.surface.primary};
 `;
@@ -64,7 +63,6 @@ export const MailBuilder = () => {
         params: { content: 'Hello world 0' },
         style: {},
       }),
-
       '3': textStore({ undoRedo }).run({
         id: '3',
         type: 'text',
@@ -86,13 +84,13 @@ export const MailBuilder = () => {
         style: {},
       }),
       '6': textStore({ undoRedo }).run({
-        id: '2',
+        id: '6',
         type: 'text',
         params: { content: 'Hello world 1' },
         style: {},
       }),
       '7': textStore({ undoRedo }).run({
-        id: '2',
+        id: '7',
         type: 'text',
         params: { content: 'Hello world 2' },
         style: {},
