@@ -6,7 +6,6 @@ import { ELEMENT_DATATYPE } from '../constants';
 import { Context, RootMouseMoveEvent, SelectionEvents } from '../types';
 
 export const useElementSelection = ({
-  root,
   events,
   internalEvents,
   internalState: { isDnd },
@@ -42,14 +41,11 @@ export const useElementSelection = ({
       match(value)
         .with(P.nullish, clearHover)
         .with(P.string, (value) =>
-          match(value)
-            .with(currentHover.current, noop)
-            .with(root, clearHover)
-            .otherwise(setHover)
+          match(value).with(currentHover.current, noop).otherwise(setHover)
         )
         .exhaustive();
     },
-    [setHover, clearHover, root]
+    [setHover, clearHover]
   );
 
   useSubscription(() =>

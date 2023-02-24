@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { AiOutlineDrag } from 'react-icons/ai';
 import { useObservable } from '@waveditors/rxjs-react';
-import { switchMap, of } from 'rxjs';
+import { switchMap, of, map } from 'rxjs';
 import { useCallback } from 'react';
 import { useLayoutEditorContext } from '../hooks';
 import { resizeObservable } from '../services';
@@ -24,7 +24,7 @@ const DragIcon = styled(AiOutlineDrag)`
 `;
 
 export const SelectedFrame = () => {
-  const { selected, internalEvents } = useLayoutEditorContext();
+  const { selected, internalEvents, root } = useLayoutEditorContext();
   const rect = useObservable(
     selected.pipe(
       switchMap((value) => {
@@ -32,6 +32,10 @@ export const SelectedFrame = () => {
         const element = document.getElementById(value);
         if (!element) return of(null);
         return resizeObservable(element);
+      }),
+      map((value) => {
+        if (!value) return null;
+        return [value, selected.getValue()] as const;
       })
     ),
     null
@@ -43,10 +47,10 @@ export const SelectedFrame = () => {
   }, [internalEvents, selected]);
   if (!rect) return null;
 
-  const { left, top, width, height } = rect;
+  const [{ left, top, width, height }, selectedId] = rect;
   return (
     <SelectedRect style={{ left, top, width, height }}>
-      <DragIcon onMouseDown={onMouseDown} />
+      {selectedId !== root && <DragIcon onMouseDown={onMouseDown} />}
     </SelectedRect>
   );
 };

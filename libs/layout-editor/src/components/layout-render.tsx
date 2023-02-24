@@ -40,7 +40,6 @@ export const LayoutRender = ({ element, width }: Props) => {
       style={{
         borderSpacing: 0,
         minHeight: 10,
-        background: 'white',
         ...styleMapper(layout.style),
       }}
     >

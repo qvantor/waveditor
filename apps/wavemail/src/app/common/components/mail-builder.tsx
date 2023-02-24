@@ -55,7 +55,9 @@ export const MailBuilder = () => {
         params: {
           columns: [['2', '4', '6', '7'], ['5'], []],
         },
-        style: {},
+        style: {
+          backgroundColor: '#fff',
+        },
       }),
       '2': textStore({ undoRedo }).run({
         id: '2',
