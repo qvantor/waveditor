@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TextEditor } from '@waveditors/text-editor';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
-import { TextStore } from '@waveditors/editor-model';
+import { styleMapper, TextStore } from '@waveditors/editor-model';
 import { setContent } from '../services';
 
 interface Props {
@@ -20,7 +20,7 @@ const StyledEditor = styled(TextEditor)`
 export const TextRender = ({ element, selected }: Props) => {
   const text = useBehaviorSubject(element.bs);
   return (
-    <div style={{ ...text.style }}>
+    <div style={styleMapper(text.style)}>
       <StyledEditor
         onChange={setContent(element.bs)}
         content={text.params.content}

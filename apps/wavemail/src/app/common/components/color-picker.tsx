@@ -1,9 +1,10 @@
-import { MouseEvent , useCallback } from 'react';
+import { MouseEvent, useCallback } from 'react';
 import { HexColorPicker } from 'react-colorful';
+import { Popover, Input } from 'antd';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Popover, Input } from 'antd';
-import { tokens } from '@waveditors/theme';
+import { tokens, EmptyPattern } from '@waveditors/theme';
+import { ColorRegExp } from '../constants';
 
 interface Props {
   value?: string;
@@ -19,21 +20,7 @@ const Root = styled.div`
   border-radius: ${tokens.borderRadius.m};
   overflow: hidden;
   cursor: pointer;
-
-  background-image: repeating-linear-gradient(45deg,
-  ${tokens.color.surface.primary} 25%,
-  transparent 25%,
-  transparent 75%,
-  ${tokens.color.surface.primary} 75%,
-  ${tokens.color.surface.primary}),
-  repeating-linear-gradient(45deg,
-  ${tokens.color.surface.primary} 25%,
-  ${tokens.color.surface.secondary} 25%,
-  ${tokens.color.surface.secondary} 75%,
-  ${tokens.color.surface.primary} 75%,
-  ${tokens.color.surface.primary});
-  background-position: 0 0, 10px 10px;
-  background-size: 20px 20px;
+  ${EmptyPattern};
 `;
 
 const CloseIcon = styled(AiOutlineClose)`
@@ -68,6 +55,7 @@ export const ColorPicker = ({ value, onChange }: Props) => {
     },
     [onChange]
   );
+
   return (
     <Popover
       trigger='click'
@@ -79,8 +67,7 @@ export const ColorPicker = ({ value, onChange }: Props) => {
             value={value}
             size='small'
             onChange={({ target: { value } }) => {
-              if (/#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value))
-                onChange(value);
+              if (ColorRegExp.test(value)) onChange(value);
             }}
           />
         </PopoverInternal>

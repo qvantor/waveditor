@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDebounce } from 'react-use';
 import styled from 'styled-components';
 import { Background } from '@waveditors/editor-model';
-import { ColorPicker } from '../../../common/components';
+import { ColorPicker, ImagePicker } from '../../../common/components';
 
 interface Props {
   value?: Background;
@@ -13,6 +11,9 @@ interface Props {
 }
 
 const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   padding: 5px;
 `;
 
@@ -23,20 +24,30 @@ const BackgroundEditorRow = styled.div`
 `;
 
 export const BackgroundEditor = ({ value, onChange }: Props) => {
-  const [color, setColor] = useState(value?.backgroundColor);
-
-  useDebounce(() => onChange({ key: 'backgroundColor', value: color }), 400, [
-    color,
-  ]);
-  useEffect(() => {
-    if (value?.backgroundColor !== color) setColor(value?.backgroundColor);
-  }, [value?.backgroundColor]);
+  // const [color, setColor] = useState(value?.backgroundColor);
+  //
+  // useDebounce(() => onChange({ key: 'backgroundColor', value: color }), 300, [
+  //   color,
+  // ]);
+  // useEffect(() => {
+  //   if (value?.backgroundColor !== color) setColor(value?.backgroundColor);
+  // }, [value?.backgroundColor]);
 
   return (
     <Root>
       <BackgroundEditorRow>
         <div>Color</div>
-        <ColorPicker value={color} onChange={setColor} />
+        <ColorPicker
+          value={value?.backgroundColor}
+          onChange={(value) => onChange({ key: 'backgroundColor', value })}
+        />
+      </BackgroundEditorRow>
+      <BackgroundEditorRow>
+        <div>Image</div>
+        <ImagePicker
+          value={value?.backgroundImage}
+          onChange={(value) => onChange({ key: 'backgroundImage', value })}
+        />
       </BackgroundEditorRow>
     </Root>
   );

@@ -17,6 +17,9 @@ export const theme = {
     border: {
       primary: '#E8EBEB',
     },
+    text: {
+      secondary: '#7f8c8d',
+    },
   },
   typography: {
     paragraph: {

@@ -1,6 +1,6 @@
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { distinctUntilChanged, map } from 'rxjs';
-import { LayoutStore } from '@waveditors/editor-model';
+import { LayoutStore, styleMapper } from '@waveditors/editor-model';
 import { useLayoutEditorContext } from '../hooks';
 import { COLUMN_DATATYPE } from '../constants';
 import { RenderColumn } from './render-column';
@@ -34,13 +34,14 @@ export const LayoutRender = ({ element, width }: Props) => {
       }
     : {};
   const columnWidth = width / layout.params.columns.length;
+
   return (
     <table
       style={{
         borderSpacing: 0,
         minHeight: 10,
         background: 'white',
-        ...layout.style,
+        ...styleMapper(layout.style),
       }}
     >
       <tbody>
