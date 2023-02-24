@@ -82,6 +82,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
     "react-is": "18.2.0",
+    "react-use": "^17.4.0",
     "rxjs": "^7.8.0",
     "styled-components": "5.3.6",
     "ts-pattern": "^4.1.3",

@@ -18,6 +18,18 @@ export const theme = {
       primary: '#E8EBEB',
     },
   },
+  typography: {
+    paragraph: {
+      small: 'font-size: 13px;',
+      medium: 'font-size: 16px;',
+      large: 'font-size: 18px;',
+    },
+  },
+  fontWeight: {
+    light: '200',
+    medium: '400',
+    bold: '600',
+  },
 };
 
 export const themeCss = variablesToStyle(theme);

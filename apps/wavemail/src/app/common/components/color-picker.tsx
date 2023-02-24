@@ -18,23 +18,20 @@ const Root = styled.div`
   border: 1px solid ${tokens.color.border.primary};
   border-radius: ${tokens.borderRadius.m};
   overflow: hidden;
+  cursor: pointer;
 
-  background-image: repeating-linear-gradient(
-      45deg,
-      ${tokens.color.surface.primary} 25%,
-      transparent 25%,
-      transparent 75%,
-      ${tokens.color.surface.primary} 75%,
-      ${tokens.color.surface.primary}
-    ),
-    repeating-linear-gradient(
-      45deg,
-      ${tokens.color.surface.primary} 25%,
-      ${tokens.color.surface.secondary} 25%,
-      ${tokens.color.surface.secondary} 75%,
-      ${tokens.color.surface.primary} 75%,
-      ${tokens.color.surface.primary}
-    );
+  background-image: repeating-linear-gradient(45deg,
+  ${tokens.color.surface.primary} 25%,
+  transparent 25%,
+  transparent 75%,
+  ${tokens.color.surface.primary} 75%,
+  ${tokens.color.surface.primary}),
+  repeating-linear-gradient(45deg,
+  ${tokens.color.surface.primary} 25%,
+  ${tokens.color.surface.secondary} 25%,
+  ${tokens.color.surface.secondary} 75%,
+  ${tokens.color.surface.primary} 75%,
+  ${tokens.color.surface.primary});
   background-position: 0 0, 10px 10px;
   background-size: 20px 20px;
 `;

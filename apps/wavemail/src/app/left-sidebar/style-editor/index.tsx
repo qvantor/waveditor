@@ -1,11 +1,17 @@
 import { BehaviorSubject, map } from 'rxjs';
+import styled from 'styled-components';
 import { Element, ElementStore } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
+import { font } from '@waveditors/theme';
 import { PaddingEditor, BackgroundEditor } from './components';
 
 interface Props {
   element: ElementStore;
 }
+
+const Root = styled.div`
+  ${font({ size: 'small' })}
+`;
 
 export const StyleEditor = ({ element }: Props) => {
   const style = useObservable(
@@ -14,7 +20,7 @@ export const StyleEditor = ({ element }: Props) => {
     [element]
   );
   return (
-    <div>
+    <Root>
       <PaddingEditor
         value={style.padding}
         onChange={(value) => {
@@ -32,6 +38,6 @@ export const StyleEditor = ({ element }: Props) => {
         }}
         onChange={element.actions.setStyle}
       />
-    </div>
+    </Root>
   );
 };
