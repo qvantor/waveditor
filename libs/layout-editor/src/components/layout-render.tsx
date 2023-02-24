@@ -1,6 +1,7 @@
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { distinctUntilChanged, map } from 'rxjs';
 import { LayoutStore, styleMapper } from '@waveditors/editor-model';
+import { getXPadding } from '@waveditors/utils';
 import { useLayoutEditorContext } from '../hooks';
 import { COLUMN_DATATYPE } from '../constants';
 import { RenderColumn } from './render-column';
@@ -33,7 +34,9 @@ export const LayoutRender = ({ element, width }: Props) => {
         outlineOffset: -1,
       }
     : {};
-  const columnWidth = width / layout.params.columns.length;
+
+  const columnWidth =
+    (width - getXPadding(layout.style.padding)) / layout.params.columns.length;
 
   return (
     <table

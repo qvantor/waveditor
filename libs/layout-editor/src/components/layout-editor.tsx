@@ -39,7 +39,10 @@ export function LayoutEditor(
         id={LAYOUT_EDITOR_ID}
         onMouseMove={rootMouseMove}
         onMouseLeave={rootMouseLeave}
-        onClick={rootClick}
+        onClick={(e) => {
+          e.stopPropagation()
+          rootClick(e);
+        }}
         style={{
           userSelect: 'none',
           width: props.viewportWidth,

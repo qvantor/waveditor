@@ -6,10 +6,14 @@ import { useMailBuilderContext } from '../../common/hooks';
 
 const Root = styled.div`
   background-color: ${tokens.color.surface.primary};
-  background-image: radial-gradient(#a8b0b5 0.5px,
-  ${tokens.color.surface.primary} 0.5px);
+  background-image: radial-gradient(
+    #a8b0b5 0.5px,
+    ${tokens.color.surface.primary} 0.5px
+  );
   background-size: 10px 10px;
-  height: calc(100vh - ${tokens.size.headerHeight} - ${tokens.size.footerHeight});
+  height: calc(
+    100vh - ${tokens.size.headerHeight} - ${tokens.size.footerHeight}
+  );
   overflow-y: scroll;
 `;
 
@@ -27,7 +31,7 @@ export const Canvas = () => {
     editor: { events, externalEvents },
   } = useMailBuilderContext();
   return (
-    <Root>
+    <Root onClick={selected.actions.unselect}>
       <CanvasContainer>
         <LayoutEditor
           root='1'
