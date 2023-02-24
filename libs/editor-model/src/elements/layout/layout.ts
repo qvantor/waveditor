@@ -30,6 +30,31 @@ export const layoutStore = (deps: ElementStoreDeps) =>
       );
       return setColumns(prev, newColumns);
     },
+    addColumn: (_, prev) => ({
+      ...prev,
+      params: {
+        ...prev.params,
+        columns: [...prev.params.columns, []],
+      },
+    }),
+    removeColumn: (removeIndex: number, prev) => {
+      if (prev.params.columns.length === 1)
+        throw new Error(`removeColumn last column from ${prev.id}`);
+
+      const columns = prev.params.columns.reduce((sum, column, index) => {
+        if (removeIndex === 0 && index - 1 === removeIndex) {
+          const elementsFromRemoved = prev.params.columns[removeIndex];
+          return [...sum, [...column, ...elementsFromRemoved]];
+        }
+        if (index + 1 === removeIndex) {
+          const elementsFromRemoved = prev.params.columns[removeIndex];
+          return [...sum, [...column, ...elementsFromRemoved]];
+        }
+        if (index === removeIndex) return sum;
+        return [...sum, column];
+      }, [] as string[][]);
+      return { ...prev, params: { ...prev.params, columns } };
+    },
   });
 
 export type LayoutStore = StoreResult<typeof layoutStore>;

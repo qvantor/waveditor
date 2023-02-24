@@ -13,12 +13,16 @@ export const theme = {
       primary: '#EAF0F0',
       secondary: '#fff',
       tertiary: '#121417',
+      accent: '#3498db',
+      danger: '#e74c3c',
     },
     border: {
       primary: '#E8EBEB',
+      secondary: '#bdc3c7',
     },
     text: {
       secondary: '#7f8c8d',
+      tertiary: '#fff',
     },
   },
   typography: {

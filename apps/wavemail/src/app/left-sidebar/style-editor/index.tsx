@@ -1,8 +1,11 @@
 import { BehaviorSubject, map } from 'rxjs';
 import styled from 'styled-components';
+import { match } from 'ts-pattern';
 import { Element, ElementStore } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
 import { font } from '@waveditors/theme';
+import { returnValue } from '@waveditors/utils';
+import { LayoutParamsEditor } from '../layout-params-editor';
 import { PaddingEditor, BackgroundEditor } from './components';
 
 interface Props {
@@ -13,6 +16,12 @@ const Root = styled.div`
   ${font({ size: 'small' })}
 `;
 
+const TypedEditorSwitch = ({ element }: Props) =>
+  match(element)
+    .with({ bs: { value: { type: 'layout' } } }, (layout) => (
+      <LayoutParamsEditor layout={layout} />
+    ))
+    .otherwise(returnValue(null));
 export const StyleEditor = ({ element }: Props) => {
   const style = useObservable(
     (element.bs as BehaviorSubject<Element>).pipe(map((value) => value.style)),
@@ -21,6 +30,7 @@ export const StyleEditor = ({ element }: Props) => {
   );
   return (
     <Root>
+      <TypedEditorSwitch element={element} />
       <PaddingEditor
         value={style.padding}
         onChange={(value) => {
