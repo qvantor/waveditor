@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import styled from 'styled-components';
-import { Popover, Input } from 'antd';
+import { Popover } from 'antd';
 import { EmptyPattern, font, tokens } from '@waveditors/theme';
-import { UrlRegExp } from '../constants';
+import { ImageLinkRegExp } from '../constants';
+import { Input } from './input';
 
 interface Props {
   value?: string;
@@ -23,13 +24,11 @@ const Label = styled.p`
   color: ${tokens.color.text.secondary};
 `;
 
-export const ImagePicker = ({ value, onChange }: Props) => {
-  const [isInvalid, setIsInvalid] = useState(false);
-  useEffect(() => {
-    if (!value) return setIsInvalid(false);
-    setIsInvalid(!UrlRegExp.test(value));
-  }, [value]);
-
+export const ImageUrlInput = ({ value, onChange }: Props) => {
+  const validate = useCallback((value?: string) => {
+    if (!value) return true;
+    return ImageLinkRegExp.test(value);
+  }, []);
   return (
     <Popover
       trigger='click'
@@ -37,17 +36,11 @@ export const ImagePicker = ({ value, onChange }: Props) => {
       content={
         <PopoverInternal>
           <Label>Image url:</Label>
-          <Input
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            status={isInvalid ? 'error' : ''}
-          />
+          <Input value={value} onChange={onChange} validate={validate} />
         </PopoverInternal>
       }
     >
-      <Root
-        style={value ? { backgroundImage: `url(${value})` } : undefined}
-      ></Root>
+      <Root style={value ? { backgroundImage: `url(${value})` } : undefined} />
     </Popover>
   );
 };

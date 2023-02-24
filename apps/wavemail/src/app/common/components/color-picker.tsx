@@ -1,10 +1,12 @@
-import { MouseEvent, useCallback } from 'react';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { Popover, Input } from 'antd';
+import { Popover } from 'antd';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useDebounce } from 'react-use';
 import { tokens, EmptyPattern } from '@waveditors/theme';
 import { ColorRegExp } from '../constants';
+import { Input } from './input';
 
 interface Props {
   value?: string;
@@ -12,7 +14,6 @@ interface Props {
 }
 
 const Root = styled.div`
-  width: 100%;
   display: flex;
   justify-content: end;
   height: 22px;
@@ -48,6 +49,7 @@ const PopoverInternal = styled.div`
 `;
 
 export const ColorPicker = ({ value, onChange }: Props) => {
+  const [internalValue, setInternalValue] = useState(value);
   const onCloseClick = useCallback(
     (e: MouseEvent) => {
       e.stopPropagation();
@@ -55,6 +57,21 @@ export const ColorPicker = ({ value, onChange }: Props) => {
     },
     [onChange]
   );
+  const validate = useCallback((value?: string) => {
+    if (!value) return true;
+    return ColorRegExp.test(value);
+  }, []);
+  useDebounce(
+    () => {
+      if (internalValue !== value) onChange(internalValue);
+    },
+    400,
+    [internalValue]
+  );
+
+  useEffect(() => {
+    if (value !== internalValue) setInternalValue(value);
+  }, [value]);
 
   return (
     <Popover
@@ -62,13 +79,11 @@ export const ColorPicker = ({ value, onChange }: Props) => {
       placement='right'
       content={
         <PopoverInternal>
-          <HexColorPicker color={value} onChange={onChange} />
+          <HexColorPicker color={internalValue} onChange={setInternalValue} />
           <Input
-            value={value}
-            size='small'
-            onChange={({ target: { value } }) => {
-              if (ColorRegExp.test(value)) onChange(value);
-            }}
+            value={internalValue}
+            validate={validate}
+            onChange={setInternalValue}
           />
         </PopoverInternal>
       }

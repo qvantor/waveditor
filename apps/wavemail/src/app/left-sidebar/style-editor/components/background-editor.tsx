@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { Background } from '@waveditors/editor-model';
-import { ColorPicker, ImagePicker } from '../../../common/components';
+import { useCallback } from 'react';
+import {
+  ColorPicker,
+  ImageUrlInput,
+  BackgroundRepeatSelector,
+} from '../../../common/components';
 
 interface Props {
   value?: Background;
@@ -24,29 +29,33 @@ const BackgroundEditorRow = styled.div`
 `;
 
 export const BackgroundEditor = ({ value, onChange }: Props) => {
-  // const [color, setColor] = useState(value?.backgroundColor);
-  //
-  // useDebounce(() => onChange({ key: 'backgroundColor', value: color }), 300, [
-  //   color,
-  // ]);
-  // useEffect(() => {
-  //   if (value?.backgroundColor !== color) setColor(value?.backgroundColor);
-  // }, [value?.backgroundColor]);
-
+  const onChangeInternal = useCallback(
+    <K extends keyof Background>(key: K) =>
+      (value: Background[K]) =>
+        onChange({ key, value }),
+    [onChange]
+  );
   return (
     <Root>
       <BackgroundEditorRow>
         <div>Color</div>
         <ColorPicker
           value={value?.backgroundColor}
-          onChange={(value) => onChange({ key: 'backgroundColor', value })}
+          onChange={onChangeInternal('backgroundColor')}
         />
       </BackgroundEditorRow>
       <BackgroundEditorRow>
         <div>Image</div>
-        <ImagePicker
+        <ImageUrlInput
           value={value?.backgroundImage}
-          onChange={(value) => onChange({ key: 'backgroundImage', value })}
+          onChange={onChangeInternal('backgroundImage')}
+        />
+      </BackgroundEditorRow>
+      <BackgroundEditorRow>
+        <div>Repeat</div>
+        <BackgroundRepeatSelector
+          value={value?.backgroundRepeat}
+          onChange={onChangeInternal('backgroundRepeat')}
         />
       </BackgroundEditorRow>
     </Root>

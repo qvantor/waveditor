@@ -6,6 +6,6 @@ export const styleMapper = (style: ElementCommon['style']): CSS.Properties => {
 
   return {
     ...restStyle,
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
   };
 };

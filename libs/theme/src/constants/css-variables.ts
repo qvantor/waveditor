@@ -6,7 +6,7 @@ export const theme = {
     footerHeight: '28px',
   },
   borderRadius: {
-    m: '6px',
+    m: '4px',
   },
   color: {
     surface: {
