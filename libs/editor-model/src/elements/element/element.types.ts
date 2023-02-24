@@ -1,6 +1,6 @@
 import { CommonUndoEvent, UndoRedoModule } from '@waveditors/rxjs-react';
 import { Property } from 'csstype';
-import { UndoRedoEvents } from '../../types';
+import { Background, UndoRedoEvents } from '../../types';
 
 export type ElementCommon<T extends string = 'layout' | 'text' | 'image'> = {
   id: string;
@@ -8,7 +8,7 @@ export type ElementCommon<T extends string = 'layout' | 'text' | 'image'> = {
 
   style: {
     padding?: Property.Padding<string>;
-  };
+  } & Background;
 };
 
 export type ElementStoreDeps = {
