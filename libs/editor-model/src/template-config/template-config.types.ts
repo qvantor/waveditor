@@ -1,3 +1,5 @@
+import { CommonUndoEvent } from '@waveditors/rxjs-react';
+
 export type FallbackFonts =
   | 'Arial'
   | 'Courier New'
@@ -32,3 +34,8 @@ export type TemplateConfig = {
   viewportWidth: number;
   fonts: TemplateConfigFont[];
 };
+
+export type TemplateStoreUndoRedoEvent = CommonUndoEvent<
+  'TemplateStore',
+  TemplateConfig
+>;

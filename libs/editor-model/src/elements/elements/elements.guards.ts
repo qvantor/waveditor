@@ -1,4 +1,4 @@
-import { ElementCommonTypes } from "../element";
+import { ElementCommonTypes } from '../element';
 import { Element } from './elements.types';
 
 const isTypeInObject = (value: object): value is { type: unknown } =>

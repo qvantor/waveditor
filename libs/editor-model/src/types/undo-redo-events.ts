@@ -1,6 +1,12 @@
-import { ElementsStoreUndoRedoEvent } from '../elements';
-import { ElementStoreUndoRedoEvent } from '../elements/element/element.types';
+import {
+  ElementsStoreUndoRedoEvent,
+  ElementStoreUndoRedoEvent,
+} from '../elements';
+import { TemplateStoreUndoRedoEvent } from '../template-config';
+import { RelationsStoreUndoRedoEvent } from '../relations';
 
 export type UndoRedoEvents =
   | ElementsStoreUndoRedoEvent
-  | ElementStoreUndoRedoEvent;
+  | ElementStoreUndoRedoEvent
+  | TemplateStoreUndoRedoEvent
+  | RelationsStoreUndoRedoEvent;

@@ -13,10 +13,10 @@ import {
 import { useObservable } from '@waveditors/rxjs-react';
 import { tokens, font } from '@waveditors/theme';
 import { map, merge } from 'rxjs';
-import { generateId } from '@waveditors/utils';
 import {
   useMailBuilderContext,
   useRemoveTemplateConfigFont,
+  useCreateTemplateConfigFont,
 } from '../../../common/hooks';
 import { Input } from '../../../common/components';
 
@@ -146,6 +146,7 @@ export const Font = ({ element }: Props) => {
     stores: { relations },
   } = useMailBuilderContext();
   const removeFont = useRemoveTemplateConfigFont();
+  const createFont = useCreateTemplateConfigFont();
   const elementFont = useObservable(
     merge(relations.bs, config.bs).pipe(
       map(() =>
@@ -202,14 +203,7 @@ export const Font = ({ element }: Props) => {
                   size='small'
                   icon={<AiOutlinePlus />}
                   disabled={fonts.length >= MaxFontsCount}
-                  onClick={() => {
-                    const id = generateId();
-                    config.actions.addFont({ ...font, id });
-                    relations.actions.addElementFontRelation({
-                      font: id,
-                      element: element.getValue().id,
-                    });
-                  }}
+                  onClick={() => createFont(font, element.getValue().id)}
                 />
               </Tooltip>
               <Tooltip title='Remove font'>

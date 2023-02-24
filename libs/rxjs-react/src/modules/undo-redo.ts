@@ -1,5 +1,5 @@
 import { filter, map, pipe, Subject, Unsubscribable } from 'rxjs';
-import { notNullish, returnValue } from '@waveditors/utils';
+import { generateId, notNullish, returnValue } from '@waveditors/utils';
 import { createStore } from '../services';
 import { Effect } from '../types';
 
@@ -29,9 +29,10 @@ export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>>
   onUndo: Subject<E>;
   onRedo: Subject<E>;
 
-  setGroupSize: (value: number) => void;
   removeLastEvent: () => void;
-  createUndoRedoEffect: <V, A, T extends string>(
+  startBunch: () => void;
+  endBunch: () => void;
+  createUndoRedoEffect: <V, A, T extends E['type']>(
     type: T,
     config?: UndoRedoEffectConfig<V, A, E, T>
   ) => () => Effect<V, A>;
@@ -50,12 +51,12 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
   const redo = new Subject<void>();
   const onRedo = new Subject<E>();
 
-  const groupSize = createStore<number>()
+  const bunchEvents = createStore<boolean>()
     .addActions({
-      setValue: (value: number) => value,
-      decrease: (_, value) => value - 1,
+      startBunch: () => true,
+      endBunch: () => false,
     })
-    .run(0);
+    .run(false);
 
   // state
   const redoStore = createStore<UndoRedoEvents<E>>()
@@ -87,12 +88,11 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
         const notGrouped = [
           ...state,
           {
-            id: Math.random().toString(),
+            id: generateId(),
             events: [event],
           },
         ];
-        if (groupSize.getValue() === 0) return notGrouped;
-        groupSize.actions.decrease();
+        if (!bunchEvents.getValue() || state.length === 0) return notGrouped;
         return state.map((item, index) => {
           if (index !== state.length - 1) return item;
           return {
@@ -121,9 +121,14 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
             redoStore.actions.addEvent(lastAction);
           }),
         onChange.subscribe(actions.addEvent),
+        // remove old undo events
         bs
           .pipe(filter((events) => events.length > size))
           .subscribe(actions.removeFirst),
+        // onBunchStarted creating new empty undo event
+        bunchEvents.bs
+          .pipe(filter(Boolean))
+          .subscribe(() => actions.addEvents({ id: generateId(), events: [] })),
       ],
     }))
     .run([]);
@@ -159,10 +164,10 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
         ];
       },
     });
+  undoStore.bs.subscribe(console.log);
   const unsubscribe = () => {
     redoStore.unsubscribe();
     undoStore.unsubscribe();
-    groupSize.unsubscribe();
   };
   return {
     undo,
@@ -171,8 +176,8 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
     onRedo,
     onChange,
     createUndoRedoEffect,
-    setGroupSize: groupSize.actions.setValue,
     removeLastEvent: undoStore.actions.removeLastEvent,
+    ...bunchEvents.actions,
     unsubscribe,
   };
 };

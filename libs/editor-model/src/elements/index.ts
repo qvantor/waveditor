@@ -1,4 +1,4 @@
-export type { ElementCommon } from './element';
+export type { ElementCommon, ElementStoreUndoRedoEvent } from './element';
 export {
   getElementStyle,
   getElementFontSize,

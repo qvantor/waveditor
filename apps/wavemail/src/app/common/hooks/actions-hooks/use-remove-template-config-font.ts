@@ -6,15 +6,18 @@ export const useRemoveTemplateConfigFont = () => {
   const {
     config,
     stores: { relations },
+    modules: { undoRedo },
   } = useMailBuilderContext();
   return useCallback(
     (fontId: string) => {
+      undoRedo.startBunch();
       const elementsWithFont = getElementsFromElementFontRelationByFontId(
         fontId
       )(relations.getValue());
       elementsWithFont.forEach(relations.actions.removeElementFontRelation);
       config.actions.removeFont(fontId);
+      undoRedo.endBunch();
     },
-    [config, relations]
+    [config, relations, undoRedo]
   );
 };

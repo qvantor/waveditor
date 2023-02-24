@@ -10,7 +10,7 @@ export const commonUndoRedoEffect = <V extends ElementCommon, A>(
   { createUndoRedoEffect }: UndoRedoModule<UndoRedoEvents>,
   config?: CommonUndoRedoEffectConfig<A>
 ) =>
-  createUndoRedoEffect<V, A, UndoRedoEvents['type']>('element', {
+  createUndoRedoEffect<V, A, 'element'>('element', {
     filterActions: config?.filterActions,
     filter: ({ payload }, value) => payload.next.id === value.id,
   });

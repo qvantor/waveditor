@@ -9,10 +9,11 @@ export const getElementFontRelationByElementId =
     getElementFontRelations(relations)[elementId];
 
 export const getElementsFromElementFontRelationByFontId =
-  (fontId: string) => (relations: Relations) => Object.entries(relations.elementFont).reduce<string[]>(
-    (sum, [elementId, font]) => {
-      if (font === fontId) return [...sum, elementId];
-      return sum;
-    },
-    []
-  );
+  (fontId: string) => (relations: Relations) =>
+    Object.entries(relations.elementFont).reduce<string[]>(
+      (sum, [elementId, font]) => {
+        if (font === fontId) return [...sum, elementId];
+        return sum;
+      },
+      []
+    );

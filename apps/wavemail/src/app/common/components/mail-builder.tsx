@@ -150,10 +150,12 @@ export const MailBuilder = () => {
     },
     { undoRedo }
   );
-  const relationsStore = useRelationsStore(createInitialRelations(), []);
+  const relationsStore = useRelationsStore(createInitialRelations(), {
+    undoRedo,
+  });
   const templateConfigStore = useTemplateConfigStore(
     createInitialTemplateConfig('1'),
-    []
+    { undoRedo }
   );
   const hoverStore = useHoverStore(null, []);
   const selectedStore = useSelectedStore(null, []);
@@ -193,7 +195,7 @@ export const MailBuilder = () => {
           if (!parent)
             return console.error(`UnlinkElementFromLayout: ${event.payload}`);
           parent.actions.removeChild(event.payload);
-          undoRedo.setGroupSize(1);
+          undoRedo.startBunch();
         })
         .with({ type: 'LinkElementToLayout' }, ({ payload }) => {
           const parent = getLayoutElement(
@@ -206,6 +208,7 @@ export const MailBuilder = () => {
             );
           parent.actions.addChild(payload);
           if (payload.samePosition) undoRedo.removeLastEvent();
+          undoRedo.endBunch();
         })
         .with({ type: 'AddElement' }, ({ payload: { element, position } }) => {
           const parent = getLayoutElement(
@@ -214,9 +217,10 @@ export const MailBuilder = () => {
           );
           if (!parent)
             return console.error(`AddElement: ${position.position.layout}`);
-          undoRedo.setGroupSize(1);
+          undoRedo.startBunch();
           elementsStore.actions.addElement(element);
           parent.actions.addChild(position);
+          undoRedo.endBunch();
           selectedStore.actions.setSelected(element.id);
         })
         .exhaustive()

@@ -1,6 +1,7 @@
 export type {
   TemplateConfig,
   TemplateConfigFont,
+  TemplateStoreUndoRedoEvent,
 } from './template-config.types';
 export type { TemplateConfigStore } from './template-config';
 export { templateConfigStore, useTemplateConfigStore } from './template-config';
