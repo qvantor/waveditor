@@ -1,20 +1,16 @@
 import { BehaviorSubject, map } from 'rxjs';
-import styled from 'styled-components';
 import { match } from 'ts-pattern';
+import { Collapse } from 'antd';
 import { Element, ElementStore } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
-import { font } from '@waveditors/theme';
 import { returnValue } from '@waveditors/utils';
 import { LayoutParamsEditor } from '../layout-params-editor';
+import { CollapseStyled } from '../../common/components';
 import { PaddingEditor, BackgroundEditor } from './components';
 
 interface Props {
   element: ElementStore;
 }
-
-const Root = styled.div`
-  ${font({ size: 'small' })}
-`;
 
 const TypedEditorSwitch = ({ element }: Props) =>
   match(element)
@@ -29,25 +25,31 @@ export const StyleEditor = ({ element }: Props) => {
     [element]
   );
   return (
-    <Root>
+    <>
       <TypedEditorSwitch element={element} />
-      <PaddingEditor
-        value={style.padding}
-        onChange={(value) => {
-          element.actions.setStyle({ key: 'padding', value });
-        }}
-      />
-      <BackgroundEditor
-        value={{
-          backgroundColor: style.backgroundColor,
-          backgroundImage: style.backgroundImage,
-          backgroundPosition: style.backgroundPosition,
-          backgroundRepeat: style.backgroundRepeat,
-          backgroundSize: style.backgroundSize,
-          backgroundOrigin: style.backgroundOrigin,
-        }}
-        onChange={element.actions.setStyle}
-      />
-    </Root>
+      <CollapseStyled>
+        <Collapse.Panel key='padding' header='Padding'>
+          <PaddingEditor
+            value={style.padding}
+            onChange={(value) => {
+              element.actions.setStyle({ key: 'padding', value });
+            }}
+          />
+        </Collapse.Panel>
+        <Collapse.Panel key='background' header='Background'>
+          <BackgroundEditor
+            value={{
+              backgroundColor: style.backgroundColor,
+              backgroundImage: style.backgroundImage,
+              backgroundPosition: style.backgroundPosition,
+              backgroundRepeat: style.backgroundRepeat,
+              backgroundSize: style.backgroundSize,
+              backgroundOrigin: style.backgroundOrigin,
+            }}
+            onChange={element.actions.setStyle}
+          />
+        </Collapse.Panel>
+      </CollapseStyled>
+    </>
   );
 };

@@ -9,16 +9,24 @@ import {
   PaddingObj,
 } from '@waveditors/utils';
 
+interface Props {
+  value?: Property.Padding<string>;
+  onChange: (value: Property.Padding<string>) => void;
+}
+
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5px;
   gap: 5px;
 `;
 
 const Cell = styled.div`
   flex: 1 1 0;
   display: flex;
+`;
+
+const CentralCell = styled(Cell)`
+  gap: 5px;
 `;
 
 const TopBottom = styled(Cell)`
@@ -34,19 +42,13 @@ const RightCell = styled(LeftCell)`
 `;
 
 const Anchors = styled(Cell)`
-  height: 96px;
+  height: 85px;
   border: 1px solid ${tokens.color.border.primary};
   border-radius: ${tokens.borderRadius.m};
   flex-direction: column;
 `;
 
-export const PaddingEditor = ({
-  value = '0px',
-  onChange,
-}: {
-  value?: Property.Padding<string>;
-  onChange: (value: Property.Padding<string>) => void;
-}) => {
+export const PaddingEditor = ({ value = '0px', onChange }: Props) => {
   const paddingObject = useMemo(() => paddingStrToObj(value), [value]);
   const onChangeInternal = useCallback(
     (key: keyof PaddingObj) => (value: string | null) => {
@@ -64,7 +66,7 @@ export const PaddingEditor = ({
           onChange={onChangeInternal('top')}
         />
       </TopBottom>
-      <Cell>
+      <CentralCell>
         <LeftCell>
           <div>
             <InputNumber
@@ -74,7 +76,7 @@ export const PaddingEditor = ({
             />
           </div>
         </LeftCell>
-        <Anchors></Anchors>
+        <Anchors />
         <RightCell>
           <div>
             <InputNumber
@@ -84,7 +86,7 @@ export const PaddingEditor = ({
             />
           </div>
         </RightCell>
-      </Cell>
+      </CentralCell>
       <TopBottom>
         <InputNumber
           size='small'

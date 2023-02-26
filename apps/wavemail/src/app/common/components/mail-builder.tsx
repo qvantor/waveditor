@@ -88,8 +88,11 @@ export const MailBuilder = () => {
       '6': textStore({ undoRedo }).run({
         id: '6',
         type: 'text',
-        params: { content: 'Hello world 1' },
+        params: { content: 'Hello world 1 with id 6' },
         style: {},
+        link: {
+          url: 'https://google.com',
+        },
       }),
       '7': textStore({ undoRedo }).run({
         id: '7',

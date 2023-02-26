@@ -1,4 +1,6 @@
 import { LayoutStore } from '@waveditors/editor-model';
+import { Collapse } from 'antd';
+import { CollapseStyled } from '../../common/components';
 import { ColumnsEditor } from './components';
 
 interface Props {
@@ -6,5 +8,11 @@ interface Props {
 }
 
 export const LayoutParamsEditor = ({ layout }: Props) => {
-  return <ColumnsEditor layout={layout} />;
+  return (
+    <CollapseStyled>
+      <Collapse.Panel key='layout' header='Layout'>
+        <ColumnsEditor layout={layout} />
+      </Collapse.Panel>
+    </CollapseStyled>
+  );
 };
