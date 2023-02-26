@@ -31,6 +31,10 @@ export const getXPadding = (value = '0px') => {
   const { left, right } = paddingStrToObj(value);
   return Number(left) + Number(right);
 };
+export const getYPadding = (value = '0px') => {
+  const { top, bottom } = paddingStrToObj(value);
+  return Number(top) + Number(bottom);
+};
 export const paddingObjToStr = ({ top, left, right, bottom }: PaddingObj) => {
   if (left === right) {
     if (top === bottom) {

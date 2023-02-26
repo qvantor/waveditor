@@ -2,19 +2,17 @@ import { Fragment } from 'react';
 import { LinkElementToLayoutEvent } from '../types';
 import { ElementRender } from './element-render';
 
+interface Props {
+  column: string[];
+  width: number;
+  dndPreview?: LinkElementToLayoutEvent['payload']['position'];
+}
+
 const DndPreview = () => (
   <div style={{ height: 4, border: '1px dashed gray', margin: 5 }} />
 );
 
-export const RenderColumn = ({
-  column,
-  width,
-  dndPreview,
-}: {
-  column: string[];
-  width: number;
-  dndPreview?: LinkElementToLayoutEvent['payload']['position'];
-}) => {
+export const ColumnRender = ({ column, width, dndPreview }: Props) => {
   return (
     <div style={{ width }}>
       {column.map((id, i) => {

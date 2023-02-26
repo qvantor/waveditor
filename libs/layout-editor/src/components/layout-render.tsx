@@ -1,10 +1,10 @@
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { distinctUntilChanged, map } from 'rxjs';
 import { LayoutStore, styleMapper } from '@waveditors/editor-model';
-import { getXPadding } from '@waveditors/utils';
+import { getXPadding, getYPadding } from '@waveditors/utils';
 import { useLayoutEditorContext } from '../hooks';
 import { COLUMN_DATATYPE } from '../constants';
-import { RenderColumn } from './render-column';
+import { ColumnRender } from './column-render';
 
 interface Props {
   element: LayoutStore;
@@ -42,7 +42,7 @@ export const LayoutRender = ({ element, width }: Props) => {
     <table
       style={{
         borderSpacing: 0,
-        minHeight: 10,
+        minHeight: isDnd ? getYPadding(layout.style.padding) + 10 : 5,
         ...styleMapper(layout.style),
       }}
     >
@@ -59,7 +59,7 @@ export const LayoutRender = ({ element, width }: Props) => {
                 data-column={i}
                 key={i}
               >
-                <RenderColumn
+                <ColumnRender
                   width={columnWidth}
                   column={column}
                   dndPreview={dndPreview?.column === i ? dndPreview : undefined}
