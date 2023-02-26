@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { AiOutlineDrag } from 'react-icons/ai';
 import { useObservable } from '@waveditors/rxjs-react';
-import { switchMap, of, map } from 'rxjs';
+import { switchMap, of, map, debounceTime } from 'rxjs';
 import { useCallback } from 'react';
 import { useLayoutEditorContext } from '../hooks';
 import { resizeObservable } from '../services';
@@ -27,6 +27,7 @@ export const SelectedFrame = () => {
   const { selected, internalEvents, root } = useLayoutEditorContext();
   const rect = useObservable(
     selected.pipe(
+      debounceTime(16),
       switchMap((value) => {
         if (!value) return of(null);
         const element = document.getElementById(value);

@@ -14,7 +14,9 @@ export type ElementCommon<
     url: string;
   };
   style: {
+    display?: Property.Display;
     padding?: Property.Padding<string>;
+    maxWidth?: Property.MaxWidth<string>;
   } & Background;
 };
 

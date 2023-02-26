@@ -75,9 +75,12 @@ export const MailBuilder = () => {
         id: '4',
         type: 'image',
         params: {
-          url: '',
+          url: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80',
         },
-        style: {},
+        style: {
+          display: 'block',
+          maxWidth: '100%',
+        },
       }),
       '5': layoutStore({ undoRedo }).run({
         id: '5',
@@ -165,6 +168,7 @@ export const MailBuilder = () => {
           undoRedo.setGroupSize(1);
           elementsStore.actions.addElement(element);
           parent.actions.addChild(position);
+          selectedStore.actions.setSelected(element.id);
         })
         .exhaustive()
     )

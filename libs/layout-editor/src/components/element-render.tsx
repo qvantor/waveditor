@@ -7,6 +7,7 @@ import { ELEMENT_DATATYPE } from '../constants';
 import { useLayoutEditorContext } from '../hooks';
 import { LayoutRender } from './layout-render';
 import { TextRender } from './text-render';
+import { ImageRender } from './image-render';
 
 interface Props {
   id: string;
@@ -33,13 +34,7 @@ const ElementRenderSwitch = ({ id, width }: Props) => {
     .with(typeSelector('text'), (element) => (
       <TextRender selected={isSelected} element={element} />
     ))
-    .with(typeSelector('image'), () => (
-      <img
-        src='https://placekitten.com/100/100'
-        style={{ maxWidth: '100%', pointerEvents: 'none' }}
-        alt='cat'
-      />
-    ))
+    .with(typeSelector('image'), (element) => <ImageRender element={element} />)
     .exhaustive();
 };
 

@@ -1,11 +1,16 @@
 import { MouseEvent, useMemo } from 'react';
 import { Subject } from 'rxjs';
+import styled from 'styled-components';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
 import { useDnd, useElementSelection, useInternalState } from '../hooks';
 import { ContextValue, LAYOUT_EDITOR_ID } from '../constants';
 import { ElementRender } from './element-render';
 import { HoverFrame } from './hover-frame';
 import { SelectedFrame } from './selected-frame';
+
+const Root = styled.div`
+  position: relative;
+`;
 
 export function LayoutEditor(
   props: Omit<Context, 'internalEvents' | 'internalState'>
@@ -35,24 +40,22 @@ export function LayoutEditor(
 
   return (
     <ContextValue.Provider value={context}>
-      <div
+      <Root
         id={LAYOUT_EDITOR_ID}
         onMouseMove={rootMouseMove}
         onMouseLeave={rootMouseLeave}
         onClick={(e) => {
-          e.stopPropagation()
+          e.stopPropagation();
           rootClick(e);
         }}
         style={{
-          userSelect: 'none',
           width: props.viewportWidth,
-          position: 'relative',
         }}
       >
         <ElementRender id={props.root} width={props.viewportWidth} />
         <HoverFrame />
         <SelectedFrame />
-      </div>
+      </Root>
     </ContextValue.Provider>
   );
 }

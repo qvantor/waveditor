@@ -2,7 +2,7 @@ import { generateId } from '@waveditors/utils';
 import { ElementStoreDeps } from '../element';
 import { createInitialLayout, layoutStore } from '../layout';
 import { textStore } from '../text';
-import { imageStore } from '../image';
+import { imageStore, Image } from '../image';
 import { ElementType, Element, ElementStore } from './elements.types';
 
 export function createEmptyElement<T extends ElementType>(
@@ -16,10 +16,13 @@ export function createEmptyElement<T extends ElementType>(type: T) {
         id: generateId(),
         type: 'image',
         params: {
-          url: '',
+          url: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80',
         },
-        style: {},
-      };
+        style: {
+          display: 'block',
+          maxWidth: '100%',
+        },
+      } as Image;
     case 'text':
       return {
         id: generateId(),

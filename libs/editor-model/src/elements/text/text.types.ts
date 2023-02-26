@@ -1,4 +1,4 @@
-import { ElementCommon } from '../element/element.types';
+import { ElementCommon } from '../element/';
 
 export interface Text extends ElementCommon<'text'> {
   params: {
