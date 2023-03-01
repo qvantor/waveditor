@@ -5,6 +5,7 @@ export {
   getElementLineHeight,
   getElementLetterSpacing,
   getElementTextAlign,
+  getElementColor,
 } from './element';
 
 export {

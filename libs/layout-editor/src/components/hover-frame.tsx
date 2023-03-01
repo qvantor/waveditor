@@ -9,6 +9,7 @@ export const FrameRoot = styled.div`
   pointer-events: none;
   outline: 2px solid rgba(39, 174, 96, 1);
   outline-offset: -2px;
+  z-index: 2;
 `;
 
 export const HoverFrame = () => {

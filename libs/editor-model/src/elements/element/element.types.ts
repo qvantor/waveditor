@@ -21,6 +21,7 @@ export type ElementCommon<
     lineHeight?: string;
     letterSpacing?: string;
     textAlign?: Property.TextAlign;
+    color?: Property.Color;
   } & Background;
 };
 

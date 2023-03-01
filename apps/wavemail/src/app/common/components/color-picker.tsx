@@ -11,6 +11,7 @@ import { Input } from './input';
 interface Props {
   value?: string;
   onChange: (value?: string) => void;
+  className?: string;
 }
 
 const Root = styled.div`
@@ -48,7 +49,7 @@ const PopoverInternal = styled.div`
   gap: 10px;
 `;
 
-export const ColorPicker = ({ value, onChange }: Props) => {
+export const ColorPicker = ({ value, onChange, className }: Props) => {
   const [internalValue, setInternalValue] = useState(value);
   const onCloseClick = useCallback(
     (e: MouseEvent) => {
@@ -88,7 +89,7 @@ export const ColorPicker = ({ value, onChange }: Props) => {
         </PopoverInternal>
       }
     >
-      <Root style={{ background: value }}>
+      <Root className={className} style={{ background: value }}>
         {value && <CloseIcon onClick={onCloseClick} />}
       </Root>
     </Popover>

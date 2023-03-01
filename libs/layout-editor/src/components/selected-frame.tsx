@@ -11,6 +11,7 @@ import { FrameRoot } from './hover-frame';
 const SelectedRect = styled(FrameRoot)`
   background: transparent;
   outline: 2px solid ${tokens.color.surface.accent};
+  z-index: 1;
 `;
 
 const DragIcon = styled(AiOutlineDrag)`

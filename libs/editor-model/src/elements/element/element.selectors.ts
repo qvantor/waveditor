@@ -10,3 +10,5 @@ export const getElementLetterSpacing = (element: ElementCommon) =>
 
 export const getElementTextAlign = (element: ElementCommon) =>
   getElementStyle(element).textAlign;
+export const getElementColor = (element: ElementCommon) =>
+  getElementStyle(element).color;
