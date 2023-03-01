@@ -16,7 +16,7 @@ type Props = {
   icon?: React.ReactNode;
 } & Pick<InputNumberProps<string>, 'min' | 'max' | 'step'>;
 
-export const PxValueEditor = ({
+export const PxValue = ({
   text,
   selector,
   styleKey,

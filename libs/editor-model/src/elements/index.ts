@@ -4,6 +4,7 @@ export {
   getElementFontSize,
   getElementLineHeight,
   getElementLetterSpacing,
+  getElementTextAlign,
 } from './element';
 
 export {

@@ -10,12 +10,13 @@ import { AiOutlineFontSize, AiOutlineLineHeight } from 'react-icons/ai';
 import { RxLetterSpacing } from 'react-icons/rx';
 import styled from 'styled-components';
 import { CollapseStyled } from '../../common/components';
-import { PxValueEditor } from './components';
+import { PxValue, TextAlign } from './components';
 
 const Root = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 5px;
+  justify-items: center;
 `;
 
 interface Props {
@@ -27,19 +28,19 @@ export const TextParamsEditor = ({ text }: Props) => {
     <CollapseStyled>
       <Collapse.Panel key='text' header='Text'>
         <Root>
-          <PxValueEditor
+          <PxValue
             text={text}
             selector={getElementFontSize}
             styleKey='fontSize'
             icon={<AiOutlineFontSize />}
           />
-          <PxValueEditor
+          <PxValue
             text={text}
             selector={getElementLineHeight}
             styleKey='lineHeight'
             icon={<AiOutlineLineHeight />}
           />
-          <PxValueEditor
+          <PxValue
             text={text}
             selector={getElementLetterSpacing}
             styleKey='letterSpacing'
@@ -48,6 +49,7 @@ export const TextParamsEditor = ({ text }: Props) => {
             max='100'
             step='0.1'
           />
+          <TextAlign text={text} />
         </Root>
       </Collapse.Panel>
     </CollapseStyled>

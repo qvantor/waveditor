@@ -3,17 +3,18 @@ import { AiOutlineDrag } from 'react-icons/ai';
 import { useObservable } from '@waveditors/rxjs-react';
 import { switchMap, of, map, debounceTime } from 'rxjs';
 import { useCallback } from 'react';
+import { tokens } from '@waveditors/theme';
 import { useLayoutEditorContext } from '../hooks';
 import { resizeObservable } from '../services';
 import { FrameRoot } from './hover-frame';
 
 const SelectedRect = styled(FrameRoot)`
   background: transparent;
-  outline: 2px solid rgba(41, 128, 185, 1);
+  outline: 2px solid ${tokens.color.surface.accent};
 `;
 
 const DragIcon = styled(AiOutlineDrag)`
-  background: white;
+  background: ${tokens.color.surface.secondary};
   font-size: 10px;
   position: absolute;
   top: -5px;

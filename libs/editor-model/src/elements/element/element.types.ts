@@ -20,6 +20,7 @@ export type ElementCommon<
     fontSize?: string;
     lineHeight?: string;
     letterSpacing?: string;
+    textAlign?: Property.TextAlign;
   } & Background;
 };
 

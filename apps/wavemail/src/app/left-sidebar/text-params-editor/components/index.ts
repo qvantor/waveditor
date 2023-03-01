@@ -1,1 +1,2 @@
-export { PxValueEditor } from './px-value-editor';
+export { PxValue } from './px-value';
+export { TextAlign } from './text-align';

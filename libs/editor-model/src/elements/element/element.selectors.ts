@@ -7,3 +7,6 @@ export const getElementLineHeight = (element: ElementCommon) =>
   getElementStyle(element).lineHeight;
 export const getElementLetterSpacing = (element: ElementCommon) =>
   getElementStyle(element).letterSpacing;
+
+export const getElementTextAlign = (element: ElementCommon) =>
+  getElementStyle(element).textAlign;

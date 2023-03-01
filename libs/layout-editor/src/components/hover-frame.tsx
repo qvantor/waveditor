@@ -7,7 +7,6 @@ import { useLayoutEditorContext } from '../hooks';
 export const FrameRoot = styled.div`
   position: absolute;
   pointer-events: none;
-  background: rgba(39, 174, 96, 0.3);
   outline: 2px solid rgba(39, 174, 96, 1);
   outline-offset: -2px;
 `;

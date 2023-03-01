@@ -1,5 +1,5 @@
 import { ConfigProvider } from 'antd';
-import { GlobalStyle, tokens } from '@waveditors/theme';
+import { GlobalStyle, tokens, theme } from '@waveditors/theme';
 import { MailBuilder } from './common/components';
 
 export function App() {
@@ -7,6 +7,7 @@ export function App() {
     <ConfigProvider
       theme={{
         token: {
+          colorPrimary: theme.color.surface.accent,
           colorBorder: tokens.color.border.primary,
           colorFillQuaternary: tokens.color.surface.quaternary,
           borderRadiusLG: 0,
