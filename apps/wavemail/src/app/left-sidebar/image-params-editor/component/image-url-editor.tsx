@@ -4,11 +4,10 @@ import { useObservable } from '@waveditors/rxjs-react';
 import {
   getImageMeta,
   getImageUrl,
-  imageMetaPipe,
   ImageStore,
-  imageUrlPipe,
+  selectorToPipe,
 } from '@waveditors/editor-model';
-import { Input } from '../../../common/components/input';
+import { Input } from '../../../common/components';
 
 interface Props {
   image: ImageStore;
@@ -44,7 +43,7 @@ const ImageMetaRoot = styled.div`
 
 const ImageMeta = ({ image }: Props) => {
   const meta = useObservable(
-    image.bs.pipe(imageMetaPipe),
+    image.bs.pipe(selectorToPipe(getImageMeta)),
     getImageMeta(image.getValue()),
     [image]
   );
@@ -58,7 +57,7 @@ const ImageMeta = ({ image }: Props) => {
 
 export const ImageUrlEditor = ({ image }: Props) => {
   const url = useObservable(
-    image.bs.pipe(imageUrlPipe),
+    image.bs.pipe(selectorToPipe(getImageUrl)),
     getImageUrl(image.getValue()),
     [image]
   );

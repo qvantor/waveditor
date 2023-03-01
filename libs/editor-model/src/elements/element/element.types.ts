@@ -17,6 +17,9 @@ export type ElementCommon<
     display?: Property.Display;
     padding?: Property.Padding<string>;
     maxWidth?: Property.MaxWidth<string>;
+    fontSize?: string;
+    lineHeight?: string;
+    letterSpacing?: string;
   } & Background;
 };
 

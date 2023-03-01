@@ -12,3 +12,6 @@ export const mapValue = <T, R, L = null>(
   match(value)
     .with(P.nullish, returnValue(left ?? null))
     .otherwise(right);
+
+export const optionalApply = <T, V>(fn: (value: T) => V, value?: T | null) =>
+  value ? fn(value) : undefined;

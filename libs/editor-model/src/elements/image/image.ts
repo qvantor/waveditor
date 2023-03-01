@@ -1,9 +1,9 @@
 import { StoreResult } from '@waveditors/rxjs-react';
 import { switchMap, map, from, catchError, of } from 'rxjs';
 import { elementStore, ElementStoreDeps } from '../element';
-import { commonUndoRedoEffect } from '../../services';
+import { commonUndoRedoEffect, selectorToPipe } from '../../services';
 import type { Image } from './image.types';
-import { imageUrlPipe } from './image.selectors';
+import { getImageUrl } from './image.selectors';
 
 const getImageSize = (url: string) =>
   new Promise<{ width: number; height: number }>((resolve, reject) => {
@@ -31,8 +31,8 @@ export const imageStore = (deps: ElementStoreDeps) =>
       subscriptions: ({ bs, actions }) => [
         // calculate width and height for new image url
         bs
-          .pipe(imageUrlPipe)
           .pipe(
+            selectorToPipe(getImageUrl),
             map(getImageSize),
             switchMap((promise) =>
               from(promise).pipe(catchError(() => of(undefined)))

@@ -1,11 +1,15 @@
 import { BehaviorSubject, map } from 'rxjs';
 import { match } from 'ts-pattern';
 import { Collapse } from 'antd';
-import { Element, ElementStore } from '@waveditors/editor-model';
+import {
+  Element,
+  ElementStore,
+  elementSelector,
+} from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
-import { returnValue } from '@waveditors/utils';
 import { LayoutParamsEditor } from '../layout-params-editor';
 import { ImageParamsEditor } from '../image-params-editor';
+import { TextParamsEditor } from '../text-params-editor';
 import { CollapseStyled } from '../../common/components';
 import { PaddingEditor, BackgroundEditor } from './components';
 
@@ -15,13 +19,14 @@ interface Props {
 
 const TypedEditorSwitch = ({ element }: Props) =>
   match(element)
-    .with({ bs: { value: { type: 'layout' } } }, (layout) => (
+    .with(elementSelector('layout'), (layout) => (
       <LayoutParamsEditor layout={layout} />
     ))
-    .with({ bs: { value: { type: 'image' } } }, (image) => (
+    .with(elementSelector('image'), (image) => (
       <ImageParamsEditor image={image} />
     ))
-    .otherwise(returnValue(null));
+    .with(elementSelector('text'), (text) => <TextParamsEditor text={text} />)
+    .exhaustive();
 export const StyleEditor = ({ element }: Props) => {
   const style = useObservable(
     (element.bs as BehaviorSubject<Element>).pipe(map((value) => value.style)),
