@@ -1,7 +1,7 @@
 import { generateId } from '@waveditors/utils';
 import { ElementStoreDeps } from '../element';
 import { createInitialLayout, layoutStore } from '../layout';
-import { textStore } from '../text';
+import { textStore, Text } from '../text';
 import { imageStore, Image } from '../image';
 import { ElementType, Element, ElementStore } from './elements.types';
 
@@ -28,10 +28,18 @@ export function createEmptyElement<T extends ElementType>(type: T) {
         id: generateId(),
         type: 'text',
         params: {
-          content: 'Empty text',
+          content: {
+            type: 'doc',
+            content: [
+              {
+                type: 'paragraph',
+                content: [{ type: 'text', text: 'Empty text' }],
+              },
+            ],
+          },
         },
         style: {},
-      };
+      } as Text;
     default:
       return createInitialLayout();
   }

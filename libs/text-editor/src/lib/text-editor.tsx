@@ -9,11 +9,13 @@ import { Bold } from '@tiptap/extension-bold';
 import { Italic } from '@tiptap/extension-italic';
 import { Strike } from '@tiptap/extension-strike';
 import { useEditor, EditorContent, FloatingMenu } from '@tiptap/react';
+import { JSONContent } from '@tiptap/core';
+import equal from 'fast-deep-equal';
 import { EditorBubbleMenu } from './editor-bubble-menu';
 
 export interface Props {
-  onChange: (value: string) => void;
-  content: string;
+  onChange: (value: JSONContent) => void;
+  content: JSONContent;
   className?: string;
   editable?: boolean;
 }
@@ -37,16 +39,30 @@ export function TextEditor({
       Strike,
     ],
     content,
-    onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editable,
     editorProps: {
       attributes: className ? { class: className } : undefined,
     },
   });
+
+  // focus if editable
   useEffect(() => {
     editor?.setEditable(editable);
     if (editable) editor?.chain().focus('end').run();
   }, [editor, editable]);
+
+  // sync editor with outside content value
+  useEffect(() => {
+    if (!editor || equal(content, editor.getJSON())) return;
+    editor.chain().setContent(content, false).run();
+  }, [editor, content]);
+
+  // sync outside content value with editor value, when not editable (some kind of blur)
+  useEffect(() => {
+    if (editable || !editor || equal(content, editor.getJSON())) return;
+    onChange(editor.getJSON());
+  }, [editable, editor, content, onChange]);
+
   if (!editor) return null;
 
   return (

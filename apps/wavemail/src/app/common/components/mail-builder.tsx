@@ -62,13 +62,33 @@ export const MailBuilder = () => {
       '2': textStore({ undoRedo }).run({
         id: '2',
         type: 'text',
-        params: { content: 'Hello world 0' },
+        params: {
+          content: {
+            type: 'doc',
+            content: [
+              {
+                type: 'paragraph',
+                content: [{ type: 'text', text: 'hello world 2' }],
+              },
+            ],
+          },
+        },
         style: {},
       }),
       '3': textStore({ undoRedo }).run({
         id: '3',
         type: 'text',
-        params: { content: '<p>Test is <strong>here</strong></p>' },
+        params: {
+          content: {
+            type: 'doc',
+            content: [
+              {
+                type: 'paragraph',
+                content: [{ type: 'text', text: 'hello world 3' }],
+              },
+            ],
+          },
+        },
         style: {},
       }),
       '4': imageStore({ undoRedo }).run({
@@ -91,7 +111,17 @@ export const MailBuilder = () => {
       '6': textStore({ undoRedo }).run({
         id: '6',
         type: 'text',
-        params: { content: 'Hello world 1 with id 6' },
+        params: {
+          content: {
+            type: 'doc',
+            content: [
+              {
+                type: 'paragraph',
+                content: [{ type: 'text', text: 'hello world 6' }],
+              },
+            ],
+          },
+        },
         style: {},
         link: {
           url: 'https://google.com',
@@ -100,7 +130,17 @@ export const MailBuilder = () => {
       '7': textStore({ undoRedo }).run({
         id: '7',
         type: 'text',
-        params: { content: 'Hello world 2' },
+        params: {
+          content: {
+            type: 'doc',
+            content: [
+              {
+                type: 'paragraph',
+                content: [{ type: 'text', text: 'hello world 7' }],
+              },
+            ],
+          },
+        },
         style: {},
       }),
     },
