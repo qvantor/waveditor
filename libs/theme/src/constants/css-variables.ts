@@ -1,6 +1,9 @@
 import { variablesToKeys, variablesToStyle } from '../services';
 
 export const theme = {
+  font: {
+    family: `'Montserrat', 'Helvetica Neue', Roboto, sans-serif`,
+  },
   size: {
     headerHeight: '28px',
     footerHeight: '28px',

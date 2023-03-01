@@ -1,4 +1,8 @@
-import { createStore, storeHookConstructor, StoreHookResult } from '@waveditors/rxjs-react';
+import {
+  createStore,
+  storeHookConstructor,
+  StoreHookResult,
+} from '@waveditors/rxjs-react';
 
 const r = createStore()
   .addActions({
@@ -10,12 +14,12 @@ const r = createStore()
     init: () => '32',
   })
   .addEffect(() => ({
-    actions: ['hello'],
+    filterActions: ['hello'],
     // beforeAction: () => false,
   }))
   .addEffect(() => {
     return {
-      actions: ['hello'],
+      filterActions: ['hello'],
       beforeAction: ({ event, next, name }) => {
         // console.log('beforeAction', event, result, name);
         return true;

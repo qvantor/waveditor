@@ -18,7 +18,6 @@ const Root = styled.div`
   ${EmptyPattern};
 `;
 
-const PopoverInternal = styled.div``;
 const Label = styled.p`
   ${font({ size: 'small' })}
   color: ${tokens.color.text.secondary};
@@ -34,10 +33,10 @@ export const ImageUrlInput = ({ value, onChange }: Props) => {
       trigger='click'
       placement='right'
       content={
-        <PopoverInternal>
+        <>
           <Label>Image url:</Label>
           <Input value={value} onChange={onChange} validate={validate} />
-        </PopoverInternal>
+        </>
       }
     >
       <Root style={value ? { backgroundImage: `url(${value})` } : undefined} />

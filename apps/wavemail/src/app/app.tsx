@@ -14,6 +14,7 @@ export function App() {
           paddingContentHorizontalSM: 8,
           paddingSM: 8,
           paddingXS: 5,
+          fontFamily: tokens.font.family,
         },
       }}
     >

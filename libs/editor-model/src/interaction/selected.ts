@@ -1,4 +1,8 @@
-import { createStore, storeHookConstructor, StoreHookResult } from '@waveditors/rxjs-react';
+import {
+  createStore,
+  storeHookConstructor,
+  StoreHookResult,
+} from '@waveditors/rxjs-react';
 
 export const selectedStore = () =>
   createStore<string | null>().addActions({

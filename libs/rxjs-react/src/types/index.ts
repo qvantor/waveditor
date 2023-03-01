@@ -21,7 +21,7 @@ export interface Effect<
   N = keyof A,
   E = A[keyof A] extends Action<V> ? Parameters<A[keyof A]>[0] : never
 > {
-  actions?: N[];
+  filterActions?: N[];
   beforeAction?: (action: EffectAction<V, N, E>) => boolean;
   afterAction?: (action: EffectAction<V, N, E>) => void;
   subscriptions?: (config: {

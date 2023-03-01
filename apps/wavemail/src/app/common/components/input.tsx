@@ -7,7 +7,7 @@ type Props = {
   validate?: (value?: string) => boolean;
 };
 export const Input = ({ value, onChange, validate }: Props) => {
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
   const [internalValue, setInternalValue] = useState(value);
   useEffect(() => {
     if (value !== internalValue) setInternalValue(value);

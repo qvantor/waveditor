@@ -38,7 +38,9 @@ export const createStore = <V, A = unknown, E = unknown, S = unknown>(
           [key]: (event: never) => {
             const next = (action as Action<V, unknown>)(event, bs.value);
             const aEffects = effects.filter((effect) =>
-              effect.actions ? effect.actions.includes(key as keyof A) : true
+              effect.filterActions
+                ? !effect.filterActions.includes(key as keyof A)
+                : true
             );
             const effectEvent = { name: key as keyof A, event, bs, next };
             const apply = aEffects.some((effect) =>

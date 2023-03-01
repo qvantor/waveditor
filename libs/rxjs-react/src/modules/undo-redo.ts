@@ -12,9 +12,11 @@ type EffectExtract<T, E> = Extract<E, { type: T }>;
 
 export interface UndoRedoEffectConfig<
   V,
+  A,
   E extends CommonUndoEvent<string, unknown>,
   T
 > {
+  filterActions?: Array<keyof A>;
   filter?: (event: EffectExtract<T, E>, value: V) => boolean;
 }
 
@@ -31,7 +33,7 @@ export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>>
   removeLastEvent: () => void;
   createUndoRedoEffect: <V, A, T extends string>(
     type: T,
-    config?: UndoRedoEffectConfig<V, E, T>
+    config?: UndoRedoEffectConfig<V, A, E, T>
   ) => () => Effect<V, A>;
 }
 
@@ -128,9 +130,10 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
   const createUndoRedoEffect =
     <V, A, T extends E['type']>(
       type: T,
-      config?: UndoRedoEffectConfig<V, E, T>
+      config?: UndoRedoEffectConfig<V, A, E, T>
     ) =>
     (): Effect<V, A> => ({
+      filterActions: config?.filterActions,
       beforeAction: ({ bs, next }) => {
         onChange.next({
           type,

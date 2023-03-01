@@ -11,7 +11,13 @@ export type { LayoutStore, Layout, LayoutAddChild } from './layout';
 export { textStore } from './text';
 export type { TextStore } from './text';
 
-export { imageStore } from './image';
+export {
+  imageStore,
+  imageMetaPipe,
+  imageUrlPipe,
+  getImageMeta,
+  getImageUrl,
+} from './image';
 export type { ImageStore } from './image';
 
 export {

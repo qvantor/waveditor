@@ -5,6 +5,7 @@ import { Element, ElementStore } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
 import { returnValue } from '@waveditors/utils';
 import { LayoutParamsEditor } from '../layout-params-editor';
+import { ImageParamsEditor } from '../image-params-editor';
 import { CollapseStyled } from '../../common/components';
 import { PaddingEditor, BackgroundEditor } from './components';
 
@@ -16,6 +17,9 @@ const TypedEditorSwitch = ({ element }: Props) =>
   match(element)
     .with({ bs: { value: { type: 'layout' } } }, (layout) => (
       <LayoutParamsEditor layout={layout} />
+    ))
+    .with({ bs: { value: { type: 'image' } } }, (image) => (
+      <ImageParamsEditor image={image} />
     ))
     .otherwise(returnValue(null));
 export const StyleEditor = ({ element }: Props) => {

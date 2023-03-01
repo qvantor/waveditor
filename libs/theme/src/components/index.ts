@@ -4,7 +4,6 @@ import { themeCss, tokens } from '../constants';
 export const GlobalStyle = createGlobalStyle`
   * {
     outline: none;
-    font-family: 'Montserrat', sans-serif;
     ${themeCss}
   }
 
@@ -12,6 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     user-select: none;
+    font-family: ${tokens.font.family};
   }
 
   p {
