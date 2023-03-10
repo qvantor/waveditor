@@ -8,9 +8,9 @@ import { OrderedList } from '@tiptap/extension-ordered-list';
 import { Bold } from '@tiptap/extension-bold';
 import { Italic } from '@tiptap/extension-italic';
 import { Strike } from '@tiptap/extension-strike';
-import { useEditor, EditorContent, FloatingMenu } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
-import equal from 'fast-deep-equal';
+import { deepEqual } from 'fast-equals';
 import { EditorBubbleMenu } from './editor-bubble-menu';
 
 export interface Props {
@@ -53,13 +53,13 @@ export function TextEditor({
 
   // sync editor with outside content value
   useEffect(() => {
-    if (!editor || equal(content, editor.getJSON())) return;
+    if (!editor || deepEqual(content, editor.getJSON())) return;
     editor.chain().setContent(content, false).run();
   }, [editor, content]);
 
   // sync outside content value with editor value, when not editable (some kind of blur)
   useEffect(() => {
-    if (editable || !editor || equal(content, editor.getJSON())) return;
+    if (editable || !editor || deepEqual(content, editor.getJSON())) return;
     onChange(editor.getJSON());
   }, [editable, editor, content, onChange]);
 
@@ -68,19 +68,6 @@ export function TextEditor({
   return (
     <>
       <EditorBubbleMenu editor={editor} />
-      <FloatingMenu editor={editor}>
-        <button
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive('bulletList') ? 'is-active' : ''}
-        >
-          Bullet List
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        >
-          Ordered list
-        </button>
-      </FloatingMenu>
       <EditorContent editor={editor} />
     </>
   );
