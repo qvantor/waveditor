@@ -4,12 +4,14 @@ import {
   ElementStore,
   getTemplateConfigFonts,
   getTemplateConfigFontById,
+  getElementFontRelationByElementId,
   selectorToPipe,
   TemplateConfigFont,
+  getTemplateDefaultFont,
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
 import { tokens, font } from '@waveditors/theme';
-import { map, merge } from 'rxjs';
+import { map } from 'rxjs';
 import { useMailBuilderContext } from '../../../common/hooks';
 import { Input } from '../../../common/components';
 
@@ -55,26 +57,32 @@ interface Props {
   element: ElementStore;
 }
 
-const FontName = ({ font }: { font: TemplateConfigFont }) => (
+const FontName = ({
+  font,
+  inherited = false,
+}: {
+  font: TemplateConfigFont;
+  inherited?: boolean;
+}) => (
   <>
     {font.main?.name && font.main?.url ? `${font.main.name}, ` : null}
-    {font.fallback}, <FamilyName>{font.genericFamily}</FamilyName>
+    {font.fallback},{' '}
+    <FamilyName>
+      {font.genericFamily}
+      {inherited && ', inherited'}
+    </FamilyName>
   </>
 );
 
-const FontEditor = ({ fontId }: { fontId: string }) => {
+const FontEditor = ({ font }: { font: TemplateConfigFont }) => {
   const { config } = useMailBuilderContext();
-  const font = useObservable(
-    config.bs.pipe(selectorToPipe(getTemplateConfigFontById(fontId))),
-    getTemplateConfigFontById(fontId)(config.getValue())
-  );
-  if (!font) return null;
   return (
     <div>
       <Input
         placeholder='Font name'
         onChange={(name) =>
           config.actions.setFont({
+            id: font.id,
             key: 'main',
             value: { url: font.main?.url, name },
           })
@@ -85,6 +93,7 @@ const FontEditor = ({ fontId }: { fontId: string }) => {
         placeholder='Font style link'
         onChange={(url) =>
           config.actions.setFont({
+            id: font.id,
             key: 'main',
             value: { url, name: font.main?.name },
           })
@@ -95,7 +104,9 @@ const FontEditor = ({ fontId }: { fontId: string }) => {
         style={{ width: '100%' }}
         size='small'
         options={FallbackFonts.map((value) => ({ label: value, value }))}
-        onChange={(value) => config.actions.setFont({ key: 'fallback', value })}
+        onChange={(value) =>
+          config.actions.setFont({ id: font.id, key: 'fallback', value })
+        }
         value={font.fallback}
       />
       <Select
@@ -103,7 +114,7 @@ const FontEditor = ({ fontId }: { fontId: string }) => {
         size='small'
         options={FontFamily.map((value) => ({ label: value, value }))}
         onChange={(value) =>
-          config.actions.setFont({ key: 'genericFamily', value })
+          config.actions.setFont({ id: font.id, key: 'genericFamily', value })
         }
         value={font.genericFamily}
       />
@@ -112,20 +123,39 @@ const FontEditor = ({ fontId }: { fontId: string }) => {
 };
 
 export const Font = ({ element }: Props) => {
-  const { config } = useMailBuilderContext();
-  const font = useObservable(
-    merge(config.bs, element.bs).pipe(
-      map(() => element.getValue().fontId ?? config.getValue().defaultFont),
-      map((fontId) => getTemplateConfigFontById(fontId)(config.getValue()))
-    ),
-    undefined
+  const {
+    config,
+    stores: { relations },
+  } = useMailBuilderContext();
+  const elementFont = useObservable(
+    relations.bs
+      .pipe(
+        selectorToPipe(getElementFontRelationByElementId(element.getValue().id))
+      )
+      .pipe(
+        map((relation) =>
+          relation
+            ? getTemplateConfigFontById(relation)(config.getValue()) ?? null
+            : null
+        )
+      ),
+    null,
+    [element]
   );
+
+  // @todo here should be font from closest parent
+  const inheritedFont = useObservable(
+    config.bs.pipe(selectorToPipe(getTemplateDefaultFont)),
+    getTemplateDefaultFont(config.getValue()),
+    [config]
+  );
+
   const fonts = useObservable(
     config.bs.pipe(selectorToPipe(getTemplateConfigFonts)),
     getTemplateConfigFonts(config.getValue()),
     [config]
   );
-  if (!font) return null;
+  const font = elementFont || inheritedFont;
   return (
     <Popover
       placement='rightBottom'
@@ -138,15 +168,20 @@ export const Font = ({ element }: Props) => {
               label: <FontName font={font} />,
               value: font.id,
             }))}
-            onChange={element.actions.setFontId}
+            onChange={(font) =>
+              relations.actions.addElementFontRelation({
+                font,
+                element: element.getValue().id,
+              })
+            }
           />
-          <FontEditor fontId={font.id} />
+          <FontEditor font={font} />
         </PopoverRoot>
       }
       trigger='click'
     >
       <Root>
-        <FontName font={font} />
+        <FontName font={font} inherited={!elementFont} />
       </Root>
     </Popover>
   );

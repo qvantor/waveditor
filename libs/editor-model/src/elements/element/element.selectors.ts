@@ -1,7 +1,5 @@
 import { ElementCommon } from './element.types';
 
-export const getElementFontId = (element: ElementCommon) => element.fontId;
-
 // style selectors
 export const getElementStyle = (element: ElementCommon) => element.style;
 export const getElementFontSize = (element: ElementCommon) =>

@@ -1,5 +1,9 @@
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ElementsStore, TemplateConfigStore } from '@waveditors/editor-model';
+import {
+  ElementsStore,
+  RelationsStore,
+  TemplateConfigStore,
+} from '@waveditors/editor-model';
 import { useInternalState } from '../hooks';
 import { InternalEvents } from './internal-events';
 import { EditorEvents, ExternalEvents } from './';
@@ -7,6 +11,7 @@ import { EditorEvents, ExternalEvents } from './';
 export type Context = {
   root: string;
   elements: ElementsStore['bs'];
+  relations: RelationsStore['bs'];
   config: TemplateConfigStore['bs'];
   events: Subject<EditorEvents>;
   externalEvents: Subject<ExternalEvents>;

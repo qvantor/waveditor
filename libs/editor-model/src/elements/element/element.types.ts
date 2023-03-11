@@ -14,7 +14,6 @@ export type ElementCommon<
     url: string;
   };
 
-  fontId?: string;
   style: {
     display?: Property.Display;
     padding?: Property.Padding<string>;

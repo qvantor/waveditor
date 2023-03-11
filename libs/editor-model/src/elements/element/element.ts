@@ -13,5 +13,4 @@ export const elementStore = <T extends ElementCommon>() =>
         [key]: value,
       },
     }),
-    setFontId: (fontId: string, state) => ({ ...state, fontId }),
   });

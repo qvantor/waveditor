@@ -6,6 +6,7 @@ import {
   SelectedStore,
   HoverStore,
   TemplateConfigStore,
+  RelationsStore,
 } from '@waveditors/editor-model';
 import { EditorEvents, ExternalEvents } from '@waveditors/layout-editor';
 import { UndoRedoModule } from '@waveditors/rxjs-react';
@@ -14,6 +15,7 @@ export type MailBuilderContext = {
   config: TemplateConfigStore;
   stores: {
     elements: ElementsStore;
+    relations: RelationsStore;
     selected: SelectedStore;
     hover: HoverStore;
   };

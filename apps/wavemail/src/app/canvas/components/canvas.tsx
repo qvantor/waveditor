@@ -27,7 +27,7 @@ const CanvasContainer = styled.div`
 export const Canvas = () => {
   const {
     config,
-    stores: { elements, selected, hover },
+    stores: { elements, selected, hover, relations },
     editor: { events, externalEvents },
   } = useMailBuilderContext();
   return (
@@ -37,6 +37,7 @@ export const Canvas = () => {
           root='1'
           config={config.bs}
           elements={elements.bs}
+          relations={relations.bs}
           events={events}
           externalEvents={externalEvents}
           hover={hover.bs}

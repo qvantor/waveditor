@@ -1,25 +1,33 @@
-import { filter, map } from 'rxjs';
-import { ElementCommon } from '@waveditors/editor-model';
+import { map, merge } from 'rxjs';
+import {
+  ElementCommon,
+  getElementFontRelationByElementId,
+  getTemplateConfigFontById,
+} from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
 import { templateConfigFontToStyle, styleMapper } from '../services';
 import { useLayoutEditorContext } from './use-layout-editor-context';
 
-const useFontFamily = (id?: string) => {
-  const { config } = useLayoutEditorContext();
+const useFontFamily = (elementId: string) => {
+  const { config, relations } = useLayoutEditorContext();
   return useObservable(
-    config.pipe(
-      filter(() => Boolean(id)),
-      map(({ fonts }) => {
-        const font = fonts.find((font) => font.id === id);
-        return font ? { fontFamily: templateConfigFontToStyle(font) } : {};
-      })
+    merge(config, relations).pipe(
+      map(() => {
+        const fontId = getElementFontRelationByElementId(elementId)(
+          relations.getValue()
+        );
+        if (!fontId) return;
+        return getTemplateConfigFontById(fontId)(config.getValue());
+      }),
+      map((font) =>
+        font ? { fontFamily: templateConfigFontToStyle(font) } : {}
+      )
     ),
-    {},
-    [id]
+    {}
   );
 };
 
 export const useStyle = (element: ElementCommon) => {
-  const fontFamily = useFontFamily(element.fontId);
+  const fontFamily = useFontFamily(element.id);
   return styleMapper({ ...element.style, ...fontFamily });
 };

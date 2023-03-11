@@ -15,6 +15,8 @@ import {
   useHoverStore,
   useSelectedStore,
   useTemplateConfigStore,
+  useRelationsStore,
+  createInitialRelations,
   createInitialTemplateConfig,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
@@ -49,6 +51,7 @@ const Footer = styled.div`
 
 export const MailBuilder = () => {
   const undoRedo = useUnsubscribable(() => undoRedoModule<UndoRedoEvents>());
+  const relationsStore = useRelationsStore(createInitialRelations(), []);
   const templateConfigStore = useTemplateConfigStore(
     createInitialTemplateConfig(),
     []
@@ -226,6 +229,7 @@ export const MailBuilder = () => {
         config: templateConfigStore,
         stores: {
           elements: elementsStore,
+          relations: relationsStore,
           selected: selectedStore,
           hover: hoverStore,
         },
