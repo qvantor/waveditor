@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Popover, Select } from 'antd';
+import { Popover, Select, Button, Tooltip } from 'antd';
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import {
   ElementStore,
   getTemplateConfigFonts,
@@ -11,8 +12,12 @@ import {
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
 import { tokens, font } from '@waveditors/theme';
-import { map } from 'rxjs';
-import { useMailBuilderContext } from '../../../common/hooks';
+import { map, merge } from 'rxjs';
+import { generateId } from '@waveditors/utils';
+import {
+  useMailBuilderContext,
+  useRemoveTemplateConfigFont,
+} from '../../../common/hooks';
 import { Input } from '../../../common/components';
 
 const Root = styled.div`
@@ -26,8 +31,14 @@ const Root = styled.div`
 const PopoverRoot = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  width: 240px;
+`;
+
+const FontSelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 5px;
-  width: 200px;
 `;
 
 const FamilyName = styled.span`
@@ -74,10 +85,16 @@ const FontName = ({
   </>
 );
 
+const FontEditorRoot = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
 const FontEditor = ({ font }: { font: TemplateConfigFont }) => {
   const { config } = useMailBuilderContext();
   return (
-    <div>
+    <FontEditorRoot>
       <Input
         placeholder='Font name'
         onChange={(name) =>
@@ -118,27 +135,30 @@ const FontEditor = ({ font }: { font: TemplateConfigFont }) => {
         }
         value={font.genericFamily}
       />
-    </div>
+    </FontEditorRoot>
   );
 };
 
 export const Font = ({ element }: Props) => {
+  const MaxFontsCount = 3;
   const {
     config,
     stores: { relations },
   } = useMailBuilderContext();
+  const removeFont = useRemoveTemplateConfigFont();
   const elementFont = useObservable(
-    relations.bs
-      .pipe(
-        selectorToPipe(getElementFontRelationByElementId(element.getValue().id))
-      )
-      .pipe(
-        map((relation) =>
-          relation
-            ? getTemplateConfigFontById(relation)(config.getValue()) ?? null
-            : null
+    merge(relations.bs, config.bs).pipe(
+      map(() =>
+        getElementFontRelationByElementId(element.getValue().id)(
+          relations.getValue()
         )
       ),
+      map((relation) =>
+        relation
+          ? getTemplateConfigFontById(relation)(config.getValue()) ?? null
+          : null
+      )
+    ),
     null,
     [element]
   );
@@ -161,20 +181,47 @@ export const Font = ({ element }: Props) => {
       placement='rightBottom'
       content={
         <PopoverRoot>
-          <Select
-            size='small'
-            value={font.id}
-            options={fonts.map((font) => ({
-              label: <FontName font={font} />,
-              value: font.id,
-            }))}
-            onChange={(font) =>
-              relations.actions.addElementFontRelation({
-                font,
-                element: element.getValue().id,
-              })
-            }
-          />
+          <FontSelectContainer>
+            <Select
+              size='small'
+              value={font.id}
+              options={fonts.map((font) => ({
+                label: <FontName font={font} />,
+                value: font.id,
+              }))}
+              onChange={(font) =>
+                relations.actions.addElementFontRelation({
+                  font,
+                  element: element.getValue().id,
+                })
+              }
+            />
+            <div>
+              <Tooltip title='New font (max 3)'>
+                <Button
+                  size='small'
+                  icon={<AiOutlinePlus />}
+                  disabled={fonts.length >= MaxFontsCount}
+                  onClick={() => {
+                    const id = generateId();
+                    config.actions.addFont({ ...font, id });
+                    relations.actions.addElementFontRelation({
+                      font: id,
+                      element: element.getValue().id,
+                    });
+                  }}
+                />
+              </Tooltip>
+              <Tooltip title='Remove font'>
+                <Button
+                  size='small'
+                  icon={<AiOutlineMinus />}
+                  disabled={fonts.length === 1}
+                  onClick={() => removeFont(font.id)}
+                />
+              </Tooltip>
+            </div>
+          </FontSelectContainer>
           <FontEditor font={font} />
         </PopoverRoot>
       }

@@ -7,7 +7,7 @@ export const getTemplateConfigFontById =
     getTemplateConfigFonts(config).find((font) => font.id === id);
 
 export const getTemplateDefaultFont = (config: TemplateConfig) => {
-  const defaultFont = getTemplateConfigFontById(config.defaultFont)(config);
+  const defaultFont = getTemplateConfigFonts(config)[0];
   if (!defaultFont) throw new Error('Model corrupted: no default font found');
   return defaultFont;
 };

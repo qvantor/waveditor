@@ -7,6 +7,14 @@ import { TemplateConfig, TemplateConfigFont } from './template-config.types';
 
 export const templateConfigStore = () =>
   createStore<TemplateConfig>().addActions({
+    addFont: (font: TemplateConfigFont, state) => ({
+      ...state,
+      fonts: [...state.fonts, font],
+    }),
+    removeFont: (fontId: string, state) => ({
+      ...state,
+      fonts: state.fonts.filter((font) => font.id !== fontId),
+    }),
     setFont: <K extends keyof TemplateConfigFont>(
       { id, key, value }: { id: string; key: K; value: TemplateConfigFont[K] },
       state: TemplateConfig

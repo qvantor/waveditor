@@ -28,7 +28,7 @@ export type TemplateConfigFont = {
 
 export type TemplateConfig = {
   name: string;
+  rootElementId: string;
   viewportWidth: number;
-  defaultFont: string;
   fonts: TemplateConfigFont[];
 };

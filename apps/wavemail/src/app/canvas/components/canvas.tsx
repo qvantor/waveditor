@@ -34,7 +34,6 @@ export const Canvas = () => {
     <Root onClick={selected.actions.unselect}>
       <CanvasContainer>
         <LayoutEditor
-          root='1'
           config={config.bs}
           elements={elements.bs}
           relations={relations.bs}

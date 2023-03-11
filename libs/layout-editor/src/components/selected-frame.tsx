@@ -26,7 +26,7 @@ const DragIcon = styled(AiOutlineDrag)`
 `;
 
 export const SelectedFrame = () => {
-  const { selected, internalEvents, root } = useLayoutEditorContext();
+  const { selected, internalEvents, config } = useLayoutEditorContext();
   const rect = useObservable(
     selected.pipe(
       debounceTime(16),
@@ -53,7 +53,9 @@ export const SelectedFrame = () => {
   const [{ left, top, width, height }, selectedId] = rect;
   return (
     <SelectedRect style={{ left, top, width, height }}>
-      {selectedId !== root && <DragIcon onMouseDown={onMouseDown} />}
+      {selectedId !== config.getValue().rootElementId && (
+        <DragIcon onMouseDown={onMouseDown} />
+      )}
     </SelectedRect>
   );
 };

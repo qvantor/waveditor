@@ -51,11 +51,6 @@ const Footer = styled.div`
 
 export const MailBuilder = () => {
   const undoRedo = useUnsubscribable(() => undoRedoModule<UndoRedoEvents>());
-  const relationsStore = useRelationsStore(createInitialRelations(), []);
-  const templateConfigStore = useTemplateConfigStore(
-    createInitialTemplateConfig(),
-    []
-  );
   const elementsStore = useElementsStore(
     {
       '1': layoutStore({ undoRedo }).run({
@@ -154,6 +149,11 @@ export const MailBuilder = () => {
       }),
     },
     { undoRedo }
+  );
+  const relationsStore = useRelationsStore(createInitialRelations(), []);
+  const templateConfigStore = useTemplateConfigStore(
+    createInitialTemplateConfig('1'),
+    []
   );
   const hoverStore = useHoverStore(null, []);
   const selectedStore = useSelectedStore(null, []);

@@ -63,7 +63,10 @@ export function LayoutEditor(
         }}
         style={{ width, fontFamily: templateConfigFontToStyle(defaultFont) }}
       >
-        <ElementRender id={props.root} width={width} />
+        <ElementRender
+          id={props.config.getValue().rootElementId}
+          width={width}
+        />
         <HoverFrame />
         <SelectedFrame />
       </Root>

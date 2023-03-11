@@ -9,7 +9,6 @@ import { InternalEvents } from './internal-events';
 import { EditorEvents, ExternalEvents } from './';
 
 export type Context = {
-  root: string;
   elements: ElementsStore['bs'];
   relations: RelationsStore['bs'];
   config: TemplateConfigStore['bs'];

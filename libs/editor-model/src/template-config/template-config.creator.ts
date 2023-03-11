@@ -1,15 +1,16 @@
 import { generateId } from '@waveditors/utils';
 import { TemplateConfig } from './template-config.types';
 
-export const createInitialTemplateConfig = (): TemplateConfig => {
-  const fontId = generateId();
+export const createInitialTemplateConfig = (
+  rootElementId: string
+): TemplateConfig => {
   return {
     name: 'Untitled',
+    rootElementId,
     viewportWidth: 600,
-    defaultFont: fontId,
     fonts: [
       {
-        id: fontId,
+        id: generateId(),
         fallback: 'Helvetica',
         genericFamily: 'sans-serif',
       },
