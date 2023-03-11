@@ -5,14 +5,13 @@ import {
   UndoRedoEvents,
   SelectedStore,
   HoverStore,
+  TemplateConfigStore,
 } from '@waveditors/editor-model';
 import { EditorEvents, ExternalEvents } from '@waveditors/layout-editor';
 import { UndoRedoModule } from '@waveditors/rxjs-react';
 
 export type MailBuilderContext = {
-  config: {
-    viewportWidth: number;
-  };
+  config: TemplateConfigStore;
   stores: {
     elements: ElementsStore;
     selected: SelectedStore;

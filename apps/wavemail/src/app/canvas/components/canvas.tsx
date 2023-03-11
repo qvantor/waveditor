@@ -26,7 +26,7 @@ const CanvasContainer = styled.div`
 
 export const Canvas = () => {
   const {
-    config: { viewportWidth },
+    config,
     stores: { elements, selected, hover },
     editor: { events, externalEvents },
   } = useMailBuilderContext();
@@ -35,12 +35,12 @@ export const Canvas = () => {
       <CanvasContainer>
         <LayoutEditor
           root='1'
+          config={config.bs}
           elements={elements.bs}
           events={events}
           externalEvents={externalEvents}
           hover={hover.bs}
           selected={selected.bs}
-          viewportWidth={viewportWidth}
         />
       </CanvasContainer>
     </Root>

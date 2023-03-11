@@ -14,6 +14,8 @@ import {
   getLayoutElement,
   useHoverStore,
   useSelectedStore,
+  useTemplateConfigStore,
+  createInitialTemplateConfig,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
 import { MailBuilderContext } from '../constants';
@@ -47,6 +49,10 @@ const Footer = styled.div`
 
 export const MailBuilder = () => {
   const undoRedo = useUnsubscribable(() => undoRedoModule<UndoRedoEvents>());
+  const templateConfigStore = useTemplateConfigStore(
+    createInitialTemplateConfig(),
+    []
+  );
   const elementsStore = useElementsStore(
     {
       '1': layoutStore({ undoRedo }).run({
@@ -217,9 +223,7 @@ export const MailBuilder = () => {
   return (
     <MailBuilderContext.Provider
       value={{
-        config: {
-          viewportWidth: 600,
-        },
+        config: templateConfigStore,
         stores: {
           elements: elementsStore,
           selected: selectedStore,

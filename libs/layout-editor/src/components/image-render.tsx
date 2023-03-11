@@ -1,21 +1,22 @@
 import React from 'react';
-import { ImageStore, styleMapper } from '@waveditors/editor-model';
+import { ImageStore } from '@waveditors/editor-model';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
+import { useStyle } from '../hooks';
 
 interface Props {
   element: ImageStore;
 }
 
 export const ImageRender = ({ element }: Props) => {
-  const { params, style } = useBehaviorSubject(element.bs);
-  const { padding, ...restStyle } = style;
+  const image = useBehaviorSubject(element.bs);
+  const { padding, ...restStyle } = useStyle(image);
   return (
-    <div style={styleMapper({ padding })}>
+    <div style={{ padding }}>
       <img
-        src={params.url}
+        src={image.params.url}
         style={{
           pointerEvents: 'none',
-          ...styleMapper(restStyle),
+          ...restStyle,
         }}
         alt='cat'
       />

@@ -1,8 +1,8 @@
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { distinctUntilChanged, map } from 'rxjs';
-import { LayoutStore, styleMapper } from '@waveditors/editor-model';
+import { LayoutStore } from '@waveditors/editor-model';
 import { getXPadding, getYPadding } from '@waveditors/utils';
-import { useLayoutEditorContext } from '../hooks';
+import { useLayoutEditorContext, useStyle } from '../hooks';
 import { COLUMN_DATATYPE } from '../constants';
 import { ColumnRender } from './column-render';
 
@@ -28,6 +28,7 @@ export const LayoutRender = ({ element, width }: Props) => {
   );
   const isDnd = useBehaviorSubject(internalState.isDnd);
   const layout = useBehaviorSubject(element.bs);
+  const style = useStyle(layout);
   const columnStyle = isDnd
     ? {
         outline: '1px dashed red',
@@ -43,7 +44,7 @@ export const LayoutRender = ({ element, width }: Props) => {
       style={{
         borderSpacing: 0,
         minHeight: isDnd ? getYPadding(layout.style.padding) + 10 : 5,
-        ...styleMapper(layout.style),
+        ...style,
       }}
     >
       <tbody>

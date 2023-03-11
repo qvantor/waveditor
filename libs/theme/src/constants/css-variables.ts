@@ -31,7 +31,7 @@ export const theme = {
   },
   typography: {
     paragraph: {
-      small: 'font-size: 13px;',
+      small: 'font-size: 14px;',
       medium: 'font-size: 16px;',
       large: 'font-size: 18px;',
     },

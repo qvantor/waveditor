@@ -1,9 +1,15 @@
 import { MouseEvent, useMemo } from 'react';
 import { Subject } from 'rxjs';
 import styled from 'styled-components';
+import { useObservable } from '@waveditors/rxjs-react';
+import {
+  getTemplateDefaultFont,
+  selectorToPipe,
+} from '@waveditors/editor-model';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
 import { useDnd, useElementSelection, useInternalState } from '../hooks';
 import { ContextValue, LAYOUT_EDITOR_ID } from '../constants';
+import { templateConfigFontToStyle } from '../services';
 import { ElementRender } from './element-render';
 import { HoverFrame } from './hover-frame';
 import { SelectedFrame } from './selected-frame';
@@ -38,6 +44,13 @@ export function LayoutEditor(
   useElementSelection(context);
   useDnd(context);
 
+  const defaultFont = useObservable(
+    props.config.pipe(selectorToPipe(getTemplateDefaultFont)),
+    getTemplateDefaultFont(props.config.getValue())
+  );
+
+  const width = props.config.getValue().viewportWidth;
+
   return (
     <ContextValue.Provider value={context}>
       <Root
@@ -48,11 +61,9 @@ export function LayoutEditor(
           e.stopPropagation();
           rootClick(e);
         }}
-        style={{
-          width: props.viewportWidth,
-        }}
+        style={{ width, fontFamily: templateConfigFontToStyle(defaultFont) }}
       >
-        <ElementRender id={props.root} width={props.viewportWidth} />
+        <ElementRender id={props.root} width={width} />
         <HoverFrame />
         <SelectedFrame />
       </Root>

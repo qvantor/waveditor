@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Input as AntInput } from 'antd';
+import { Input as AntInput, InputProps } from 'antd';
 
 type Props = {
   value?: string;
-  onChange: (value?: string) => void;
+  onChange?: (value?: string) => void;
   validate?: (value?: string) => boolean;
-};
-export const Input = ({ value, onChange, validate }: Props) => {
+} & Omit<InputProps, 'onChange' | 'value' | 'size'>;
+export const Input = ({ value, onChange, validate, ...rest }: Props) => {
   const [valid, setValid] = useState(true);
   const [internalValue, setInternalValue] = useState(value);
   useEffect(() => {
@@ -14,7 +14,7 @@ export const Input = ({ value, onChange, validate }: Props) => {
   }, [value]);
 
   const onBlur = useCallback(() => {
-    if (internalValue !== value) onChange(internalValue);
+    if (internalValue !== value) onChange?.(internalValue);
   }, [internalValue, value]);
 
   useEffect(() => {
@@ -28,6 +28,7 @@ export const Input = ({ value, onChange, validate }: Props) => {
       onChange={(e) => setInternalValue(e.target.value)}
       onBlur={onBlur}
       status={valid ? '' : 'error'}
+      {...rest}
     />
   );
 };

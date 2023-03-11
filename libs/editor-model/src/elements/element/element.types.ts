@@ -13,6 +13,8 @@ export type ElementCommon<
   link?: {
     url: string;
   };
+
+  fontId?: string;
   style: {
     display?: Property.Display;
     padding?: Property.Padding<string>;

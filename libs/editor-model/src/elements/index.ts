@@ -6,6 +6,7 @@ export {
   getElementLetterSpacing,
   getElementTextAlign,
   getElementColor,
+  getElementFontId,
 } from './element';
 
 export {
