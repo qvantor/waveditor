@@ -194,8 +194,8 @@ export const MailBuilder = () => {
           );
           if (!parent)
             return console.error(`UnlinkElementFromLayout: ${event.payload}`);
-          parent.actions.removeChild(event.payload);
           undoRedo.startBunch();
+          parent.actions.removeChild(event.payload);
         })
         .with({ type: 'LinkElementToLayout' }, ({ payload }) => {
           const parent = getLayoutElement(

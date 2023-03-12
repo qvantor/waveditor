@@ -164,7 +164,6 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
         ];
       },
     });
-  undoStore.bs.subscribe(console.log);
   const unsubscribe = () => {
     redoStore.unsubscribe();
     undoStore.unsubscribe();

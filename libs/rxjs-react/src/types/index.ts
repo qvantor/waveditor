@@ -42,9 +42,7 @@ export interface StoreConstructor<V, A, E> {
   addActions: <NA extends Record<string | number, Action<V>>>(
     handlers: NA
   ) => StoreConstructor<V, A & NA, E>;
-  addEffect: (
-    effect: (context?: { bs: BehaviorSubject<V> }) => Effect<V, A>
-  ) => StoreConstructor<V, A, E>;
+  addEffect: (effect: () => Effect<V, A>) => StoreConstructor<V, A, E>;
   run: (initialValue: V) => Store<V, A>;
 }
 

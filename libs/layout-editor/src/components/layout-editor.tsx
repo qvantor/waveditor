@@ -13,6 +13,7 @@ import { templateConfigFontToStyle } from '../services';
 import { ElementRender } from './element-render';
 import { HoverFrame } from './hover-frame';
 import { SelectedFrame } from './selected-frame';
+import { ApplyFonts } from './apply-fonts';
 
 const Root = styled.div`
   position: relative;
@@ -69,6 +70,7 @@ export function LayoutEditor(
         />
         <HoverFrame />
         <SelectedFrame />
+        <ApplyFonts />
       </Root>
     </ContextValue.Provider>
   );
