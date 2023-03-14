@@ -4,19 +4,10 @@ import {
   StoreHookResult,
   UndoRedoModule,
 } from '@waveditors/rxjs-react';
+import { removeKey } from '@waveditors/utils';
 import { UndoRedoEvents } from '../types';
 import { Relations } from './relations.types';
 
-const removeKey = <
-  T extends Record<string | number, unknown>,
-  K extends string | number
->(
-  obj: T,
-  key: K
-) => {
-  const { [key]: removed, ...newObj } = obj;
-  return newObj;
-};
 type Deps = {
   undoRedo: UndoRedoModule<UndoRedoEvents>;
 };

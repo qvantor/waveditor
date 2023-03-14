@@ -22,18 +22,14 @@ export const templateConfigStore = ({
         ...state,
         fonts: state.fonts.filter((font) => font.id !== fontId),
       }),
-      setFont: <K extends keyof TemplateConfigFont>(
-        {
-          id,
-          key,
-          value,
-        }: { id: string; key: K; value: TemplateConfigFont[K] },
+      setFont: (
+        { id, value }: { id: string; value: TemplateConfigFont },
         state: TemplateConfig
       ) => ({
         ...state,
         fonts: state.fonts.map((font) => {
           if (font.id !== id) return font;
-          return { ...font, [key]: value };
+          return value;
         }),
       }),
     })

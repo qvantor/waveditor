@@ -20,10 +20,8 @@ export type GenericFontFamily =
 
 export type TemplateConfigFont = {
   id: string;
-  main?: {
-    url?: string;
-    name?: string;
-  };
+  url?: string;
+  name?: string;
   fallback: FallbackFonts;
   genericFamily: GenericFontFamily;
 };

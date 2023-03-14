@@ -16,11 +16,11 @@ export const ApplyFonts = () => {
   return (
     <Helmet>
       {fonts.map((font) => {
-        if (!font.main || !font.main.name || !font.main.url) return null;
+        if (!font.name || !font.url) return null;
         return (
           <link
             key={font.id}
-            href={font.main.url}
+            href={font.url}
             rel='stylesheet'
             type='text/css'
           />
