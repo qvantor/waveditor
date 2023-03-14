@@ -3,14 +3,12 @@ import styled from 'styled-components';
 import { Button, Select, Tooltip } from 'antd';
 import { deepEqual } from 'fast-equals';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineSave } from 'react-icons/ai';
-import { TemplateConfigFont } from '@waveditors/editor-model';
+import {
+  TemplateConfigFont,
+  FontChangedPayload,
+} from '@waveditors/editor-model';
 import { removeKey } from '@waveditors/utils';
 import { Input } from '../../../../common/components';
-import {
-  useCreateTemplateConfigFont,
-  useMailBuilderContext,
-  useRemoveTemplateConfigFont,
-} from '../../../../common/hooks';
 import { FontPreview } from './font-preview';
 
 const FallbackFonts = [
@@ -41,19 +39,29 @@ const Root = styled.div`
 const FontEditorActions = styled.div`
   display: flex;
   gap: 5px;
+  justify-content: end;
+
+  button {
+    line-height: 26px;
+  }
 `;
 
-interface Props {
-  elementId: string;
+export interface FontEditorProps {
   font: TemplateConfigFont;
   fontCount: number;
+  onFontCreate: (font: TemplateConfigFont) => void;
+  onFontRemove: (fontId: string) => void;
+  onFontChange: (change: FontChangedPayload) => void;
 }
 
-export const FontEditor = ({ elementId, font, fontCount }: Props) => {
+export const FontEditor = ({
+  font,
+  fontCount,
+  onFontCreate,
+  onFontRemove,
+  onFontChange,
+}: FontEditorProps) => {
   const MaxFontsCount = 3;
-  const { config } = useMailBuilderContext();
-  const removeFont = useRemoveTemplateConfigFont();
-  const createFont = useCreateTemplateConfigFont();
   const [fontEditorState, setFontEditorState] =
     useState<TemplateConfigFont>(font);
 
@@ -75,6 +83,7 @@ export const FontEditor = ({ elementId, font, fontCount }: Props) => {
         placeholder='Font name'
         onChange={setFontNameOrUrl('name')}
         value={fontEditorState?.name}
+        autoFocus
       />
       <Input
         placeholder='Font style link'
@@ -100,14 +109,12 @@ export const FontEditor = ({ elementId, font, fontCount }: Props) => {
         value={fontEditorState.genericFamily}
       />
       <FontEditorActions>
-        <Tooltip title='Save font'>
+        <Tooltip title='Remove font'>
           <Button
             size='small'
-            icon={<AiOutlineSave />}
-            disabled={deepEqual(font, fontEditorState)}
-            onClick={() =>
-              config.actions.setFont({ id: font.id, value: fontEditorState })
-            }
+            icon={<AiOutlineMinus />}
+            disabled={fontCount === 1}
+            onClick={() => onFontRemove(font.id)}
           />
         </Tooltip>
         <Tooltip title='New font'>
@@ -115,15 +122,17 @@ export const FontEditor = ({ elementId, font, fontCount }: Props) => {
             size='small'
             icon={<AiOutlinePlus />}
             disabled={fontCount >= MaxFontsCount}
-            onClick={() => createFont(font, elementId)}
+            onClick={() => onFontCreate(fontEditorState)}
           />
         </Tooltip>
-        <Tooltip title='Remove font'>
+        <Tooltip title='Save font'>
           <Button
             size='small'
-            icon={<AiOutlineMinus />}
-            disabled={fontCount === 1}
-            onClick={() => removeFont(font.id)}
+            icon={<AiOutlineSave />}
+            disabled={deepEqual(font, fontEditorState)}
+            onClick={() =>
+              onFontChange({ id: font.id, value: fontEditorState })
+            }
           />
         </Tooltip>
       </FontEditorActions>

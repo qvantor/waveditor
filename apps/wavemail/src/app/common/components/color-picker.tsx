@@ -72,6 +72,9 @@ export const ColorPicker = ({ value, onChange, className }: Props) => {
 
   useEffect(() => {
     if (value !== internalValue) setInternalValue(value);
+
+    // one directional update external -> internal
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (

@@ -11,10 +11,16 @@ export const Input = ({ value, onChange, validate, ...rest }: Props) => {
   const [internalValue, setInternalValue] = useState(value);
   useEffect(() => {
     if (value !== internalValue) setInternalValue(value);
+
+    // one directional update external -> internal
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const onBlur = useCallback(() => {
     if (internalValue !== value) onChange?.(internalValue);
+
+    // one directional update internal -> external
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalValue, value]);
 
   useEffect(() => {

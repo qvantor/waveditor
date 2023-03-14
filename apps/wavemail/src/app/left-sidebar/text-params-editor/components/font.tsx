@@ -1,6 +1,4 @@
-import styled from 'styled-components';
 import { map, merge } from 'rxjs';
-import { Popover, Select } from 'antd';
 import {
   ElementStore,
   getTemplateConfigFonts,
@@ -10,30 +8,12 @@ import {
   getTemplateDefaultFont,
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
-import { tokens, font } from '@waveditors/theme';
-import { useMailBuilderContext } from '../../../common/hooks';
-import { FontName, FontEditor } from '../../common/components';
-
-const Root = styled.div`
-  height: 22px;
-  border: 1px solid ${tokens.color.border.primary};
-  border-radius: ${tokens.borderRadius.m};
-  padding: 0 4px;
-  ${font({ size: 'small' })}
-`;
-
-const PopoverRoot = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 240px;
-`;
-
-const FontSelectContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
+import {
+  useCreateTemplateConfigFont,
+  useRemoveTemplateConfigFont,
+  useMailBuilderContext,
+} from '../../../common/hooks';
+import { FontSelector } from '../../common/components';
 
 interface Props {
   element: ElementStore;
@@ -44,6 +24,8 @@ export const Font = ({ element }: Props) => {
     config,
     stores: { relations },
   } = useMailBuilderContext();
+  const createFont = useCreateTemplateConfigFont();
+  const removeFont = useRemoveTemplateConfigFont();
   const elementFont = useObservable(
     merge(relations.bs, config.bs).pipe(
       map(() =>
@@ -75,39 +57,19 @@ export const Font = ({ element }: Props) => {
   );
   const font = elementFont || inheritedFont;
   return (
-    <Popover
-      placement='rightBottom'
-      content={
-        <PopoverRoot>
-          <FontSelectContainer>
-            <Select
-              size='small'
-              value={font.id}
-              options={fonts.map((font) => ({
-                label: <FontName font={font} />,
-                value: font.id,
-              }))}
-              onChange={(font) =>
-                relations.actions.addElementFontRelation({
-                  font,
-                  element: element.getValue().id,
-                })
-              }
-              allowClear={!!elementFont}
-            />
-          </FontSelectContainer>
-          <FontEditor
-            font={font}
-            elementId={element.getValue().id}
-            fontCount={fonts.length}
-          />
-        </PopoverRoot>
+    <FontSelector
+      value={font}
+      fonts={fonts}
+      inherited={!elementFont}
+      onSelected={(font) =>
+        relations.actions.addElementFontRelation({
+          font,
+          element: element.getValue().id,
+        })
       }
-      trigger='click'
-    >
-      <Root>
-        <FontName font={font} inherited={!elementFont} />
-      </Root>
-    </Popover>
+      onFontCreate={(font) => createFont(font, element.getValue().id)}
+      onFontRemove={removeFont}
+      onFontChange={config.actions.setFont}
+    />
   );
 };

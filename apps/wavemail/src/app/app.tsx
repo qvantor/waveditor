@@ -24,5 +24,3 @@ export function App() {
     </ConfigProvider>
   );
 }
-
-export default App;

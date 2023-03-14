@@ -36,9 +36,11 @@ interface Props {
 export const TextParamsEditor = ({ text }: Props) => {
   return (
     <CollapseStyled>
+      <Collapse.Panel key='font' header='Font'>
+        <Font element={text} />
+      </Collapse.Panel>
       <Collapse.Panel key='text' header='Text'>
         <Root>
-          <Font element={text} />
           <Params>
             <PxValue
               text={text}

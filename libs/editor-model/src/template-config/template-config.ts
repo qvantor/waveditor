@@ -5,7 +5,11 @@ import {
   UndoRedoModule,
 } from '@waveditors/rxjs-react';
 import { UndoRedoEvents } from '../types';
-import { TemplateConfig, TemplateConfigFont } from './template-config.types';
+import {
+  FontChangedPayload,
+  TemplateConfig,
+  TemplateConfigFont,
+} from './template-config.types';
 
 export const templateConfigStore = ({
   undoRedo: { createUndoRedoEffect },
@@ -22,10 +26,7 @@ export const templateConfigStore = ({
         ...state,
         fonts: state.fonts.filter((font) => font.id !== fontId),
       }),
-      setFont: (
-        { id, value }: { id: string; value: TemplateConfigFont },
-        state: TemplateConfig
-      ) => ({
+      setFont: ({ id, value }: FontChangedPayload, state: TemplateConfig) => ({
         ...state,
         fonts: state.fonts.map((font) => {
           if (font.id !== id) return font;

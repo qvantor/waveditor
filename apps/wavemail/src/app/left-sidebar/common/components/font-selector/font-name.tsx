@@ -28,10 +28,10 @@ const InheritedIcon = styled(AiFillExclamationCircle)`
 
 interface Props {
   font: TemplateConfigFont;
-  inherited?: boolean;
+  inherited: boolean;
 }
 
-export const FontName = ({ font, inherited = false }: Props) => (
+export const FontName = ({ font, inherited }: Props) => (
   <Root inherited={inherited}>
     <FontNameText>
       {font?.name && font?.url ? `${font.name}, ` : null}

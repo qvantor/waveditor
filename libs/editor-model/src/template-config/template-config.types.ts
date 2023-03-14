@@ -33,6 +33,8 @@ export type TemplateConfig = {
   fonts: TemplateConfigFont[];
 };
 
+export type FontChangedPayload = { id: string; value: TemplateConfigFont };
+
 export type TemplateStoreUndoRedoEvent = CommonUndoEvent<
   'TemplateStore',
   TemplateConfig

@@ -1,1 +1,1 @@
-export * from './font-editor';
+export * from './font-selector';

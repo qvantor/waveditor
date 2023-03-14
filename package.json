@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run wavemail:serve:development",
-    "prettier:check": "prettier -l './apps/**/*.{ts,tsx}' './libs/**/*.{ts,tsx}'",
-    "prettier:fix": "prettier --write './apps/**/*.{ts,tsx}' './libs/**/*.{ts,tsx}'"
+    "start:dev": "nx run wavemail:serve:development",
+    "lint:check": "nx format:check && nx run-many --all --target=lint"
   },
   "private": true,
   "devDependencies": {
