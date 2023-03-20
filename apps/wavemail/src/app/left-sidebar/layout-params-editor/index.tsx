@@ -1,5 +1,5 @@
-import { LayoutStore } from '@waveditors/editor-model';
 import { Collapse } from 'antd';
+import { LayoutStore } from '@waveditors/editor-model';
 import { CollapseStyled } from '../../common/components';
 import { ColumnsEditor } from './components';
 

@@ -1,1 +1,1 @@
-export * from './font-selector';
+export { Font } from './font';

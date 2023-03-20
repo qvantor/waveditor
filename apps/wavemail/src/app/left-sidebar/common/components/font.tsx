@@ -13,7 +13,7 @@ import {
   useRemoveTemplateConfigFont,
   useMailBuilderContext,
 } from '../../../common/hooks';
-import { FontSelector } from '../../common/components';
+import { FontSelector } from "./font-selector";
 
 interface Props {
   element: ElementStore;
