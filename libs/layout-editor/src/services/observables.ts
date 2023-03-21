@@ -7,10 +7,10 @@ export type ElementRect = {
   top: number;
   left: number;
 };
-export const resizeObservable = (element: HTMLElement) =>
+export const resizeObservable = (element: HTMLElement, doc?: Document) =>
   new Observable<ElementRect>((subscriber) => {
     const resizeObserver = new ResizeObserver(() => {
-      const parent = document.getElementById(LAYOUT_EDITOR_ID);
+      const parent = (doc ?? document).getElementById(LAYOUT_EDITOR_ID);
       if (!parent) return null;
       const { top: parentTop, left: parentLeft } =
         parent.getBoundingClientRect();

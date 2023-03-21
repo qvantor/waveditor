@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@waveditors/editor-model": ["libs/editor-model/src/index.ts"],
+      "@waveditors/email-render": ["libs/email-render/src/index.ts"],
       "@waveditors/layout-editor": ["libs/layout-editor/src/index.ts"],
       "@waveditors/rxjs-react": ["libs/rxjs-react/src/index.ts"],
       "@waveditors/text-editor": ["libs/text-editor/src/index.ts"],

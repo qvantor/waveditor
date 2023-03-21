@@ -18,7 +18,6 @@ const Root = styled.div`
 `;
 
 const CanvasContainer = styled.div`
-  padding: 30px 0;
   scroll-padding-bottom: 30px;
   display: flex;
   justify-content: center;

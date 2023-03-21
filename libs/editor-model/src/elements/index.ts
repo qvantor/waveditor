@@ -17,10 +17,10 @@ export {
 export type { LayoutStore, Layout, LayoutAddChild } from './layout';
 
 export { textStore } from './text';
-export type { TextStore } from './text';
+export type { TextStore, Text } from './text';
 
 export { imageStore, getImageMeta, getImageUrl } from './image';
-export type { ImageStore } from './image';
+export type { ImageStore, Image } from './image';
 
 export {
   useElementsStore,

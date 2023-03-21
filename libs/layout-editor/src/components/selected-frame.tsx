@@ -3,19 +3,20 @@ import { AiOutlineDrag } from 'react-icons/ai';
 import { useObservable } from '@waveditors/rxjs-react';
 import { switchMap, of, map, debounceTime } from 'rxjs';
 import { useCallback } from 'react';
-import { tokens } from '@waveditors/theme';
+import { theme } from '@waveditors/theme';
 import { useLayoutEditorContext } from '../hooks';
 import { resizeObservable } from '../services';
+import { useIframeContext } from '../iframe';
 import { FrameRoot } from './hover-frame';
 
 const SelectedRect = styled(FrameRoot)`
   background: transparent;
-  outline: 2px solid ${tokens.color.surface.accent};
+  outline: 2px solid ${theme.color.surface.accent};
   z-index: 1;
 `;
 
 const DragIcon = styled(AiOutlineDrag)`
-  background: ${tokens.color.surface.secondary};
+  background: ${theme.color.surface.secondary};
   font-size: 10px;
   position: absolute;
   top: -5px;
@@ -27,14 +28,15 @@ const DragIcon = styled(AiOutlineDrag)`
 
 export const SelectedFrame = () => {
   const { selected, internalEvents, config } = useLayoutEditorContext();
+  const iFrameDocument = useIframeContext();
   const rect = useObservable(
     selected.pipe(
       debounceTime(16),
       switchMap((value) => {
         if (!value) return of(null);
-        const element = document.getElementById(value);
+        const element = iFrameDocument.getElementById(value);
         if (!element) return of(null);
-        return resizeObservable(element);
+        return resizeObservable(element, iFrameDocument);
       }),
       map((value) => {
         if (!value) return null;

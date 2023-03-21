@@ -23,13 +23,10 @@ import { tokens } from '@waveditors/theme';
 import { MailBuilderContext } from '../constants';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
+import { Header } from '../../header';
 
 const Root = styled.div`
   height: 100vh;
-`;
-const Header = styled.div`
-  height: ${tokens.size.headerHeight};
-  background: ${tokens.color.surface.tertiary};
 `;
 const Content = styled.div`
   height: calc(100vh - ${tokens.size.headerHeight});
