@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { Context } from '../types';
+import { Context, ModelContext } from '../types';
 import { Iframe } from '../iframe';
 import { LayoutEditor as LayoutEditorInternal } from './layout-editor';
 
@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export const LayoutEditor = (
-  props: Omit<Context, 'internalEvents' | 'internalState'>
+  props: Omit<Context, 'internalEvents' | 'internalState'> & ModelContext
 ) => (
   <Iframe title='Canvas'>
     <>
@@ -26,3 +26,4 @@ export const LayoutEditor = (
     </>
   </Iframe>
 );
+export { LayoutRender } from './layout-render';

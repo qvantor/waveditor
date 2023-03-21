@@ -6,5 +6,5 @@ export type {
 } from './elements.types';
 export type { ElementsStore } from './elements';
 export { useElementsStore } from './elements';
-export { getParentElement, getLayoutElement } from './elements.selectors';
+export * from './elements.selectors';
 export { createEmptyElement, elementToElementStore } from './elements.creators';

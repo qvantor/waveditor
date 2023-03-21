@@ -6,22 +6,34 @@ import {
   getTemplateDefaultFont,
   selectorToPipe,
 } from '@waveditors/editor-model';
-import { Context, InternalEvents, InternalMouseEvents } from '../types';
+import {
+  Context,
+  ModelContext,
+  InternalEvents,
+  InternalMouseEvents,
+} from '../types';
 import { useDnd, useElementSelection, useInternalState } from '../hooks';
-import { ContextValue, LAYOUT_EDITOR_ID } from '../constants';
+import {
+  ContextValue,
+  ModelContextValue,
+  LAYOUT_EDITOR_ID,
+} from '../constants';
 import { templateConfigFontToStyle } from '../services';
-import { ElementRender } from './element-render';
 import { HoverFrame } from './hover-frame';
 import { SelectedFrame } from './selected-frame';
 import { ApplyFonts } from './apply-fonts';
+import { Element } from './elements';
 
 const Root = styled.div`
   position: relative;
 `;
 
-export function LayoutEditor(
-  props: Omit<Context, 'internalEvents' | 'internalState'>
-) {
+export function LayoutEditor({
+  config,
+  relations,
+  elements,
+  ...props
+}: Omit<Context, 'internalEvents' | 'internalState'> & ModelContext) {
   const internalState = useInternalState();
 
   const { internalEvents, rootMouseMove, rootClick, rootMouseLeave } =
@@ -41,37 +53,40 @@ export function LayoutEditor(
     internalState,
     internalEvents,
   };
-
+  const modelContext: ModelContext = {
+    config,
+    relations,
+    elements,
+  };
   useElementSelection(context);
-  useDnd(context);
+  useDnd(context, modelContext);
 
   const defaultFont = useObservable(
-    props.config.pipe(selectorToPipe(getTemplateDefaultFont)),
-    getTemplateDefaultFont(props.config.getValue())
+    config.pipe(selectorToPipe(getTemplateDefaultFont)),
+    getTemplateDefaultFont(config.getValue())
   );
 
-  const width = props.config.getValue().viewportWidth;
+  const width = config.getValue().viewportWidth;
 
   return (
-    <ContextValue.Provider value={context}>
-      <Root
-        id={LAYOUT_EDITOR_ID}
-        onMouseMove={rootMouseMove}
-        onMouseLeave={rootMouseLeave}
-        onClick={(e) => {
-          e.stopPropagation();
-          rootClick(e);
-        }}
-        style={{ width, fontFamily: templateConfigFontToStyle(defaultFont) }}
-      >
-        <ElementRender
-          id={props.config.getValue().rootElementId}
-          width={width}
-        />
-        <HoverFrame />
-        <SelectedFrame />
-        <ApplyFonts />
-      </Root>
-    </ContextValue.Provider>
+    <ModelContextValue.Provider value={modelContext}>
+      <ContextValue.Provider value={context}>
+        <Root
+          id={LAYOUT_EDITOR_ID}
+          onMouseMove={rootMouseMove}
+          onMouseLeave={rootMouseLeave}
+          onClick={(e) => {
+            e.stopPropagation();
+            rootClick(e);
+          }}
+          style={{ width, fontFamily: templateConfigFontToStyle(defaultFont) }}
+        >
+          <Element id={config.getValue().rootElementId} width={width} />
+          <HoverFrame />
+          <SelectedFrame />
+          <ApplyFonts />
+        </Root>
+      </ContextValue.Provider>
+    </ModelContextValue.Provider>
   );
 }

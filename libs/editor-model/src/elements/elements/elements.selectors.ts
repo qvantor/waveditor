@@ -22,3 +22,7 @@ export const getLayoutElement = (
   if (!layout || !isLayoutStore(layout)) return null;
   return layout;
 };
+
+export const getElementById =
+  (id: string) => (elementsStore: ElementsStore['bs']['value']) =>
+    elementsStore[id];

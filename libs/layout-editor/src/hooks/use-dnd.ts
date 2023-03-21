@@ -16,11 +16,12 @@ import {
 } from '@waveditors/editor-model';
 import { useCallback } from 'react';
 import { COLUMN_DATATYPE, ELEMENT_DATATYPE } from '../constants';
-import { Context } from '../types';
-import { useIframeContext } from "../iframe";
+import { Context, ModelContext } from '../types';
+import { useIframeContext } from '../iframe';
 
 const detectMousePosition =
-  (elements: ElementsStore['bs'], iFrameDocument: Document = document) => (e: MouseEvent) => {
+  (elements: ElementsStore['bs'], iFrameDocument: Document = document) =>
+  (e: MouseEvent) => {
     const column = (e.target as HTMLElement).closest(
       `[datatype=${COLUMN_DATATYPE}]`
     );
@@ -85,13 +86,15 @@ const positionsToLinkElementToLayout = (
       samePosition: false,
     }));
 
-export const useDnd = ({
-  elements,
-  internalEvents,
-  internalState: { isDnd, dndPreview },
-  externalEvents,
-  events,
-}: Context) => {
+export const useDnd = (
+  {
+    internalEvents,
+    internalState: { isDnd, dndPreview },
+    externalEvents,
+    events,
+  }: Context,
+  { elements }: ModelContext
+) => {
   const iFrameDocument = useIframeContext();
   const mouseMoveSub = useCallback(
     (element: string) =>

@@ -6,10 +6,10 @@ import {
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
 import { templateConfigFontToStyle, styleMapper } from '../services';
-import { useLayoutEditorContext } from './use-layout-editor-context';
+import { useModelContext } from './use-layout-editor-context';
 
 const useFontFamily = (elementId: string) => {
-  const { config, relations } = useLayoutEditorContext();
+  const { config, relations } = useModelContext();
   return useObservable(
     merge(config, relations).pipe(
       map(() => {

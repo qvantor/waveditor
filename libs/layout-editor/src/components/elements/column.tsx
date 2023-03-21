@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
-import { LinkElementToLayoutEvent } from '../types';
-import { ElementRender } from './element-render';
+import { LinkElementToLayoutEvent } from '../../types';
+import { ColumnDumb } from '../dumb-elements';
+import { Element } from './element';
 
 interface Props {
   column: string[];
@@ -12,20 +13,20 @@ const DndPreview = () => (
   <div style={{ height: 4, border: '1px dashed gray', margin: 5 }} />
 );
 
-export const ColumnRender = ({ column, width, dndPreview }: Props) => {
+export const Column = ({ column, width, dndPreview }: Props) => {
   return (
-    <div style={{ width }}>
+    <ColumnDumb width={width}>
       {column.map((id, i) => {
         const dndHere = dndPreview?.index === i;
         return (
           <Fragment key={id}>
             {dndHere && !dndPreview.next && <DndPreview />}
-            <ElementRender id={id} width={width} />
+            <Element id={id} width={width} />
             {dndHere && dndPreview.next && <DndPreview />}
           </Fragment>
         );
       })}
       {column.length === 0 && dndPreview && <DndPreview />}
-    </div>
+    </ColumnDumb>
   );
 };

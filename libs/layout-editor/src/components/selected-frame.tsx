@@ -4,7 +4,7 @@ import { useObservable } from '@waveditors/rxjs-react';
 import { switchMap, of, map, debounceTime } from 'rxjs';
 import { useCallback } from 'react';
 import { theme } from '@waveditors/theme';
-import { useLayoutEditorContext } from '../hooks';
+import { useLayoutEditorContext, useModelContext } from '../hooks';
 import { resizeObservable } from '../services';
 import { useIframeContext } from '../iframe';
 import { FrameRoot } from './hover-frame';
@@ -27,7 +27,8 @@ const DragIcon = styled(AiOutlineDrag)`
 `;
 
 export const SelectedFrame = () => {
-  const { selected, internalEvents, config } = useLayoutEditorContext();
+  const { config } = useModelContext();
+  const { selected, internalEvents } = useLayoutEditorContext();
   const iFrameDocument = useIframeContext();
   const rect = useObservable(
     selected.pipe(

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { TextEditor } from '@waveditors/text-editor';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { TextStore } from '@waveditors/editor-model';
-import { TextDumb } from './text.dumb';
+import { TextDumb } from '../dumb-elements';
 
 interface Props {
   selected: boolean;
@@ -16,7 +16,7 @@ const StyledEditor = styled(TextEditor)`
   }
 `;
 
-export const TextRender = ({ element, selected }: Props) => {
+export const Text = ({ element, selected }: Props) => {
   const text = useBehaviorSubject(element.bs);
   return (
     <TextDumb text={text}>

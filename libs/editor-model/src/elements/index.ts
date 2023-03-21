@@ -28,6 +28,7 @@ export {
   getLayoutElement,
   createEmptyElement,
   elementToElementStore,
+  getElementById,
 } from './elements';
 export type {
   ElementsStoreUndoRedoEvent,
