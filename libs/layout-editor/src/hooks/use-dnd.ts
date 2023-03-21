@@ -17,7 +17,6 @@ import {
 import { useCallback } from 'react';
 import { COLUMN_DATATYPE, ELEMENT_DATATYPE } from '../constants';
 import { Context, ModelContext } from '../types';
-import { useIframeContext } from '../iframe';
 
 const detectMousePosition =
   (elements: ElementsStore['bs'], iFrameDocument: Document = document) =>
@@ -92,10 +91,10 @@ export const useDnd = (
     internalState: { isDnd, dndPreview },
     externalEvents,
     events,
+    iFrameDocument,
   }: Context,
   { elements }: ModelContext
 ) => {
-  const iFrameDocument = useIframeContext();
   const mouseMoveSub = useCallback(
     (element: string) =>
       fromEvent<MouseEvent>(iFrameDocument, 'mousemove')

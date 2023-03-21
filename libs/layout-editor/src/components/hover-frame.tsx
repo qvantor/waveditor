@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { map, switchMap, merge, of } from 'rxjs';
 import { resizeObservable } from '../services';
 import { useLayoutEditorContext } from '../hooks';
-import { useIframeContext } from '../iframe';
 
 export const FrameRoot = styled.div`
   position: absolute;
@@ -14,8 +13,7 @@ export const FrameRoot = styled.div`
 `;
 
 export const HoverFrame = () => {
-  const { hover, selected } = useLayoutEditorContext();
-  const iFrameDocument = useIframeContext();
+  const { hover, selected, iFrameDocument } = useLayoutEditorContext();
 
   const rect = useObservable(
     merge(hover, selected).pipe(

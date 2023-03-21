@@ -15,6 +15,7 @@ export type Context = {
   selected: BehaviorSubject<string | null>;
   internalState: ReturnType<typeof useInternalState>;
   internalEvents: Subject<InternalEvents>;
+  iFrameDocument: Document;
 };
 
 export type ModelContext = {

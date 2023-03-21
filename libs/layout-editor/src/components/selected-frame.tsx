@@ -6,7 +6,6 @@ import { useCallback } from 'react';
 import { theme } from '@waveditors/theme';
 import { useLayoutEditorContext, useModelContext } from '../hooks';
 import { resizeObservable } from '../services';
-import { useIframeContext } from '../iframe';
 import { FrameRoot } from './hover-frame';
 
 const SelectedRect = styled(FrameRoot)`
@@ -28,8 +27,7 @@ const DragIcon = styled(AiOutlineDrag)`
 
 export const SelectedFrame = () => {
   const { config } = useModelContext();
-  const { selected, internalEvents } = useLayoutEditorContext();
-  const iFrameDocument = useIframeContext();
+  const { selected, internalEvents, iFrameDocument } = useLayoutEditorContext();
   const rect = useObservable(
     selected.pipe(
       debounceTime(16),

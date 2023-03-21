@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { LayoutRender } from '@waveditors/layout-editor';
 import { Modal } from 'antd';
+import { Iframe } from '@waveditors/ui-kit';
 import { useMailBuilderContext } from '../common/hooks';
 
 const Root = styled.div`
@@ -24,11 +25,15 @@ export const Header = () => {
         open={open}
         width={1000}
       >
-        <LayoutRender
-          config={config.bs}
-          relations={relations.bs}
-          elements={elements.bs}
-        />
+        <Iframe title='Preview'>
+          {() => (
+            <LayoutRender
+              config={config.bs}
+              relations={relations.bs}
+              elements={elements.bs}
+            />
+          )}
+        </Iframe>
       </Modal>
     </>
   );
