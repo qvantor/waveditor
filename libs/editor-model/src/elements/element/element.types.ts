@@ -1,6 +1,5 @@
 import { CommonUndoEvent, UndoRedoModule } from '@waveditors/rxjs-react';
-import { Property } from 'csstype';
-import { Background, UndoRedoEvents } from '../../types';
+import { Style, UndoRedoEvents } from '../../types';
 
 export const ElementCommonTypes = ['layout', 'text', 'image'] as const;
 
@@ -14,16 +13,7 @@ export type ElementCommon<
     url: string;
   };
 
-  style: {
-    display?: Property.Display;
-    padding?: Property.Padding<string>;
-    maxWidth?: Property.MaxWidth<string>;
-    fontSize?: string;
-    lineHeight?: string;
-    letterSpacing?: string;
-    textAlign?: Property.TextAlign;
-    color?: Property.Color;
-  } & Background;
+  style: Style;
 };
 
 export type ElementStoreDeps = {

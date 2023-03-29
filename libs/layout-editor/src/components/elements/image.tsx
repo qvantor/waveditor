@@ -1,12 +1,12 @@
 import { ImageStore } from '@waveditors/editor-model';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
-import { ImageDumb } from '../dumb-elements';
+import { ImageDumb, ImageDumbProps } from '../dumb-elements';
 
-interface Props {
+type Props = {
   element: ImageStore;
-}
+} & Pick<ImageDumbProps, 'attributes'>;
 
-export const Image = ({ element }: Props) => {
+export const Image = ({ element, attributes }: Props) => {
   const image = useBehaviorSubject(element.bs);
-  return <ImageDumb image={image} />;
+  return <ImageDumb image={image} attributes={attributes} />;
 };

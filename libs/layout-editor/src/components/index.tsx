@@ -14,9 +14,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
+    margin: 0;
   }
 `;
 const Root = styled(Iframe)`

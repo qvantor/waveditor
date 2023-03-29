@@ -1,26 +1,18 @@
-import styled from 'styled-components';
 import { TextEditor } from '@waveditors/text-editor';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { TextStore } from '@waveditors/editor-model';
-import { TextDumb } from '../dumb-elements';
+import { TextDumb, TextDumbProps } from '../dumb-elements';
 
-interface Props {
+type Props = {
   selected: boolean;
   element: TextStore;
-}
+} & Pick<TextDumbProps, 'attributes'>;
 
-const StyledEditor = styled(TextEditor)`
-  p {
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-export const Text = ({ element, selected }: Props) => {
+export const Text = ({ element, selected, attributes }: Props) => {
   const text = useBehaviorSubject(element.bs);
   return (
-    <TextDumb text={text}>
-      <StyledEditor
+    <TextDumb text={text} attributes={attributes}>
+      <TextEditor
         onChange={element.actions.setContent}
         content={text.params.content}
         editable={selected}

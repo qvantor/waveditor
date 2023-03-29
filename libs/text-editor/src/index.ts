@@ -1,1 +1,2 @@
-export * from './lib/text-editor';
+export { TextEditor } from './components';
+export { jsonToHtml } from './services';

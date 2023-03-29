@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import { LAYOUT_EDITOR_ID } from '../constants';
 
 export type ElementRect = {
   width: number;
@@ -7,13 +6,11 @@ export type ElementRect = {
   top: number;
   left: number;
 };
-export const resizeObservable = (element: HTMLElement, doc?: Document) =>
+export const resizeObservable = (element: HTMLElement, doc = document) =>
   new Observable<ElementRect>((subscriber) => {
     const resizeObserver = new ResizeObserver(() => {
-      const parent = (doc ?? document).getElementById(LAYOUT_EDITOR_ID);
-      if (!parent) return null;
       const { top: parentTop, left: parentLeft } =
-        parent.getBoundingClientRect();
+        doc.body.getBoundingClientRect();
       const { width, height, top, left } = element.getBoundingClientRect();
       subscriber.next({
         width,

@@ -1,4 +1,5 @@
 import { CommonUndoEvent } from '@waveditors/rxjs-react';
+import { Style } from '../types';
 
 export type FallbackFonts =
   | 'Arial'
@@ -31,6 +32,7 @@ export type TemplateConfig = {
   rootElementId: string;
   viewportWidth: number;
   fonts: TemplateConfigFont[];
+  style: Style;
 };
 
 export type FontChangedPayload = { id: string; value: TemplateConfigFont };

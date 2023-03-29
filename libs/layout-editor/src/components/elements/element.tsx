@@ -14,7 +14,7 @@ interface Props {
   width: number;
 }
 
-const ElementRenderSwitch = ({ id, width }: Props) => {
+export const Element = ({ id, width }: Props) => {
   const { elements } = useModelContext();
   const { selected } = useLayoutEditorContext();
   const isSelected = useObservable(
@@ -28,19 +28,16 @@ const ElementRenderSwitch = ({ id, width }: Props) => {
     () => getElementById(id)(elements.value),
     [id, elements]
   );
+  const attributes = { id, datatype: ELEMENT_DATATYPE };
   return match(element)
     .with(elementSelector('layout'), (element) => (
-      <Layout element={element} width={width} />
+      <Layout element={element} width={width} attributes={attributes} />
     ))
     .with(elementSelector('text'), (element) => (
-      <Text selected={isSelected} element={element} />
+      <Text selected={isSelected} element={element} attributes={attributes} />
     ))
-    .with(elementSelector('image'), (element) => <Image element={element} />)
+    .with(elementSelector('image'), (element) => (
+      <Image element={element} attributes={attributes} />
+    ))
     .exhaustive();
 };
-
-export const Element = ({ id, width }: Props) => (
-  <div id={id} datatype={ELEMENT_DATATYPE} style={{ width }}>
-    <ElementRenderSwitch id={id} width={width} />
-  </div>
-);

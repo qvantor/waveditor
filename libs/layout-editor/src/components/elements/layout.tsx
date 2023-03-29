@@ -3,15 +3,15 @@ import { distinctUntilChanged, map } from 'rxjs';
 import { LayoutStore } from '@waveditors/editor-model';
 import { getYPadding } from '@waveditors/utils';
 import { useLayoutEditorContext } from '../../hooks';
-import { LayoutDumb } from '../dumb-elements';
+import { LayoutDumb, LayoutDumbProps } from '../dumb-elements';
 import { Column } from './column';
 
-interface Props {
+type Props = {
   element: LayoutStore;
   width: number;
-}
+} & Pick<LayoutDumbProps, 'attributes'>;
 
-export const Layout = ({ element, width }: Props) => {
+export const Layout = ({ element, width, attributes }: Props) => {
   const { internalState } = useLayoutEditorContext();
 
   const dndPreview = useObservable(
@@ -44,6 +44,7 @@ export const Layout = ({ element, width }: Props) => {
       width={width}
       style={style}
       columnStyle={columnStyle}
+      attributes={attributes}
       renderColumn={({ index, ...rest }) => (
         <Column
           dndPreview={dndPreview?.column === index ? dndPreview : undefined}

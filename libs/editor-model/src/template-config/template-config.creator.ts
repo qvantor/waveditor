@@ -8,6 +8,10 @@ export const createInitialTemplateConfig = (
     name: 'Untitled',
     rootElementId,
     viewportWidth: 600,
+    style: {
+      margin: '0',
+      backgroundColor: '#f3f3f5',
+    },
     fonts: [
       {
         id: generateId(),

@@ -1,10 +1,10 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, TableHTMLAttributes } from 'react';
 import { Layout } from '@waveditors/editor-model';
 import { getXPadding } from '@waveditors/utils';
 import { useStyle } from '../../hooks';
 import { COLUMN_DATATYPE } from '../../constants';
 
-interface Props {
+export interface LayoutDumbProps {
   layout: Layout;
   width: number;
   renderColumn: (props: {
@@ -14,6 +14,7 @@ interface Props {
   }) => JSX.Element;
   style?: CSSProperties;
   columnStyle?: CSSProperties;
+  attributes?: TableHTMLAttributes<HTMLTableElement>;
 }
 
 export const LayoutDumb = ({
@@ -22,7 +23,8 @@ export const LayoutDumb = ({
   style: externalStyle,
   columnStyle,
   renderColumn,
-}: Props) => {
+  attributes,
+}: LayoutDumbProps) => {
   const style = useStyle(layout);
   const columnWidth =
     (width - getXPadding(layout.style.padding)) / layout.params.columns.length;
@@ -30,9 +32,11 @@ export const LayoutDumb = ({
     <table
       style={{
         borderSpacing: 0,
+        width,
         ...externalStyle,
         ...style,
       }}
+      {...attributes}
     >
       <tbody>
         <tr>

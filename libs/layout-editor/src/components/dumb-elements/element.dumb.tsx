@@ -12,7 +12,7 @@ interface Props {
   width: number;
 }
 
-const ElementSwitch = ({ id, width }: Props) => {
+export const ElementDumb = ({ id, width }: Props) => {
   const { elements } = useModelContext();
   const element = useMemo(
     () => getElementById(id)(elements.value),
@@ -39,12 +39,4 @@ const ElementSwitch = ({ id, width }: Props) => {
       <ImageDumb image={image.getValue()} />
     ))
     .exhaustive();
-};
-
-export const ElementDumb = ({ id, width }: Props) => {
-  return (
-    <div style={{ width }}>
-      <ElementSwitch id={id} width={width} />
-    </div>
-  );
 };

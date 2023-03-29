@@ -12,12 +12,13 @@ import {
   InternalEvents,
   InternalMouseEvents,
 } from '../types';
-import { useDnd, useElementSelection, useInternalState } from '../hooks';
 import {
-  ContextValue,
-  ModelContextValue,
-  LAYOUT_EDITOR_ID,
-} from '../constants';
+  useDnd,
+  useElementSelection,
+  useInternalState,
+  useSetBodyStyle,
+} from '../hooks';
+import { ContextValue, ModelContextValue } from '../constants';
 import { templateConfigFontToStyle } from '../services';
 import { HoverFrame } from './hover-frame';
 import { SelectedFrame } from './selected-frame';
@@ -26,6 +27,7 @@ import { Element } from './elements';
 
 const Root = styled.div`
   position: relative;
+  height: 100%;
 `;
 
 export function LayoutEditor({
@@ -66,20 +68,26 @@ export function LayoutEditor({
     getTemplateDefaultFont(config.getValue())
   );
 
+  useSetBodyStyle(
+    {
+      fontFamily: templateConfigFontToStyle(defaultFont),
+      ...config.getValue().style,
+    },
+    props.iFrameDocument
+  );
+
   const width = config.getValue().viewportWidth;
 
   return (
     <ModelContextValue.Provider value={modelContext}>
       <ContextValue.Provider value={context}>
         <Root
-          id={LAYOUT_EDITOR_ID}
           onMouseMove={rootMouseMove}
           onMouseLeave={rootMouseLeave}
           onClick={(e) => {
             e.stopPropagation();
             rootClick(e);
           }}
-          style={{ width, fontFamily: templateConfigFontToStyle(defaultFont) }}
         >
           <Element id={config.getValue().rootElementId} width={width} />
           <HoverFrame />
