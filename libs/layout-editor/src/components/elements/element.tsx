@@ -3,8 +3,9 @@ import { match } from 'ts-pattern';
 import { map, distinctUntilChanged } from 'rxjs';
 import { useObservable } from '@waveditors/rxjs-react';
 import { elementSelector, getElementById } from '@waveditors/editor-model';
+import { useRenderContext } from '@waveditors/layout-render';
 import { ELEMENT_DATATYPE } from '../../constants';
-import { useLayoutEditorContext, useModelContext } from '../../hooks';
+import { useLayoutEditorContext } from '../../hooks';
 import { Layout } from './layout';
 import { Text } from './text';
 import { Image } from './image';
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export const Element = ({ id, width }: Props) => {
-  const { elements } = useModelContext();
+  const { elements } = useRenderContext();
   const { selected } = useLayoutEditorContext();
   const isSelected = useObservable(
     selected.pipe(

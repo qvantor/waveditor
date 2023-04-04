@@ -1,7 +1,7 @@
 import { TextEditor } from '@waveditors/text-editor';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { TextStore } from '@waveditors/editor-model';
-import { TextDumb, TextDumbProps } from '../dumb-elements';
+import { TextDumb, TextDumbProps } from '@waveditors/layout-render';
 
 type Props = {
   selected: boolean;

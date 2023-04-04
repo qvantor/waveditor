@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
-import { LayoutRender, renderToString } from '@waveditors/layout-editor';
+import { LayoutRender, renderToString } from '@waveditors/layout-render';
 import { Modal } from 'antd';
 import { Iframe } from '@waveditors/ui-kit';
 import { useMailBuilderContext } from '../common/hooks';

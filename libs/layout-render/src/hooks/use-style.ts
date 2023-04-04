@@ -7,10 +7,10 @@ import {
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
 import { templateConfigFontToStyle, styleMapper } from '../services';
-import { useModelContext } from './use-layout-editor-context';
+import { useRenderContext } from './use-render-context';
 
 const useFontFamily = (elementId: string) => {
-  const { config, relations } = useModelContext();
+  const { config, relations } = useRenderContext();
   const getFontFamily = useCallback(() => {
     const fontId = getElementFontRelationByElementId(elementId)(
       relations.getValue()

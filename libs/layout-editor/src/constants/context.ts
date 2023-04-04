@@ -1,5 +1,4 @@
 import { createContext } from 'react';
-import { Context, ModelContext } from '../types';
+import { Context } from '../types';
 
 export const ContextValue = createContext<Context | null>(null);
-export const ModelContextValue = createContext<ModelContext | null>(null);

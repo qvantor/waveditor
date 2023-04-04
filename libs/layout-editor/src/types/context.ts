@@ -1,9 +1,4 @@
 import { BehaviorSubject, Subject } from 'rxjs';
-import {
-  ElementsStore,
-  RelationsStore,
-  TemplateConfigStore,
-} from '@waveditors/editor-model';
 import { useInternalState } from '../hooks';
 import { InternalEvents } from './internal-events';
 import { EditorEvents, ExternalEvents } from './';
@@ -16,10 +11,4 @@ export type Context = {
   internalState: ReturnType<typeof useInternalState>;
   internalEvents: Subject<InternalEvents>;
   iFrameDocument: Document;
-};
-
-export type ModelContext = {
-  elements: ElementsStore['bs'];
-  relations: RelationsStore['bs'];
-  config: TemplateConfigStore['bs'];
 };

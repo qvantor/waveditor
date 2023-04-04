@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { match } from 'ts-pattern';
 import { elementSelector, getElementById } from '@waveditors/editor-model';
-import { useModelContext } from '../../hooks';
+import { useRenderContext } from '../../hooks';
 import { LayoutDumb } from './layout.dumb';
 import { TextDumb } from './text.dumb';
 import { ImageDumb } from './image.dumb';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const ElementDumb = ({ id, width }: Props) => {
-  const { elements } = useModelContext();
+  const { elements } = useRenderContext();
   const element = useMemo(
     () => getElementById(id)(elements.value),
     [id, elements]

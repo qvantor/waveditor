@@ -4,7 +4,8 @@ import styled, {
 } from 'styled-components';
 import { Iframe } from '@waveditors/ui-kit';
 import { tokens } from '@waveditors/theme';
-import { Context, ModelContext } from '../types';
+import { RenderContext } from '@waveditors/layout-render';
+import { Context } from '../types';
 import { LayoutEditor as LayoutEditorInternal } from './layout-editor';
 
 const GlobalStyle = createGlobalStyle`
@@ -25,7 +26,7 @@ const Root = styled(Iframe)`
 
 export const LayoutEditor = (
   props: Omit<Context, 'internalEvents' | 'internalState' | 'iFrameDocument'> &
-    ModelContext
+    RenderContext
 ) => {
   return (
     <Root title='Canvas'>
@@ -40,4 +41,3 @@ export const LayoutEditor = (
     </Root>
   );
 };
-export { LayoutRender, renderToString } from './layout-render';

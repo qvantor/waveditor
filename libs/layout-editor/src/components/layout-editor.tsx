@@ -7,22 +7,17 @@ import {
   selectorToPipe,
 } from '@waveditors/editor-model';
 import {
-  Context,
-  ModelContext,
-  InternalEvents,
-  InternalMouseEvents,
-} from '../types';
-import {
-  useDnd,
-  useElementSelection,
-  useInternalState,
+  RenderContextValue,
+  RenderContext,
+  ApplyFonts,
   useSetBodyStyle,
-} from '../hooks';
-import { ContextValue, ModelContextValue } from '../constants';
-import { templateConfigFontToStyle } from '../services';
+  templateConfigFontToStyle,
+} from '@waveditors/layout-render';
+import { Context, InternalEvents, InternalMouseEvents } from '../types';
+import { useDnd, useElementSelection, useInternalState } from '../hooks';
+import { ContextValue } from '../constants';
 import { HoverFrame } from './hover-frame';
 import { SelectedFrame } from './selected-frame';
-import { ApplyFonts } from './apply-fonts';
 import { Element } from './elements';
 
 const Root = styled.div`
@@ -35,7 +30,7 @@ export function LayoutEditor({
   relations,
   elements,
   ...props
-}: Omit<Context, 'internalEvents' | 'internalState'> & ModelContext) {
+}: Omit<Context, 'internalEvents' | 'internalState'> & RenderContext) {
   const internalState = useInternalState();
 
   const { internalEvents, rootMouseMove, rootClick, rootMouseLeave } =
@@ -55,7 +50,7 @@ export function LayoutEditor({
     internalState,
     internalEvents,
   };
-  const modelContext: ModelContext = {
+  const modelContext: RenderContext = {
     config,
     relations,
     elements,
@@ -79,7 +74,7 @@ export function LayoutEditor({
   const width = config.getValue().viewportWidth;
 
   return (
-    <ModelContextValue.Provider value={modelContext}>
+    <RenderContextValue.Provider value={modelContext}>
       <ContextValue.Provider value={context}>
         <Root
           onMouseMove={rootMouseMove}
@@ -95,6 +90,6 @@ export function LayoutEditor({
           <ApplyFonts iFrameDocument={context.iFrameDocument} />
         </Root>
       </ContextValue.Provider>
-    </ModelContextValue.Provider>
+    </RenderContextValue.Provider>
   );
 }

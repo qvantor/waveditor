@@ -15,8 +15,9 @@ import {
   LayoutStore,
 } from '@waveditors/editor-model';
 import { useCallback } from 'react';
+import { RenderContext } from '@waveditors/layout-render';
 import { COLUMN_DATATYPE, ELEMENT_DATATYPE } from '../constants';
-import { Context, ModelContext } from '../types';
+import { Context } from '../types';
 
 const detectMousePosition =
   (elements: ElementsStore['bs'], iFrameDocument: Document = document) =>
@@ -93,7 +94,7 @@ export const useDnd = (
     events,
     iFrameDocument,
   }: Context,
-  { elements }: ModelContext
+  { elements }: RenderContext
 ) => {
   const mouseMoveSub = useCallback(
     (element: string) =>

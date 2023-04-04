@@ -2,8 +2,8 @@ import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { distinctUntilChanged, map } from 'rxjs';
 import { LayoutStore } from '@waveditors/editor-model';
 import { getYPadding } from '@waveditors/utils';
+import { LayoutDumb, LayoutDumbProps } from '@waveditors/layout-render';
 import { useLayoutEditorContext } from '../../hooks';
-import { LayoutDumb, LayoutDumbProps } from '../dumb-elements';
 import { Column } from './column';
 
 type Props = {

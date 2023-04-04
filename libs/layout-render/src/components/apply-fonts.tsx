@@ -1,9 +1,3 @@
-import { useObservable } from '@waveditors/rxjs-react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import {
-  getTemplateConfigFonts,
-  selectorToPipe,
-} from '@waveditors/editor-model';
 import {
   ReactNode,
   Children,
@@ -12,19 +6,25 @@ import {
   useEffect,
   cloneElement,
 } from 'react';
-import { ModelContext } from '../types';
-import { useModelContext } from '../hooks';
-import { ModelContextValue } from '../constants';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { useObservable } from '@waveditors/rxjs-react';
+import {
+  getTemplateConfigFonts,
+  selectorToPipe,
+} from '@waveditors/editor-model';
+import { RenderContext } from '../types';
+import { useRenderContext } from '../hooks';
+import { RenderContextValue } from '../constants';
 
-const renderWithModel = (model: ModelContext, element: ReactElement) =>
+const renderWithModel = (model: RenderContext, element: ReactElement) =>
   renderToStaticMarkup(
-    <ModelContextValue.Provider value={model}>
+    <RenderContextValue.Provider value={model}>
       {element}
-    </ModelContextValue.Provider>
+    </RenderContextValue.Provider>
   );
 
 export const Head = ({ datatype }: { datatype?: string }) => {
-  const { config } = useModelContext();
+  const { config } = useRenderContext();
   const fonts = useObservable(
     config.pipe(selectorToPipe(getTemplateConfigFonts)),
     getTemplateConfigFonts(config.getValue())
@@ -53,7 +53,7 @@ interface Props {
 }
 
 const InternalHelmet = ({ children, iFrameDocument = document }: Props) => {
-  const model = useModelContext();
+  const model = useRenderContext();
   useEffect(() => {
     Children.forEach(children, (child) => {
       if (!isValidElement(child)) return;

@@ -58,7 +58,7 @@ export const MailBuilder = () => {
         },
         style: {
           backgroundColor: '#fff',
-          margin: '0px auto'
+          margin: '0px auto',
         },
       }),
       '2': textStore({ undoRedo }).run({

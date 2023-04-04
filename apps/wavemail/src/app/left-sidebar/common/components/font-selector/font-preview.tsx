@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import { TemplateConfigFont } from '@waveditors/editor-model';
 import { EmptyPattern, font, tokens } from '@waveditors/theme';
-import { templateConfigFontToStyle } from '@waveditors/layout-editor';
+import { templateConfigFontToStyle } from '@waveditors/layout-render';
 
 interface Props {
   font: TemplateConfigFont;
