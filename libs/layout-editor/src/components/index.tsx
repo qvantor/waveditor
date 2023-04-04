@@ -40,4 +40,4 @@ export const LayoutEditor = (
     </Root>
   );
 };
-export { LayoutRender } from './layout-render';
+export { LayoutRender, renderToString } from './layout-render';

@@ -92,7 +92,7 @@ export function LayoutEditor({
           <Element id={config.getValue().rootElementId} width={width} />
           <HoverFrame />
           <SelectedFrame />
-          <ApplyFonts />
+          <ApplyFonts iFrameDocument={context.iFrameDocument} />
         </Root>
       </ContextValue.Provider>
     </ModelContextValue.Provider>

@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
-import { LayoutRender } from '@waveditors/layout-editor';
+import { LayoutRender, renderToString } from '@waveditors/layout-editor';
 import { Modal } from 'antd';
 import { Iframe } from '@waveditors/ui-kit';
 import { useMailBuilderContext } from '../common/hooks';
@@ -31,26 +30,24 @@ export const Header = () => {
     data.append('subject', 'Waveditor email test');
     data.append(
       'html',
-      renderToStaticMarkup(
-        <LayoutRender
-          config={config.bs}
-          relations={relations.bs}
-          elements={elements.bs}
-        />
-      )
+      renderToString({
+        config: config.bs,
+        relations: relations.bs,
+        elements: elements.bs,
+      })
     );
 
-    await fetch(
-      `https://api.mailgun.net/v3/${process.env.NX_MAILGUN_DOMAIN_NAME}/messages`,
-      {
-        method: 'POST',
-        body: data,
-        headers: {
-          Authorization: `Basic ${btoa(`api:${process.env.NX_MAILGUN_KEY}`)}`,
-        },
-      }
-    );
-    console.log('sent', data.get('html'));
+    // await fetch(
+    //   `https://api.mailgun.net/v3/${process.env.NX_MAILGUN_DOMAIN_NAME}/messages`,
+    //   {
+    //     method: 'POST',
+    //     body: data,
+    //     headers: {
+    //       Authorization: `Basic ${btoa(`api:${process.env.NX_MAILGUN_KEY}`)}`,
+    //     },
+    //   }
+    // );
+    // console.log('sent', data.get('html'));
   };
   return (
     <>
