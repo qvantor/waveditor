@@ -1,2 +1,5 @@
 export { useMailBuilderContext } from './use-mail-builder-context';
-export * from './actions-hooks';
+export {
+  useEditorDocument,
+  useEditorKeyboardEvents,
+} from './use-editor-document';

@@ -1,7 +1,7 @@
 import { ConfigProvider } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { GlobalStyle, tokens, theme } from '@waveditors/theme';
-import { MailBuilder } from './common/components';
+import { MailBuilder } from './mail-builder';
 
 export function App() {
   return (

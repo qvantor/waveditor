@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { getElementsFromElementFontRelationByFontId } from '@waveditors/editor-model';
-import { useMailBuilderContext } from '../use-mail-builder-context';
+import { useMailBuilderContext } from '../../hooks';
 
 export const useRemoveTemplateConfigFont = () => {
   const {

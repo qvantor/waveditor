@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 import { EditorEvents, ExternalEvents } from '@waveditors/layout-editor';
-import { Subject, fromEvent, filter } from 'rxjs';
+import { Subject } from 'rxjs';
 import { undoRedoModule, useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
@@ -20,10 +20,11 @@ import {
   createInitialTemplateConfig,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
-import { MailBuilderContext } from '../constants';
+import { MailBuilderContext } from '../../common/constants';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
 import { Header } from '../../header';
+import { Hotkeys } from './hotkeys';
 
 const Root = styled.div`
   height: 100vh;
@@ -157,15 +158,7 @@ export const MailBuilder = () => {
   );
   const hoverStore = useHoverStore(null, []);
   const selectedStore = useSelectedStore(null, []);
-  useEffect(() => {
-    fromEvent<KeyboardEvent>(document, 'keydown')
-      .pipe(filter((event) => ['z', 'x'].includes(event.key)))
-      .subscribe((e) => {
-        match(e)
-          .with({ key: 'z' }, () => undoRedo.undo.next())
-          .otherwise(() => undoRedo.redo.next());
-      });
-  }, [undoRedo]);
+
   const { editorEvents, externalEvents } = useMemo(
     () => ({
       editorEvents: new Subject<EditorEvents>(),
@@ -253,6 +246,7 @@ export const MailBuilder = () => {
             <Footer />
           </CanvasContainer>
         </Content>
+        <Hotkeys />
       </Root>
     </MailBuilderContext.Provider>
   );

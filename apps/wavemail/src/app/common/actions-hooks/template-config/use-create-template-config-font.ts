@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { TemplateConfigFont } from '@waveditors/editor-model';
 import { generateId } from '@waveditors/utils';
-import { useMailBuilderContext } from '../use-mail-builder-context';
+import { useMailBuilderContext } from '../../hooks';
 
 export const useCreateTemplateConfigFont = () => {
   const {

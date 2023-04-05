@@ -3,6 +3,7 @@ import {
   storeHookConstructor,
   StoreHookResult,
 } from '@waveditors/rxjs-react';
+import { removeKey } from '@waveditors/utils';
 import { ElementStoreDeps } from '../element';
 import { elementToElementStore } from './elements.creators';
 import { Element, ElementStore } from './elements.types';
@@ -14,11 +15,7 @@ export const elementsStore = ({ undoRedo }: ElementStoreDeps) =>
         ...current,
         [element.id]: elementToElementStore(element, { undoRedo }),
       }),
-      removeElement: (key: string, current) => {
-        const copy = { ...current };
-        delete copy[key];
-        return copy;
-      },
+      removeElement: (key: string, current) => removeKey(current, key),
     })
     .addEffect(undoRedo.createUndoRedoEffect('ElementsStore'));
 

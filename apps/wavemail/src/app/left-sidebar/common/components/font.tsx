@@ -8,12 +8,12 @@ import {
   getTemplateDefaultFont,
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
+import { useMailBuilderContext } from '../../../common/hooks';
 import {
   useCreateTemplateConfigFont,
   useRemoveTemplateConfigFont,
-  useMailBuilderContext,
-} from '../../../common/hooks';
-import { FontSelector } from "./font-selector";
+} from '../../../common/actions-hooks';
+import { FontSelector } from './font-selector';
 
 interface Props {
   element: ElementStore;

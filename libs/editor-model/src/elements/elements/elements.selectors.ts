@@ -4,7 +4,7 @@ import { ElementsStore } from './elements';
 export const getParentElement = (
   elementsStore: ElementsStore['bs']['value'],
   id: string
-) => {
+): LayoutStore | null => {
   const parent = Object.entries(elementsStore).find(
     (element): element is [string, LayoutStore] => {
       if (!isLayoutStore(element[1])) return false;

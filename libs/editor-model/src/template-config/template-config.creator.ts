@@ -11,6 +11,7 @@ export const createInitialTemplateConfig = (
     style: {
       margin: '0',
       backgroundColor: '#f3f3f5',
+      fontSize: '16px',
     },
     fonts: [
       {

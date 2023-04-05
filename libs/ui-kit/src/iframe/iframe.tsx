@@ -8,12 +8,13 @@ const Root = styled.iframe`
 `;
 
 interface Props {
+  id?: string;
   title: string;
   children: (props: { document: Document }) => JSX.Element;
   className?: string;
 }
 
-export const Iframe = ({ children, title, className }: Props) => {
+export const Iframe = ({ children, title, id, className }: Props) => {
   const [, setState] = useState(false);
   const frame = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
@@ -23,7 +24,7 @@ export const Iframe = ({ children, title, className }: Props) => {
     }
   }, []);
   return (
-    <Root ref={frame} title={title} className={className}>
+    <Root ref={frame} title={title} className={className} id={id}>
       {frame.current?.contentDocument &&
         createPortal(
           children({ document: frame.current.contentDocument }),
