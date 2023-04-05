@@ -5,8 +5,10 @@ export {
   ElementDumb,
   ColumnDumb,
 } from './dumb-elements';
-export { ApplyFonts } from './apply-fonts';
-export { LayoutRender, renderToString } from './layout-render';
+export { Helmet } from './helmet';
+export { Head } from './head';
+export { Body } from './body';
+
 export type {
   TextDumbProps,
   ImageDumbProps,

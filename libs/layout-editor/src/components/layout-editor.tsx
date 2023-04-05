@@ -1,17 +1,11 @@
 import { MouseEvent, useMemo } from 'react';
 import { Subject } from 'rxjs';
 import styled from 'styled-components';
-import { useObservable } from '@waveditors/rxjs-react';
+
 import {
-  getTemplateDefaultFont,
-  selectorToPipe,
-} from '@waveditors/editor-model';
-import {
-  RenderContextValue,
-  RenderContext,
-  ApplyFonts,
+  Head,
   useSetBodyStyle,
-  templateConfigFontToStyle,
+  useRenderContext,
 } from '@waveditors/layout-render';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
 import { useDnd, useElementSelection, useInternalState } from '../hooks';
@@ -25,13 +19,11 @@ const Root = styled.div`
   height: 100%;
 `;
 
-export function LayoutEditor({
-  config,
-  relations,
-  elements,
-  ...props
-}: Omit<Context, 'internalEvents' | 'internalState'> & RenderContext) {
+export function LayoutEditor(
+  props: Omit<Context, 'internalEvents' | 'internalState'>
+) {
   const internalState = useInternalState();
+  const renderContext = useRenderContext();
 
   const { internalEvents, rootMouseMove, rootClick, rootMouseLeave } =
     useMemo(() => {
@@ -50,46 +42,29 @@ export function LayoutEditor({
     internalState,
     internalEvents,
   };
-  const modelContext: RenderContext = {
-    config,
-    relations,
-    elements,
-  };
   useElementSelection(context);
-  useDnd(context, modelContext);
+  useDnd(context, renderContext);
 
-  const defaultFont = useObservable(
-    config.pipe(selectorToPipe(getTemplateDefaultFont)),
-    getTemplateDefaultFont(config.getValue())
-  );
+  useSetBodyStyle(props.iFrameDocument);
 
-  useSetBodyStyle(
-    {
-      fontFamily: templateConfigFontToStyle(defaultFont),
-      ...config.getValue().style,
-    },
-    props.iFrameDocument
-  );
-
+  const { config } = renderContext;
   const width = config.getValue().viewportWidth;
 
   return (
-    <RenderContextValue.Provider value={modelContext}>
-      <ContextValue.Provider value={context}>
-        <Root
-          onMouseMove={rootMouseMove}
-          onMouseLeave={rootMouseLeave}
-          onClick={(e) => {
-            e.stopPropagation();
-            rootClick(e);
-          }}
-        >
-          <Element id={config.getValue().rootElementId} width={width} />
-          <HoverFrame />
-          <SelectedFrame />
-          <ApplyFonts iFrameDocument={context.iFrameDocument} />
-        </Root>
-      </ContextValue.Provider>
-    </RenderContextValue.Provider>
+    <ContextValue.Provider value={context}>
+      <Head iFrameDocument={context.iFrameDocument} />
+      <Root
+        onMouseMove={rootMouseMove}
+        onMouseLeave={rootMouseLeave}
+        onClick={(e) => {
+          e.stopPropagation();
+          rootClick(e);
+        }}
+      >
+        <Element id={config.getValue().rootElementId} width={width} />
+        <HoverFrame />
+        <SelectedFrame />
+      </Root>
+    </ContextValue.Provider>
   );
 }
