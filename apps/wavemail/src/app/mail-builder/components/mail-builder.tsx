@@ -5,9 +5,6 @@ import { Subject } from 'rxjs';
 import { undoRedoModule, useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
-  layoutStore,
-  textStore,
-  imageStore,
   useElementsStore,
   UndoRedoEvents,
   getParentElement,
@@ -16,10 +13,10 @@ import {
   useSelectedStore,
   useTemplateConfigStore,
   useRelationsStore,
-  createInitialRelations,
-  createInitialTemplateConfig,
+  elementsToElementsStore,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
+import { RenderContextObject } from '@waveditors/layout-render';
 import { MailBuilderContext } from '../../common/constants';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
@@ -47,117 +44,24 @@ const Footer = styled.div`
   border-top: 1px solid ${tokens.color.border.primary};
 `;
 
-export const MailBuilder = () => {
-  const undoRedo = useUnsubscribable(() => undoRedoModule<UndoRedoEvents>());
-  const elementsStore = useElementsStore(
-    {
-      '1': layoutStore({ undoRedo }).run({
-        id: '1',
-        type: 'layout',
-        params: {
-          columns: [['2', '4', '6', '7'], ['5'], []],
-        },
-        style: {
-          backgroundColor: '#fff',
-          margin: '0px auto',
-        },
-      }),
-      '2': textStore({ undoRedo }).run({
-        id: '2',
-        type: 'text',
-        params: {
-          content: {
-            type: 'doc',
-            content: [
-              {
-                type: 'paragraph',
-                content: [{ type: 'text', text: 'hello world 2' }],
-              },
-            ],
-          },
-        },
-        style: {},
-      }),
-      '3': textStore({ undoRedo }).run({
-        id: '3',
-        type: 'text',
-        params: {
-          content: {
-            type: 'doc',
-            content: [
-              {
-                type: 'paragraph',
-                content: [{ type: 'text', text: 'hello world 3' }],
-              },
-            ],
-          },
-        },
-        style: {},
-      }),
-      '4': imageStore({ undoRedo }).run({
-        id: '4',
-        type: 'image',
-        params: {
-          url: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80',
-        },
-        style: {
-          display: 'block',
-          maxWidth: '100%',
-        },
-      }),
-      '5': layoutStore({ undoRedo }).run({
-        id: '5',
-        type: 'layout',
-        params: { columns: [[], ['3']] },
-        style: {},
-      }),
-      '6': textStore({ undoRedo }).run({
-        id: '6',
-        type: 'text',
-        params: {
-          content: {
-            type: 'doc',
-            content: [
-              {
-                type: 'paragraph',
-                content: [{ type: 'text', text: 'hello world 6' }],
-              },
-            ],
-          },
-        },
-        style: {},
-        link: {
-          url: 'https://google.com',
-        },
-      }),
-      '7': textStore({ undoRedo }).run({
-        id: '7',
-        type: 'text',
-        params: {
-          content: {
-            type: 'doc',
-            content: [
-              {
-                type: 'paragraph',
-                content: [{ type: 'text', text: 'hello world 7' }],
-              },
-            ],
-          },
-        },
-        style: {},
-      }),
-    },
-    { undoRedo }
-  );
-  const relationsStore = useRelationsStore(createInitialRelations(), {
+export const MailBuilder = ({
+  elements,
+  relations,
+  config,
+}: RenderContextObject) => {
+  const undoRedo = undoRedoModule<UndoRedoEvents>();
+  const templateConfigStore = useTemplateConfigStore(config, {
     undoRedo,
   });
-  const templateConfigStore = useTemplateConfigStore(
-    createInitialTemplateConfig('1'),
+  const relationsStore = useRelationsStore(relations, {
+    undoRedo,
+  });
+  const elementsStore = useElementsStore(
+    elementsToElementsStore(elements, { undoRedo }),
     { undoRedo }
   );
-  const hoverStore = useHoverStore(null, []);
-  const selectedStore = useSelectedStore(null, []);
+  const hoverStore = useHoverStore(null, [elementsStore]);
+  const selectedStore = useSelectedStore(null, [elementsStore]);
 
   const { editorEvents, externalEvents } = useMemo(
     () => ({
@@ -167,55 +71,60 @@ export const MailBuilder = () => {
     []
   );
 
-  useUnsubscribable(() =>
-    editorEvents.subscribe((e) =>
-      match(e)
-        .with({ type: 'MouseEnter' }, (event) =>
-          hoverStore.actions.addHover(event.payload)
-        )
-        .with({ type: 'MouseLeave' }, () => hoverStore.actions.removeHover())
-        .with({ type: 'ElementSelected' }, (event) =>
-          selectedStore.actions.setSelected(event.payload)
-        )
-        .with({ type: 'ElementUnselected' }, selectedStore.actions.unselect)
-        .with({ type: 'UnlinkElementFromLayout' }, (event) => {
-          const parent = getParentElement(
-            elementsStore.getValue(),
-            event.payload
-          );
-          if (!parent)
-            return console.error(`UnlinkElementFromLayout: ${event.payload}`);
-          undoRedo.startBunch();
-          parent.actions.removeChild(event.payload);
-        })
-        .with({ type: 'LinkElementToLayout' }, ({ payload }) => {
-          const parent = getLayoutElement(
-            elementsStore.getValue(),
-            payload.position.layout
-          );
-          if (!parent)
-            return console.error(
-              `LinkElementToLayout: ${payload.position.layout}`
+  useUnsubscribable(
+    () =>
+      editorEvents.subscribe((e) =>
+        match(e)
+          .with({ type: 'MouseEnter' }, (event) => {
+            hoverStore.actions.addHover(event.payload);
+          })
+          .with({ type: 'MouseLeave' }, () => hoverStore.actions.removeHover())
+          .with({ type: 'ElementSelected' }, (event) =>
+            selectedStore.actions.setSelected(event.payload)
+          )
+          .with({ type: 'ElementUnselected' }, selectedStore.actions.unselect)
+          .with({ type: 'UnlinkElementFromLayout' }, (event) => {
+            const parent = getParentElement(
+              elementsStore.getValue(),
+              event.payload
             );
-          parent.actions.addChild(payload);
-          if (payload.samePosition) undoRedo.removeLastEvent();
-          undoRedo.endBunch();
-        })
-        .with({ type: 'AddElement' }, ({ payload: { element, position } }) => {
-          const parent = getLayoutElement(
-            elementsStore.getValue(),
-            position.position.layout
-          );
-          if (!parent)
-            return console.error(`AddElement: ${position.position.layout}`);
-          undoRedo.startBunch();
-          elementsStore.actions.addElement(element);
-          parent.actions.addChild(position);
-          undoRedo.endBunch();
-          selectedStore.actions.setSelected(element.id);
-        })
-        .exhaustive()
-    )
+            if (!parent)
+              return console.error(`UnlinkElementFromLayout: ${event.payload}`);
+            undoRedo.startBunch();
+            parent.actions.removeChild(event.payload);
+          })
+          .with({ type: 'LinkElementToLayout' }, ({ payload }) => {
+            const parent = getLayoutElement(
+              elementsStore.getValue(),
+              payload.position.layout
+            );
+            if (!parent)
+              return console.error(
+                `LinkElementToLayout: ${payload.position.layout}`
+              );
+            parent.actions.addChild(payload);
+            if (payload.samePosition) undoRedo.removeLastEvent();
+            undoRedo.endBunch();
+          })
+          .with(
+            { type: 'AddElement' },
+            ({ payload: { element, position } }) => {
+              const parent = getLayoutElement(
+                elementsStore.getValue(),
+                position.position.layout
+              );
+              if (!parent)
+                return console.error(`AddElement: ${position.position.layout}`);
+              undoRedo.startBunch();
+              elementsStore.actions.addElement(element);
+              parent.actions.addChild(position);
+              undoRedo.endBunch();
+              selectedStore.actions.setSelected(element.id);
+            }
+          )
+          .exhaustive()
+      ),
+    [elementsStore, hoverStore, selectedStore, editorEvents]
   );
 
   return (

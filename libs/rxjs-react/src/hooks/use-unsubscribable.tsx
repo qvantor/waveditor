@@ -1,10 +1,13 @@
 import { Unsubscribable } from 'rxjs';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
-export const useUnsubscribable = <T extends Unsubscribable>(fn: () => T) => {
-  const result = useMemo(() => fn(), []);
+export const useUnsubscribable = <T extends Unsubscribable>(
+  fn: () => T,
+  deps: unknown[] = []
+) =>
   useEffect(() => {
-    return () => result.unsubscribe();
-  }, [result]);
-  return result;
-};
+    const sb = fn();
+    return () => {
+      sb.unsubscribe();
+    };
+  }, [...deps]);

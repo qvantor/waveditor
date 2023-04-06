@@ -6,10 +6,10 @@ export const storeHookConstructor =
   (initialValue: V, deps: D) => {
     const { bs, actions, getValue, unsubscribe } = useMemo(
       () => constructor(deps).run(initialValue),
-      []
+      [initialValue, deps]
     );
     useEffect(() => {
-      // return () => unsubscribe();
-    }, [unsubscribe]);
+      return () => unsubscribe();
+    }, [unsubscribe, initialValue, deps]);
     return { bs, actions, getValue };
   };

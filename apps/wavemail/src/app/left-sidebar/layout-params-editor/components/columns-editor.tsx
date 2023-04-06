@@ -80,8 +80,7 @@ const GhostColumn = styled(ColumnCommon)`
 export const ColumnsEditor = ({ layout }: Props) => {
   const columns = useObservable(
     layout.bs.pipe(map((value) => value.params.columns)),
-    layout.getValue().params.columns,
-    [layout]
+    layout.getValue().params.columns
   );
 
   const removeDisabled = columns.length <= 1;

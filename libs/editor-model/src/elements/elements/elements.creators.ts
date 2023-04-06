@@ -63,3 +63,15 @@ export function elementToElementStore<E extends Element>(
       return imageStore(deps).run(element);
   }
 }
+
+export const elementsToElementsStore = (
+  elements: Record<string, Element>,
+  deps: ElementStoreDeps
+) =>
+  Object.entries(elements).reduce<Record<string, ElementStore>>(
+    (sum, [key, element]) => ({
+      ...sum,
+      [key]: elementToElementStore(element, deps),
+    }),
+    {}
+  );

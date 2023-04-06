@@ -29,6 +29,7 @@ export const Element = ({ id, width }: Props) => {
     () => getElementById(id)(elements.value),
     [id, elements]
   );
+  if (!element) return null;
   const attributes = { id, datatype: ELEMENT_DATATYPE };
   return match(element)
     .with(elementSelector('layout'), (element) => (

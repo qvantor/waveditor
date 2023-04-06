@@ -5,10 +5,13 @@ import {
   useEditorKeyboardEvents,
 } from '../../common/hooks';
 import { useRemoveSelected } from '../../common/actions-hooks';
+import { useSaveRenderContext } from '../../templates';
 
 const HotkeyActions = {
   undo: 'KeyZ',
   redo: 'KeyX',
+  save: 'KeyS',
+  load: 'KeyL',
   remove: 'Backspace',
 };
 
@@ -18,6 +21,7 @@ export const Hotkeys = () => {
   } = useMailBuilderContext();
   const removeSelected = useRemoveSelected();
   const editorKeyboardEvents = useEditorKeyboardEvents();
+  const saveRenderContext = useSaveRenderContext();
 
   useSubscription(() => {
     const keyboardEvents = fromEvent<KeyboardEvent>(document, 'keydown');
@@ -41,6 +45,8 @@ export const Hotkeys = () => {
             return undoRedo.undo.next();
           case HotkeyActions.redo:
             return undoRedo.redo.next();
+          case HotkeyActions.save:
+            return saveRenderContext();
           case HotkeyActions.remove:
             return removeSelected();
         }

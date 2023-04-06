@@ -39,21 +39,18 @@ export const Font = ({ element }: Props) => {
           : null
       )
     ),
-    null,
-    [element]
+    null
   );
 
   // @todo here should be font from closest parent
   const inheritedFont = useObservable(
     config.bs.pipe(selectorToPipe(getTemplateDefaultFont)),
-    getTemplateDefaultFont(config.getValue()),
-    [config]
+    getTemplateDefaultFont(config.getValue())
   );
 
   const fonts = useObservable(
     config.bs.pipe(selectorToPipe(getTemplateConfigFonts)),
-    getTemplateConfigFonts(config.getValue()),
-    [config]
+    getTemplateConfigFonts(config.getValue())
   );
   const font = elementFont || inheritedFont;
   return (

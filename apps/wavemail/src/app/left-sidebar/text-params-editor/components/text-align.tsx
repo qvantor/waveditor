@@ -18,8 +18,7 @@ interface Props {
 export const TextAlign = ({ text }: Props) => {
   const align = useObservable(
     text.bs.pipe(selectorToPipe(getElementTextAlign)),
-    getElementTextAlign(text.getValue()),
-    [text]
+    getElementTextAlign(text.getValue())
   );
   const onChange = ({ target: { value } }: RadioChangeEvent) =>
     text.actions.setStyle({

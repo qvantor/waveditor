@@ -29,6 +29,8 @@ export {
   createEmptyElement,
   elementToElementStore,
   getElementById,
+  elementsStoreToObject,
+  elementsToElementsStore,
 } from './elements';
 export type {
   ElementsStoreUndoRedoEvent,

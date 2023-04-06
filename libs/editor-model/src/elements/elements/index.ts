@@ -7,4 +7,9 @@ export type {
 export type { ElementsStore } from './elements';
 export { useElementsStore } from './elements';
 export * from './elements.selectors';
-export { createEmptyElement, elementToElementStore } from './elements.creators';
+export * from './elements.services';
+export {
+  createEmptyElement,
+  elementToElementStore,
+  elementsToElementsStore,
+} from './elements.creators';

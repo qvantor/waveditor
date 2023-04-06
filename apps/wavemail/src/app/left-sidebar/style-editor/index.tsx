@@ -30,8 +30,7 @@ const TypedEditorSwitch = ({ element }: Props) =>
 export const StyleEditor = ({ element }: Props) => {
   const style = useObservable(
     (element.bs as BehaviorSubject<Element>).pipe(map((value) => value.style)),
-    {},
-    [element]
+    {}
   );
   return (
     <>

@@ -27,8 +27,7 @@ export const PxValue = ({
 }: Props) => {
   const value = useObservable(
     text.bs.pipe(selectorToPipe(selector)),
-    selector(text.getValue()),
-    [text]
+    selector(text.getValue())
   );
   const onChange = (value?: string) =>
     text.actions.setStyle({

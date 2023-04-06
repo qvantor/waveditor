@@ -3,16 +3,34 @@ import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { RenderContext, renderToString } from '@waveditors/layout-render';
 import { Modal } from 'antd';
+import { useObservable } from '@waveditors/rxjs-react';
+import {
+  getTemplateConfigName,
+  selectorToPipe,
+} from '@waveditors/editor-model';
 import { useMailBuilderContext } from '../common/hooks';
+import { Templates } from '../templates';
+import { HeaderButton, Input } from '../common/components';
 
 const Root = styled.div`
   height: ${tokens.size.headerHeight};
   background: ${tokens.color.surface.tertiary};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
 `;
 const IframeInternal = styled.iframe`
   height: calc(100vh - 250px);
   width: 100%;
   border: none;
+`;
+const NameInput = styled(Input)`
+  width: 200px;
+  background: transparent;
+  border: none;
+  color: ${tokens.color.text.tertiary};
+  text-align: center;
 `;
 export const Header = () => {
   const frameRef = useRef<HTMLIFrameElement>(null);
@@ -21,6 +39,10 @@ export const Header = () => {
     stores: { elements, relations },
     config,
   } = useMailBuilderContext();
+  const name = useObservable(
+    config.bs.pipe(selectorToPipe(getTemplateConfigName)),
+    getTemplateConfigName(config.getValue())
+  );
 
   const renderContext = useMemo<RenderContext>(
     () => ({
@@ -59,7 +81,14 @@ export const Header = () => {
   }, [renderContext, open]);
   return (
     <>
-      <Root onClick={() => setOpen(!open)} />
+      <Root>
+        <Templates />
+        <NameInput
+          value={name}
+          onChange={(name) => config.actions.setName(name ?? '')}
+        />
+        <HeaderButton onClick={() => setOpen(true)}>HTML preview</HeaderButton>
+      </Root>
       <Modal
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}

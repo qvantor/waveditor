@@ -11,3 +11,10 @@ export const getTemplateDefaultFont = (config: TemplateConfig) => {
   if (!defaultFont) throw new Error('Model corrupted: no default font found');
   return defaultFont;
 };
+
+export const getTemplateConfigName = (config: TemplateConfig) => config.name;
+export const getTemplateConfigRootElementId = (config: TemplateConfig) =>
+  config.rootElementId;
+
+export const getTemplateConfigViewportWidth = (config: TemplateConfig) =>
+  config.viewportWidth;

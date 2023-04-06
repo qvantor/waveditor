@@ -1,12 +1,16 @@
 import { MouseEvent, useMemo } from 'react';
 import { Subject } from 'rxjs';
 import styled from 'styled-components';
-
 import {
   Head,
   useSetBodyStyle,
   useRenderContext,
 } from '@waveditors/layout-render';
+import { useObservable } from '@waveditors/rxjs-react';
+import {
+  getTemplateConfigRootElementId,
+  selectorToPipe,
+} from '@waveditors/editor-model';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
 import { useDnd, useElementSelection, useInternalState } from '../hooks';
 import { ContextValue } from '../constants';
@@ -18,6 +22,16 @@ const Root = styled.div`
   position: relative;
   height: 100%;
 `;
+
+const RenderElement = () => {
+  const { config } = useRenderContext();
+  const rootElementId = useObservable(
+    config.pipe(selectorToPipe(getTemplateConfigRootElementId)),
+    getTemplateConfigRootElementId(config.value)
+  );
+  const width = config.getValue().viewportWidth;
+  return <Element id={rootElementId} width={width} />;
+};
 
 export function LayoutEditor(
   props: Omit<Context, 'internalEvents' | 'internalState'>
@@ -47,9 +61,6 @@ export function LayoutEditor(
 
   useSetBodyStyle(props.iFrameDocument);
 
-  const { config } = renderContext;
-  const width = config.getValue().viewportWidth;
-
   return (
     <ContextValue.Provider value={context}>
       <Head iFrameDocument={context.iFrameDocument} />
@@ -61,7 +72,7 @@ export function LayoutEditor(
           rootClick(e);
         }}
       >
-        <Element id={config.getValue().rootElementId} width={width} />
+        <RenderElement />
         <HoverFrame />
         <SelectedFrame />
       </Root>

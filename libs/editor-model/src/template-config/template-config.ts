@@ -18,6 +18,7 @@ export const templateConfigStore = ({
 }) =>
   createStore<TemplateConfig>()
     .addActions({
+      setName: (name: string, state) => ({ ...state, name }),
       addFont: (font: TemplateConfigFont, state) => ({
         ...state,
         fonts: [...state.fonts, font],

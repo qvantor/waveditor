@@ -1,9 +1,12 @@
 import { ConfigProvider } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { GlobalStyle, tokens, theme } from '@waveditors/theme';
+import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { MailBuilder } from './mail-builder';
+import { RenderContextStore } from './templates';
 
 export function App() {
+  const renderContextObject = useBehaviorSubject(RenderContextStore.bs);
   return (
     <StyleProvider container={document.head}>
       <ConfigProvider
@@ -22,7 +25,7 @@ export function App() {
         }}
       >
         <GlobalStyle />
-        <MailBuilder />
+        <MailBuilder {...renderContextObject} />
       </ConfigProvider>
     </StyleProvider>
   );
