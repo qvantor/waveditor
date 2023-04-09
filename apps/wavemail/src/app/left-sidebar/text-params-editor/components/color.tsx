@@ -1,11 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import {
-  TextStore,
-  getElementColor,
-  selectorToPipe,
-} from '@waveditors/editor-model';
-import { useObservable } from '@waveditors/rxjs-react';
+import { TextStore, getElementColor } from '@waveditors/editor-model';
+import { useBsSelector } from '@waveditors/rxjs-react';
 import { ColorPicker } from '../../../common/components';
 
 const InternalPicker = styled(ColorPicker)`
@@ -17,10 +13,7 @@ interface Props {
 }
 
 export const Color = ({ text }: Props) => {
-  const color = useObservable(
-    text.bs.pipe(selectorToPipe(getElementColor)),
-    getElementColor(text.getValue())
-  );
+  const color = useBsSelector(text.bs, getElementColor);
   const onChange = useCallback(
     (value?: string) => text.actions.setStyle({ key: 'color', value }),
     [text]

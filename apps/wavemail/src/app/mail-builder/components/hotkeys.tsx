@@ -1,5 +1,6 @@
 import { filter, fromEvent, merge } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
+import { message } from 'antd';
 import {
   useMailBuilderContext,
   useEditorKeyboardEvents,
@@ -16,6 +17,7 @@ const HotkeyActions = {
 };
 
 export const Hotkeys = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const {
     modules: { undoRedo },
   } = useMailBuilderContext();
@@ -45,12 +47,14 @@ export const Hotkeys = () => {
             return undoRedo.undo.next();
           case HotkeyActions.redo:
             return undoRedo.redo.next();
-          case HotkeyActions.save:
+          case HotkeyActions.save: {
+            messageApi.info('Saved successfully');
             return saveRenderContext();
+          }
           case HotkeyActions.remove:
             return removeSelected();
         }
       });
   }, [undoRedo, editorKeyboardEvents]);
-  return null;
+  return contextHolder;
 };

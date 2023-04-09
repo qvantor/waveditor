@@ -1,5 +1,1 @@
-export {
-  useSaveRenderContext,
-  getTemplates,
-  getInitialTemplate,
-} from './use-save-render-context';
+export { useSaveRenderContext } from './use-save-render-context';

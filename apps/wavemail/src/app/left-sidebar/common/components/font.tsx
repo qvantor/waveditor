@@ -4,10 +4,9 @@ import {
   getTemplateConfigFonts,
   getTemplateConfigFontById,
   getElementFontRelationByElementId,
-  selectorToPipe,
   getTemplateDefaultFont,
 } from '@waveditors/editor-model';
-import { useObservable } from '@waveditors/rxjs-react';
+import { useBsSelector, useObservable } from '@waveditors/rxjs-react';
 import { useMailBuilderContext } from '../../../common/hooks';
 import {
   useCreateTemplateConfigFont,
@@ -43,15 +42,9 @@ export const Font = ({ element }: Props) => {
   );
 
   // @todo here should be font from closest parent
-  const inheritedFont = useObservable(
-    config.bs.pipe(selectorToPipe(getTemplateDefaultFont)),
-    getTemplateDefaultFont(config.getValue())
-  );
+  const inheritedFont = useBsSelector(config.bs, getTemplateDefaultFont);
+  const fonts = useBsSelector(config.bs, getTemplateConfigFonts);
 
-  const fonts = useObservable(
-    config.bs.pipe(selectorToPipe(getTemplateConfigFonts)),
-    getTemplateConfigFonts(config.getValue())
-  );
   const font = elementFont || inheritedFont;
   return (
     <FontSelector

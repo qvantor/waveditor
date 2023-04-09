@@ -4,22 +4,15 @@ import {
   AiOutlineAlignCenter,
   AiOutlineAlignRight,
 } from 'react-icons/ai';
-import {
-  TextStore,
-  getElementTextAlign,
-  selectorToPipe,
-} from '@waveditors/editor-model';
-import { useObservable } from '@waveditors/rxjs-react';
+import { TextStore, getElementTextAlign } from '@waveditors/editor-model';
+import { useBsSelector } from '@waveditors/rxjs-react';
 
 interface Props {
   text: TextStore;
 }
 
 export const TextAlign = ({ text }: Props) => {
-  const align = useObservable(
-    text.bs.pipe(selectorToPipe(getElementTextAlign)),
-    getElementTextAlign(text.getValue())
-  );
+  const align = useBsSelector(text.bs, getElementTextAlign);
   const onChange = ({ target: { value } }: RadioChangeEvent) =>
     text.actions.setStyle({
       key: 'textAlign',

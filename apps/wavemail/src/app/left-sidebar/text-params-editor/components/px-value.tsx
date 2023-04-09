@@ -1,11 +1,7 @@
-import {
-  ElementCommon,
-  selectorToPipe,
-  TextStore,
-} from '@waveditors/editor-model';
+import { ElementCommon, TextStore } from '@waveditors/editor-model';
 import React from 'react';
 import { InputNumberProps } from 'antd';
-import { useObservable } from '@waveditors/rxjs-react';
+import { useBsSelector } from '@waveditors/rxjs-react';
 import { addPx, optionalApply, removePx } from '@waveditors/utils';
 import { InputNumber } from '../../../common/components';
 
@@ -25,10 +21,7 @@ export const PxValue = ({
   max = '500',
   step,
 }: Props) => {
-  const value = useObservable(
-    text.bs.pipe(selectorToPipe(selector)),
-    selector(text.getValue())
-  );
+  const value = useBsSelector(text.bs, selector);
   const onChange = (value?: string) =>
     text.actions.setStyle({
       key: styleKey,

@@ -2,12 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { RenderContext, renderToString } from '@waveditors/layout-render';
-import { Modal } from 'antd';
-import { useObservable } from '@waveditors/rxjs-react';
-import {
-  getTemplateConfigName,
-  selectorToPipe,
-} from '@waveditors/editor-model';
+import { Modal, Button, message } from 'antd';
+import { useBsSelector } from '@waveditors/rxjs-react';
+import { getTemplateConfigName } from '@waveditors/editor-model';
 import { useMailBuilderContext } from '../common/hooks';
 import { Templates } from '../templates';
 import { HeaderButton, Input } from '../common/components';
@@ -32,17 +29,23 @@ const NameInput = styled(Input)`
   color: ${tokens.color.text.tertiary};
   text-align: center;
 `;
+
+const ModalFooter = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+const EmailRegexp =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const Header = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+  const [email, setEmail] = useState(process.env.NX_TO_EMAIL ?? '');
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [open, setOpen] = useState(false);
   const {
     stores: { elements, relations },
     config,
   } = useMailBuilderContext();
-  const name = useObservable(
-    config.bs.pipe(selectorToPipe(getTemplateConfigName)),
-    getTemplateConfigName(config.getValue())
-  );
+  const name = useBsSelector(config.bs, getTemplateConfigName);
 
   const renderContext = useMemo<RenderContext>(
     () => ({
@@ -53,14 +56,18 @@ export const Header = () => {
     [config.bs, elements.bs, relations.bs]
   );
   const send = async () => {
+    if (!EmailRegexp.test(email))
+      return messageApi.error('Entered email is invalid');
     const data = new FormData();
-    data.append(
-      'from',
-      `Excited User waveditor@${process.env.NX_MAILGUN_DOMAIN_NAME}`
-    );
-    data.append('to', process.env.NX_TO_EMAIL as string);
-    data.append('subject', 'Waveditor email test');
+    data.append('from', `waveditor@${process.env.NX_MAILGUN_DOMAIN_NAME}`);
+    data.append('to', email);
+    data.append('subject', 'Waveditor test email');
     data.append('html', renderToString(renderContext));
+
+    if (!process.env.NX_MAILGUN_KEY || !process.env.NX_MAILGUN_DOMAIN_NAME)
+      return messageApi.error(
+        'Env variables NX_MAILGUN_KEY and NX_MAILGUN_DOMAIN_NAME are required'
+      );
 
     await fetch(
       `https://api.mailgun.net/v3/${process.env.NX_MAILGUN_DOMAIN_NAME}/messages`,
@@ -72,6 +79,7 @@ export const Header = () => {
         },
       }
     );
+    messageApi.info('Email sent successfully');
   };
   useEffect(() => {
     if (!frameRef.current || !frameRef.current.contentDocument || !open) return;
@@ -81,6 +89,7 @@ export const Header = () => {
   }, [renderContext, open]);
   return (
     <>
+      {contextHolder}
       <Root>
         <Templates />
         <NameInput
@@ -90,12 +99,24 @@ export const Header = () => {
         <HeaderButton onClick={() => setOpen(true)}>HTML preview</HeaderButton>
       </Root>
       <Modal
-        onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
+        footer={
+          <ModalFooter>
+            <Input
+              placeholder='Email to send'
+              validate={(value = '') => EmailRegexp.test(value)}
+              value={email}
+              onChange={(value = '') => setEmail(value)}
+            />
+            <Button onClick={send} type='primary' size='small'>
+              Send test email
+            </Button>
+          </ModalFooter>
+        }
+        title='Email HTML preview'
         open={open}
-        width={1000}
+        width='80vw'
       >
-        <button onClick={send}>send</button>
         <IframeInternal ref={frameRef} title='Preview' />
       </Modal>
     </>

@@ -1,7 +1,7 @@
-import { StoreResult } from '@waveditors/rxjs-react';
+import { StoreResult, selectorToPipe } from '@waveditors/rxjs-react';
 import { switchMap, map, from, catchError, of } from 'rxjs';
 import { elementStore, ElementStoreDeps } from '../element';
-import { commonUndoRedoEffect, selectorToPipe } from '../../services';
+import { commonUndoRedoEffect } from '../../services';
 import type { Image } from './image.types';
 import { getImageUrl } from './image.selectors';
 

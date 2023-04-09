@@ -1,2 +1,2 @@
 export { commonUndoRedoEffect } from './effects';
-export { elementSelector, selectorToPipe } from './selectors';
+export { elementSelector } from './selectors';

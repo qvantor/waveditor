@@ -6,11 +6,8 @@ import {
   useSetBodyStyle,
   useRenderContext,
 } from '@waveditors/layout-render';
-import { useObservable } from '@waveditors/rxjs-react';
-import {
-  getTemplateConfigRootElementId,
-  selectorToPipe,
-} from '@waveditors/editor-model';
+import { useBsSelector } from '@waveditors/rxjs-react';
+import { getTemplateConfigRootElementId } from '@waveditors/editor-model';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
 import { useDnd, useElementSelection, useInternalState } from '../hooks';
 import { ContextValue } from '../constants';
@@ -25,10 +22,7 @@ const Root = styled.div`
 
 const RenderElement = () => {
   const { config } = useRenderContext();
-  const rootElementId = useObservable(
-    config.pipe(selectorToPipe(getTemplateConfigRootElementId)),
-    getTemplateConfigRootElementId(config.value)
-  );
+  const rootElementId = useBsSelector(config, getTemplateConfigRootElementId);
   const width = config.getValue().viewportWidth;
   return <Element id={rootElementId} width={width} />;
 };

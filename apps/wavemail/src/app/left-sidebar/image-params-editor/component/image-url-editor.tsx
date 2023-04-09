@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { EmptyPattern, font, tokens } from '@waveditors/theme';
-import { useObservable } from '@waveditors/rxjs-react';
+import { useBsSelector } from '@waveditors/rxjs-react';
 import {
   getImageMeta,
   getImageUrl,
   ImageStore,
-  selectorToPipe,
 } from '@waveditors/editor-model';
 import { Input } from '../../../common/components';
 
@@ -42,10 +41,7 @@ const ImageMetaRoot = styled.div`
 `;
 
 const ImageMeta = ({ image }: Props) => {
-  const meta = useObservable(
-    image.bs.pipe(selectorToPipe(getImageMeta)),
-    getImageMeta(image.getValue())
-  );
+  const meta = useBsSelector(image.bs, getImageMeta);
   if (!meta) return null;
   return (
     <ImageMetaRoot>
@@ -55,10 +51,7 @@ const ImageMeta = ({ image }: Props) => {
 };
 
 export const ImageUrlEditor = ({ image }: Props) => {
-  const url = useObservable(
-    image.bs.pipe(selectorToPipe(getImageUrl)),
-    getImageUrl(image.getValue())
-  );
+  const url = useBsSelector(image.bs, getImageUrl);
   return (
     <Root>
       <ImagePreviewContainer>
