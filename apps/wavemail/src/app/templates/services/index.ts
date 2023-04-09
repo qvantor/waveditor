@@ -5,12 +5,17 @@ import {
   createInitialTemplateConfig,
 } from '@waveditors/editor-model';
 import { LOCAL_STORAGE_KEY } from '../constants';
+import DemoTemplates from '../constants/demo.json';
 
+const initialTemplates = () => {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DemoTemplates));
+  return DemoTemplates;
+};
 export const getTemplates = () => {
   const value = localStorage.getItem(LOCAL_STORAGE_KEY);
   const savedProjects: Record<string, RenderContextObject> = value
     ? JSON.parse(value)
-    : {};
+    : initialTemplates();
   return savedProjects;
 };
 

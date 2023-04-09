@@ -1,0 +1,986 @@
+{
+  "0.33487982865084454": {
+    "config": {
+      "name": "Stack overflow",
+      "rootElementId": "0.33487982865084454",
+      "viewportWidth": 600,
+      "style": {
+        "margin": "0",
+        "backgroundColor": "#f3f3f5",
+        "fontSize": "16px"
+      },
+      "fonts": [
+        {
+          "id": "0.6444420080505084",
+          "fallback": "Helvetica",
+          "genericFamily": "sans-serif",
+          "url": "https://fonts.googleapis.com/css2?family=Lato&display=swap",
+          "name": "Lato"
+        },
+        {
+          "id": "0.9447189572273049",
+          "fallback": "Times New Roman",
+          "genericFamily": "serif"
+        }
+      ]
+    },
+    "relations": {
+      "elementFont": {}
+    },
+    "elements": {
+      "0.33487982865084454": {
+        "id": "0.33487982865084454",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.05495988646996097",
+              "0.5250545023981659",
+              "0.3290068882330466",
+              "0.7279449430255271",
+              "0.07539442852999345",
+              "0.7731995924021442"
+            ]
+          ]
+        },
+        "style": {
+          "margin": "0px auto",
+          "padding": "30px 0px"
+        }
+      },
+      "0.8077460603421789": {
+        "id": "0.8077460603421789",
+        "type": "image",
+        "params": {
+          "url": "https://react-email-demo-ijnnx5hul-resend.vercel.app/static/stack-overflow-logo.png"
+        },
+        "style": {
+          "display": "block",
+          "maxWidth": "100%"
+        },
+        "meta": {
+          "width": 292,
+          "height": 72
+        }
+      },
+      "0.5027819118396955": {
+        "id": "0.5027819118396955",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Find what you want, faster"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "color": "#ffffff",
+          "fontSize": "27px",
+          "lineHeight": "27px",
+          "padding": "20px 0px 0px"
+        }
+      },
+      "0.05495988646996097": {
+        "id": "0.05495988646996097",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.8077460603421789"
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        "style": {
+          "padding": "0px 30px 20px"
+        }
+      },
+      "0.5250545023981659": {
+        "id": "0.5250545023981659",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.5027819118396955",
+              "0.005649646066144598"
+            ],
+            [
+              "0.5281707743147301"
+            ]
+          ]
+        },
+        "style": {
+          "padding": "10px 20px",
+          "backgroundColor": "#2b2d6e"
+        }
+      },
+      "0.005649646066144598": {
+        "id": "0.005649646066144598",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Tips and tricks for searching on Stack Overflow"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "color": "#ffffff",
+          "padding": "0px 0px 20px",
+          "fontSize": "17px",
+          "lineHeight": "24px"
+        }
+      },
+      "0.5281707743147301": {
+        "id": "0.5281707743147301",
+        "type": "image",
+        "params": {
+          "url": "https://react-email-demo-ijnnx5hul-resend.vercel.app/static/stack-overflow-header.png"
+        },
+        "style": {
+          "display": "block",
+          "maxWidth": "100%"
+        },
+        "meta": {
+          "width": 640,
+          "height": 374
+        }
+      },
+      "0.3290068882330466": {
+        "id": "0.3290068882330466",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.5247315254185632",
+              "0.28263615694320166",
+              "0.11988580987485387",
+              "0.5680156934891727",
+              "0.9322484544802578",
+              "0.6453944679404455",
+              "0.49698673070872856"
+            ]
+          ]
+        },
+        "style": {
+          "padding": "20px",
+          "backgroundColor": "#ffffff"
+        }
+      },
+      "0.5247315254185632": {
+        "id": "0.5247315254185632",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Searching for solutions"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "21px",
+          "lineHeight": "21px"
+        }
+      },
+      "0.28263615694320166": {
+        "id": "0.28263615694320166",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "With more than 18 million questions, it's possible that someone has already provided a solution to the problem you're facing."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "15px",
+          "lineHeight": "21px"
+        }
+      },
+      "0.11988580987485387": {
+        "id": "0.11988580987485387",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Use the search bar at the top of the page to find what you need"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "21px",
+          "lineHeight": "21px",
+          "padding": "20px 0px 0px"
+        }
+      },
+      "0.5680156934891727": {
+        "id": "0.5680156934891727",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Here are a few simple search tips to get you started:"
+                  }
+                ]
+              },
+              {
+                "type": "bulletList",
+                "content": [
+                  {
+                    "type": "listItem",
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "To find a specific phrase, enter it in quotes: \"local storage\""
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listItem",
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "To search within specific tag(s), enter them in square brackets: [javascript]"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listItem",
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "Combine them to get even more precise results - [javascript] \"local storage\" searches for the phrase “local storage” in questions that have the [javascript] tag"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "15px",
+          "lineHeight": "21px"
+        }
+      },
+      "0.9322484544802578": {
+        "id": "0.9322484544802578",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "The more information you can put in the search bar, the more likely you will be to either find the answer you need or feel confident that no one else has asked the question before."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "15px",
+          "lineHeight": "21px"
+        }
+      },
+      "0.6453944679404455": {
+        "id": "0.6453944679404455",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Take a break and read about the worst coder in the world"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "21px",
+          "lineHeight": "21px",
+          "padding": "20px 0px 0px"
+        }
+      },
+      "0.49698673070872856": {
+        "id": "0.49698673070872856",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.31049815074271914"
+            ],
+            [],
+            []
+          ]
+        },
+        "style": {}
+      },
+      "0.31049815074271914": {
+        "id": "0.31049815074271914",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "I need a break"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "backgroundColor": "#0095ff",
+          "textAlign": "center",
+          "padding": "3px 17px",
+          "color": "#ffffff"
+        }
+      },
+      "0.7279449430255271": {
+        "id": "0.7279449430255271",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "You're receiving this email because your Stack Overflow activity triggered this tip or reminder."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "padding": "0px 20px",
+          "fontSize": "12px",
+          "lineHeight": "15px",
+          "color": "#9199a1"
+        }
+      },
+      "0.07539442852999345": {
+        "id": "0.07539442852999345",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.2600000104504372"
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        "style": {
+          "padding": "0px 20px"
+        }
+      },
+      "0.2600000104504372": {
+        "id": "0.2600000104504372",
+        "type": "image",
+        "params": {
+          "url": "https://react-email-demo-ijnnx5hul-resend.vercel.app/static/stack-overflow-logo-sm.png"
+        },
+        "style": {
+          "display": "block",
+          "maxWidth": "100%"
+        },
+        "meta": {
+          "width": 222,
+          "height": 44
+        }
+      },
+      "0.7731995924021442": {
+        "id": "0.7731995924021442",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Stack Overflow"
+                  },
+                  {
+                    "type": "text",
+                    "text": ", 110 William Street, 28th Floor, New York, NY 10038"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "12px",
+          "lineHeight": "15px",
+          "color": "#9199a1",
+          "padding": "0px 20px"
+        }
+      }
+    }
+  },
+  "0.6312387020985446": {
+    "config": {
+      "name": "Binance",
+      "rootElementId": "0.6312387020985446",
+      "viewportWidth": 600,
+      "style": {
+        "margin": "0",
+        "backgroundColor": "#f3f3f5",
+        "fontSize": "16px"
+      },
+      "fonts": [
+        {
+          "id": "0.7398912685223318",
+          "fallback": "Helvetica",
+          "genericFamily": "sans-serif"
+        },
+        {
+          "id": "0.9653327371076597",
+          "fallback": "Times New Roman",
+          "genericFamily": "serif"
+        }
+      ]
+    },
+    "relations": {
+      "elementFont": {}
+    },
+    "elements": {
+      "0.6312387020985446": {
+        "id": "0.6312387020985446",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.8696886161009367",
+              "0.5644918305077449"
+            ]
+          ]
+        },
+        "style": {
+          "backgroundColor": "#fff",
+          "margin": "0px auto",
+          "padding": "0px 0px 20px"
+        }
+      },
+      "0.8696886161009367": {
+        "id": "0.8696886161009367",
+        "type": "image",
+        "params": {
+          "url": "https://ci3.googleusercontent.com/proxy/YBhAXb-6msTQkvlOGSORfc-XYSnidZmDXSu7WTrrmZIb-FLdUeM_XknGD9BQCa_6CzHxKIiPna2kIPZDdzSN2koBraKAHCLqp7BSojzQeuJ49s-Xan6Ksu05yAO8ly13Ot_s9bbJTuxByqQ=s0-d-e1-ft#https://public.bnbstatic.com/image/ufo/20210831/1e00bd49-0695-4eaa-8ab0-6dd89a7087fb.png"
+        },
+        "style": {
+          "display": "block",
+          "maxWidth": "100%"
+        },
+        "meta": {
+          "width": 2160,
+          "height": 300
+        }
+      },
+      "0.6832914495750462": {
+        "id": "0.6832914495750462",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Did You Login From a New Device or Location?"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "20px",
+          "lineHeight": "25px",
+          "padding": "0px"
+        }
+      },
+      "0.8699267368710797": {
+        "id": "0.8699267368710797",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "We noticed your Binance account <your@email.com> was accessed from a new IP address. "
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "14px",
+          "lineHeight": "20px"
+        }
+      },
+      "0.5644918305077449": {
+        "id": "0.5644918305077449",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.6832914495750462",
+              "0.8699267368710797",
+              "0.7799727582696243",
+              "0.3295130878152963",
+              "0.03624026172676009",
+              "0.23787716048550123",
+              "0.3053566780767525",
+              "0.5691312962121302",
+              "0.6136397759779226",
+              "0.10199440783036895",
+              "0.34126130227653406"
+            ]
+          ]
+        },
+        "style": {
+          "padding": "20px 20px 0px"
+        }
+      },
+      "0.7799727582696243": {
+        "id": "0.7799727582696243",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "When "
+                  },
+                  {
+                    "type": "text",
+                    "text": ": 2023-03-04 18:05:48(UTC)"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "14px",
+          "lineHeight": "20px"
+        }
+      },
+      "0.3295130878152963": {
+        "id": "0.3295130878152963",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "IP Address "
+                  },
+                  {
+                    "type": "text",
+                    "text": ": 188.213.34.38"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "14px",
+          "lineHeight": "20px"
+        }
+      },
+      "0.03624026172676009": {
+        "id": "0.03624026172676009",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.846816644479601"
+            ],
+            [],
+            []
+          ]
+        },
+        "style": {}
+      },
+      "0.846816644479601": {
+        "id": "0.846816644479601",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Visit Your Account"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "backgroundColor": "#fcd535",
+          "textAlign": "center",
+          "fontSize": "14px",
+          "lineHeight": "15px",
+          "padding": "1px 25px"
+        }
+      },
+      "0.23787716048550123": {
+        "id": "0.23787716048550123",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Don’t recognize this activity? Please reset your password and contact customer support "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "italic"
+                      }
+                    ],
+                    "text": "immediately"
+                  },
+                  {
+                    "type": "text",
+                    "text": ". "
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "14px",
+          "lineHeight": "20px"
+        }
+      },
+      "0.3053566780767525": {
+        "id": "0.3053566780767525",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "italic"
+                      }
+                    ],
+                    "text": "This is an automated message, please do not reply. "
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "14px",
+          "lineHeight": "20px"
+        }
+      },
+      "0.5691312962121302": {
+        "id": "0.5691312962121302",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Stay connected!"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "textAlign": "center",
+          "fontSize": "14px",
+          "lineHeight": "20px",
+          "color": "#f0b90b"
+        }
+      },
+      "0.6136397759779226": {
+        "id": "0.6136397759779226",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "To stay secure, setup your phishing code here"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "11px",
+          "lineHeight": "20px"
+        }
+      },
+      "0.10199440783036895": {
+        "id": "0.10199440783036895",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Risk warning: "
+                  },
+                  {
+                    "type": "text",
+                    "text": "Cryptocurrency trading is subject to high market risk. Binance will make the best efforts to choose high-quality coins, but will not be responsible for your trading losses. Please trade with caution."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "Kindly note: "
+                  },
+                  {
+                    "type": "text",
+                    "text": "Please be aware of phishing sites and always make sure you are visiting the official Binance.com website when entering sensitive data."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "11px"
+        }
+      },
+      "0.34126130227653406": {
+        "id": "0.34126130227653406",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "© 2023 Binance.com, All Rights Reserved."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "textAlign": "center",
+          "fontSize": "11px",
+          "lineHeight": "20px",
+          "padding": "10px 0px 0px"
+        }
+      }
+    }
+  }
+}
