@@ -8,13 +8,19 @@ import { Bold } from '@tiptap/extension-bold';
 import { Italic } from '@tiptap/extension-italic';
 import { Strike } from '@tiptap/extension-strike';
 
+const DefaultConfig = {
+  HTMLAttributes: {
+    style: 'margin:0;',
+  },
+};
+
 export const Extensions = [
   Document,
-  Paragraph,
+  Paragraph.configure(DefaultConfig),
   Text,
   ListItem,
-  BulletList,
-  OrderedList,
+  BulletList.configure(DefaultConfig),
+  OrderedList.configure(DefaultConfig),
   Bold,
   Italic,
   Strike,
