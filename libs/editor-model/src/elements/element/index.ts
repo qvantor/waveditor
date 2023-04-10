@@ -5,4 +5,5 @@ export type {
   ElementStoreDeps,
   ElementCommon,
   ElementStoreUndoRedoEvent,
+  ElementLink,
 } from './element.types';

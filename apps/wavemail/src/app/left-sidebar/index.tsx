@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { tokens } from '@waveditors/theme';
 import { useObservable } from '@waveditors/rxjs-react';
 import { useMailBuilderContext } from '../common/hooks';
-import { StyleEditor } from './style-editor';
+import { ElementEditor } from './element-editor';
 import { CreateElement } from './create-element';
 
 const Root = styled.div`
@@ -24,7 +24,7 @@ export const LeftSidebar = () => {
   );
   return (
     <Root>
-      {element ? <StyleEditor element={element} /> : <CreateElement />}
+      {element ? <ElementEditor element={element} /> : <CreateElement />}
     </Root>
   );
 };

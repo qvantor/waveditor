@@ -21,7 +21,7 @@ export const ElementDumb = ({ id, width }: Props) => {
   return match(element)
     .with(elementSelector('layout'), (layout) => (
       <LayoutDumb
-        layout={layout.getValue()}
+        element={layout.getValue()}
         width={width}
         renderColumn={({ width, column }) => (
           <ColumnDumb width={width}>
@@ -33,10 +33,10 @@ export const ElementDumb = ({ id, width }: Props) => {
       />
     ))
     .with(elementSelector('text'), (text) => (
-      <TextDumb text={text.getValue()} />
+      <TextDumb element={text.getValue()} />
     ))
     .with(elementSelector('image'), (image) => (
-      <ImageDumb image={image.getValue()} />
+      <ImageDumb element={image.getValue()} />
     ))
     .exhaustive();
 };

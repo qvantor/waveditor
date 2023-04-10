@@ -40,7 +40,7 @@ export const Layout = ({ element, width, attributes }: Props) => {
 
   return (
     <LayoutDumb
-      layout={layout}
+      element={layout}
       width={width}
       style={style}
       columnStyle={columnStyle}

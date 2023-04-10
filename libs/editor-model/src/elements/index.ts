@@ -1,4 +1,8 @@
-export type { ElementCommon, ElementStoreUndoRedoEvent } from './element';
+export type {
+  ElementCommon,
+  ElementStoreUndoRedoEvent,
+  ElementLink,
+} from './element';
 export {
   getElementStyle,
   getElementFontSize,
@@ -6,6 +10,7 @@ export {
   getElementLetterSpacing,
   getElementTextAlign,
   getElementColor,
+  getElementLink
 } from './element';
 
 export {

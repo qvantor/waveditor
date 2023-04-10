@@ -11,7 +11,7 @@ type Props = {
 export const Text = ({ element, selected, attributes }: Props) => {
   const text = useBehaviorSubject(element.bs);
   return (
-    <TextDumb text={text} attributes={attributes}>
+    <TextDumb element={text} attributes={attributes}>
       <TextEditor
         onChange={element.actions.setContent}
         content={text.params.content}

@@ -1,5 +1,5 @@
 import { createStore } from '@waveditors/rxjs-react';
-import { ElementCommon } from './element.types';
+import { ElementCommon, ElementLink } from './element.types';
 
 export const elementStore = <T extends ElementCommon>() =>
   createStore<T>().addActions({
@@ -13,4 +13,5 @@ export const elementStore = <T extends ElementCommon>() =>
         [key]: value,
       },
     }),
+    setLink: (link: ElementLink | null, state) => ({ ...state, link }),
   });

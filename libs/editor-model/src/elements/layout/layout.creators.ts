@@ -7,5 +7,6 @@ export const createInitialLayout = (): Layout => ({
   params: {
     columns: [[]],
   },
+  link: null,
   style: {},
 });

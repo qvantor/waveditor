@@ -2,6 +2,7 @@ import { ElementCommon } from './element.types';
 
 // style selectors
 export const getElementStyle = (element: ElementCommon) => element.style;
+export const getElementLink = (element: ElementCommon) => element.link;
 export const getElementFontSize = (element: ElementCommon) =>
   getElementStyle(element).fontSize;
 export const getElementLineHeight = (element: ElementCommon) =>

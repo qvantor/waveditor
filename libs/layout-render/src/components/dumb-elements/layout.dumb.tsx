@@ -3,9 +3,10 @@ import { Layout } from '@waveditors/editor-model';
 import { getXPadding } from '@waveditors/utils';
 import { useStyle } from '../../hooks';
 import { COLUMN_DATATYPE } from '../../constants';
+import { LinkHOC } from '../link-hoc';
 
 export interface LayoutDumbProps {
-  layout: Layout;
+  element: Layout;
   width: number;
   renderColumn: (props: {
     width: number;
@@ -17,46 +18,49 @@ export interface LayoutDumbProps {
   attributes?: TableHTMLAttributes<HTMLTableElement>;
 }
 
-export const LayoutDumb = ({
-  layout,
-  width,
-  style: externalStyle,
-  columnStyle,
-  renderColumn,
-  attributes,
-}: LayoutDumbProps) => {
-  const style = useStyle(layout);
-  const columnWidth =
-    (width - getXPadding(layout.style.padding)) / layout.params.columns.length;
-  return (
-    <table
-      style={{
-        borderSpacing: 0,
-        width,
-        ...externalStyle,
-        ...style,
-      }}
-      {...attributes}
-    >
-      <tbody>
-        <tr>
-          {layout.params.columns.map((column, i) => {
-            return (
-              <td
-                style={{
-                  ...columnStyle,
-                  padding: 0,
-                }}
-                datatype={COLUMN_DATATYPE}
-                data-column={i}
-                key={i}
-              >
-                {renderColumn({ width: columnWidth, column, index: i })}
-              </td>
-            );
-          })}
-        </tr>
-      </tbody>
-    </table>
-  );
-};
+export const LayoutDumb = LinkHOC(
+  ({
+    element,
+    width,
+    style: externalStyle,
+    columnStyle,
+    renderColumn,
+    attributes,
+  }: LayoutDumbProps) => {
+    const style = useStyle(element);
+    const columnWidth =
+      (width - getXPadding(element.style.padding)) /
+      element.params.columns.length;
+    return (
+      <table
+        style={{
+          borderSpacing: 0,
+          width,
+          ...externalStyle,
+          ...style,
+        }}
+        {...attributes}
+      >
+        <tbody>
+          <tr>
+            {element.params.columns.map((column, i) => {
+              return (
+                <td
+                  style={{
+                    ...columnStyle,
+                    padding: 0,
+                  }}
+                  datatype={COLUMN_DATATYPE}
+                  data-column={i}
+                  key={i}
+                >
+                  {renderColumn({ width: columnWidth, column, index: i })}
+                </td>
+              );
+            })}
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+);
