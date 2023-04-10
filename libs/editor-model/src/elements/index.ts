@@ -10,7 +10,7 @@ export {
   getElementLetterSpacing,
   getElementTextAlign,
   getElementColor,
-  getElementLink
+  getElementLink,
 } from './element';
 
 export {

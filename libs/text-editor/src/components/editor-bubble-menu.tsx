@@ -6,6 +6,7 @@ import {
   AiOutlineStrikethrough,
   AiOutlineUnorderedList,
   AiOutlineOrderedList,
+  AiOutlineUnderline,
 } from 'react-icons/ai';
 import { BubbleMenu, Editor } from '@tiptap/react';
 import styled from 'styled-components';
@@ -61,6 +62,13 @@ export const EditorBubbleMenu = ({ editor }: Props) => {
           ghost={!editor.isActive('strike')}
           icon={<AiOutlineStrikethrough />}
           onClick={() => editor.chain().focus().toggleStrike().run()}
+        />
+        <BubbleButton
+          size='small'
+          type='primary'
+          ghost={!editor.isActive('underline')}
+          icon={<AiOutlineUnderline />}
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
         />
       </Group>
       <Group>
