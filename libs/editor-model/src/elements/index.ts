@@ -35,6 +35,7 @@ export {
   createEmptyElement,
   elementToElementStore,
   getElementById,
+  getElementParents,
   elementsStoreToObject,
   elementsToElementsStore,
 } from './elements';

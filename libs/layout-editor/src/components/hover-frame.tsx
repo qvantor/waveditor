@@ -1,14 +1,15 @@
 import { useObservable } from '@waveditors/rxjs-react';
 import styled from 'styled-components';
 import { map, switchMap, merge, of } from 'rxjs';
+import { theme } from '@waveditors/theme';
 import { resizeObservable } from '../services';
 import { useLayoutEditorContext } from '../hooks';
 
 export const FrameRoot = styled.div`
   position: absolute;
   pointer-events: none;
-  outline: 2px solid rgba(39, 174, 96, 1);
   outline-offset: -2px;
+  outline: 2px solid ${theme.color.surface.accentSecondary};
   z-index: 2;
 `;
 
