@@ -7,7 +7,11 @@ import {
   getElementStyle,
 } from '@waveditors/editor-model';
 import { CollapseStyled } from '../../common/components';
-import { BackgroundEditor, PaddingEditor } from './components';
+import {
+  BackgroundEditor,
+  PaddingEditor,
+  BorderRadiusEditor,
+} from './components';
 
 interface Props {
   element: ElementStore;
@@ -25,6 +29,14 @@ export const StyleEditor = ({ element }: Props) => {
           value={style.padding}
           onChange={(value) => {
             element.actions.setStyle({ key: 'padding', value });
+          }}
+        />
+      </Collapse.Panel>
+      <Collapse.Panel key='cornerRadius' header='Corner radius'>
+        <BorderRadiusEditor
+          value={style.borderRadius}
+          onChange={(value) => {
+            element.actions.setStyle({ key: 'borderRadius', value });
           }}
         />
       </Collapse.Panel>

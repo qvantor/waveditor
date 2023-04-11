@@ -1,3 +1,5 @@
+import { addPx, parseCSSUnitValue } from './css-units';
+
 export type PaddingObj = {
   top: string;
   left: string;
@@ -5,7 +7,7 @@ export type PaddingObj = {
   bottom: string;
 };
 export const paddingStrToObj = (value: string): PaddingObj => {
-  const matches = [...value.matchAll(/(\d+\.?\d*)/gm)];
+  const matches = parseCSSUnitValue(value);
   switch (matches.length) {
     case 1: {
       const [value] = matches[0];
@@ -39,11 +41,11 @@ export const paddingObjToStr = ({ top, left, right, bottom }: PaddingObj) => {
   if (left === right) {
     if (top === bottom) {
       if (top === left) {
-        return `${top}px`;
+        return addPx(top);
       }
-      return `${top}px ${left}px`;
+      return `${addPx(top)} ${addPx(left)}`;
     }
-    return `${top}px ${left}px ${bottom}px`;
+    return `${addPx(top)} ${addPx(left)} ${addPx(bottom)}`;
   }
-  return `${top}px ${right}px ${bottom}px ${left}px`;
+  return `${addPx(top)} ${addPx(right)} ${addPx(bottom)} ${addPx(left)}`;
 };
