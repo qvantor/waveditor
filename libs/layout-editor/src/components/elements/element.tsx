@@ -23,7 +23,8 @@ export const Element = ({ id, width }: Props) => {
       map((value) => value === id),
       distinctUntilChanged()
     ),
-    false
+    false,
+    [selected]
   );
   const element = useMemo(
     () => getElementById(id)(elements.value),

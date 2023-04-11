@@ -18,6 +18,7 @@ export {
   isLayoutStore,
   isParentOf,
   getElementPosition,
+  getColumns,
 } from './layout';
 export type { LayoutStore, Layout, LayoutAddChild } from './layout';
 

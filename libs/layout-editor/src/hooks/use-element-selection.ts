@@ -1,49 +1,46 @@
 import { useCallback, useRef } from 'react';
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 import { filter, noop } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
 import { ELEMENT_DATATYPE } from '../constants';
-import { Context, RootMouseMoveEvent, SelectionEvents } from '../types';
+import { Context, RootMouseMoveEvent } from '../types';
 
 export const useElementSelection = ({
   events,
   internalEvents,
   internalState: { isDnd },
 }: Context) => {
-  const currentHover = useRef<string>('');
+  const currentHover = useRef<string | null>(null);
 
   const setHover = useCallback(
     (payload: string) => {
       events.next({ type: 'MouseEnter', payload });
-      currentHover.current = payload;
     },
     [events]
   );
   const clearHover = useCallback(() => {
     events.next({ type: 'MouseLeave', payload: null });
-    currentHover.current = '';
   }, [events]);
 
   const onClick = useCallback(() => {
     events.next(
-      match<string, SelectionEvents>(currentHover.current)
-        .with('', () => ({ type: 'ElementUnselected', payload: null }))
-        .otherwise((payload) => ({ type: 'ElementSelected', payload }))
+      currentHover.current
+        ? { type: 'ElementSelected', payload: currentHover.current }
+        : {
+            type: 'ElementUnselected',
+            payload: null,
+          }
     );
   }, [events]);
 
   const onMouseMove = useCallback(
     ({ payload }: RootMouseMoveEvent) => {
-      const value = (payload.target as Element).closest(
-        `[datatype=${ELEMENT_DATATYPE}]`
-      )?.id;
-
-      match(value)
-        .with(P.nullish, clearHover)
-        .with(P.string, (value) =>
-          match(value).with(currentHover.current, noop).otherwise(setHover)
-        )
-        .exhaustive();
+      const value =
+        (payload.target as Element).closest(`[datatype=${ELEMENT_DATATYPE}]`)
+          ?.id ?? null;
+      if (value === currentHover.current) return;
+      currentHover.current = value;
+      value ? setHover(value) : clearHover();
     },
     [setHover, clearHover]
   );
@@ -55,7 +52,6 @@ export const useElementSelection = ({
         match(event)
           .with({ type: 'RootMouseMove' }, onMouseMove)
           .with({ type: 'RootClick' }, onClick)
-          .with({ type: 'RootMouseLeave' }, clearHover)
           .otherwise(noop)
       )
   );

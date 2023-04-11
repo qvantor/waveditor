@@ -25,10 +25,9 @@ export const HoverFrame = () => {
         return resizeObservable(element, iFrameDocument);
       })
     ),
-    null
+    null,
+    [hover, selected]
   );
-
   if (!rect) return null;
-
   return <FrameRoot style={{ ...rect }} />;
 };

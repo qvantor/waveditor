@@ -43,7 +43,8 @@ export const SelectedFrame = () => {
         return [value, selected.getValue()] as const;
       })
     ),
-    null
+    null,
+    [selected]
   );
   const onMouseDown = useCallback(() => {
     const payload = selected.getValue();

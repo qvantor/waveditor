@@ -20,7 +20,8 @@ export const LeftSidebar = () => {
     selected.bs.pipe(
       map((selected) => (selected ? elements.bs.value[selected] : null))
     ),
-    null
+    null,
+    [selected.bs]
   );
   return (
     <Root>

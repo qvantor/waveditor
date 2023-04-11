@@ -1,6 +1,9 @@
 import { LayoutStore } from './layout';
 import { LayoutAddChild } from './layout.types';
 
+export const getColumns = (layout: LayoutStore['bs']['value']) =>
+  layout.params.columns;
+
 export const isParentOf = (
   layout: LayoutStore['bs']['value'],
   elementId: string

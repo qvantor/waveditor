@@ -23,7 +23,8 @@ const useFontFamily = (elementId: string) => {
 
   return useObservable(
     merge(config, relations).pipe(map(getFontFamily)),
-    getFontFamily()
+    getFontFamily(),
+    [config, relations]
   );
 };
 
