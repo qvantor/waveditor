@@ -1,5 +1,5 @@
 import { useSubscription } from '@waveditors/rxjs-react';
-import { filter, fromEvent, map, Subscription, take } from 'rxjs';
+import { filter, fromEvent, map, Subscription, take, tap } from 'rxjs';
 import { match, P } from 'ts-pattern';
 import {
   mapValue,
@@ -14,7 +14,7 @@ import {
   LayoutAddChild,
   LayoutStore,
 } from '@waveditors/editor-model';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { RenderContext } from '@waveditors/layout-render';
 import { COLUMN_DATATYPE, ELEMENT_DATATYPE } from '../constants';
 import { Context } from '../types';
@@ -96,7 +96,18 @@ export const useDnd = (
   }: Context,
   { elements }: RenderContext
 ) => {
-  const mouseMoveSub = useCallback(
+  const mouseMoveSubscription = useRef<Subscription | null>(null);
+  const mouseUpSubscription = useRef<Subscription | null>(null);
+  const dndCleanup = useCallback(
+    (mouseUp = false) => {
+      isDnd.next(false);
+      dndPreview.next(null);
+      mouseMoveSubscription.current?.unsubscribe();
+      if (mouseUp) mouseUpSubscription.current?.unsubscribe();
+    },
+    [isDnd, dndPreview]
+  );
+  const createMouseMoveSubscription = useCallback(
     (element: string) =>
       fromEvent<MouseEvent>(iFrameDocument, 'mousemove')
         .pipe(
@@ -118,18 +129,18 @@ export const useDnd = (
     [dndPreview, elements, iFrameDocument]
   );
   const mouseUpObs = useCallback(
-    (sub: Subscription) =>
+    () =>
       fromEvent(iFrameDocument, 'mouseup').pipe(
-        map(() => {
-          const value = dndPreview.getValue();
-          isDnd.next(false);
-          dndPreview.next(null);
-          sub.unsubscribe();
-          return value;
-        }),
+        map(() => dndPreview.getValue()),
+        tap(() => dndCleanup()),
         take(1)
       ),
-    [isDnd, dndPreview, iFrameDocument]
+    [dndCleanup, dndPreview, iFrameDocument]
+  );
+  useSubscription(() =>
+    internalEvents
+      .pipe(filter(selectByType('RootMouseLeave')))
+      .subscribe(() => dndCleanup(true))
   );
   useSubscription(() =>
     internalEvents
@@ -142,7 +153,8 @@ export const useDnd = (
         );
         events.next({ type: 'UnlinkElementFromLayout', payload: id });
 
-        mouseUpObs(mouseMoveSub(id))
+        mouseMoveSubscription.current = createMouseMoveSubscription(id);
+        mouseUpSubscription.current = mouseUpObs()
           .pipe(
             map((value) => positionsToLinkElementToLayout(id, value, position)),
             filter(notNullish)
@@ -157,10 +169,15 @@ export const useDnd = (
       .pipe(filter(selectByType('OutsideDragStarted')))
       .subscribe(({ payload: element }) => {
         isDnd.next(true);
-        mouseUpObs(mouseMoveSub(element.id))
+
+        mouseMoveSubscription.current = createMouseMoveSubscription(element.id);
+        mouseUpSubscription.current = mouseUpObs()
           .pipe(filter(notNullish))
           .subscribe((position) =>
-            events.next({ type: 'AddElement', payload: { element, position } })
+            events.next({
+              type: 'AddElement',
+              payload: { element, position },
+            })
           );
       })
   );
