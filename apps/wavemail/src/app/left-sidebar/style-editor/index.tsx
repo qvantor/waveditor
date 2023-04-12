@@ -23,7 +23,7 @@ export const StyleEditor = ({ element }: Props) => {
     getElementStyle
   );
   return (
-    <CollapseStyled>
+    <CollapseStyled name='style-editor'>
       <Collapse.Panel key='padding' header='Padding'>
         <PaddingEditor
           value={style.padding}

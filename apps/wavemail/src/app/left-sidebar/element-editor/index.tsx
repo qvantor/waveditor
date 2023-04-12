@@ -39,7 +39,7 @@ export const ElementEditor = ({ element }: Props) => {
     <>
       <TypedEditorSwitch element={element} />
       <StyleEditor element={element} />
-      <CollapseStyled>
+      <CollapseStyled name='link-editor'>
         <Collapse.Panel key='link' header='Link'>
           <LinkEditor value={link} onChange={element.actions.setLink} />
         </Collapse.Panel>

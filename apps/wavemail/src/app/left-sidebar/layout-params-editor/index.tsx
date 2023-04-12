@@ -9,7 +9,7 @@ interface Props {
 
 export const LayoutParamsEditor = ({ layout }: Props) => {
   return (
-    <CollapseStyled>
+    <CollapseStyled name='layout-editor'>
       <Collapse.Panel key='layout' header='Layout'>
         <ColumnsEditor layout={layout} />
       </Collapse.Panel>
