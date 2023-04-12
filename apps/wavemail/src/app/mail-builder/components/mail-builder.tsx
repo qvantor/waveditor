@@ -104,8 +104,8 @@ export const MailBuilder = ({
                 `LinkElementToLayout: ${payload.position.layout}`
               );
             parent.actions.addChild(payload);
-            if (payload.samePosition) undoRedo.removeLastEvent();
             undoRedo.endBunch();
+            if (payload.samePosition) undoRedo.removeLastEvent();
           })
           .with(
             { type: 'AddElement' },

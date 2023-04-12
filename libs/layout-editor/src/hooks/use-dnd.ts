@@ -1,5 +1,14 @@
 import { useSubscription } from '@waveditors/rxjs-react';
-import { filter, fromEvent, map, Subscription, take, tap } from 'rxjs';
+import {
+  filter,
+  fromEvent,
+  map,
+  merge,
+  Subject,
+  Subscription,
+  take,
+  tap,
+} from 'rxjs';
 import { match, P } from 'ts-pattern';
 import {
   mapValue,
@@ -60,7 +69,7 @@ const detectMousePosition =
     };
   };
 
-const positionsToLinkElementToLayout = (
+const calculateNewPosition = (
   id: string,
   newPos: LayoutAddChild | null,
   prev: LayoutAddChild['position'] | null
@@ -74,6 +83,7 @@ const positionsToLinkElementToLayout = (
         position: {
           layout: prev?.layout,
           column: prev?.column,
+          index: prev?.index,
         },
       },
       (value) => ({
@@ -96,24 +106,22 @@ export const useDnd = (
   }: Context,
   { elements }: RenderContext
 ) => {
+  // emulate mouseUp in case of mouse move out of iFrameDocument
+  const emulateMouseUp = useRef(new Subject());
   const mouseMoveSubscription = useRef<Subscription | null>(null);
-  const mouseUpSubscription = useRef<Subscription | null>(null);
-  const dndCleanup = useCallback(
-    (mouseUp = false) => {
-      isDnd.next(false);
-      dndPreview.next(null);
-      mouseMoveSubscription.current?.unsubscribe();
-      if (mouseUp) mouseUpSubscription.current?.unsubscribe();
-    },
-    [isDnd, dndPreview]
-  );
+  const dndCleanup = useCallback(() => {
+    isDnd.next(false);
+    dndPreview.next(null);
+    mouseMoveSubscription.current?.unsubscribe();
+  }, [isDnd, dndPreview]);
+
   const createMouseMoveSubscription = useCallback(
     (element: string) =>
       fromEvent<MouseEvent>(iFrameDocument, 'mousemove')
         .pipe(
           map(detectMousePosition(elements, iFrameDocument)),
           map((position) => {
-            if (!position) return position;
+            if (!position) return null;
             return {
               element,
               position,
@@ -128,20 +136,27 @@ export const useDnd = (
         .subscribe(dndPreview.next.bind(dndPreview)),
     [dndPreview, elements, iFrameDocument]
   );
-  const mouseUpObs = useCallback(
-    () =>
-      fromEvent(iFrameDocument, 'mouseup').pipe(
-        map(() => dndPreview.getValue()),
-        tap(() => dndCleanup()),
-        take(1)
-      ),
-    [dndCleanup, dndPreview, iFrameDocument]
-  );
+
+  const mouseUpObs = useCallback(() => {
+    emulateMouseUp.current = new Subject();
+    return merge(
+      fromEvent(iFrameDocument, 'mouseup'),
+      emulateMouseUp.current
+    ).pipe(
+      map(() => dndPreview.getValue()),
+      tap(() => dndCleanup()),
+      take(1)
+    );
+  }, [dndCleanup, dndPreview, iFrameDocument]);
+
+  // emulate mouseUp on mouse leave
   useSubscription(() =>
     internalEvents
       .pipe(filter(selectByType('RootMouseLeave')))
-      .subscribe(() => dndCleanup(true))
+      .subscribe(() => emulateMouseUp.current.next(null))
   );
+
+  // dnd start on element move
   useSubscription(() =>
     internalEvents
       .pipe(filter(selectByType('DragIconMouseDown')))
@@ -154,9 +169,9 @@ export const useDnd = (
         events.next({ type: 'UnlinkElementFromLayout', payload: id });
 
         mouseMoveSubscription.current = createMouseMoveSubscription(id);
-        mouseUpSubscription.current = mouseUpObs()
+        mouseUpObs()
           .pipe(
-            map((value) => positionsToLinkElementToLayout(id, value, position)),
+            map((value) => calculateNewPosition(id, value, position)),
             filter(notNullish)
           )
           .subscribe((payload) =>
@@ -164,6 +179,7 @@ export const useDnd = (
           );
       })
   );
+  // dnd start on new element from outside
   useSubscription(() =>
     externalEvents
       .pipe(filter(selectByType('OutsideDragStarted')))
@@ -171,7 +187,7 @@ export const useDnd = (
         isDnd.next(true);
 
         mouseMoveSubscription.current = createMouseMoveSubscription(element.id);
-        mouseUpSubscription.current = mouseUpObs()
+        mouseUpObs()
           .pipe(filter(notNullish))
           .subscribe((position) =>
             events.next({
