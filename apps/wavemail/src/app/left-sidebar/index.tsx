@@ -10,6 +10,8 @@ import { CreateElement } from './create-element';
 const Root = styled.div`
   background: ${tokens.color.surface.secondary};
   border-right: 1px solid ${tokens.color.border.primary};
+  height: calc(100vh - ${tokens.size.headerHeight});
+  overflow: scroll;
 `;
 
 export const LeftSidebar = () => {
