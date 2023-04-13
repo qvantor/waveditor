@@ -3,7 +3,7 @@
     "config": {
       "name": "Stack overflow",
       "rootElementId": "0.33487982865084454",
-      "viewportWidth": 600,
+      "viewportWidth": 680,
       "style": {
         "margin": "0",
         "backgroundColor": "#f3f3f5",
@@ -14,8 +14,8 @@
           "id": "0.6444420080505084",
           "fallback": "Helvetica",
           "genericFamily": "sans-serif",
-          "url": "https://fonts.googleapis.com/css2?family=Lato&display=swap",
-          "name": "Lato"
+          "name": "Arimo",
+          "url": "https://fonts.googleapis.com/css2?family=Arimo:wght@400;600&display=swap"
         },
         {
           "id": "0.9447189572273049",
@@ -37,15 +37,13 @@
               "0.05495988646996097",
               "0.5250545023981659",
               "0.3290068882330466",
-              "0.7279449430255271",
-              "0.07539442852999345",
-              "0.7731995924021442"
+              "0.8940368277081923"
             ]
           ]
         },
         "style": {
           "margin": "0px auto",
-          "padding": "30px 0px"
+          "padding": "20px 0px"
         }
       },
       "0.8077460603421789": {
@@ -91,14 +89,21 @@
           "color": "#ffffff",
           "fontSize": "27px",
           "lineHeight": "27px",
-          "padding": "20px 0px 0px"
+          "padding": "20px 0px 27px"
         }
       },
       "0.05495988646996097": {
         "id": "0.05495988646996097",
         "type": "layout",
         "params": {
-          "columns": [["0.8077460603421789"], [], [], []]
+          "columns": [
+            [
+              "0.8077460603421789"
+            ],
+            [],
+            [],
+            []
+          ]
         },
         "style": {
           "padding": "0px 30px 20px"
@@ -109,13 +114,19 @@
         "type": "layout",
         "params": {
           "columns": [
-            ["0.5027819118396955", "0.005649646066144598"],
-            ["0.5281707743147301"]
+            [
+              "0.5027819118396955",
+              "0.005649646066144598"
+            ],
+            [
+              "0.5281707743147301"
+            ]
           ]
         },
         "style": {
-          "padding": "10px 20px",
-          "backgroundColor": "#2b2d6e"
+          "padding": "10px 20px 10px 30px",
+          "backgroundColor": "#2b2d6e",
+          "borderRadius": "5px 5px 0px 0px"
         }
       },
       "0.005649646066144598": {
@@ -152,7 +163,8 @@
         },
         "style": {
           "display": "block",
-          "maxWidth": "100%"
+          "maxWidth": "100%",
+          "padding": "35px 0px"
         },
         "meta": {
           "width": 640,
@@ -176,7 +188,7 @@
           ]
         },
         "style": {
-          "padding": "20px",
+          "padding": "30px 20px",
           "backgroundColor": "#ffffff"
         }
       },
@@ -230,7 +242,8 @@
         },
         "style": {
           "fontSize": "15px",
-          "lineHeight": "21px"
+          "lineHeight": "21px",
+          "padding": "16px 0px 0px"
         }
       },
       "0.11988580987485387": {
@@ -260,7 +273,7 @@
         "style": {
           "fontSize": "21px",
           "lineHeight": "21px",
-          "padding": "20px 0px 0px"
+          "padding": "30px 0px 0px"
         }
       },
       "0.5680156934891727": {
@@ -331,7 +344,8 @@
         },
         "style": {
           "fontSize": "15px",
-          "lineHeight": "21px"
+          "lineHeight": "32px",
+          "padding": "15px 0px 0px"
         }
       },
       "0.9322484544802578": {
@@ -355,7 +369,8 @@
         },
         "style": {
           "fontSize": "15px",
-          "lineHeight": "21px"
+          "lineHeight": "21px",
+          "padding": "16px 0px 0px"
         }
       },
       "0.6453944679404455": {
@@ -385,16 +400,25 @@
         "style": {
           "fontSize": "21px",
           "lineHeight": "21px",
-          "padding": "20px 0px 0px"
+          "padding": "30px 0px 0px"
         }
       },
       "0.49698673070872856": {
         "id": "0.49698673070872856",
         "type": "layout",
         "params": {
-          "columns": [["0.31049815074271914"], [], []]
+          "columns": [
+            [
+              "0.31049815074271914"
+            ],
+            [],
+            [],
+            []
+          ]
         },
-        "style": {}
+        "style": {
+          "padding": "10px 0px 0px"
+        }
       },
       "0.31049815074271914": {
         "id": "0.31049815074271914",
@@ -418,8 +442,13 @@
         "style": {
           "backgroundColor": "#0095ff",
           "textAlign": "center",
-          "padding": "3px 17px",
-          "color": "#ffffff"
+          "padding": "13px 17px",
+          "color": "#ffffff",
+          "borderRadius": "4px"
+        },
+        "link": {
+          "newTab": true,
+          "url": "https://github.com/qvantor"
         }
       },
       "0.7279449430255271": {
@@ -442,7 +471,7 @@
           }
         },
         "style": {
-          "padding": "0px 20px",
+          "padding": "32px 0px 0px",
           "fontSize": "12px",
           "lineHeight": "15px",
           "color": "#9199a1"
@@ -452,10 +481,18 @@
         "id": "0.07539442852999345",
         "type": "layout",
         "params": {
-          "columns": [["0.2600000104504372"], [], [], []]
+          "columns": [
+            [
+              "0.2600000104504372"
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
         },
         "style": {
-          "padding": "0px 20px"
+          "padding": "30px 0px 0px"
         }
       },
       "0.2600000104504372": {
@@ -505,7 +542,75 @@
           "fontSize": "12px",
           "lineHeight": "15px",
           "color": "#9199a1",
-          "padding": "0px 20px"
+          "padding": "0px"
+        }
+      },
+      "0.8940368277081923": {
+        "id": "0.8940368277081923",
+        "type": "layout",
+        "params": {
+          "columns": [
+            [
+              "0.7279449430255271",
+              "0.07539442852999345",
+              "0.7731995924021442",
+              "0.3421968501210084"
+            ]
+          ]
+        },
+        "link": null,
+        "style": {
+          "padding": "0px 30px"
+        }
+      },
+      "0.719363560017702": {
+        "id": "0.719363560017702",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Unsubscribe from emails like this"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "12px",
+          "lineHeight": "15px"
+        }
+      },
+      "0.3421968501210084": {
+        "id": "0.3421968501210084",
+        "type": "text",
+        "params": {
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "<3"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "style": {
+          "fontSize": "11px",
+          "lineHeight": "11px",
+          "color": "#e06c77",
+          "padding": "10px 0px 0px"
         }
       }
     }
@@ -541,7 +646,12 @@
         "id": "0.6312387020985446",
         "type": "layout",
         "params": {
-          "columns": [["0.8696886161009367", "0.5644918305077449"]]
+          "columns": [
+            [
+              "0.8696886161009367",
+              "0.5644918305077449"
+            ]
+          ]
         },
         "style": {
           "backgroundColor": "#fff",
@@ -606,7 +716,20 @@
                 "content": [
                   {
                     "type": "text",
-                    "text": "We noticed your Binance account <your@email.com> was accessed from a new IP address. "
+                    "text": "We noticed your Binance account "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "underline"
+                      }
+                    ],
+                    "text": "<your@email.com>"
+                  },
+                  {
+                    "type": "text",
+                    "text": " was accessed from a new IP address. "
                   }
                 ]
               }
@@ -615,7 +738,8 @@
         },
         "style": {
           "fontSize": "14px",
-          "lineHeight": "20px"
+          "lineHeight": "20px",
+          "padding": "10px 0px"
         }
       },
       "0.5644918305077449": {
@@ -712,9 +836,17 @@
         "id": "0.03624026172676009",
         "type": "layout",
         "params": {
-          "columns": [["0.846816644479601"], [], []]
+          "columns": [
+            [
+              "0.846816644479601"
+            ],
+            [],
+            []
+          ]
         },
-        "style": {}
+        "style": {
+          "padding": "10px 0px"
+        }
       },
       "0.846816644479601": {
         "id": "0.846816644479601",
@@ -745,7 +877,8 @@
           "textAlign": "center",
           "fontSize": "14px",
           "lineHeight": "15px",
-          "padding": "1px 25px"
+          "padding": "10px 25px",
+          "borderRadius": "3px"
         }
       },
       "0.23787716048550123": {
@@ -760,7 +893,33 @@
                 "content": [
                   {
                     "type": "text",
-                    "text": "Don’t recognize this activity? Please reset your password and contact customer support "
+                    "text": "Don’t recognize this activity? Please "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "underline"
+                      }
+                    ],
+                    "text": "reset your password"
+                  },
+                  {
+                    "type": "text",
+                    "text": " and contact "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "underline"
+                      }
+                    ],
+                    "text": "customer support"
+                  },
+                  {
+                    "type": "text",
+                    "text": " "
                   },
                   {
                     "type": "text",
@@ -783,6 +942,10 @@
         "style": {
           "fontSize": "14px",
           "lineHeight": "20px"
+        },
+        "link": {
+          "newTab": true,
+          "url": "https://waveditor.netlify.app"
         }
       },
       "0.3053566780767525": {
@@ -811,7 +974,8 @@
         },
         "style": {
           "fontSize": "14px",
-          "lineHeight": "20px"
+          "lineHeight": "20px",
+          "padding": "20px 0px 0px"
         }
       },
       "0.5691312962121302": {
@@ -842,7 +1006,8 @@
           "textAlign": "center",
           "fontSize": "14px",
           "lineHeight": "20px",
-          "color": "#f0b90b"
+          "color": "#f0b90b",
+          "padding": "20px 0px 0px"
         }
       },
       "0.6136397759779226": {
@@ -857,7 +1022,16 @@
                 "content": [
                   {
                     "type": "text",
-                    "text": "To stay secure, setup your phishing code here"
+                    "text": "To stay secure, setup your phishing code "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "underline"
+                      }
+                    ],
+                    "text": "here"
                   }
                 ]
               }
@@ -866,7 +1040,8 @@
         },
         "style": {
           "fontSize": "11px",
-          "lineHeight": "20px"
+          "lineHeight": "20px",
+          "padding": "20px 0px 0px"
         }
       },
       "0.10199440783036895": {
@@ -916,7 +1091,8 @@
           }
         },
         "style": {
-          "fontSize": "11px"
+          "fontSize": "11px",
+          "padding": "10px 0px 0px"
         }
       },
       "0.34126130227653406": {
