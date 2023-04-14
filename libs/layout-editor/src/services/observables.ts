@@ -12,6 +12,7 @@ export const resizeObservable = (element: HTMLElement, doc = document) =>
       const { top: parentTop, left: parentLeft } =
         doc.body.getBoundingClientRect();
       const { width, height, top, left } = element.getBoundingClientRect();
+      // console.log('changed');
       subscriber.next({
         width,
         height,

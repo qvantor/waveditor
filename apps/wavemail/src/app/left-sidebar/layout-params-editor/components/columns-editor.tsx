@@ -1,8 +1,7 @@
-import { map } from 'rxjs';
 import styled, { css } from 'styled-components';
 import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
-import { LayoutStore } from '@waveditors/editor-model';
-import { useObservable } from '@waveditors/rxjs-react';
+import { LayoutStore, getColumns } from '@waveditors/editor-model';
+import { useBsSelector } from '@waveditors/rxjs-react';
 import { font, tokens } from '@waveditors/theme';
 
 interface Props {
@@ -78,10 +77,7 @@ const GhostColumn = styled(ColumnCommon)`
 `;
 
 export const ColumnsEditor = ({ layout }: Props) => {
-  const columns = useObservable(
-    layout.bs.pipe(map((value) => value.params.columns)),
-    layout.getValue().params.columns
-  );
+  const columns = useBsSelector(layout.bs, getColumns);
 
   const removeDisabled = columns.length <= 1;
 

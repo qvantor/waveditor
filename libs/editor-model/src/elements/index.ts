@@ -1,4 +1,8 @@
-export type { ElementCommon, ElementStoreUndoRedoEvent } from './element';
+export type {
+  ElementCommon,
+  ElementStoreUndoRedoEvent,
+  ElementLink,
+} from './element';
 export {
   getElementStyle,
   getElementFontSize,
@@ -6,6 +10,7 @@ export {
   getElementLetterSpacing,
   getElementTextAlign,
   getElementColor,
+  getElementLink,
 } from './element';
 
 export {
@@ -13,6 +18,7 @@ export {
   isLayoutStore,
   isParentOf,
   getElementPosition,
+  getColumns,
 } from './layout';
 export type { LayoutStore, Layout, LayoutAddChild } from './layout';
 
@@ -29,6 +35,7 @@ export {
   createEmptyElement,
   elementToElementStore,
   getElementById,
+  getElementParents,
   elementsStoreToObject,
   elementsToElementsStore,
 } from './elements';

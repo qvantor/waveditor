@@ -9,7 +9,7 @@ interface Props {
 
 export const ImageParamsEditor = ({ image }: Props) => {
   return (
-    <CollapseStyled>
+    <CollapseStyled name='image-editor'>
       <Collapse.Panel key='image' header='Image'>
         <ImageUrlEditor image={image} />
       </Collapse.Panel>

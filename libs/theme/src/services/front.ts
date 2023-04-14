@@ -3,7 +3,7 @@ import { theme } from '../constants';
 
 interface Params {
   type?: 'paragraph';
-  size?: 'small' | 'medium' | 'large';
+  size?: 'smallest' | 'small' | 'medium' | 'large';
   weight?: 'light' | 'medium' | 'bold';
 }
 

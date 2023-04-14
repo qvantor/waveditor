@@ -10,7 +10,7 @@ import { AiOutlineFontSize, AiOutlineLineHeight } from 'react-icons/ai';
 import { RxLetterSpacing } from 'react-icons/rx';
 import styled from 'styled-components';
 import { CollapseStyled } from '../../common/components';
-import { Font } from "../common/components";
+import { Font } from '../common/components';
 import { PxValue, TextAlign, Color } from './components';
 
 const Root = styled.div`
@@ -36,7 +36,7 @@ interface Props {
 
 export const TextParamsEditor = ({ text }: Props) => {
   return (
-    <CollapseStyled>
+    <CollapseStyled name='text-editor'>
       <Collapse.Panel key='font-family' header='Font Family'>
         <Font element={text} />
       </Collapse.Panel>

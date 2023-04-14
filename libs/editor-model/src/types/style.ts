@@ -20,4 +20,5 @@ export type Style = {
   letterSpacing?: string;
   textAlign?: Property.TextAlign;
   color?: Property.Color;
+  borderRadius?: string;
 } & Background;

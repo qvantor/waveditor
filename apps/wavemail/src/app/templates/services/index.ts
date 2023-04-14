@@ -35,6 +35,7 @@ export const generateEmptyTemplate = (): RenderContextObject => {
           margin: '0px auto',
           padding: '20px',
         },
+        link: null,
       },
     },
     relations: createInitialRelations(),

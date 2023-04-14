@@ -22,6 +22,7 @@ import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
 import { Header } from '../../header';
 import { Hotkeys } from './hotkeys';
+import { SelectedToRoot } from './selected-to-root';
 
 const Root = styled.div`
   height: 100vh;
@@ -103,8 +104,8 @@ export const MailBuilder = ({
                 `LinkElementToLayout: ${payload.position.layout}`
               );
             parent.actions.addChild(payload);
-            if (payload.samePosition) undoRedo.removeLastEvent();
             undoRedo.endBunch();
+            if (payload.samePosition) undoRedo.removeLastEvent();
           })
           .with(
             { type: 'AddElement' },
@@ -152,7 +153,9 @@ export const MailBuilder = ({
           <LeftSidebar />
           <CanvasContainer>
             <Canvas />
-            <Footer />
+            <Footer>
+              <SelectedToRoot />
+            </Footer>
           </CanvasContainer>
         </Content>
         <Hotkeys />

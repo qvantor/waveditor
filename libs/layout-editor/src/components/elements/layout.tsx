@@ -24,7 +24,8 @@ export const Layout = ({ element, width, attributes }: Props) => {
       }),
       distinctUntilChanged()
     ),
-    null
+    null,
+    [internalState.dndPreview]
   );
   const isDnd = useBehaviorSubject(internalState.isDnd);
   const layout = useBehaviorSubject(element.bs);
@@ -40,7 +41,7 @@ export const Layout = ({ element, width, attributes }: Props) => {
 
   return (
     <LayoutDumb
-      layout={layout}
+      element={layout}
       width={width}
       style={style}
       columnStyle={columnStyle}

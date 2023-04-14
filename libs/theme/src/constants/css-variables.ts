@@ -19,6 +19,7 @@ export const theme = {
       quaternary: '#F9F9F9',
       accent: '#3498db',
       danger: '#e74c3c',
+      accentSecondary: '#27ae60',
     },
     border: {
       primary: '#E8EBEB',
@@ -31,6 +32,7 @@ export const theme = {
   },
   typography: {
     paragraph: {
+      smallest: 'font-size: 12px;',
       small: 'font-size: 14px;',
       medium: 'font-size: 16px;',
       large: 'font-size: 18px;',

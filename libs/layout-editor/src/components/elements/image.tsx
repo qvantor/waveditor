@@ -8,5 +8,5 @@ type Props = {
 
 export const Image = ({ element, attributes }: Props) => {
   const image = useBehaviorSubject(element.bs);
-  return <ImageDumb image={image} attributes={attributes} />;
+  return <ImageDumb element={image} attributes={attributes} />;
 };

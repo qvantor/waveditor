@@ -4,12 +4,14 @@ import { map } from 'rxjs';
 import { tokens } from '@waveditors/theme';
 import { useObservable } from '@waveditors/rxjs-react';
 import { useMailBuilderContext } from '../common/hooks';
-import { StyleEditor } from './style-editor';
+import { ElementEditor } from './element-editor';
 import { CreateElement } from './create-element';
 
 const Root = styled.div`
   background: ${tokens.color.surface.secondary};
   border-right: 1px solid ${tokens.color.border.primary};
+  height: calc(100vh - ${tokens.size.headerHeight});
+  overflow: scroll;
 `;
 
 export const LeftSidebar = () => {
@@ -20,11 +22,12 @@ export const LeftSidebar = () => {
     selected.bs.pipe(
       map((selected) => (selected ? elements.bs.value[selected] : null))
     ),
-    null
+    null,
+    [selected.bs]
   );
   return (
     <Root>
-      {element ? <StyleEditor element={element} /> : <CreateElement />}
+      {element ? <ElementEditor element={element} /> : <CreateElement />}
     </Root>
   );
 };

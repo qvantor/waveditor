@@ -26,3 +26,13 @@ export const getLayoutElement = (
 export const getElementById =
   (id: string) => (elementsStore: ElementsStore['bs']['value']) =>
     elementsStore[id];
+
+export const getElementParents =
+  (id: string, sum: LayoutStore[] = []) =>
+  (elementsStore: ElementsStore['bs']['value']): LayoutStore[] => {
+    const parent = getParentElement(elementsStore, id);
+    if (!parent) return sum;
+    return getElementParents(parent.getValue().id, [...sum, parent])(
+      elementsStore
+    );
+  };
