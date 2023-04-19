@@ -90,7 +90,7 @@ export const ColumnsEditor = ({ layout }: Props) => {
           onClick={() => !removeDisabled && layout.actions.removeColumn(index)}
         >
           {!removeDisabled && <DeleteIcon />}
-          <ColumnText>{content.length}</ColumnText>
+          <ColumnText>{content.children.length}</ColumnText>
         </Column>
       ))}
       {columns.length < 6 && (

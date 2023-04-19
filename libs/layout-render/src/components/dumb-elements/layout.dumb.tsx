@@ -54,7 +54,11 @@ export const LayoutDumb = LinkHOC(
                   data-column={i}
                   key={i}
                 >
-                  {renderColumn({ width: columnWidth, column, index: i })}
+                  {renderColumn({
+                    width: columnWidth,
+                    column: column.children,
+                    index: i,
+                  })}
                 </td>
               );
             })}

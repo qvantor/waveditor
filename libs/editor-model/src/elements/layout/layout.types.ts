@@ -1,8 +1,15 @@
 import { ElementCommon } from '../element';
+import { Style } from '../../types';
+
+export interface Column {
+  children: string[];
+  style: Style;
+  proportion?: number;
+}
 
 export interface Layout extends ElementCommon<'layout'> {
   params: {
-    columns: string[][];
+    columns: Column[];
   };
 }
 

@@ -1,15 +1,17 @@
 import { RenderContextObject } from '@waveditors/layout-render';
 import { generateId } from '@waveditors/utils';
 import {
+  createEmptyColumn,
   createInitialRelations,
   createInitialTemplateConfig,
 } from '@waveditors/editor-model';
 import { LOCAL_STORAGE_KEY } from '../constants';
 import DemoTemplates from '../constants/demo.json';
 
+// @todo update demo examples
 const initialTemplates = () => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DemoTemplates));
-  return DemoTemplates;
+  // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DemoTemplates));
+  return { '12': generateEmptyTemplate() };
 };
 export const getTemplates = () => {
   const value = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -28,7 +30,7 @@ export const generateEmptyTemplate = (): RenderContextObject => {
         id: rootId,
         type: 'layout',
         params: {
-          columns: [[], []],
+          columns: [createEmptyColumn(), createEmptyColumn()],
         },
         style: {
           backgroundColor: '#fff',

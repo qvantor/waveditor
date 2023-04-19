@@ -19,6 +19,7 @@ export {
   isParentOf,
   getElementPosition,
   getColumns,
+  createEmptyColumn,
 } from './layout';
 export type { LayoutStore, Layout, LayoutAddChild } from './layout';
 
