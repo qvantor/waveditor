@@ -10,7 +10,7 @@ interface Props {
 
 const Root = styled.div`
   display: flex;
-  height: 72px;
+  flex-direction: column;
   padding: 5px;
   gap: 5px;
   transition: all 0.1s linear;
@@ -83,21 +83,26 @@ export const ColumnsEditor = ({ layout }: Props) => {
 
   return (
     <Root>
-      {columns.map((content, index) => (
-        <Column
-          key={index}
-          disabled={removeDisabled}
-          onClick={() => !removeDisabled && layout.actions.removeColumn(index)}
-        >
-          {!removeDisabled && <DeleteIcon />}
-          <ColumnText>{content.children.length}</ColumnText>
-        </Column>
+      {/*{columns.map((content, index) => (*/}
+      {/*  <Column*/}
+      {/*    key={index}*/}
+      {/*    disabled={removeDisabled}*/}
+      {/*    onClick={() => !removeDisabled && layout.actions.removeColumn(index)}*/}
+      {/*  >*/}
+      {/*    {!removeDisabled && <DeleteIcon />}*/}
+      {/*    <ColumnText>{content.children.length}</ColumnText>*/}
+      {/*  </Column>*/}
+      {/*))}*/}
+      {/*{columns.length < 6 && (*/}
+      {/*  <GhostColumn onClick={layout.actions.addColumn}>*/}
+      {/*    <AiOutlinePlus />*/}
+      {/*  </GhostColumn>*/}
+      {/*)}*/}
+      {columns.map((column, index) => (
+        <div key={index}>
+          Column {index + 1} ({column.children.length})
+        </div>
       ))}
-      {columns.length < 6 && (
-        <GhostColumn onClick={layout.actions.addColumn}>
-          <AiOutlinePlus />
-        </GhostColumn>
-      )}
     </Root>
   );
 };
