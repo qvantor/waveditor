@@ -1,20 +1,15 @@
 import styled, { css } from 'styled-components';
-import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
-import { LayoutStore, getColumns } from '@waveditors/editor-model';
+import { RxDragHandleDots2 } from 'react-icons/rx';
+import { LayoutStore, getColumns, Column } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { font, tokens } from '@waveditors/theme';
+import { MouseEvent as ReactMouseEvent, useState } from 'react';
 
 interface Props {
   layout: LayoutStore;
 }
 
-const Root = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  gap: 5px;
-  transition: all 0.1s linear;
-`;
+const Root = styled.div``;
 
 const ColumnCommon = styled.div`
   justify-content: center;
@@ -22,64 +17,98 @@ const ColumnCommon = styled.div`
   color: ${tokens.color.text.tertiary};
   border-radius: ${tokens.borderRadius.m};
   cursor: pointer;
-  transition: all 0.1s linear;
 `;
 
-const Column = styled(ColumnCommon)<{ disabled: boolean }>`
-  flex: 1;
+const ColumnProportions = styled.div`
   display: flex;
-  border: 1px dashed ${tokens.color.border.secondary};
+  gap: 4px;
+  margin: 0 -8px;
+`;
+
+const ColumnPreview = styled.div<{ selected: boolean }>`
+  background: ${({ selected }) =>
+    selected
+      ? tokens.color.surface.accentSecondary
+      : tokens.color.surface.primary};
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${font({ type: 'paragraph', size: 'smallest', weight: 'bold' })};
+  cursor: pointer;
+  transition: background-color 0.1s linear;
 
   &:hover {
-    border: 1px solid ${tokens.color.surface.danger};
-    background: ${tokens.color.surface.danger};
-    ${({ disabled }) =>
-      disabled &&
-      css`
-        background: transparent;
-        border: 1px dashed ${tokens.color.border.secondary};
-        cursor: default;
-      `}
+    background: ${({ selected }) =>
+      selected
+        ? tokens.color.surface.accentSecondary
+        : tokens.color.surface.primaryHover};
   }
 `;
 
-const DeleteIcon = styled(AiOutlineDelete)`
-  display: none;
-
-  ${Column}:hover & {
-    display: block;
-  }
-`;
-
-const ColumnText = styled.p`
+const Handle = styled(RxDragHandleDots2)`
   color: ${tokens.color.text.secondary};
-  ${font({ size: 'large', weight: 'bold' })};
-
-  ${Column}:hover & {
-    display: none;
-  }
+  width: 10px;
+  position: absolute;
+  left: -8px;
+  background: ${tokens.color.surface.secondary};
+  cursor: col-resize;
+  border: 1px solid ${tokens.color.border.secondary};
 `;
 
-const GhostColumn = styled(ColumnCommon)`
-  display: none;
-  width: 10%;
-  height: 36px;
-  align-self: center;
-  border: 1px dashed ${tokens.color.surface.accent};
+const columnWithProportions = (columns: Column[]): Required<Column>[] =>
+  columns.map((column) => ({
+    ...column,
+    proportion: column.proportion ?? 100 / columns.length,
+  }));
 
-  ${Root}:hover & {
-    display: flex;
+const MIN_COLUMN_SIZE = 10;
+const columnsChangeProportions = (
+  columns: Required<Column>[],
+  index: number,
+  diff: number
+): Required<Column>[] => {
+  const leftCol = columns[index - 1];
+  const rightCol = columns[index];
+  const internalDiff = Math.round(diff);
+  let rightProportion = rightCol.proportion - internalDiff;
+  let leftProportion = leftCol.proportion + internalDiff;
+  if (rightProportion < MIN_COLUMN_SIZE) {
+    leftProportion += rightProportion - MIN_COLUMN_SIZE;
+    rightProportion = MIN_COLUMN_SIZE;
+  } else if (leftProportion < MIN_COLUMN_SIZE) {
+    rightProportion += leftProportion - MIN_COLUMN_SIZE;
+    leftProportion = MIN_COLUMN_SIZE;
   }
-
-  &:hover {
-    background: ${tokens.color.surface.accent};
-  }
-`;
+  return columns.map((col, i) => {
+    if (col === rightCol) return { ...col, proportion: rightProportion };
+    if (col === leftCol) return { ...col, proportion: leftProportion };
+    return col;
+  });
+};
 
 export const ColumnsEditor = ({ layout }: Props) => {
-  const columns = useBsSelector(layout.bs, getColumns);
-
+  // const columns = columnWithProportions(useBsSelector(layout.bs, getColumns));
+  const [columns, setColumns] = useState(
+    columnWithProportions(getColumns(layout.bs.value))
+  );
+  const [column, setColumn] = useState<number>(0);
   const removeDisabled = columns.length <= 1;
+
+  const onHandleMouseDown = (index: number) => (e: ReactMouseEvent) => {
+    const initialPosition = e.screenX;
+    const onMouseMove = (e: MouseEvent) => {
+      const diff = ((e.screenX - initialPosition) / 273) * 100;
+      setColumns(columnsChangeProportions(columns, index, diff));
+      // initialPosition = e.screenX;
+    };
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
 
   return (
     <Root>
@@ -98,11 +127,22 @@ export const ColumnsEditor = ({ layout }: Props) => {
       {/*    <AiOutlinePlus />*/}
       {/*  </GhostColumn>*/}
       {/*)}*/}
-      {columns.map((column, index) => (
-        <div key={index}>
-          Column {index + 1} ({column.children.length})
-        </div>
-      ))}
+      <ColumnProportions>
+        {columns.map((col, index) => (
+          <ColumnPreview
+            onClick={() => setColumn(index)}
+            style={{ width: col.proportion + '%' }}
+            selected={column === index}
+            key={index}
+          >
+            {index !== 0 && <Handle onMouseDown={onHandleMouseDown(index)} />}
+            {col.proportion}
+          </ColumnPreview>
+        ))}
+      </ColumnProportions>
+      {columns.length < 6 && (
+        <button onClick={layout.actions.addColumn}>add</button>
+      )}
     </Root>
   );
 };
