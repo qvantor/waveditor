@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:dev": "nx run wavemail:serve:development",
-    "lint:check": "nx format:check && nx run-many --all --target=lint"
+    "start": "nx run wavemail:serve",
+    "lint": "nx run-many --all --target=lint",
+    "test": "nx run-many --all --target=test",
+    "build": "nx run wavemail:build "
   },
   "private": true,
   "devDependencies": {
