@@ -51,18 +51,19 @@ export const MailBuilder = ({
   config,
 }: RenderContextObject) => {
   const undoRedo = undoRedoModule<UndoRedoEvents>();
-  const templateConfigStore = useTemplateConfigStore(config, {
-    undoRedo,
-  });
-  const relationsStore = useRelationsStore(relations, {
-    undoRedo,
-  });
+  const templateConfigStore = useTemplateConfigStore(config, { undoRedo }, [
+    config,
+  ]);
+  const relationsStore = useRelationsStore(relations, { undoRedo }, [
+    relations,
+  ]);
   const elementsStore = useElementsStore(
     elementsToElementsStore(elements, { undoRedo }),
-    { undoRedo }
+    { undoRedo },
+    [elements]
   );
-  const hoverStore = useHoverStore(null, [elementsStore]);
-  const selectedStore = useSelectedStore(null, [elementsStore]);
+  const hoverStore = useHoverStore(null, undefined, [elementsStore]);
+  const selectedStore = useSelectedStore(null, undefined, [elementsStore]);
 
   const { editorEvents, externalEvents } = useMemo(
     () => ({

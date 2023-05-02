@@ -1,5 +1,4 @@
 import { filter, map, pipe, Subject, Unsubscribable } from 'rxjs';
-import { generateId, notNullish, returnValue } from '@waveditors/utils';
 import { createStore } from '../services';
 import { Effect } from '../types';
 
@@ -40,6 +39,9 @@ export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>>
 
 type UndoRedoEvent<E> = { id: string; events: E[] };
 type UndoRedoEvents<E> = UndoRedoEvent<E>[];
+
+export const generateId = () => Math.random().toString();
+
 export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
   size = 10
 ): UndoRedoModule<E> => {
@@ -64,14 +66,14 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
       addEvent: (value: UndoRedoEvent<E>, state) => [...state, value],
       removeEvent: (eventId: string, state) =>
         state.filter((value) => value.id !== eventId),
-      empty: returnValue([]),
+      empty: () => [],
     })
     .addEffect(() => ({
       subscriptions: ({ bs, actions }) => [
         redo
           .pipe(
             map(() => bs.value[bs.value.length - 1]),
-            filter(notNullish)
+            filter(Boolean)
           )
           .subscribe((lastAction) => {
             lastAction.events.reverse().forEach((event) => onRedo.next(event));
@@ -88,7 +90,7 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
         const notGrouped = [
           ...state,
           {
-            id: generateId(),
+            id: Math.random().toString(),
             events: [event],
           },
         ];
@@ -113,7 +115,7 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
         undo
           .pipe(
             map(() => bs.value[bs.value.length - 1]),
-            filter(notNullish)
+            filter(Boolean)
           )
           .subscribe((lastAction) => {
             lastAction.events.reverse().forEach((event) => onUndo.next(event));
