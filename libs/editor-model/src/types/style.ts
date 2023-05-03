@@ -9,6 +9,8 @@ export type Background = {
   backgroundOrigin?: Property.BackgroundOrigin;
 };
 
+export type Align = 'left' | 'right' | 'center';
+
 export type Style = {
   display?: Property.Display;
   padding?: Property.Padding<string>;
@@ -18,7 +20,7 @@ export type Style = {
   fontSize?: string;
   lineHeight?: string;
   letterSpacing?: string;
-  textAlign?: Property.TextAlign;
+  textAlign?: Align;
   color?: Property.Color;
   borderRadius?: string;
 } & Background;

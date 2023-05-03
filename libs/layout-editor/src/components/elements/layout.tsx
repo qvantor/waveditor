@@ -30,7 +30,7 @@ export const Layout = ({ element, width, attributes }: Props) => {
   const isDnd = useBehaviorSubject(internalState.isDnd);
   const layout = useBehaviorSubject(element.bs);
   const style = {
-    minHeight: isDnd ? getYPadding(layout.style.padding) + 10 : 5,
+    minHeight: isDnd ? getYPadding(layout.style.padding) + 10 : 10,
   };
   const columnStyle = isDnd
     ? {

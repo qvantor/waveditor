@@ -28,9 +28,7 @@ export const LayoutDumb = LinkHOC(
     attributes,
   }: LayoutDumbProps) => {
     const style = useStyle(element);
-    const columnWidth =
-      (width - getXPadding(element.style.padding)) /
-      element.params.columns.length;
+    const actualWidth = width - getXPadding(element.style.padding);
     return (
       <table
         style={{
@@ -50,11 +48,16 @@ export const LayoutDumb = LinkHOC(
                     ...columnStyle,
                     padding: 0,
                   }}
+                  align={column.align}
                   datatype={COLUMN_DATATYPE}
                   data-column={i}
                   key={i}
                 >
-                  {renderColumn({ width: columnWidth, column, index: i })}
+                  {renderColumn({
+                    width: (column.proportion / 100) * actualWidth,
+                    column: column.children,
+                    index: i,
+                  })}
                 </td>
               );
             })}

@@ -14,6 +14,7 @@ export const theme = {
   color: {
     surface: {
       primary: '#EAF0F0',
+      primaryHover: '#d2d8d8',
       secondary: '#fff',
       tertiary: '#121417',
       quaternary: '#F9F9F9',

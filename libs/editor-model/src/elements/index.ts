@@ -19,8 +19,9 @@ export {
   isParentOf,
   getElementPosition,
   getColumns,
+  createEmptyColumn,
 } from './layout';
-export type { LayoutStore, Layout, LayoutAddChild } from './layout';
+export type { LayoutStore, Layout, LayoutAddChild, Column } from './layout';
 
 export { textStore } from './text';
 export type { TextStore, Text } from './text';

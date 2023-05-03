@@ -10,7 +10,7 @@ export const isParentOf = (
 ) =>
   Boolean(
     layout.params.columns.find((column) =>
-      column.find((cElementId) => cElementId === elementId)
+      column.children.find((cElementId) => cElementId === elementId)
     )
   );
 
@@ -20,11 +20,11 @@ export const getElementPosition = (
 ) =>
   layout.params.columns.reduce<LayoutAddChild['position']>(
     (sum, col, index) => {
-      if (!col.includes(element)) return sum;
+      if (!col.children.includes(element)) return sum;
       return {
         ...sum,
         column: index,
-        index: col.indexOf(element),
+        index: col.children.indexOf(element),
       };
     },
     {

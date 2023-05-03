@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { Background } from '@waveditors/editor-model';
 import { useCallback } from 'react';
 import {
@@ -6,6 +5,7 @@ import {
   ImageUrlInput,
   BackgroundRepeatSelector,
 } from '../../../common/components';
+import { RowContainer, SimpleEditorRow } from '../../common/components';
 
 interface Props {
   value?: Background;
@@ -15,19 +15,6 @@ interface Props {
   }) => void;
 }
 
-const Root = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 5px;
-`;
-
-const BackgroundEditorRow = styled.div`
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  align-items: center;
-`;
-
 export const BackgroundEditor = ({ value, onChange }: Props) => {
   const onChangeInternal = useCallback(
     <K extends keyof Background>(key: K) =>
@@ -36,28 +23,28 @@ export const BackgroundEditor = ({ value, onChange }: Props) => {
     [onChange]
   );
   return (
-    <Root>
-      <BackgroundEditorRow>
+    <RowContainer>
+      <SimpleEditorRow>
         <div>Color</div>
         <ColorPicker
           value={value?.backgroundColor}
           onChange={onChangeInternal('backgroundColor')}
         />
-      </BackgroundEditorRow>
-      <BackgroundEditorRow>
+      </SimpleEditorRow>
+      <SimpleEditorRow>
         <div>Image</div>
         <ImageUrlInput
           value={value?.backgroundImage}
           onChange={onChangeInternal('backgroundImage')}
         />
-      </BackgroundEditorRow>
-      <BackgroundEditorRow>
+      </SimpleEditorRow>
+      <SimpleEditorRow>
         <div>Repeat</div>
         <BackgroundRepeatSelector
           value={value?.backgroundRepeat}
           onChange={onChangeInternal('backgroundRepeat')}
         />
-      </BackgroundEditorRow>
-    </Root>
+      </SimpleEditorRow>
+    </RowContainer>
   );
 };

@@ -41,7 +41,7 @@ const detectMousePosition =
     const element = elements.getValue()[layout.id] as LayoutStore;
     const { index, next } = element
       .getValue()
-      .params.columns[columnIndex].map((id) => {
+      .params.columns[columnIndex].children.map((id) => {
         const htmlChild = iFrameDocument.getElementById(id);
         if (!htmlChild) return null;
         const { top, height } = htmlChild.getBoundingClientRect();
