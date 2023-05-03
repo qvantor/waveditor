@@ -1,10 +1,10 @@
 import { ElementCommon } from '../element';
-import { Style } from '../../types';
+import { Align } from '../../types';
 
 export interface Column {
   children: string[];
-  style: Style;
-  proportion?: number;
+  proportion: number;
+  align?: Align;
 }
 
 export interface Layout extends ElementCommon<'layout'> {

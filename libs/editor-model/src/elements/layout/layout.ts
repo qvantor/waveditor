@@ -1,8 +1,10 @@
 import { StoreResult } from '@waveditors/rxjs-react';
 import { elementStore, ElementStoreDeps } from '../element';
 import { commonUndoRedoEffect } from '../../services';
+import { Align } from '../../types';
 import { Layout, LayoutAddChild, Column } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
+import { recalcProportions } from './layout.services';
 
 const setColumns = (layout: Layout, columns: Column[]) => ({
   ...layout,
@@ -42,7 +44,10 @@ export const layoutStore = (deps: ElementStoreDeps) =>
         return setColumns(prev, newColumns);
       },
       addColumn: (_, prev) =>
-        setColumns(prev, [...prev.params.columns, createEmptyColumn()]),
+        setColumns(
+          prev,
+          recalcProportions([...prev.params.columns, createEmptyColumn()])
+        ),
       removeColumn: (removeIndex: number, prev) => {
         if (prev.params.columns.length === 1)
           throw new Error(`removeColumn last column from ${prev.id}`);
@@ -67,8 +72,32 @@ export const layoutStore = (deps: ElementStoreDeps) =>
           },
           []
         );
-        return setColumns(prev, columns);
+        return setColumns(prev, recalcProportions(columns));
       },
+      setColumnsProportions: (proportions: number[], prev) => {
+        const { columns } = prev.params;
+        if (columns.length !== proportions.length)
+          throw new Error(
+            `setColumnProportions error ${proportions.length} != ${prev.params.columns.length}`
+          );
+        return setColumns(
+          prev,
+          prev.params.columns.map((column, i) => ({
+            ...column,
+            proportion: proportions[i],
+          }))
+        );
+      },
+      setColumnAlign: (
+        { index, align }: { index: number; align?: Align },
+        prev
+      ) =>
+        setColumns(
+          prev,
+          prev.params.columns.map((column, i) =>
+            i === index ? { ...column, align } : column
+          )
+        ),
     })
     .addEffect(commonUndoRedoEffect(deps.undoRedo));
 

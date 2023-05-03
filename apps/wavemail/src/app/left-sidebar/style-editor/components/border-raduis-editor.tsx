@@ -6,9 +6,8 @@ import {
   BorderRadiusObj,
   addPx,
 } from '@waveditors/utils';
-import { Button } from 'antd';
 import { RxLink1, RxLinkNone1 } from 'react-icons/rx';
-import { InputNumber } from '../../../common/components';
+import { IconButton, InputNumber } from '../../../common/components';
 
 interface Props {
   value?: string;
@@ -22,8 +21,7 @@ const Root = styled.div`
   position: relative;
 `;
 
-const LinkButton = styled(Button)`
-  line-height: 25px;
+const LinkButton = styled(IconButton)`
   position: absolute;
   top: 50%;
   left: 50%;

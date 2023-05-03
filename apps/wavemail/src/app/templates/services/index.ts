@@ -30,7 +30,7 @@ export const generateEmptyTemplate = (): RenderContextObject => {
         id: rootId,
         type: 'layout',
         params: {
-          columns: [createEmptyColumn(), createEmptyColumn()],
+          columns: [createEmptyColumn(50), createEmptyColumn(50)],
         },
         style: {
           backgroundColor: '#fff',
