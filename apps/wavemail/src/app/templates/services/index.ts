@@ -1,17 +1,46 @@
 import { RenderContextObject } from '@waveditors/layout-render';
 import { generateId } from '@waveditors/utils';
 import {
-  createEmptyColumn,
   createInitialRelations,
   createInitialTemplateConfig,
+  createEmptyColumn,
 } from '@waveditors/editor-model';
 import { LOCAL_STORAGE_KEY } from '../constants';
 import DemoTemplates from '../constants/demo.json';
+// const migrateProject = (project: RenderContextObject) => {
+//   return {
+//     ...project,
+//     elements: Object.entries(project.elements).reduce((sum, [key, element]) => {
+//       if (element.type === 'layout') {
+//         return {
+//           ...sum,
+//           [key]: {
+//             ...element,
+//             params: {
+//               ...element.params,
+//               columns: element.params.columns.map((col) => ({
+//                 children: col,
+//                 proportion: columnsCountToProportion(
+//                   element.params.columns.length
+//                 ),
+//               })),
+//             },
+//           },
+//         };
+//       }
+//       return { ...sum, [key]: element };
+//     }, {}),
+//   };
+// };
+//
+// const handMigrator = () =>
+//   Object.entries(DemoTemplates).reduce((sum, [key, project]) => {
+//     return { ...sum, [key]: migrateProject(project as any) };
+//   }, {});
 
-// @todo update demo examples
 const initialTemplates = () => {
-  // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DemoTemplates));
-  return { '12': generateEmptyTemplate() };
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DemoTemplates));
+  return DemoTemplates;
 };
 export const getTemplates = () => {
   const value = localStorage.getItem(LOCAL_STORAGE_KEY);

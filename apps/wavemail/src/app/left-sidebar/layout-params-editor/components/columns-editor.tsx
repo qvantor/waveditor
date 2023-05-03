@@ -71,7 +71,7 @@ export const ColumnsEditor = ({ layout }: Props) => {
       <SimpleEditorRow>
         <div>Column align</div>
         <AlignEditor
-          value={columns[column].align}
+          value={columns[column]?.align}
           onChange={(align) =>
             layout.actions.setColumnAlign({ index: column, align })
           }
