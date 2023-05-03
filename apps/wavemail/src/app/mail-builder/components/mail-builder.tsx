@@ -2,17 +2,21 @@ import { useMemo } from 'react';
 import styled from 'styled-components';
 import { EditorEvents, ExternalEvents } from '@waveditors/layout-editor';
 import { Subject } from 'rxjs';
-import { undoRedoModule, useUnsubscribable } from '@waveditors/rxjs-react';
+import {
+  undoRedoModule,
+  useStore,
+  useUnsubscribable,
+} from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
-  useElementsStore,
+  elementsStoreConstructor,
   UndoRedoEvents,
   getParentElement,
   getLayoutElement,
-  useHoverStore,
-  useSelectedStore,
-  useTemplateConfigStore,
-  useRelationsStore,
+  hoverStoreConstructor,
+  selectedStoreConstructor,
+  templateConfigStoreConstructor,
+  relationsStoreConstructor,
   elementsToElementsStore,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
@@ -51,19 +55,25 @@ export const MailBuilder = ({
   config,
 }: RenderContextObject) => {
   const undoRedo = undoRedoModule<UndoRedoEvents>();
-  const templateConfigStore = useTemplateConfigStore(config, { undoRedo }, [
+  const templateConfigStore = useStore(
+    templateConfigStoreConstructor({ undoRedo }),
     config,
-  ]);
-  const relationsStore = useRelationsStore(relations, { undoRedo }, [
+    [config]
+  );
+  const relationsStore = useStore(
+    relationsStoreConstructor({ undoRedo }),
     relations,
-  ]);
-  const elementsStore = useElementsStore(
+    [relations]
+  );
+  const elementsStore = useStore(
+    elementsStoreConstructor({ undoRedo }),
     elementsToElementsStore(elements, { undoRedo }),
-    { undoRedo },
     [elements]
   );
-  const hoverStore = useHoverStore(null, undefined, [elementsStore]);
-  const selectedStore = useSelectedStore(null, undefined, [elementsStore]);
+  const hoverStore = useStore(hoverStoreConstructor(), null, [elementsStore]);
+  const selectedStore = useStore(selectedStoreConstructor(), null, [
+    elementsStore,
+  ]);
 
   const { editorEvents, externalEvents } = useMemo(
     () => ({

@@ -22,3 +22,7 @@ export interface LayoutAddChild {
     next: boolean;
   };
 }
+
+{
+  [{ name: '1' }, { name: '2' }, { name: 'other name' }];
+}

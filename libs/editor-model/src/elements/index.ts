@@ -30,7 +30,7 @@ export { imageStore, getImageMeta, getImageUrl } from './image';
 export type { ImageStore, Image } from './image';
 
 export {
-  useElementsStore,
+  elementsStoreConstructor,
   getParentElement,
   getLayoutElement,
   createEmptyElement,

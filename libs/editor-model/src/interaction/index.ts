@@ -1,5 +1,5 @@
-export { useHoverStore } from './hover';
+export { hoverStoreConstructor } from './hover';
 export type { HoverStore } from './hover';
 
-export { useSelectedStore } from './selected';
+export { selectedStoreConstructor } from './selected';
 export type { SelectedStore } from './selected';

@@ -1,10 +1,24 @@
 import { StoreResult } from '@waveditors/rxjs-react';
+import { Lens, fromTraversable, Prism } from 'monocle-ts';
+import { indexArray } from 'monocle-ts/Index/Array';
+import { Traversable, filter } from 'fp-ts/Array';
 import { elementStore, ElementStoreDeps } from '../element';
 import { commonUndoRedoEffect } from '../../services';
 import { Align } from '../../types';
 import { Layout, LayoutAddChild, Column } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
 import { recalcProportions } from './layout.services';
+
+const column = Lens.fromPath<Layout>()(['params', 'columns']);
+
+const columnChildren = Lens.fromProp<Column>()('children');
+
+const columnByIndex = (index: number) => indexArray<Column>().index(index);
+const columnTraversal = fromTraversable(Traversable)<Column>();
+const getChildPrism = (id: string): Prism<string, string> =>
+  Prism.fromPredicate((child) => child === id);
+
+const childTraversal = fromTraversable(Traversable)<string>();
 
 const setColumns = (layout: Layout, columns: Column[]) => ({
   ...layout,
@@ -20,34 +34,31 @@ export const layoutStore = (deps: ElementStoreDeps) =>
   elementStore<Layout>()
     .addActions({
       addChild: (
-        { element, position: { layout, column, index, next } }: LayoutAddChild,
+        {
+          element,
+          position: { layout, column: colIndex, index, next },
+        }: LayoutAddChild,
         prev
-      ) => {
-        const newColumns = prev.params.columns.map((col, i) => {
-          if (i !== column) return col;
-          const plus = next ? 1 : 0;
-          return setColumnChildren(col, [
-            ...col.children.slice(0, index + plus),
+      ) =>
+        column
+          .composeOptional(columnByIndex(colIndex))
+          .composeLens(columnChildren)
+          .modify((children) => [
+            ...children.slice(0, index + Number(next)),
             element,
-            ...col.children.slice(index + plus),
-          ]);
-        });
-        return setColumns(prev, newColumns);
-      },
-      removeChild: (childId: string, prev) => {
-        const newColumns = prev.params.columns.map((column) =>
-          setColumnChildren(
-            column,
-            column.children.filter((cElementId) => cElementId !== childId)
-          )
-        );
-        return setColumns(prev, newColumns);
-      },
-      addColumn: (_, prev) =>
-        setColumns(
+            ...children.slice(index + Number(next)),
+          ])(prev),
+      removeChild: (childId: string, prev) =>
+        column
+          .composeTraversal(columnTraversal)
+          .composeLens(columnChildren)
+          .modify(filter((child) => child !== childId))(prev),
+      addColumn: (_, prev) => {
+        return setColumns(
           prev,
           recalcProportions([...prev.params.columns, createEmptyColumn()])
-        ),
+        );
+      },
       removeColumn: (removeIndex: number, prev) => {
         if (prev.params.columns.length === 1)
           throw new Error(`removeColumn last column from ${prev.id}`);
