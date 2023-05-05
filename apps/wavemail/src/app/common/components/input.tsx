@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, FocusEvent } from 'react';
 import { Input as AntInput, InputProps } from 'antd';
 
 type Props = {
@@ -6,7 +6,13 @@ type Props = {
   onChange?: (value?: string) => void;
   validate?: (value?: string) => boolean;
 } & Omit<InputProps, 'onChange' | 'value' | 'size'>;
-export const Input = ({ value, onChange, validate, ...rest }: Props) => {
+export const Input = ({
+  value,
+  onChange,
+  validate,
+  onBlur,
+  ...rest
+}: Props) => {
   const [valid, setValid] = useState(true);
   const [internalValue, setInternalValue] = useState(value);
   useEffect(() => {
@@ -16,12 +22,15 @@ export const Input = ({ value, onChange, validate, ...rest }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  const onBlur = useCallback(() => {
-    if (internalValue !== value) onChange?.(internalValue);
-
-    // one directional update internal -> external
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [internalValue, value]);
+  const onBlurInternal = useCallback(
+    (e: FocusEvent<HTMLInputElement>) => {
+      if (internalValue !== value) onChange?.(internalValue);
+      onBlur?.(e);
+      // one directional update internal -> external
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [internalValue, value, onBlur, onChange]
+  );
 
   useEffect(() => {
     if (validate) setValid(validate(internalValue));
@@ -32,7 +41,7 @@ export const Input = ({ value, onChange, validate, ...rest }: Props) => {
       size='small'
       value={internalValue}
       onChange={(e) => setInternalValue(e.target.value)}
-      onBlur={onBlur}
+      onBlur={onBlurInternal}
       status={valid ? '' : 'error'}
       {...rest}
     />

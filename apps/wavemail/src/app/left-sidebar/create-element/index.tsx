@@ -1,7 +1,11 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Tooltip } from 'antd';
-import { createEmptyElement, ElementType } from '@waveditors/editor-model';
+import {
+  createEmptyElement,
+  ElementType,
+  generateUniqElementName,
+} from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
 import { TfiText, TfiImage } from 'react-icons/tfi';
 import { useMailBuilderContext } from '../../common/hooks';
@@ -51,15 +55,18 @@ const Element = styled.div`
 `;
 export const CreateElement = () => {
   const {
+    stores: { elements },
     editor: { externalEvents },
   } = useMailBuilderContext();
   const onMouseDown = useCallback(
     (type: ElementType) => () =>
       externalEvents.next({
         type: 'OutsideDragStarted',
-        payload: createEmptyElement(type),
+        payload: createEmptyElement(type, {
+          name: generateUniqElementName(type, elements),
+        }),
       }),
-    [externalEvents]
+    [externalEvents, elements]
   );
   return (
     <Root>

@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 // @todo return strict mode
 import * as ReactDOM from 'react-dom/client';
 

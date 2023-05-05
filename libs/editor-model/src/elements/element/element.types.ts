@@ -13,6 +13,7 @@ export type ElementCommon<
 > = {
   id: string;
   type: T;
+  name: string;
 
   link: ElementLink | null;
 

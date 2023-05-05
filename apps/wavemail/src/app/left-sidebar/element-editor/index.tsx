@@ -13,7 +13,7 @@ import { ImageParamsEditor } from '../image-params-editor';
 import { TextParamsEditor } from '../text-params-editor';
 import { CollapseStyled } from '../../common/components';
 import { StyleEditor } from '../style-editor';
-import { LinkEditor } from './components';
+import { LinkEditor, ElementEditorHeader } from './components';
 
 interface Props {
   element: ElementStore;
@@ -37,6 +37,7 @@ export const ElementEditor = ({ element }: Props) => {
   );
   return (
     <>
+      <ElementEditorHeader element={element} />
       <TypedEditorSwitch element={element} />
       <StyleEditor element={element} />
       <CollapseStyled name='link-editor'>

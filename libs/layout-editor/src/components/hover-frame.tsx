@@ -10,7 +10,6 @@ export const FrameRoot = styled.div`
   pointer-events: none;
   outline-offset: -2px;
   outline: 2px solid ${theme.color.surface.accentSecondary};
-  z-index: 2;
 `;
 
 export const HoverFrame = () => {

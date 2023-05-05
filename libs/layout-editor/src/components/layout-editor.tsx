@@ -67,8 +67,8 @@ export function LayoutEditor(
         }}
       >
         <RenderElement />
-        <HoverFrame />
         <SelectedFrame />
+        <HoverFrame />
       </Root>
     </ContextValue.Provider>
   );

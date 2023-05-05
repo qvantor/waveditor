@@ -11,6 +11,7 @@ export {
   getElementTextAlign,
   getElementColor,
   getElementLink,
+  getElementName,
 } from './element';
 
 export {
@@ -39,6 +40,7 @@ export {
   getElementParents,
   elementsStoreToObject,
   elementsToElementsStore,
+  generateUniqElementName,
 } from './elements';
 export type {
   ElementsStoreUndoRedoEvent,

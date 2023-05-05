@@ -1,8 +1,9 @@
-import { map } from 'rxjs';
+import { map, of, switchMap } from 'rxjs';
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { getElementById, getElementParents } from '@waveditors/editor-model';
 import styled, { css } from 'styled-components';
 import { tokens, font } from '@waveditors/theme';
+import { match, P } from 'ts-pattern';
 import { useMailBuilderContext } from '../../common/hooks';
 
 const Root = styled.div`
@@ -76,7 +77,7 @@ export const SelectedToRoot = () => {
     selected.bs.pipe(
       map((selected) => {
         if (!selected) return [];
-        return getElementParents(selected)(elements.bs.value).reverse();
+        return getElementParents(selected)(elements.getValue()).reverse();
       })
     ),
     [],
@@ -84,13 +85,19 @@ export const SelectedToRoot = () => {
   );
   const selectedElement = useObservable(
     selected.bs.pipe(
-      map((id) => {
-        if (!id) return null;
-        return getElementById(id)(elements.bs.value).getValue();
-      })
+      switchMap((value) =>
+        match(value)
+          .with(P.string, (id) =>
+            of(getElementById(id)).pipe(
+              map((getElement) => getElement(elements.getValue())),
+              switchMap((elementStore) => elementStore.bs)
+            )
+          )
+          .otherwise(() => of(null))
+      )
     ),
     null,
-    [selected.bs]
+    [selected, elements]
   );
   if (!selectedElement) return null;
   return (
@@ -105,12 +112,11 @@ export const SelectedToRoot = () => {
             onClick={() => selected.actions.setSelected(value.id)}
             onMouseLeave={hover.actions.removeHover}
           >
-            {i === 0 ? 'root' : value.type}({value.params.columns.flat().length}
-            )
+            {value.name ?? (i === 0 ? 'root' : value.type)}
           </Layout>
         );
       })}
-      <Selected>{selectedElement.type}</Selected>
+      <Selected>{selectedElement.name ?? selectedElement.type}</Selected>
     </Root>
   );
 };

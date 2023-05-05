@@ -14,4 +14,5 @@ export const elementStore = <T extends ElementCommon>() =>
       },
     }),
     setLink: (link: ElementLink | null, state) => ({ ...state, link }),
+    setName: (name: string, state) => ({ ...state, name }),
   });
