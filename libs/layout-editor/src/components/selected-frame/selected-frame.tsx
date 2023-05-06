@@ -7,6 +7,7 @@ import { useLayoutEditorContext } from '../../hooks';
 import { resizeObservable } from '../../services';
 import { FrameRoot } from '../hover-frame';
 import { FrameControl } from './frame-control';
+import { InnerFrame } from './inner-frame';
 
 const SelectedRect = styled(FrameRoot)`
   background: transparent;
@@ -41,6 +42,7 @@ export const SelectedFrame = () => {
   const { left, top, width, height } = rect;
   return (
     <SelectedRect style={{ left, top, width, height }}>
+      <InnerFrame />
       <FrameControl top={top} width={width} />
     </SelectedRect>
   );

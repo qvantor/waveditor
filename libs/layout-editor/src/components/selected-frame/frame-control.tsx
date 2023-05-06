@@ -1,12 +1,9 @@
-import { useObservable } from '@waveditors/rxjs-react';
-import { filter, map, switchMap } from 'rxjs';
-import { getElementById } from '@waveditors/editor-model';
 import { useRenderContext } from '@waveditors/layout-render';
 import styled from 'styled-components';
 import { font, theme } from '@waveditors/theme';
 import { RxDragHandleDots2 } from 'react-icons/rx';
 import { useCallback } from 'react';
-import { useLayoutEditorContext } from '../../hooks';
+import { useLayoutEditorContext, useSelectedElement } from '../../hooks';
 
 const CONTROL_HEIGHT = 16;
 
@@ -45,17 +42,9 @@ interface Props {
 }
 
 export const FrameControl = ({ top, width }: Props) => {
-  const { config, elements } = useRenderContext();
+  const { config } = useRenderContext();
   const { selected, internalEvents } = useLayoutEditorContext();
-  const element = useObservable(
-    selected.pipe(
-      filter(Boolean),
-      map(getElementById),
-      switchMap((fn) => fn(elements.getValue()).bs)
-    ),
-    null,
-    [selected, elements]
-  );
+  const element = useSelectedElement();
   const onMouseDown = useCallback(() => {
     const payload = selected.getValue();
     if (!payload) return console.error('DragIconMouseDown selected is empty');

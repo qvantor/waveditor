@@ -1,26 +1,34 @@
-import styled, { css } from 'styled-components';
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import styled from 'styled-components';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { theme, tokens } from '@waveditors/theme';
 import {
   Element,
   ElementStore,
   getElementName,
+  getElementType,
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { BehaviorSubject } from 'rxjs';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { IconButton, Input } from '../../../common/components';
 import { useRemoveSelected } from '../../../common/actions-hooks';
 
-const EditIcon = styled(AiOutlineEdit)`
-  position: absolute;
-  right: 42px;
-  opacity: 0;
-  transition: opacity 0.1s linear;
-  color: ${tokens.color.text.secondary};
+const NameInput = styled(Input)`
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: ${tokens.color.surface.primary};
+  }
+
+  &:focus {
+    border: inherit;
+    color: inherit;
+  }
 `;
 
-const Root = styled.div<{ isFocused: boolean }>`
+const Root = styled.div`
   position: relative;
   padding: 5px 8px;
   border-bottom: 1px solid ${theme.color.border.primary};
@@ -28,25 +36,6 @@ const Root = styled.div<{ isFocused: boolean }>`
   justify-content: space-between;
   align-items: center;
   gap: 5px;
-
-  &:hover ${EditIcon} {
-    opacity: ${({ isFocused }) => (isFocused ? `0` : `1`)};
-  }
-`;
-
-const NameInput = styled(Input)<{ $isFocused: boolean }>`
-  background: transparent;
-  ${({ $isFocused }) =>
-    $isFocused
-      ? ``
-      : css`
-          border: none;
-          cursor: pointer;
-
-          &:hover {
-            background: ${tokens.color.surface.primary};
-          }
-        `}
 `;
 
 interface Props {
@@ -54,32 +43,22 @@ interface Props {
 }
 
 export const ElementEditorHeader = ({ element }: Props) => {
-  const [focus, setFocus] = useState(false);
   const removeSelected = useRemoveSelected();
   const name = useBsSelector(
     element.bs as BehaviorSubject<Element>,
     getElementName
   );
+  const type = useBsSelector(
+    element.bs as BehaviorSubject<Element>,
+    getElementType
+  );
   const onChange = useCallback(
-    (name?: string) => {
-      if (!name) return;
-      element.actions.setName(name);
-    },
+    (name?: string) => element.actions.setName(name === '' ? undefined : name),
     [element]
   );
   return (
-    <Root isFocused={focus}>
-      <NameInput
-        key='test'
-        $isFocused={focus}
-        value={name}
-        onChange={onChange}
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-        showCount={focus}
-        maxLength={32}
-      />
-      <EditIcon />
+    <Root>
+      <NameInput value={name ?? type} onChange={onChange} />
       <IconButton
         size='small'
         type='text'

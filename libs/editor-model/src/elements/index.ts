@@ -12,6 +12,7 @@ export {
   getElementColor,
   getElementLink,
   getElementName,
+  getElementType,
 } from './element';
 
 export {
