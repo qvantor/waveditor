@@ -39,7 +39,7 @@ const detectMousePosition =
     const columnIndex = Number(column.getAttribute('data-column'));
     if (Number.isNaN(columnIndex)) return null;
     const element = elements.getValue()[layout.id] as LayoutStore;
-    const { index, next } = element
+    const { index } = element
       .getValue()
       .params.columns[columnIndex].children.map((id) => {
         const htmlChild = iFrameDocument.getElementById(id);
@@ -54,18 +54,16 @@ const detectMousePosition =
           if (diff && Math.abs(diff) < sum.min)
             return {
               min: Math.abs(diff),
-              index,
-              next: diff > 0,
+              index: index + Number(diff > 0),
             };
           return sum;
         },
-        { min: Infinity, index: 0, next: false }
+        { min: Infinity, index: 0 }
       );
     return {
       layout: layout.id,
       column: columnIndex,
       index,
-      next,
     };
   };
 

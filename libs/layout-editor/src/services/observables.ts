@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { ELEMENT_DATATYPE } from "../constants";
 
 export type ElementRect = {
   width: number;
@@ -20,6 +21,7 @@ export const resizeObservable = (element: HTMLElement, doc = document) =>
       });
     });
     resizeObserver.observe(element);
-    if (element.parentElement) resizeObserver.observe(element.parentElement);
+    const parent = element.parentElement?.closest(`[datatype=${ELEMENT_DATATYPE}]`)
+    if (parent) resizeObserver.observe(parent);
     return () => resizeObserver.disconnect();
   });
