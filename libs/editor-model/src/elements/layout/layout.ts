@@ -17,14 +17,13 @@ const columnAlign = Lens.fromProp<Column>()('align');
 const columnByIndex = (index: number) => indexArray<Column>().index(index);
 const columnTraversal = fromTraversable(A.Traversable)<Column>();
 
-
 export const layoutStore = (deps: ElementStoreDeps) =>
   elementStore<Layout>()
     .addActions({
       addChild: (
         {
           element,
-          position: { layout, column: colIndex, index, next },
+          position: { layout, column: colIndex, index },
         }: LayoutAddChild,
         prev
       ) =>
@@ -34,7 +33,7 @@ export const layoutStore = (deps: ElementStoreDeps) =>
           .modify((children) =>
             pipe(
               children,
-              A.insertAt(index + Number(next), element),
+              A.insertAt(index, element),
               O.getOrElse(() => children)
             )
           )(prev),

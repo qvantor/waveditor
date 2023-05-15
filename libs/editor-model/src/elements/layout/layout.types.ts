@@ -19,6 +19,5 @@ export interface LayoutAddChild {
     layout: string;
     column: number;
     index: number;
-    next: boolean;
   };
 }

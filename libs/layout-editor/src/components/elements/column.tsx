@@ -17,12 +17,13 @@ export const Column = ({ column, width, dndPreview }: Props) => {
   return (
     <ColumnDumb width={width}>
       {column.map((id, i) => {
-        const dndHere = dndPreview?.index === i;
+        const dndBefore = dndPreview?.index === 0 && dndPreview?.index === i;
+        const dndAfter = dndPreview?.index === i + 1;
         return (
           <Fragment key={id}>
-            {dndHere && !dndPreview.next && <DndPreview />}
+            {dndBefore && <DndPreview />}
             <Element id={id} width={width} />
-            {dndHere && dndPreview.next && <DndPreview />}
+            {dndAfter && <DndPreview />}
           </Fragment>
         );
       })}
