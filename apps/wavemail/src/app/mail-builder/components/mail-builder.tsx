@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { EditorEvents, ExternalEvents } from '@waveditors/layout-editor';
 import { Subject } from 'rxjs';
@@ -55,6 +55,10 @@ export const MailBuilder = ({
   config,
 }: RenderContextObject) => {
   const undoRedo = undoRedoModule<UndoRedoEvents>();
+  useEffect(() => {
+    const unsub = undoRedo.subscribe();
+    return () => unsub();
+  }, [undoRedo]);
   const templateConfigStore = useStore(
     templateConfigStoreConstructor({ undoRedo }),
     config,

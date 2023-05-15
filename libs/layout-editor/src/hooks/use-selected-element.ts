@@ -1,17 +1,27 @@
 import { useRenderContext } from '@waveditors/layout-render';
 import { useObservable } from '@waveditors/rxjs-react';
-import { filter, map, switchMap } from 'rxjs';
+import { map, switchMap, of, merge } from 'rxjs';
 import { getElementById } from '@waveditors/editor-model';
+import { match, P } from 'ts-pattern';
 import { useLayoutEditorContext } from './use-layout-editor-context';
 
 export const useSelectedElement = () => {
   const { elements } = useRenderContext();
   const { selected } = useLayoutEditorContext();
   return useObservable(
-    selected.pipe(
-      filter(Boolean),
-      map(getElementById),
-      switchMap((fn) => fn(elements.getValue()).bs)
+    merge(selected, elements).pipe(
+      switchMap(() =>
+        match(selected.getValue())
+          .with(P.string, (id) =>
+            of(getElementById(id)).pipe(
+              map((getElement) => getElement(elements.getValue())),
+              switchMap((elementStore) =>
+                elementStore ? elementStore.bs : of(null)
+              )
+            )
+          )
+          .otherwise(() => of(null))
+      )
     ),
     null,
     [selected, elements]

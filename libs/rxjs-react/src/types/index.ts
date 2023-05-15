@@ -32,10 +32,11 @@ export interface Effect<
 
 export type Action<V, AV = never> = (value: AV, state: V) => V;
 
-export interface Store<V, A> extends Unsubscribable {
+export interface Store<V, A> {
   bs: BehaviorSubject<V>;
   actions: ActionsResult<V, A>;
   getValue: () => V;
+  subscribe: () => () => void;
 }
 
 export interface StoreConstructor<V, A, E> {
@@ -56,5 +57,5 @@ export type StoreResult<C extends AnyStoreConstructor> = ReturnType<
 
 export type StoreHookResult<C extends AnyStoreConstructor> = Omit<
   StoreResult<C>,
-  'unsubscribe'
+  'subscribe'
 >;

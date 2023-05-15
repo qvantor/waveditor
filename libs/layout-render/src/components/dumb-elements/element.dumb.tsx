@@ -6,6 +6,7 @@ import { LayoutDumb } from './layout.dumb';
 import { TextDumb } from './text.dumb';
 import { ImageDumb } from './image.dumb';
 import { ColumnDumb } from './column.dumb';
+import { NotFoundDumb } from './not-found.dumb';
 
 interface Props {
   id: string;
@@ -38,5 +39,5 @@ export const ElementDumb = ({ id, width }: Props) => {
     .with(elementSelector('image'), (image) => (
       <ImageDumb element={image.getValue()} />
     ))
-    .exhaustive();
+    .otherwise(() => <NotFoundDumb id={id} />);
 };

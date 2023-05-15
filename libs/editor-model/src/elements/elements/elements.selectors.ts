@@ -1,5 +1,6 @@
 import { LayoutStore, isLayoutStore, isParentOf } from '../layout';
 import { ElementsStore } from './elements';
+import { ElementStore } from './elements.types';
 
 export const getParentElement = (
   elementsStore: ElementsStore['bs']['value'],
@@ -24,7 +25,8 @@ export const getLayoutElement = (
 };
 
 export const getElementById =
-  (id: string) => (elementsStore: ElementsStore['bs']['value']) =>
+  (id: string) =>
+  (elementsStore: ElementsStore['bs']['value']): ElementStore | undefined =>
     elementsStore[id];
 
 export const getElementParents =

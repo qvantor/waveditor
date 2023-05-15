@@ -10,12 +10,13 @@ export const useStore = <V, A, E>(
   initialValue: V,
   deps: unknown[] = []
 ) => {
-  const { bs, actions, getValue, unsubscribe } = useMemo(
+  const { bs, actions, getValue, subscribe } = useMemo(
     () => storeConstructor.run(initialValue),
     deps
   );
   useEffect(() => {
+    const unsubscribe = subscribe();
     return () => unsubscribe();
-  }, [unsubscribe]);
+  }, [subscribe]);
   return { bs, actions, getValue };
 };

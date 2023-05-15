@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 import { map } from 'rxjs';
 import { useBsSelector, useObservable } from '@waveditors/rxjs-react';
 import { elementSelector, getElementById } from '@waveditors/editor-model';
-import { useRenderContext } from '@waveditors/layout-render';
+import { useRenderContext, NotFoundDumb } from '@waveditors/layout-render';
 import { ELEMENT_DATATYPE } from '../../constants';
 import { useLayoutEditorContext } from '../../hooks';
 import { Layout } from './layout';
@@ -34,5 +34,5 @@ export const Element = ({ id, width }: Props) => {
     .with(elementSelector('image'), (element) => (
       <Image element={element} attributes={attributes} />
     ))
-    .exhaustive();
+    .otherwise(() => <NotFoundDumb id={id} />);
 };

@@ -1,4 +1,4 @@
-import { map, of, switchMap } from 'rxjs';
+import { map, merge, of, switchMap } from 'rxjs';
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { getElementById, getElementParents } from '@waveditors/editor-model';
 import styled, { css } from 'styled-components';
@@ -67,6 +67,7 @@ const Selected = styled(Item)`
   }
 `;
 
+// todo move inside editor
 export const SelectedToRoot = () => {
   const {
     config,
@@ -84,13 +85,15 @@ export const SelectedToRoot = () => {
     [selected.bs, elements.bs, config.bs]
   );
   const selectedElement = useObservable(
-    selected.bs.pipe(
-      switchMap((value) =>
-        match(value)
+    merge(selected.bs, elements.bs).pipe(
+      switchMap(() =>
+        match(selected.getValue())
           .with(P.string, (id) =>
             of(getElementById(id)).pipe(
               map((getElement) => getElement(elements.getValue())),
-              switchMap((elementStore) => elementStore.bs)
+              switchMap((elementStore) =>
+                elementStore ? elementStore.bs : of(null)
+              )
             )
           )
           .otherwise(() => of(null))
