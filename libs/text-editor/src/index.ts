@@ -1,2 +1,2 @@
-export { TextEditor } from './components';
+export { TextEditor, TextEditorStyle } from './components';
 export { jsonToHtml } from './services';

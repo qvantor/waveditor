@@ -19,14 +19,17 @@ export const theme = {
       tertiary: '#121417',
       quaternary: '#F9F9F9',
       accent: '#3498db',
+      accentQuarter: 'rgba(52,152,219, 0.25)',
       danger: '#e74c3c',
       accentSecondary: '#27ae60',
+      accentSecondaryHalf: 'rgba(39,174,96, 0.5)',
     },
     border: {
       primary: '#E8EBEB',
       secondary: '#E3E6E6',
     },
     text: {
+      primary: '#121417',
       secondary: '#7f8c8d',
       tertiary: '#fff',
     },

@@ -1,1 +1,1 @@
-export { TextEditor } from './text-editor';
+export { TextEditor, TextEditorStyle } from './text-editor';

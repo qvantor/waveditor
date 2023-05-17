@@ -11,7 +11,13 @@ export const Head = ({ iFrameDocument }: { iFrameDocument?: Document }) => {
   const Wrapper = useMemo(() => {
     return iFrameDocument
       ? ({ children }: PropsWithChildren) => (
-          <Helmet iFrameDocument={iFrameDocument}>{children}</Helmet>
+          <Helmet iFrameDocument={iFrameDocument}>
+            {children}
+            <link
+              href='https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap'
+              rel='stylesheet'
+            />
+          </Helmet>
         )
       : ({ children }: PropsWithChildren) => (
           <head>
