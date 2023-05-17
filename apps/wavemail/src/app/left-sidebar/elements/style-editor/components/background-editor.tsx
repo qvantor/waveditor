@@ -4,8 +4,8 @@ import {
   ColorPicker,
   ImageUrlInput,
   BackgroundRepeatSelector,
-} from '../../../common/components';
-import { RowContainer, SimpleEditorRow } from '../../common/components';
+} from '../../../../common/components';
+import { RowContainer, SimpleEditorRow } from '../../../common/components';
 
 interface Props {
   value?: Background;

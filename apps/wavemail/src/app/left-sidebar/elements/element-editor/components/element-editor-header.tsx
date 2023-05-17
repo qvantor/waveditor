@@ -10,8 +10,8 @@ import {
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { BehaviorSubject } from 'rxjs';
 import { useCallback } from 'react';
-import { IconButton, Input } from '../../../common/components';
-import { useRemoveSelected } from '../../../common/actions-hooks';
+import { IconButton, Input } from '../../../../common/components';
+import { useRemoveSelected } from '../../../../common/actions-hooks';
 
 const NameInput = styled(Input)`
   background: transparent;

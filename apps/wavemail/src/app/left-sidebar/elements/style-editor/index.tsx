@@ -6,7 +6,7 @@ import {
   ElementStore,
   getElementStyle,
 } from '@waveditors/editor-model';
-import { CollapseStyled } from '../../common/components';
+import { CollapseStyled } from '../../../common/components';
 import {
   BackgroundEditor,
   PaddingEditor,

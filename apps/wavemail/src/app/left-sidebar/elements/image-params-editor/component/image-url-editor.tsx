@@ -6,7 +6,7 @@ import {
   getImageUrl,
   ImageStore,
 } from '@waveditors/editor-model';
-import { Input } from '../../../common/components';
+import { Input } from '../../../../common/components';
 
 interface Props {
   image: ImageStore;

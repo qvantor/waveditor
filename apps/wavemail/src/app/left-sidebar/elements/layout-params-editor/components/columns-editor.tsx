@@ -8,12 +8,9 @@ import {
 import { filter } from 'rxjs';
 import { useState } from 'react';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
-import { IconButton } from '../../../common/components';
-import {
-  RowContainer,
-  SimpleEditorRow,
-  AlignEditor,
-} from '../../common/components';
+import { IconButton } from '../../../../common/components';
+import { AlignEditor } from '../../common/components';
+import { RowContainer, SimpleEditorRow } from '../../../common/components';
 import { ColumnsProportions } from './columns-proportions';
 
 interface Props {

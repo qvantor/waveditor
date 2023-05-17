@@ -177,7 +177,7 @@ const VariablesList = forwardRef<VariablesListRef, VariablesListProps>(
       }),
       [selectItem, selected, variables.length]
     );
-    useEffect(() => setSelected(0), [variables.length])
+    useEffect(() => setSelected(0), [variables.length]);
     return (
       <Root onClick={(e) => e.stopPropagation()}>
         {variables.map((variable, index) => (

@@ -1,6 +1,6 @@
 import { Collapse } from 'antd';
 import { ImageStore } from '@waveditors/editor-model';
-import { CollapseStyled } from '../../common/components';
+import { CollapseStyled } from '../../../common/components';
 import { ImageUrlEditor } from './component';
 
 interface Props {

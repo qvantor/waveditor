@@ -9,7 +9,7 @@ import {
 import { AiOutlineFontSize, AiOutlineLineHeight } from 'react-icons/ai';
 import { RxLetterSpacing } from 'react-icons/rx';
 import styled from 'styled-components';
-import { CollapseStyled } from '../../common/components';
+import { CollapseStyled } from '../../../common/components';
 import { Font } from '../common/components';
 import { PxValue, TextAlign, Color } from './components';
 

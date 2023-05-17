@@ -7,7 +7,7 @@ import {
   addPx,
 } from '@waveditors/utils';
 import { RxLink1, RxLinkNone1 } from 'react-icons/rx';
-import { IconButton, InputNumber } from '../../../common/components';
+import { IconButton, InputNumber } from '../../../../common/components';
 
 interface Props {
   value?: string;

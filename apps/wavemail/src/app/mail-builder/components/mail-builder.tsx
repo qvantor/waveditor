@@ -34,7 +34,7 @@ const Root = styled.div`
 const Content = styled.div`
   height: calc(100vh - ${tokens.size.headerHeight});
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 330px 1fr;
   justify-content: center;
   background: ${tokens.color.surface.primary};
 `;

@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 import { LayoutParamsEditor } from '../layout-params-editor';
 import { ImageParamsEditor } from '../image-params-editor';
 import { TextParamsEditor } from '../text-params-editor';
-import { CollapseStyled } from '../../common/components';
+import { CollapseStyled } from '../../../common/components';
 import { StyleEditor } from '../style-editor';
 import { LinkEditor, ElementEditorHeader } from './components';
 

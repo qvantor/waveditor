@@ -8,7 +8,7 @@ import {
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
 import { TfiText, TfiImage } from 'react-icons/tfi';
-import { useMailBuilderContext } from '../../common/hooks';
+import { useMailBuilderContext } from '../../../common/hooks';
 
 const Root = styled.div`
   padding: 5px 8px;

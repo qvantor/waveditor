@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { TextStore, getElementColor } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { ColorPicker } from '../../../common/components';
+import { ColorPicker } from '../../../../common/components';
 
 const InternalPicker = styled(ColorPicker)`
   flex: 1;
