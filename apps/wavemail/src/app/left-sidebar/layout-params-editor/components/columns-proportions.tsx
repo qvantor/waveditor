@@ -7,7 +7,7 @@ import {
 } from 'react';
 import {
   createStore,
-  storeHookConstructor,
+  useStore,
   useBehaviorSubject,
   useBsSelector,
 } from '@waveditors/rxjs-react';
@@ -60,12 +60,10 @@ interface Props {
 
 const MIN_COLUMN_SIZE = 10;
 
-const proportionsStore = () =>
+const proportionsStoreConstructor = () =>
   createStore<number[]>().addActions({
     set: (value: number[]) => value,
   });
-
-const useProportionsStore = storeHookConstructor(proportionsStore);
 
 const columnsToProportions = (columns: Column[]) =>
   columns.map((col) => col.proportion);
@@ -99,9 +97,9 @@ export const ColumnsProportions = ({
 }: Props) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const columns = useBsSelector(layout.bs, getColumns);
-  const proportionsStore = useProportionsStore(
+  const proportionsStore = useStore(
+    proportionsStoreConstructor(),
     columnsToProportions(columns),
-    undefined,
     [layout]
   );
   const proportions = useBehaviorSubject(proportionsStore.bs);

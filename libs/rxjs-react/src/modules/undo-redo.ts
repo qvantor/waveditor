@@ -19,8 +19,7 @@ export interface UndoRedoEffectConfig<
   filter?: (event: EffectExtract<T, E>, value: V) => boolean;
 }
 
-export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>>
-  extends Unsubscribable {
+export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>> {
   undo: Subject<void>;
   redo: Subject<void>;
 
@@ -31,6 +30,7 @@ export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>>
   removeLastEvent: () => void;
   startBunch: () => void;
   endBunch: () => void;
+  subscribe: () => () => void;
   createUndoRedoEffect: <V, A, T extends E['type']>(
     type: T,
     config?: UndoRedoEffectConfig<V, A, E, T>
@@ -166,9 +166,11 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
         ];
       },
     });
-  const unsubscribe = () => {
-    redoStore.unsubscribe();
-    undoStore.unsubscribe();
+  const subscribe = () => {
+    const subscriptions = [redoStore, undoStore, bunchEvents].map((store) =>
+      store.subscribe()
+    );
+    return () => subscriptions.forEach((unsub) => unsub());
   };
   return {
     undo,
@@ -178,7 +180,7 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
     onChange,
     createUndoRedoEffect,
     removeLastEvent: undoStore.actions.removeLastEvent,
+    subscribe,
     ...bunchEvents.actions,
-    unsubscribe,
   };
 };

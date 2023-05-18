@@ -1,14 +1,9 @@
-import {
-  createStore,
-  storeHookConstructor,
-  StoreHookResult,
-} from '@waveditors/rxjs-react';
+import { createStore, StoreHookResult } from '@waveditors/rxjs-react';
 
-export const hoverStore = () =>
+export const hoverStoreConstructor = () =>
   createStore<string | null>().addActions({
     addHover: (id: string) => id,
     removeHover: () => null,
   });
 
-export const useHoverStore = storeHookConstructor(hoverStore);
-export type HoverStore = StoreHookResult<typeof hoverStore>;
+export type HoverStore = StoreHookResult<typeof hoverStoreConstructor>;

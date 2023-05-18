@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { BehaviorSubject } from 'rxjs';
-import { storeHookConstructor, createStore } from './';
+import { useStore, createStore } from '../';
 
 type SimpleStore = { name: string; age: number };
 const simpleInitial = () => {
@@ -11,22 +11,20 @@ const simpleInitial = () => {
     createStore<SimpleStore>().addActions({
       [name]: (name: string, state) => ({ ...state, name }),
     });
-  const useSimpleStore = storeHookConstructor(simpleStore);
 
   return {
     simpleStore,
-    useSimpleStore,
     initialData,
     actionName,
     actionName2,
   };
 };
 
-describe('storeHookConstructor', () => {
+describe('useStore', () => {
   it('constructed hook should run store', () => {
-    const { useSimpleStore, initialData, actionName } = simpleInitial();
+    const { initialData, actionName, simpleStore } = simpleInitial();
     const { result } = renderHook(
-      ({ initial }) => useSimpleStore(initial, actionName),
+      ({ initial }) => useStore(simpleStore(actionName), initial),
       {
         initialProps: { initial: initialData },
       }
@@ -37,10 +35,10 @@ describe('storeHookConstructor', () => {
     expect(result.current.getValue()).toEqual(initialData);
   });
   it('constructed hook should ignore update if deps not updated', () => {
-    const { useSimpleStore, initialData, actionName, actionName2 } =
+    const { initialData, actionName, actionName2, simpleStore } =
       simpleInitial();
     const { result, rerender } = renderHook(
-      ({ action }) => useSimpleStore(initialData, action, [initialData]),
+      ({ action }) => useStore(simpleStore(action), initialData),
       {
         initialProps: { action: actionName },
       }
@@ -52,10 +50,10 @@ describe('storeHookConstructor', () => {
     expect(result.current.actions[actionName2]).not.toBeDefined();
   });
   it('constructed hook should recreate store if deps updated', () => {
-    const { useSimpleStore, initialData, actionName, actionName2 } =
+    const { simpleStore, initialData, actionName, actionName2 } =
       simpleInitial();
     const { result, rerender } = renderHook(
-      ({ action }) => useSimpleStore(initialData, action, [action]),
+      ({ action }) => useStore(simpleStore(action), initialData, [action]),
       {
         initialProps: { action: actionName },
       }

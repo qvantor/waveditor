@@ -1,6 +1,5 @@
 import {
   createStore,
-  storeHookConstructor,
   StoreHookResult,
   UndoRedoModule,
 } from '@waveditors/rxjs-react';
@@ -11,7 +10,7 @@ import {
   TemplateConfigFont,
 } from './template-config.types';
 
-export const templateConfigStore = ({
+export const templateConfigStoreConstructor = ({
   undoRedo: { createUndoRedoEffect },
 }: {
   undoRedo: UndoRedoModule<UndoRedoEvents>;
@@ -37,5 +36,6 @@ export const templateConfigStore = ({
     })
     .addEffect(createUndoRedoEffect('TemplateStore'));
 
-export type TemplateConfigStore = StoreHookResult<typeof templateConfigStore>;
-export const useTemplateConfigStore = storeHookConstructor(templateConfigStore);
+export type TemplateConfigStore = StoreHookResult<
+  typeof templateConfigStoreConstructor
+>;

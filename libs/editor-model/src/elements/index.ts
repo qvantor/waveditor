@@ -11,6 +11,8 @@ export {
   getElementTextAlign,
   getElementColor,
   getElementLink,
+  getElementName,
+  getElementType,
 } from './element';
 
 export {
@@ -30,7 +32,7 @@ export { imageStore, getImageMeta, getImageUrl } from './image';
 export type { ImageStore, Image } from './image';
 
 export {
-  useElementsStore,
+  elementsStoreConstructor,
   getParentElement,
   getLayoutElement,
   createEmptyElement,
@@ -39,6 +41,7 @@ export {
   getElementParents,
   elementsStoreToObject,
   elementsToElementsStore,
+  generateUniqElementName,
 } from './elements';
 export type {
   ElementsStoreUndoRedoEvent,

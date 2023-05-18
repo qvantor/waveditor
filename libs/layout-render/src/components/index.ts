@@ -4,6 +4,7 @@ export {
   LayoutDumb,
   ElementDumb,
   ColumnDumb,
+  NotFoundDumb,
 } from './dumb-elements';
 export { Helmet } from './helmet';
 export { Head } from './head';

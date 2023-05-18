@@ -14,3 +14,6 @@ export const getElementTextAlign = (element: ElementCommon) =>
   getElementStyle(element).textAlign;
 export const getElementColor = (element: ElementCommon) =>
   getElementStyle(element).color;
+
+export const getElementName = (element: ElementCommon) => element.name;
+export const getElementType = (element: ElementCommon) => element.type;

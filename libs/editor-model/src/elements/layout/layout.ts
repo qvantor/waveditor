@@ -1,4 +1,9 @@
 import { StoreResult } from '@waveditors/rxjs-react';
+import { Lens, fromTraversable } from 'monocle-ts';
+import { indexArray } from 'monocle-ts/Index/Array';
+import * as A from 'fp-ts/Array';
+import * as O from 'fp-ts/Option';
+import { pipe, flow } from 'fp-ts/function';
 import { elementStore, ElementStoreDeps } from '../element';
 import { commonUndoRedoEffect } from '../../services';
 import { Align } from '../../types';
@@ -6,73 +11,65 @@ import { Layout, LayoutAddChild, Column } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
 import { recalcProportions } from './layout.services';
 
-const setColumns = (layout: Layout, columns: Column[]) => ({
-  ...layout,
-  params: { ...layout.params, columns },
-});
-
-const setColumnChildren = (column: Column, children: string[]) => ({
-  ...column,
-  children,
-});
+const column = Lens.fromPath<Layout>()(['params', 'columns']);
+const columnChildren = Lens.fromProp<Column>()('children');
+const columnAlign = Lens.fromProp<Column>()('align');
+const columnByIndex = (index: number) => indexArray<Column>().index(index);
+const columnTraversal = fromTraversable(A.Traversable)<Column>();
 
 export const layoutStore = (deps: ElementStoreDeps) =>
   elementStore<Layout>()
     .addActions({
       addChild: (
-        { element, position: { layout, column, index, next } }: LayoutAddChild,
+        {
+          element,
+          position: { layout, column: colIndex, index },
+        }: LayoutAddChild,
         prev
-      ) => {
-        const newColumns = prev.params.columns.map((col, i) => {
-          if (i !== column) return col;
-          const plus = next ? 1 : 0;
-          return setColumnChildren(col, [
-            ...col.children.slice(0, index + plus),
-            element,
-            ...col.children.slice(index + plus),
-          ]);
-        });
-        return setColumns(prev, newColumns);
-      },
-      removeChild: (childId: string, prev) => {
-        const newColumns = prev.params.columns.map((column) =>
-          setColumnChildren(
-            column,
-            column.children.filter((cElementId) => cElementId !== childId)
-          )
-        );
-        return setColumns(prev, newColumns);
-      },
+      ) =>
+        column
+          .composeOptional(columnByIndex(colIndex))
+          .composeLens(columnChildren)
+          .modify((children) =>
+            pipe(
+              children,
+              A.insertAt(index, element),
+              O.getOrElse(() => children)
+            )
+          )(prev),
+      removeChild: (childId: string, prev) =>
+        column
+          .composeTraversal(columnTraversal)
+          .composeLens(columnChildren)
+          .modify(A.filter((child) => child !== childId))(prev),
       addColumn: (_, prev) =>
-        setColumns(
-          prev,
-          recalcProportions([...prev.params.columns, createEmptyColumn()])
+        column.modify(flow(A.append(createEmptyColumn()), recalcProportions))(
+          prev
         ),
       removeColumn: (removeIndex: number, prev) => {
         if (prev.params.columns.length === 1)
           throw new Error(`removeColumn last column from ${prev.id}`);
 
-        const columns = prev.params.columns.reduce<Column[]>(
-          (sum, column, index) => {
-            if (
-              (removeIndex === 0 && index - 1 === removeIndex) ||
-              index + 1 === removeIndex
-            ) {
-              const elementsFromRemoved = prev.params.columns[removeIndex];
-              return [
-                ...sum,
-                setColumnChildren(column, [
-                  ...column.children,
-                  ...elementsFromRemoved.children,
-                ]),
-              ];
-            }
-            if (index === removeIndex) return sum;
-            return [...sum, column];
-          },
-          []
-        );
-        return setColumns(prev, recalcProportions(columns));
+        return column.modify((columns) =>
+          pipe(
+            columns,
+            A.reduceWithIndex<Column, Column[]>([], (index, sum, column) => {
+              if (
+                (removeIndex === 0 && index - 1 === removeIndex) ||
+                index + 1 === removeIndex
+              ) {
+                const { children: removedColChildren } = columns[removeIndex];
+                return [
+                  ...sum,
+                  columnChildren.modify(A.concat(removedColChildren))(column),
+                ];
+              }
+              if (index === removeIndex) return sum;
+              return [...sum, column];
+            }),
+            recalcProportions
+          )
+        )(prev);
       },
       setColumnsProportions: (proportions: number[], prev) => {
         const { columns } = prev.params;
@@ -80,24 +77,24 @@ export const layoutStore = (deps: ElementStoreDeps) =>
           throw new Error(
             `setColumnProportions error ${proportions.length} != ${prev.params.columns.length}`
           );
-        return setColumns(
-          prev,
-          prev.params.columns.map((column, i) => ({
-            ...column,
-            proportion: proportions[i],
-          }))
-        );
+
+        return column.modify(
+          flow(
+            A.mapWithIndex((i, column) => ({
+              ...column,
+              proportion: proportions[i],
+            }))
+          )
+        )(prev);
       },
       setColumnAlign: (
         { index, align }: { index: number; align?: Align },
         prev
       ) =>
-        setColumns(
-          prev,
-          prev.params.columns.map((column, i) =>
-            i === index ? { ...column, align } : column
-          )
-        ),
+        column
+          .composeOptional(columnByIndex(index))
+          .composeLens(columnAlign)
+          .modify(() => align)(prev),
     })
     .addEffect(commonUndoRedoEffect(deps.undoRedo));
 

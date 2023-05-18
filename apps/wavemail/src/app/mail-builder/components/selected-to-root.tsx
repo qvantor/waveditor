@@ -1,8 +1,9 @@
-import { map } from 'rxjs';
+import { map, merge, of, switchMap } from 'rxjs';
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { getElementById, getElementParents } from '@waveditors/editor-model';
 import styled, { css } from 'styled-components';
 import { tokens, font } from '@waveditors/theme';
+import { match, P } from 'ts-pattern';
 import { useMailBuilderContext } from '../../common/hooks';
 
 const Root = styled.div`
@@ -66,6 +67,7 @@ const Selected = styled(Item)`
   }
 `;
 
+// todo move inside editor
 export const SelectedToRoot = () => {
   const {
     config,
@@ -76,21 +78,29 @@ export const SelectedToRoot = () => {
     selected.bs.pipe(
       map((selected) => {
         if (!selected) return [];
-        return getElementParents(selected)(elements.bs.value).reverse();
+        return getElementParents(selected)(elements.getValue()).reverse();
       })
     ),
     [],
     [selected.bs, elements.bs, config.bs]
   );
   const selectedElement = useObservable(
-    selected.bs.pipe(
-      map((id) => {
-        if (!id) return null;
-        return getElementById(id)(elements.bs.value).getValue();
-      })
+    merge(selected.bs, elements.bs).pipe(
+      switchMap(() =>
+        match(selected.getValue())
+          .with(P.string, (id) =>
+            of(getElementById(id)).pipe(
+              map((getElement) => getElement(elements.getValue())),
+              switchMap((elementStore) =>
+                elementStore ? elementStore.bs : of(null)
+              )
+            )
+          )
+          .otherwise(() => of(null))
+      )
     ),
     null,
-    [selected.bs]
+    [selected, elements]
   );
   if (!selectedElement) return null;
   return (
@@ -105,12 +115,11 @@ export const SelectedToRoot = () => {
             onClick={() => selected.actions.setSelected(value.id)}
             onMouseLeave={hover.actions.removeHover}
           >
-            {i === 0 ? 'root' : value.type}({value.params.columns.flat().length}
-            )
+            {value.name ?? (i === 0 ? 'root' : value.type)}
           </Layout>
         );
       })}
-      <Selected>{selectedElement.type}</Selected>
+      <Selected>{selectedElement.name ?? selectedElement.type}</Selected>
     </Root>
   );
 };

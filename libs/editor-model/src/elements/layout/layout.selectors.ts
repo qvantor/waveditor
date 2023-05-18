@@ -31,6 +31,5 @@ export const getElementPosition = (
       layout: layout.id,
       column: 0,
       index: 0,
-      next: false,
     }
   );

@@ -57,18 +57,32 @@ export const createStore = <V, A = unknown, E = unknown, S = unknown>(
       );
       return { ...sum, ...actions };
     }, {} as ActionsResult<V, A>);
-    const subscriptions = effects.reduce<Subscription[]>(
-      (sum, effect) => [
-        ...sum,
-        ...(effect.subscriptions ? effect.subscriptions({ bs, actions }) : []),
-      ],
-      []
-    );
-    const getValue = () => bs.getValue();
-    const unsubscribe = () => {
-      subscriptions.forEach((subscription) => subscription.unsubscribe());
+    const subscribeInternal = () =>
+      effects.reduce<Subscription[]>(
+        (sum, effect) => [
+          ...sum,
+          ...(effect.subscriptions
+            ? effect.subscriptions({ bs, actions })
+            : []),
+        ],
+        []
+      );
+    let subscribed = true;
+    let subscriptions = subscribeInternal();
+    // impure imperative function for handling subscribe/unsubscribe
+    const subscribe = () => {
+      if (!subscribed) {
+        subscriptions = subscribeInternal();
+      }
+      return () => {
+        subscribed = false;
+        subscriptions.forEach((subscription) => subscription.unsubscribe());
+      };
     };
-    return { bs, actions, unsubscribe, getValue };
+
+    const getValue = () => bs.getValue();
+
+    return { bs, actions, subscribe, getValue };
   };
 
   return { addActions, addEffect, run };

@@ -5,6 +5,7 @@ export {
   useSubscription,
   useUnsubscribable,
   useBsSelector,
+  useStore,
 } from './hooks';
-export { createStore, storeHookConstructor, selectorToPipe } from './services';
+export { createStore, selectorToPipe } from './services';
 export * from './modules';

@@ -1,9 +1,14 @@
 import { generateId } from '@waveditors/utils';
 import { Layout, Column } from './layout.types';
 
-export const createInitialLayout = (): Layout => ({
+type Params = {
+  name?: string;
+};
+
+export const createInitialLayout = (params?: Params): Layout => ({
   id: generateId(),
   type: 'layout',
+  name: params?.name ?? 'layout',
   params: {
     columns: [createEmptyColumn(100)],
   },

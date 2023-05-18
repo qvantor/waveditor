@@ -58,6 +58,7 @@ export const generateEmptyTemplate = (): RenderContextObject => {
       [rootId]: {
         id: rootId,
         type: 'layout',
+        name: 'layout',
         params: {
           columns: [createEmptyColumn(50), createEmptyColumn(50)],
         },

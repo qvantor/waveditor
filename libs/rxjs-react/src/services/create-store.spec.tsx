@@ -67,12 +67,13 @@ describe('createStore', () => {
         subscriptions: ({ bs }) => [bs.subscribe(observer)],
       }))
       .run(testStoreData);
+    const unsubscribe = store.subscribe();
     expect(observer).toHaveBeenCalledTimes(1);
     store.actions.setAge(newAge);
     expect(observer).toHaveBeenCalledTimes(2);
 
     expect(store.bs.observed).toBeTruthy();
-    store.unsubscribe();
+    unsubscribe()
     expect(store.bs.observed).toBeFalsy();
   });
 

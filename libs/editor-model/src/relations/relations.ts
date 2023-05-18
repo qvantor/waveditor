@@ -1,6 +1,5 @@
 import {
   createStore,
-  storeHookConstructor,
   StoreHookResult,
   UndoRedoModule,
 } from '@waveditors/rxjs-react';
@@ -11,7 +10,9 @@ import { Relations } from './relations.types';
 type Deps = {
   undoRedo: UndoRedoModule<UndoRedoEvents>;
 };
-export const relationsStore = ({ undoRedo: { createUndoRedoEffect } }: Deps) =>
+export const relationsStoreConstructor = ({
+  undoRedo: { createUndoRedoEffect },
+}: Deps) =>
   createStore<Relations>()
     .addActions({
       addElementFontRelation: (
@@ -31,5 +32,4 @@ export const relationsStore = ({ undoRedo: { createUndoRedoEffect } }: Deps) =>
     })
     .addEffect(createUndoRedoEffect('RelationsStore'));
 
-export const useRelationsStore = storeHookConstructor(relationsStore);
-export type RelationsStore = StoreHookResult<typeof relationsStore>;
+export type RelationsStore = StoreHookResult<typeof relationsStoreConstructor>;
