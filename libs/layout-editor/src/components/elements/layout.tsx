@@ -19,13 +19,13 @@ export const Layout = ({ element, width, attributes }: Props) => {
       map((val) => {
         if (!val) return undefined;
         const { position } = val;
-        if (position.layout !== element.bs.value.id) return undefined;
+        if (position.layout !== element.getValue().id) return undefined;
         return position;
       }),
       distinctUntilChanged()
     ),
     null,
-    [internalState.dndPreview]
+    [internalState.dndPreview, element]
   );
   const isDnd = useBehaviorSubject(internalState.isDnd);
   const layout = useBehaviorSubject(element.bs);
@@ -38,7 +38,6 @@ export const Layout = ({ element, width, attributes }: Props) => {
         outlineOffset: -1,
       }
     : {};
-
   return (
     <LayoutDumb
       element={layout}

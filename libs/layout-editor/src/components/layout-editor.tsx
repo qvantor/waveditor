@@ -17,7 +17,7 @@ import { Element } from './elements';
 
 const Root = styled.div`
   position: relative;
-  min-height: 100%;
+  min-height: 100vh;
 `;
 
 const RenderElement = () => {
