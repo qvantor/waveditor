@@ -9,9 +9,9 @@ import {
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { BehaviorSubject } from 'rxjs';
-import { useCallback } from 'react';
 import { IconButton, Input } from '../../../../common/components';
 import { useRemoveSelected } from '../../../../common/actions-hooks';
+import { validate, required, maxLength } from '../../../../common/services';
 
 const NameInput = styled(Input)`
   background: transparent;
@@ -52,13 +52,13 @@ export const ElementEditorHeader = ({ element }: Props) => {
     element.bs as BehaviorSubject<Element>,
     getElementType
   );
-  const onChange = useCallback(
-    (name?: string) => element.actions.setName(name === '' ? undefined : name),
-    [element]
-  );
   return (
     <Root>
-      <NameInput value={name ?? type} onChange={onChange} />
+      <NameInput
+        value={name ?? type}
+        onChange={element.actions.setName}
+        validate={validate(required, maxLength(16))}
+      />
       <IconButton
         size='small'
         type='text'

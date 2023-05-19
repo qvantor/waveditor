@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { BsLayoutWtf } from 'react-icons/bs';
 import { HiOutlineVariable } from 'react-icons/hi';
-import { AiOutlineSetting } from 'react-icons/ai';
 import { Menu, MenuProps, ConfigProvider } from 'antd';
 import { Elements } from './elements';
 import { Variables } from './variables';
@@ -33,11 +32,11 @@ const items = [
     key: 'variables',
     icon: <HiOutlineVariable />,
   },
-  {
-    // label: 'Settings',
-    key: 'settings',
-    icon: <AiOutlineSetting />,
-  },
+  // {
+  //   label: 'Settings',
+  //   key: 'settings',
+  //   icon: <AiOutlineSetting />,
+  // },
 ] as const;
 type MenuKeys = (typeof items)[number]['key'];
 
@@ -52,8 +51,6 @@ const MenuItemsSwitch = ({ menuKey }: { menuKey: MenuKeys }) => {
       return <Elements />;
     case 'variables':
       return <Variables />;
-    case 'settings':
-      return null;
   }
 };
 

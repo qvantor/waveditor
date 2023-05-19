@@ -38,6 +38,7 @@ export const LayoutEditor = (
             config: props.config,
             elements: props.elements,
             relations: props.relations,
+            variables: props.variables,
           }}
         >
           <GlobalStyle />

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useDebounce } from 'react-use';
 import { tokens, EmptyPattern } from '@waveditors/theme';
-import { ColorRegExp } from '../constants';
+import { colorValidation } from '../services';
 import { Input } from './input';
 
 interface Props {
@@ -58,10 +58,6 @@ export const ColorPicker = ({ value, onChange, className }: Props) => {
     },
     [onChange]
   );
-  const validate = useCallback((value?: string) => {
-    if (!value) return true;
-    return ColorRegExp.test(value);
-  }, []);
   useDebounce(
     () => {
       if (internalValue !== value) onChange(internalValue);
@@ -86,7 +82,7 @@ export const ColorPicker = ({ value, onChange, className }: Props) => {
           <HexColorPicker color={internalValue} onChange={setInternalValue} />
           <Input
             value={internalValue}
-            validate={validate}
+            validate={colorValidation}
             onChange={setInternalValue}
           />
         </PopoverInternal>

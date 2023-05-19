@@ -1,8 +1,7 @@
-import { useCallback } from 'react';
 import styled from 'styled-components';
 import { Popover } from 'antd';
 import { EmptyPattern, font, tokens } from '@waveditors/theme';
-import { ImageLinkRegExp } from '../constants';
+import { imageLinkValidation } from '../services';
 import { Input } from './input';
 
 interface Props {
@@ -24,10 +23,6 @@ const Label = styled.p`
 `;
 
 export const ImageUrlInput = ({ value, onChange }: Props) => {
-  const validate = useCallback((value?: string) => {
-    if (!value) return true;
-    return ImageLinkRegExp.test(value);
-  }, []);
   return (
     <Popover
       trigger='click'
@@ -35,7 +30,11 @@ export const ImageUrlInput = ({ value, onChange }: Props) => {
       content={
         <>
           <Label>Image url:</Label>
-          <Input value={value} onChange={onChange} validate={validate} />
+          <Input
+            value={value}
+            onChange={onChange}
+            validate={imageLinkValidation}
+          />
         </>
       }
     >

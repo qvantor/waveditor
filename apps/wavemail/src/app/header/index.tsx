@@ -8,6 +8,7 @@ import { getTemplateConfigName } from '@waveditors/editor-model';
 import { useMailBuilderContext } from '../common/hooks';
 import { Templates } from '../templates';
 import { HeaderButton, Input } from '../common/components';
+import { emailValidation } from '../common/services';
 
 const Root = styled.div`
   height: ${tokens.size.headerHeight};
@@ -34,15 +35,13 @@ const ModalFooter = styled.div`
   display: flex;
   gap: 10px;
 `;
-const EmailRegexp =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const Header = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [email, setEmail] = useState(process.env.NX_TO_EMAIL ?? '');
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [open, setOpen] = useState(false);
   const {
-    stores: { elements, relations },
+    stores: { elements, relations, variables },
     config,
   } = useMailBuilderContext();
   const name = useBsSelector(config.bs, getTemplateConfigName);
@@ -52,12 +51,11 @@ export const Header = () => {
       config: config.bs,
       relations: relations.bs,
       elements: elements.bs,
+      variables: variables.bs,
     }),
-    [config.bs, elements.bs, relations.bs]
+    [config.bs, elements.bs, relations.bs, variables.bs]
   );
   const send = async () => {
-    if (!EmailRegexp.test(email))
-      return messageApi.error('Entered email is invalid');
     const data = new FormData();
     data.append('from', `waveditor@${process.env.NX_MAILGUN_DOMAIN_NAME}`);
     data.append('to', email);
@@ -104,7 +102,7 @@ export const Header = () => {
           <ModalFooter>
             <Input
               placeholder='Email to send'
-              validate={(value = '') => EmailRegexp.test(value)}
+              validate={emailValidation}
               value={email}
               onChange={(value = '') => setEmail(value)}
             />
