@@ -8,6 +8,7 @@ export type { VariablesStore } from './variables';
 export { variablesStoreConstructor } from './variables';
 export { createVariable } from './variables.creators';
 export {
-  generateUniqVariableName,
-  isVariableNameExist,
+  generateUniqVariableLabel,
+  isVariableLabelExist,
 } from './variables.services';
+export * from './variables.selectors';

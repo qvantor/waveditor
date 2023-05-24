@@ -1,7 +1,7 @@
 import { generateUniqName } from '../common/services';
 import { Variables } from './variables.types';
 
-export const isVariableNameExist = (variables: Variables) => (name: string) =>
-  variables.some((variable) => variable.name === name);
-export const generateUniqVariableName = (variables: Variables) =>
-  generateUniqName('variable', isVariableNameExist(variables));
+export const isVariableLabelExist = (variables: Variables) => (label: string) =>
+  variables.some((variable) => variable.label === label);
+export const generateUniqVariableLabel = (variables: Variables) =>
+  generateUniqName('variable', isVariableLabelExist(variables));

@@ -14,7 +14,6 @@ const Root = styled.div`
   height: calc(
     100vh - ${tokens.size.headerHeight} - ${tokens.size.footerHeight}
   );
-  overflow-y: scroll;
 `;
 
 const CanvasContainer = styled.div`

@@ -1,7 +1,7 @@
 import { AiOutlineDelete } from 'react-icons/ai';
 import { Collapse, Segmented } from 'antd';
 import {
-  isVariableNameExist,
+  isVariableLabelExist,
   Variable,
   VariablesTypes,
 } from '@waveditors/editor-model';
@@ -81,7 +81,7 @@ export const VariablesList = () => {
   const uniqName = useCallback(
     (id: string) =>
       optional((value) => {
-        if (isVariableNameExist(removeVarById(id))(value))
+        if (isVariableLabelExist(removeVarById(id))(value))
           return `Variable with a name ${value} already exists`;
       }),
     [removeVarById]
@@ -93,7 +93,7 @@ export const VariablesList = () => {
           key={variable.id}
           header={
             <VariableHeader>
-              <VarHeaderName>{variable.name}</VarHeaderName>
+              <VarHeaderName>{variable.label}</VarHeaderName>
               <HeaderRight>
                 <span>{variable.type}</span>
                 <HeaderDeleteIcon
@@ -111,10 +111,10 @@ export const VariablesList = () => {
         >
           <RowContainer>
             <SimpleEditorRow>
-              <div>Name</div>
+              <div>Label</div>
               <Input
-                value={variable.name}
-                onChange={setVariableInternal(index, 'name')}
+                value={variable.label}
+                onChange={setVariableInternal(index, 'label')}
                 validate={validate(
                   required,
                   maxLength(16),

@@ -12,6 +12,7 @@ import tippy, { Instance } from 'tippy.js';
 import { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion';
 import styled, { createGlobalStyle, css } from 'styled-components';
 import { font, theme } from '@waveditors/theme';
+import { Variables as VariablesType, Variable } from '@waveditors/editor-model';
 import { Extensions } from '../constants';
 import { EditorBubbleMenu } from './editor-bubble-menu';
 import { Variables, VariablesStyle } from './tip-tap-variables-node';
@@ -22,9 +23,8 @@ export interface Props {
   className?: string;
   editable?: boolean;
   iFrameDocument?: Document;
+  findVariables: (query: string) => VariablesType;
 }
-
-type Variable = { type: 'string' | 'number'; name: string };
 
 export const TextEditorStyle = createGlobalStyle`
   ${VariablesStyle}
@@ -138,7 +138,7 @@ const VariableItem = styled.div<{ selected?: boolean }>`
 `;
 type VariablesListProps = {
   variables: Variable[];
-  command: (value: { id: string }) => void;
+  command: (value: Variable) => void;
 };
 type VariablesListRef = {
   onKeyDown: (props: SuggestionKeyDownProps) => boolean;
@@ -149,7 +149,7 @@ const VariablesList = forwardRef<VariablesListRef, VariablesListProps>(
     const selectItem = useCallback(
       (index: number) => {
         const variable = variables[index];
-        if (variable) command({ id: variable.name });
+        if (variable) command(variable);
       },
       [command, variables]
     );
@@ -184,9 +184,9 @@ const VariablesList = forwardRef<VariablesListRef, VariablesListProps>(
           <VariableItem
             onClick={(e) => selectItem(index)}
             selected={index === selected}
-            key={variable.name}
+            key={variable.label}
           >
-            <span>{variable.name}</span> {variable.type}
+            <span>{variable.label}</span> {variable.type}
           </VariableItem>
         ))}
         {variables.length === 0 && (
@@ -201,6 +201,7 @@ export function TextEditor({
   onChange,
   content,
   className,
+  findVariables,
   editable = false,
   iFrameDocument = document,
 }: Props) {
@@ -209,21 +210,7 @@ export function TextEditor({
     extensions: [
       Variables.configure({
         suggestion: {
-          items: ({ query }) =>
-            (
-              [
-                { type: 'string', name: 'content' },
-                {
-                  type: 'number',
-                  name: 'order-price',
-                },
-                { type: 'string', name: 'home-link' },
-              ] as Variable[]
-            )
-              .filter((variable) =>
-                variable.name.toLowerCase().startsWith(query.toLowerCase())
-              )
-              .slice(0, 5),
+          items: ({ query }) => findVariables(query),
           render: () => {
             let popup: Instance;
             let component: ReactRenderer<VariablesListRef, VariablesListProps>;
@@ -273,6 +260,11 @@ export function TextEditor({
     editorProps: {
       attributes: className ? { class: className } : undefined,
     },
+    // sync outside content value with editor value, when not editable
+    onBlur: ({ editor }) => {
+      if (deepEqual(content, editor.getJSON())) return;
+      onChange(editor.getJSON());
+    },
   });
 
   // focus if editable
@@ -286,12 +278,6 @@ export function TextEditor({
     if (!editor || deepEqual(content, editor.getJSON())) return;
     editor.chain().setContent(content, false).run();
   }, [editor, content]);
-
-  // sync outside content value with editor value, when not editable (some kind of blur)
-  useEffect(() => {
-    if (editable || !editor || deepEqual(content, editor.getJSON())) return;
-    onChange(editor.getJSON());
-  }, [editable, editor, content, onChange]);
 
   if (!editor) return null;
 

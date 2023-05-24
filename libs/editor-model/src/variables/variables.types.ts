@@ -5,7 +5,7 @@ export type VariablesTypes = 'string' | 'number';
 type VariableCommon = {
   id: string;
   type: VariablesTypes;
-  name: string;
+  label: string;
   defaultValue: string;
 };
 

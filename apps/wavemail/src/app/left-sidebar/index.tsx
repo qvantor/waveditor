@@ -19,7 +19,7 @@ const Root = styled.div`
 `;
 const MenuContent = styled.div`
   height: calc(100vh - ${tokens.size.headerHeight});
-  overflow: scroll;
+  overflow-y: auto;
 `;
 const items = [
   {

@@ -4,7 +4,7 @@ import { font, tokens } from '@waveditors/theme';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { pipe } from 'fp-ts/function';
 import {
-  generateUniqVariableName,
+  generateUniqVariableLabel,
   createVariable,
 } from '@waveditors/editor-model';
 import { IconButton } from '../../common/components';
@@ -31,7 +31,7 @@ export const Variables = () => {
   const variablesList = useBehaviorSubject(variables.bs);
   const { addVariable } = variables.actions;
   const onAddClick = () =>
-    pipe(variablesList, generateUniqVariableName, createVariable, addVariable);
+    pipe(variablesList, generateUniqVariableLabel, createVariable, addVariable);
   return (
     <>
       <Header>

@@ -26,7 +26,7 @@ export const VariablesStyle = css`
 `;
 
 export const Variables = Node.create<VariablesNodeOptions>({
-  name: 'variables',
+  name: 'variable',
   group: 'inline',
   inline: true,
   selectable: false,

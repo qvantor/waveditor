@@ -1,5 +1,6 @@
 import { CommonUndoEvent, UndoRedoModule } from '@waveditors/rxjs-react';
 import { Style, UndoRedoEvents } from '../../types';
+import { VariablesStore } from '../../variables';
 
 export const ElementCommonTypes = ['layout', 'text', 'image'] as const;
 
@@ -22,6 +23,7 @@ export type ElementCommon<
 
 export type ElementStoreDeps = {
   undoRedo: UndoRedoModule<UndoRedoEvents>;
+  variables: VariablesStore;
 };
 
 export type ElementStoreUndoRedoEvent = CommonUndoEvent<

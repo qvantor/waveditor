@@ -1,4 +1,4 @@
-import { filter, map, pipe, Subject, Unsubscribable } from 'rxjs';
+import { filter, map, pipe, Subject } from 'rxjs';
 import { createStore } from '../services';
 import { Effect } from '../types';
 
@@ -172,6 +172,8 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
     );
     return () => subscriptions.forEach((unsub) => unsub());
   };
+  // redoStore.bs.subscribe((value) => console.log('redo', value));
+  // undoStore.bs.subscribe((value) => console.log('undo', value));
   return {
     undo,
     redo,

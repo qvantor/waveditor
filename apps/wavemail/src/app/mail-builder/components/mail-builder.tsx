@@ -38,6 +38,7 @@ const Content = styled.div`
   grid-template-columns: 330px 1fr;
   justify-content: center;
   background: ${tokens.color.surface.primary};
+  overflow: hidden;
 `;
 
 const CanvasContainer = styled.div`
@@ -71,15 +72,15 @@ export const MailBuilder = ({
     relations,
     [relations]
   );
-  const elementsStore = useStore(
-    elementsStoreConstructor({ undoRedo }),
-    elementsToElementsStore(elements, { undoRedo }),
-    [elements]
-  );
   const variablesStore = useStore(
     variablesStoreConstructor({ undoRedo }),
     variables,
     [variables]
+  );
+  const elementsStore = useStore(
+    elementsStoreConstructor({ undoRedo, variables: variablesStore }),
+    elementsToElementsStore(elements, { undoRedo, variables: variablesStore }),
+    [elements, relationsStore]
   );
   const hoverStore = useStore(hoverStoreConstructor(), null, [elementsStore]);
   const selectedStore = useStore(selectedStoreConstructor(), null, [
