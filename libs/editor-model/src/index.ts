@@ -4,3 +4,4 @@ export * from './services';
 export * from './types';
 export * from './template-config';
 export * from './relations';
+export * from './variables';

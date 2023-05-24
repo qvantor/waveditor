@@ -71,6 +71,7 @@ export const generateEmptyTemplate = (): RenderContextObject => {
       },
     },
     relations: createInitialRelations(),
+    variables: [],
   };
 };
 export const getInitialTemplate = (): RenderContextObject => {

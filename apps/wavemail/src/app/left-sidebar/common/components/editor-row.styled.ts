@@ -8,6 +8,6 @@ export const RowContainer = styled.div`
 `;
 export const SimpleEditorRow = styled.div`
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 2fr 3fr;
   align-items: center;
 `;

@@ -6,13 +6,14 @@ import { LOCAL_STORAGE_KEY } from '../constants';
 export const useSaveRenderContext = () => {
   const {
     config,
-    stores: { elements, relations },
+    stores: { elements, relations, variables },
   } = useMailBuilderContext();
   return useCallback(() => {
     const data = {
       config: config.getValue(),
       relations: relations.getValue(),
       elements: elementsStoreToObject(elements),
+      variables: variables.getValue(),
     };
     const value = localStorage.getItem(LOCAL_STORAGE_KEY);
     const savedProjects = value ? JSON.parse(value) : {};
@@ -23,5 +24,5 @@ export const useSaveRenderContext = () => {
         [data.config.rootElementId]: data,
       })
     );
-  }, [config, elements, relations]);
+  }, [config, elements, relations, variables]);
 };

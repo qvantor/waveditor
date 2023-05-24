@@ -14,7 +14,6 @@ const Root = styled.div`
   height: calc(
     100vh - ${tokens.size.headerHeight} - ${tokens.size.footerHeight}
   );
-  overflow-y: scroll;
 `;
 
 const CanvasContainer = styled.div`
@@ -26,7 +25,7 @@ const CanvasContainer = styled.div`
 export const Canvas = () => {
   const {
     config,
-    stores: { elements, selected, hover, relations },
+    stores: { elements, selected, hover, relations, variables },
     editor: { events, externalEvents },
   } = useMailBuilderContext();
   return (
@@ -40,6 +39,7 @@ export const Canvas = () => {
           externalEvents={externalEvents}
           hover={hover.bs}
           selected={selected.bs}
+          variables={variables.bs}
         />
       </CanvasContainer>
     </Root>

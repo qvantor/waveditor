@@ -5,6 +5,7 @@ import styled, {
 import { Iframe } from '@waveditors/ui-kit';
 import { tokens } from '@waveditors/theme';
 import { RenderContext, RenderContextValue } from '@waveditors/layout-render';
+import { TextEditorStyle } from '@waveditors/text-editor';
 import { Context } from '../types';
 import { EDITOR_ID } from '../constants';
 import { LayoutEditor as LayoutEditorInternal } from './layout-editor';
@@ -37,9 +38,11 @@ export const LayoutEditor = (
             config: props.config,
             elements: props.elements,
             relations: props.relations,
+            variables: props.variables,
           }}
         >
           <GlobalStyle />
+          <TextEditorStyle />
           <LayoutEditorInternal {...props} iFrameDocument={document} />
         </RenderContextValue.Provider>
       </StyleSheetManager>

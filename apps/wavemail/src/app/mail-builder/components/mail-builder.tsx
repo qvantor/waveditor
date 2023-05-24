@@ -18,6 +18,7 @@ import {
   templateConfigStoreConstructor,
   relationsStoreConstructor,
   elementsToElementsStore,
+  variablesStoreConstructor,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
 import { RenderContextObject } from '@waveditors/layout-render';
@@ -34,9 +35,10 @@ const Root = styled.div`
 const Content = styled.div`
   height: calc(100vh - ${tokens.size.headerHeight});
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 330px 1fr;
   justify-content: center;
   background: ${tokens.color.surface.primary};
+  overflow: hidden;
 `;
 
 const CanvasContainer = styled.div`
@@ -53,6 +55,7 @@ export const MailBuilder = ({
   elements,
   relations,
   config,
+  variables,
 }: RenderContextObject) => {
   const undoRedo = undoRedoModule<UndoRedoEvents>();
   useEffect(() => {
@@ -69,10 +72,15 @@ export const MailBuilder = ({
     relations,
     [relations]
   );
+  const variablesStore = useStore(
+    variablesStoreConstructor({ undoRedo }),
+    variables,
+    [variables]
+  );
   const elementsStore = useStore(
-    elementsStoreConstructor({ undoRedo }),
-    elementsToElementsStore(elements, { undoRedo }),
-    [elements]
+    elementsStoreConstructor({ undoRedo, variables: variablesStore }),
+    elementsToElementsStore(elements, { undoRedo, variables: variablesStore }),
+    [elements, relationsStore]
   );
   const hoverStore = useStore(hoverStoreConstructor(), null, [elementsStore]);
   const selectedStore = useStore(selectedStoreConstructor(), null, [
@@ -149,6 +157,7 @@ export const MailBuilder = ({
         config: templateConfigStore,
         stores: {
           elements: elementsStore,
+          variables: variablesStore,
           relations: relationsStore,
           selected: selectedStore,
           hover: hoverStore,

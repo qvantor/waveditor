@@ -18,8 +18,15 @@ export const Iframe = ({ children, title, id, className }: Props) => {
   const [, setState] = useState(false);
   const frame = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
-    // just update for component rerender
-    if (frame.current) {
+    const doc = frame.current?.contentDocument;
+    if (doc) {
+      // set correct doctype
+      if (!doc.doctype) {
+        doc.open();
+        doc.write('<!DOCTYPE html>');
+        doc.close();
+      }
+      // just update for component rerender
       setState(true);
     }
   }, []);

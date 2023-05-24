@@ -19,21 +19,25 @@ export const theme = {
       tertiary: '#121417',
       quaternary: '#F9F9F9',
       accent: '#3498db',
-      danger: '#e74c3c',
+      accentQuarter: 'rgba(52,152,219, 0.25)',
+      danger: '#f9d2ce',
       accentSecondary: '#27ae60',
+      accentSecondaryHalf: 'rgba(39,174,96, 0.5)',
     },
     border: {
       primary: '#E8EBEB',
       secondary: '#E3E6E6',
     },
     text: {
+      primary: '#121417',
       secondary: '#7f8c8d',
       tertiary: '#fff',
+      danger: '#e74c3c',
     },
   },
   typography: {
     paragraph: {
-      smallest: 'font-size: 12px;',
+      smallest: 'font-size: 13px;',
       small: 'font-size: 14px;',
       medium: 'font-size: 16px;',
       large: 'font-size: 18px;',
