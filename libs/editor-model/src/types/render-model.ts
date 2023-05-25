@@ -1,8 +1,8 @@
-import { Element, Relations, TemplateConfig, Variables } from '../';
+import { Element, Relations, Config, Variables } from '../';
 
 export type RenderContextObject = {
   elements: Record<string, Element>;
   relations: Relations;
-  config: TemplateConfig;
+  config: Config;
   variables: Variables;
 };

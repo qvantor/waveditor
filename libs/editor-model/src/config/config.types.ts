@@ -19,7 +19,7 @@ export type GenericFontFamily =
   | 'fantasy'
   | 'math';
 
-export type TemplateConfigFont = {
+export type ConfigFont = {
   id: string;
   url?: string;
   name?: string;
@@ -27,17 +27,14 @@ export type TemplateConfigFont = {
   genericFamily: GenericFontFamily;
 };
 
-export type TemplateConfig = {
+export type Config = {
   name: string;
   rootElementId: string;
   viewportWidth: number;
-  fonts: TemplateConfigFont[];
+  fonts: ConfigFont[];
   style: Style;
 };
 
-export type FontChangedPayload = { id: string; value: TemplateConfigFont };
+export type FontChangedPayload = { id: string; value: ConfigFont };
 
-export type TemplateStoreUndoRedoEvent = CommonUndoEvent<
-  'TemplateStore',
-  TemplateConfig
->;
+export type ConfigStoreUndoRedoEvent = CommonUndoEvent<'ConfigStore', Config>;

@@ -4,10 +4,7 @@ import { tokens } from '@waveditors/theme';
 import { renderToString } from '@waveditors/layout-render';
 import { Modal, Button, message } from 'antd';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import {
-  getTemplateConfigName,
-  useBuilderContext,
-} from '@waveditors/editor-model';
+import { getConfigName, useBuilderContext } from '@waveditors/editor-model';
 import { Templates } from '../templates';
 import { HeaderButton, Input } from '../common/components';
 import { emailValidation } from '../common/services';
@@ -46,7 +43,7 @@ export const Header = () => {
   const {
     model: { config },
   } = builderContext;
-  const name = useBsSelector(config.bs, getTemplateConfigName);
+  const name = useBsSelector(config.bs, getConfigName);
 
   const send = async () => {
     const data = new FormData();

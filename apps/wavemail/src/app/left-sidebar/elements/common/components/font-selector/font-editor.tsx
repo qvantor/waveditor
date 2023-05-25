@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import { Button, Select, Tooltip } from 'antd';
 import { deepEqual } from 'fast-equals';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineSave } from 'react-icons/ai';
-import {
-  TemplateConfigFont,
-  FontChangedPayload,
-} from '@waveditors/editor-model';
+import { ConfigFont, FontChangedPayload } from '@waveditors/editor-model';
 import { removeKey } from '@waveditors/utils';
 import { Input } from '../../../../../common/components';
 import { FontPreview } from './font-preview';
@@ -47,9 +44,9 @@ const FontEditorActions = styled.div`
 `;
 
 export interface FontEditorProps {
-  font: TemplateConfigFont;
+  font: ConfigFont;
   fontCount: number;
-  onFontCreate: (font: TemplateConfigFont) => void;
+  onFontCreate: (font: ConfigFont) => void;
   onFontRemove: (fontId: string) => void;
   onFontChange: (change: FontChangedPayload) => void;
 }
@@ -62,8 +59,7 @@ export const FontEditor = ({
   onFontChange,
 }: FontEditorProps) => {
   const MaxFontsCount = 3;
-  const [fontEditorState, setFontEditorState] =
-    useState<TemplateConfigFont>(font);
+  const [fontEditorState, setFontEditorState] = useState<ConfigFont>(font);
 
   const setFontNameOrUrl = useCallback(
     (key: 'name' | 'url') => (value?: string) =>

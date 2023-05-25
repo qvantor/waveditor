@@ -1,8 +1,8 @@
 import { map, merge } from 'rxjs';
 import {
   ElementStore,
-  getTemplateConfigFonts,
-  getTemplateConfigFontById,
+  getConfigFonts,
+  getConfigFontById,
   getElementFontRelationByElementId,
   getTemplateDefaultFont,
   useBuilderContext,
@@ -31,9 +31,7 @@ export const Font = ({ element }: Props) => {
         )
       ),
       map((relation) =>
-        relation
-          ? getTemplateConfigFontById(relation)(config.getValue()) ?? null
-          : null
+        relation ? getConfigFontById(relation)(config.getValue()) ?? null : null
       )
     ),
     null,
@@ -42,7 +40,7 @@ export const Font = ({ element }: Props) => {
 
   // @todo here should be font from closest parent
   const inheritedFont = useBsSelector(config.bs, getTemplateDefaultFont);
-  const fonts = useBsSelector(config.bs, getTemplateConfigFonts);
+  const fonts = useBsSelector(config.bs, getConfigFonts);
 
   const font = elementFont || inheritedFont;
   return (

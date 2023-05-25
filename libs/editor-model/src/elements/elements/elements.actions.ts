@@ -1,4 +1,4 @@
-import { getTemplateConfigRootElementId } from '../../template-config';
+import { getConfigRootElementId } from '../../config';
 import { BuilderContext } from '../../types';
 import { getParentElement } from './';
 
@@ -8,7 +8,7 @@ export const removeElementById =
     module: { undoRedo },
   }: BuilderContext) =>
   (id: string) => {
-    const rootElementId = getTemplateConfigRootElementId(config.getValue());
+    const rootElementId = getConfigRootElementId(config.getValue());
     if (rootElementId === id) return false;
     undoRedo.startBunch();
     const parent = getParentElement(elements.getValue(), id);

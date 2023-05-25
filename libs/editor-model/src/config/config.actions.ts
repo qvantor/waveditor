@@ -1,7 +1,7 @@
 import { getElementsFromElementFontRelationByFontId } from '../relations';
 import { BuilderContext } from '../types';
-import { TemplateConfigFont } from './template-config.types';
-import { createConfigFont } from './template-config.creator';
+import { ConfigFont } from './config.types';
+import { createConfigFont } from './config.creator';
 
 export const removeConfigFontById =
   ({ model: { relations, config }, module: { undoRedo } }: BuilderContext) =>
@@ -17,7 +17,7 @@ export const removeConfigFontById =
 
 export const addConfigFont =
   ({ model: { relations, config }, module: { undoRedo } }: BuilderContext) =>
-  (font: Omit<TemplateConfigFont, 'id'>, element: string) => {
+  (font: Omit<ConfigFont, 'id'>, element: string) => {
     const newFont = createConfigFont(font);
     undoRedo.startBunch();
     config.actions.addFont(newFont);

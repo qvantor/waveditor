@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Tooltip } from 'antd';
 import { AiFillExclamationCircle } from 'react-icons/ai';
 import { tokens } from '@waveditors/theme';
-import { TemplateConfigFont } from '@waveditors/editor-model';
+import { ConfigFont } from '@waveditors/editor-model';
 
 const Root = styled.div<{ inherited: boolean }>`
   position: relative;
@@ -27,7 +27,7 @@ const InheritedIcon = styled(AiFillExclamationCircle)`
 `;
 
 interface Props {
-  font: TemplateConfigFont;
+  font: ConfigFont;
   inherited: boolean;
 }
 

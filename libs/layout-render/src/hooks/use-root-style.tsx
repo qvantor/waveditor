@@ -4,7 +4,7 @@ import {
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { templateConfigFontToStyle } from '../services';
+import { configFontToStyle } from '../services';
 
 export const useRootStyle = (): Style => {
   const {
@@ -13,7 +13,7 @@ export const useRootStyle = (): Style => {
   const configValue = config.getValue();
   const defaultFont = useBsSelector(config.bs, getTemplateDefaultFont);
   return {
-    fontFamily: templateConfigFontToStyle(defaultFont),
+    fontFamily: configFontToStyle(defaultFont),
     ...configValue.style,
   };
 };

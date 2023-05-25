@@ -1,4 +1,4 @@
-import { map} from 'rxjs';
+import { map } from 'rxjs';
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import {
   getElementParents,

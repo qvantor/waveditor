@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { TemplateConfigFont } from '@waveditors/editor-model';
+import { ConfigFont } from '@waveditors/editor-model';
 import { EmptyPattern, font, tokens } from '@waveditors/theme';
-import { templateConfigFontToStyle, Helmet } from '@waveditors/layout-render';
+import { configFontToStyle, Helmet } from '@waveditors/layout-render';
 
 interface Props {
-  font: TemplateConfigFont;
+  font: ConfigFont;
 }
 
 const Root = styled.div`
@@ -20,7 +20,7 @@ const Root = styled.div`
 export const FontPreview = ({ font }: Props) => {
   return (
     <>
-      <Root style={{ fontFamily: templateConfigFontToStyle(font) }}>
+      <Root style={{ fontFamily: configFontToStyle(font) }}>
         Lorem <b>Ipsum</b> <i>Dolor</i> <s>Sit</s> AMET
       </Root>
       <Helmet>

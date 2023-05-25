@@ -9,7 +9,7 @@ import {
   selectedStoreConstructor,
 } from '../../interaction';
 import { relationsStoreConstructor } from '../../relations';
-import { templateConfigStoreConstructor } from '../../template-config';
+import { configStoreConstructor } from '../../config';
 import { variablesStoreConstructor } from '../../variables';
 import {
   BuilderCore,
@@ -23,7 +23,7 @@ export const createBuilderContext = (
   initialState: RenderContextObject
 ): BuilderCore => {
   const undoRedo = undoRedoModule<UndoRedoEvents>();
-  const config = templateConfigStoreConstructor({
+  const config = configStoreConstructor({
     undoRedo,
   }).run(initialState.config);
   const relations = relationsStoreConstructor({ undoRedo }).run(

@@ -3,7 +3,7 @@ import { UndoRedoModule } from '@waveditors/rxjs-react';
 import { ElementsStore } from '../elements';
 import { HoverStore, SelectedStore } from '../interaction';
 import { RelationsStore } from '../relations';
-import { TemplateConfigStore } from '../template-config';
+import { ConfigStore } from '../config';
 import { VariablesStore } from '../variables';
 import { EditorEvents, EditorCommands, UndoRedoEvents } from './';
 
@@ -11,7 +11,7 @@ export type BuilderCore = Readonly<{
   model: {
     elements: ElementsStore;
     relations: RelationsStore;
-    config: TemplateConfigStore;
+    config: ConfigStore;
     variables: VariablesStore;
   };
   interaction: {

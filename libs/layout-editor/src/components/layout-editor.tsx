@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Head, useSetBodyStyle } from '@waveditors/layout-render';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import {
-  getTemplateConfigRootElementId,
+  getConfigRootElementId,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
@@ -23,10 +23,7 @@ const RenderElement = () => {
   const {
     model: { config },
   } = useBuilderContext();
-  const rootElementId = useBsSelector(
-    config.bs,
-    getTemplateConfigRootElementId
-  );
+  const rootElementId = useBsSelector(config.bs, getConfigRootElementId);
   const width = config.getValue().viewportWidth;
   return <Element id={rootElementId} width={width} />;
 };

@@ -1,7 +1,7 @@
 import { generateId } from '@waveditors/utils';
 import {
   createInitialRelations,
-  createInitialTemplateConfig,
+  createInitialConfig,
   createEmptyColumn,
   RenderContextObject,
 } from '@waveditors/editor-model';
@@ -53,7 +53,7 @@ export const getTemplates = () => {
 export const generateEmptyTemplate = (): RenderContextObject => {
   const rootId = generateId();
   return {
-    config: createInitialTemplateConfig(rootId),
+    config: createInitialConfig(rootId),
     elements: {
       [rootId]: {
         id: rootId,
