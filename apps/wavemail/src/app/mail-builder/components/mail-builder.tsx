@@ -7,9 +7,9 @@ import {
   getLayoutElement,
   createBuilderContext,
   BuilderProvider,
+  RenderContextObject,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
-import { RenderContextObject } from '@waveditors/layout-render';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
 import { Header } from '../../header';

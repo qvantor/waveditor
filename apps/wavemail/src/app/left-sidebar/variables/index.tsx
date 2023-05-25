@@ -6,7 +6,7 @@ import { pipe } from 'fp-ts/function';
 import {
   generateUniqVariableLabel,
   createVariable,
-  useBuilderContext
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { IconButton } from '../../common/components';
 import { VariablesList } from './components';

@@ -1,9 +1,9 @@
-import { RenderContextObject } from '@waveditors/layout-render';
 import { generateId } from '@waveditors/utils';
 import {
   createInitialRelations,
   createInitialTemplateConfig,
   createEmptyColumn,
+  RenderContextObject,
 } from '@waveditors/editor-model';
 import { LOCAL_STORAGE_KEY } from '../constants';
 import DemoTemplates from '../constants/demo.json';

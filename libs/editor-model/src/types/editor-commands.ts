@@ -1,10 +1,10 @@
-import { Element } from "../elements";
+import { Element } from '../elements';
 
 export type OutsideDragStartedEvent = {
   type: 'OutsideDragStarted';
   payload: Element;
 };
 
-export type ExternalEvents =
+export type EditorCommands =
   | OutsideDragStartedEvent
   | { type: 'test'; payload: number };

@@ -16,7 +16,7 @@ import {
   RenderContextObject,
   UndoRedoEvents,
   EditorEvents,
-  ExternalEvents,
+  EditorCommands,
 } from '../../types';
 
 export const createBuilderContext = (
@@ -58,7 +58,7 @@ export const createBuilderContext = (
     interaction: { hover, selected },
     editor: {
       events: new Subject<EditorEvents>(),
-      commands: new Subject<ExternalEvents>(),
+      commands: new Subject<EditorCommands>(),
     },
     module: { undoRedo },
     subscribe,

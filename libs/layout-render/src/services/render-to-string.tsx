@@ -1,14 +1,13 @@
 import { renderToStaticMarkup } from 'react-dom/server';
+import { BuilderProvider, BuilderContext } from '@waveditors/editor-model';
 import { Body, Head } from '../components';
-import { RenderContext } from '../types';
-import { RenderContextValue } from '../constants';
 
-export const renderToString = (model: RenderContext) =>
+export const renderToString = (context: BuilderContext) =>
   renderToStaticMarkup(
-    <RenderContextValue.Provider value={model}>
+    <BuilderProvider value={context}>
       <html>
         <Head />
         <Body />
       </html>
-    </RenderContextValue.Provider>
+    </BuilderProvider>
   );

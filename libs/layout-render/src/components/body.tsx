@@ -1,8 +1,11 @@
-import { useRenderContext, useRootStyle } from '../hooks';
+import { useBuilderContext } from '@waveditors/editor-model';
+import { useRootStyle } from '../hooks';
 import { ElementDumb } from './dumb-elements';
 
 export const Body = () => {
-  const { config } = useRenderContext();
+  const {
+    model: { config },
+  } = useBuilderContext();
   const style = useRootStyle();
   return (
     <body style={style}>

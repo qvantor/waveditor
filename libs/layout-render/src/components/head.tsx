@@ -1,13 +1,17 @@
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { getTemplateConfigFonts } from '@waveditors/editor-model';
+import {
+  getTemplateConfigFonts,
+  useBuilderContext,
+} from '@waveditors/editor-model';
 import { PropsWithChildren, useMemo } from 'react';
-import { useRenderContext } from '../hooks';
 import { Helmet } from './helmet';
 
 export const Head = ({ iFrameDocument }: { iFrameDocument?: Document }) => {
-  const { config } = useRenderContext();
+  const {
+    model: { config },
+  } = useBuilderContext();
 
-  const fonts = useBsSelector(config, getTemplateConfigFonts);
+  const fonts = useBsSelector(config.bs, getTemplateConfigFonts);
   const Wrapper = useMemo(() => {
     return iFrameDocument
       ? ({ children }: PropsWithChildren) => (

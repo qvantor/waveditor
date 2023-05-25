@@ -5,7 +5,7 @@ import { HoverStore, SelectedStore } from '../interaction';
 import { RelationsStore } from '../relations';
 import { TemplateConfigStore } from '../template-config';
 import { VariablesStore } from '../variables';
-import { EditorEvents, ExternalEvents, UndoRedoEvents } from './';
+import { EditorEvents, EditorCommands, UndoRedoEvents } from './';
 
 export type BuilderCore = Readonly<{
   model: {
@@ -20,7 +20,7 @@ export type BuilderCore = Readonly<{
   };
   editor: {
     events: Subject<EditorEvents>;
-    commands: Subject<ExternalEvents>;
+    commands: Subject<EditorCommands>;
   };
   module: {
     undoRedo: UndoRedoModule<UndoRedoEvents>;

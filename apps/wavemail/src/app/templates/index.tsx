@@ -2,8 +2,8 @@ import { Menu, MenuItem, MenuDivider } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 import { createStore } from '@waveditors/rxjs-react';
-import { RenderContextObject } from '@waveditors/layout-render';
 import { useState } from 'react';
+import { RenderContextObject } from '@waveditors/editor-model';
 import { HeaderButton } from '../common/components';
 import {
   getTemplates,

@@ -1,5 +1,5 @@
-import { useRenderContext } from '@waveditors/layout-render';
 import styled from 'styled-components';
+import { useBuilderContext } from '@waveditors/editor-model';
 import { font, theme } from '@waveditors/theme';
 import { RxDragHandleDots2 } from 'react-icons/rx';
 import { useCallback } from 'react';
@@ -42,8 +42,11 @@ interface Props {
 }
 
 export const FrameControl = ({ top, width }: Props) => {
-  const { config } = useRenderContext();
-  const { selected, internalEvents } = useLayoutEditorContext();
+  const {
+    model: { config },
+    interaction: { selected },
+  } = useBuilderContext();
+  const { internalEvents } = useLayoutEditorContext();
   const element = useSelectedElement();
   const onMouseDown = useCallback(() => {
     const payload = selected.getValue();

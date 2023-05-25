@@ -24,23 +24,12 @@ const CanvasContainer = styled.div`
 
 export const Canvas = () => {
   const {
-    model: { elements, config, relations, variables },
-    editor: { events, commands },
-    interaction: { selected, hover },
+    interaction: { selected },
   } = useBuilderContext();
   return (
     <Root onClick={selected.actions.unselect}>
       <CanvasContainer>
-        <LayoutEditor
-          config={config.bs}
-          elements={elements.bs}
-          relations={relations.bs}
-          events={events}
-          externalEvents={commands}
-          hover={hover.bs}
-          selected={selected.bs}
-          variables={variables.bs}
-        />
+        <LayoutEditor />
       </CanvasContainer>
     </Root>
   );

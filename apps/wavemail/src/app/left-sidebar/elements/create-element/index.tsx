@@ -5,7 +5,7 @@ import {
   createEmptyElement,
   ElementType,
   generateUniqElementName,
-  useBuilderContext
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
 import { TfiText, TfiImage } from 'react-icons/tfi';
