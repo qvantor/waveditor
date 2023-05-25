@@ -4,8 +4,7 @@ import { tokens } from '@waveditors/theme';
 import { RenderContext, renderToString } from '@waveditors/layout-render';
 import { Modal, Button, message } from 'antd';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { getTemplateConfigName } from '@waveditors/editor-model';
-import { useMailBuilderContext } from '../common/hooks';
+import { getTemplateConfigName, useBuilderContext } from '@waveditors/editor-model';
 import { Templates } from '../templates';
 import { HeaderButton, Input } from '../common/components';
 import { emailValidation } from '../common/services';
@@ -41,9 +40,8 @@ export const Header = () => {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [open, setOpen] = useState(false);
   const {
-    stores: { elements, relations, variables },
-    config,
-  } = useMailBuilderContext();
+    model: { elements, relations, variables, config },
+  } = useBuilderContext();
   const name = useBsSelector(config.bs, getTemplateConfigName);
 
   const renderContext = useMemo<RenderContext>(

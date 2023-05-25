@@ -1,13 +1,14 @@
 import { map } from 'rxjs';
 import { useObservable } from '@waveditors/rxjs-react';
-import { useMailBuilderContext } from '../../common/hooks';
+import { useBuilderContext } from '@waveditors/editor-model';
 import { ElementEditor } from './element-editor';
 import { CreateElement } from './create-element';
 
 export const Elements = () => {
   const {
-    stores: { selected, elements },
-  } = useMailBuilderContext();
+    model: { elements },
+    interaction: { selected },
+  } = useBuilderContext();
   const element = useObservable(
     selected.bs.pipe(
       map((selected) => (selected ? elements.bs.value[selected] : null))

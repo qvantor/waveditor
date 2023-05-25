@@ -2,13 +2,13 @@ import { useCallback } from 'react';
 import {
   getParentElement,
   getTemplateConfigRootElementId,
+  useBuilderContext,
 } from '@waveditors/editor-model';
-import { useMailBuilderContext } from '../../hooks';
 
 export const useRemoveSelected = () => {
   const {
-    stores: { selected },
-  } = useMailBuilderContext();
+    interaction: { selected },
+  } = useBuilderContext();
   const removeElement = useRemoveElement();
   return useCallback(() => {
     const selectedValue = selected.getValue();
@@ -18,10 +18,9 @@ export const useRemoveSelected = () => {
 };
 export const useRemoveElement = () => {
   const {
-    config,
-    stores: { elements, relations },
-    modules: { undoRedo },
-  } = useMailBuilderContext();
+    model: { elements, relations, config },
+    module: { undoRedo },
+  } = useBuilderContext();
   return useCallback(
     (id: string) => {
       const rootElementId = getTemplateConfigRootElementId(config.getValue());

@@ -1,14 +1,15 @@
 import { useCallback } from 'react';
-import { TemplateConfigFont } from '@waveditors/editor-model';
+import {
+  TemplateConfigFont,
+  useBuilderContext,
+} from '@waveditors/editor-model';
 import { generateId } from '@waveditors/utils';
-import { useMailBuilderContext } from '../../hooks';
 
 export const useCreateTemplateConfigFont = () => {
   const {
-    config,
-    stores: { relations },
-    modules: { undoRedo },
-  } = useMailBuilderContext();
+    model: { relations, config },
+    module: { undoRedo },
+  } = useBuilderContext();
   return useCallback(
     (font: Omit<TemplateConfigFont, 'id'>, element: string) => {
       const id = generateId();

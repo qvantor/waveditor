@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
-import { getElementsFromElementFontRelationByFontId } from '@waveditors/editor-model';
-import { useMailBuilderContext } from '../../hooks';
+import {
+  getElementsFromElementFontRelationByFontId,
+  useBuilderContext,
+} from '@waveditors/editor-model';
 
 export const useRemoveTemplateConfigFont = () => {
   const {
-    config,
-    stores: { relations },
-    modules: { undoRedo },
-  } = useMailBuilderContext();
+    model: { relations, config },
+    module: { undoRedo },
+  } = useBuilderContext();
   return useCallback(
     (fontId: string) => {
       undoRedo.startBunch();

@@ -1,3 +1,4 @@
+export * from './builder';
 export * from './elements';
 export * from './interaction';
 export * from './services';

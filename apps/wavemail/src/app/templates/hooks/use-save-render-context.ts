@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
-import { elementsStoreToObject } from '@waveditors/editor-model';
-import { useMailBuilderContext } from '../../common/hooks';
+import {
+  elementsStoreToObject,
+  useBuilderContext,
+} from '@waveditors/editor-model';
 import { LOCAL_STORAGE_KEY } from '../constants';
 
 export const useSaveRenderContext = () => {
   const {
-    config,
-    stores: { elements, relations, variables },
-  } = useMailBuilderContext();
+    model: { config, elements, relations, variables },
+  } = useBuilderContext();
   return useCallback(() => {
     const data = {
       config: config.getValue(),

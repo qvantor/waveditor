@@ -1,4 +1,4 @@
-import { Element } from '@waveditors/editor-model';
+import { Element } from "../elements";
 
 export type OutsideDragStartedEvent = {
   type: 'OutsideDragStarted';

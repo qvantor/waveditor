@@ -5,9 +5,9 @@ import {
   getTemplateConfigFontById,
   getElementFontRelationByElementId,
   getTemplateDefaultFont,
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { useBsSelector, useObservable } from '@waveditors/rxjs-react';
-import { useMailBuilderContext } from '../../../../common/hooks';
 import {
   useCreateTemplateConfigFont,
   useRemoveTemplateConfigFont,
@@ -20,9 +20,8 @@ interface Props {
 
 export const Font = ({ element }: Props) => {
   const {
-    config,
-    stores: { relations },
-  } = useMailBuilderContext();
+    model: { config, relations },
+  } = useBuilderContext();
   const createFont = useCreateTemplateConfigFont();
   const removeFont = useRemoveTemplateConfigFont();
   const elementFont = useObservable(

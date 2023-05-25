@@ -1,28 +1,15 @@
 import { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { EditorEvents, ExternalEvents } from '@waveditors/layout-editor';
-import { Subject } from 'rxjs';
-import {
-  undoRedoModule,
-  useStore,
-  useUnsubscribable,
-} from '@waveditors/rxjs-react';
+import { useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
-  elementsStoreConstructor,
-  UndoRedoEvents,
   getParentElement,
   getLayoutElement,
-  hoverStoreConstructor,
-  selectedStoreConstructor,
-  templateConfigStoreConstructor,
-  relationsStoreConstructor,
-  elementsToElementsStore,
-  variablesStoreConstructor,
+  createBuilderContext,
+  BuilderProvider,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
 import { RenderContextObject } from '@waveditors/layout-render';
-import { MailBuilderContext } from '../../common/constants';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
 import { Header } from '../../header';
@@ -51,67 +38,36 @@ const Footer = styled.div`
   border-top: 1px solid ${tokens.color.border.primary};
 `;
 
-export const MailBuilder = ({
-  elements,
-  relations,
-  config,
-  variables,
-}: RenderContextObject) => {
-  const undoRedo = undoRedoModule<UndoRedoEvents>();
+export const MailBuilder = (props: RenderContextObject) => {
+  const { subscribe, ...builderContext } = useMemo(
+    () => createBuilderContext(props),
+    [props]
+  );
   useEffect(() => {
-    const unsub = undoRedo.subscribe();
+    const unsub = subscribe();
     return () => unsub();
-  }, [undoRedo]);
-  const templateConfigStore = useStore(
-    templateConfigStoreConstructor({ undoRedo }),
-    config,
-    [config]
-  );
-  const relationsStore = useStore(
-    relationsStoreConstructor({ undoRedo }),
-    relations,
-    [relations]
-  );
-  const variablesStore = useStore(
-    variablesStoreConstructor({ undoRedo }),
-    variables,
-    [variables]
-  );
-  const elementsStore = useStore(
-    elementsStoreConstructor({ undoRedo, variables: variablesStore }),
-    elementsToElementsStore(elements, { undoRedo, variables: variablesStore }),
-    [elements, relationsStore]
-  );
-  const hoverStore = useStore(hoverStoreConstructor(), null, [elementsStore]);
-  const selectedStore = useStore(selectedStoreConstructor(), null, [
-    elementsStore,
-  ]);
-
-  const { editorEvents, externalEvents } = useMemo(
-    () => ({
-      editorEvents: new Subject<EditorEvents>(),
-      externalEvents: new Subject<ExternalEvents>(),
-    }),
-    []
-  );
+  }, [subscribe]);
+  const {
+    model: { elements },
+    editor: { events },
+    interaction: { hover, selected },
+    module: { undoRedo },
+  } = builderContext;
 
   useUnsubscribable(
     () =>
-      editorEvents.subscribe((e) =>
+      events.subscribe((e) =>
         match(e)
           .with({ type: 'MouseEnter' }, (event) => {
-            hoverStore.actions.addHover(event.payload);
+            hover.actions.addHover(event.payload);
           })
-          .with({ type: 'MouseLeave' }, () => hoverStore.actions.removeHover())
+          .with({ type: 'MouseLeave' }, () => hover.actions.removeHover())
           .with({ type: 'ElementSelected' }, (event) =>
-            selectedStore.actions.setSelected(event.payload)
+            selected.actions.setSelected(event.payload)
           )
-          .with({ type: 'ElementUnselected' }, selectedStore.actions.unselect)
+          .with({ type: 'ElementUnselected' }, selected.actions.unselect)
           .with({ type: 'UnlinkElementFromLayout' }, (event) => {
-            const parent = getParentElement(
-              elementsStore.getValue(),
-              event.payload
-            );
+            const parent = getParentElement(elements.getValue(), event.payload);
             if (!parent)
               return console.error(`UnlinkElementFromLayout: ${event.payload}`);
             undoRedo.startBunch();
@@ -119,7 +75,7 @@ export const MailBuilder = ({
           })
           .with({ type: 'LinkElementToLayout' }, ({ payload }) => {
             const parent = getLayoutElement(
-              elementsStore.getValue(),
+              elements.getValue(),
               payload.position.layout
             );
             if (!parent)
@@ -134,43 +90,25 @@ export const MailBuilder = ({
             { type: 'AddElement' },
             ({ payload: { element, position } }) => {
               const parent = getLayoutElement(
-                elementsStore.getValue(),
+                elements.getValue(),
                 position.position.layout
               );
               if (!parent)
                 return console.error(`AddElement: ${position.position.layout}`);
               undoRedo.startBunch();
-              elementsStore.actions.addElement(element);
+              elements.actions.addElement(element);
               parent.actions.addChild(position);
               undoRedo.endBunch();
-              selectedStore.actions.setSelected(element.id);
+              selected.actions.setSelected(element.id);
             }
           )
           .exhaustive()
       ),
-    [elementsStore, hoverStore, selectedStore, editorEvents]
+    [elements, hover, selected, events]
   );
 
   return (
-    <MailBuilderContext.Provider
-      value={{
-        config: templateConfigStore,
-        stores: {
-          elements: elementsStore,
-          variables: variablesStore,
-          relations: relationsStore,
-          selected: selectedStore,
-          hover: hoverStore,
-        },
-        editor: {
-          events: editorEvents,
-          externalEvents,
-        },
-        modules: {
-          undoRedo,
-        },
-      }}
-    >
+    <BuilderProvider value={builderContext}>
       <Root>
         <Header />
         <Content>
@@ -184,6 +122,6 @@ export const MailBuilder = ({
         </Content>
         <Hotkeys />
       </Root>
-    </MailBuilderContext.Provider>
+    </BuilderProvider>
   );
 };
