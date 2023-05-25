@@ -6,12 +6,11 @@ import {
   getElementFontRelationByElementId,
   getTemplateDefaultFont,
   useBuilderContext,
+  useAction,
+  removeConfigFontById,
+  addConfigFont,
 } from '@waveditors/editor-model';
 import { useBsSelector, useObservable } from '@waveditors/rxjs-react';
-import {
-  useCreateTemplateConfigFont,
-  useRemoveTemplateConfigFont,
-} from '../../../../common/actions-hooks';
 import { FontSelector } from './font-selector';
 
 interface Props {
@@ -22,8 +21,8 @@ export const Font = ({ element }: Props) => {
   const {
     model: { config, relations },
   } = useBuilderContext();
-  const createFont = useCreateTemplateConfigFont();
-  const removeFont = useRemoveTemplateConfigFont();
+  const createFont = useAction(addConfigFont);
+  const removeFont = useAction(removeConfigFontById);
   const elementFont = useObservable(
     merge(relations.bs, config.bs).pipe(
       map(() =>

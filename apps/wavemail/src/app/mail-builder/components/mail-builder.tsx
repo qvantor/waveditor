@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
@@ -39,14 +39,12 @@ const Footer = styled.div`
 `;
 
 export const MailBuilder = (props: RenderContextObject) => {
-  const { subscribe, ...builderContext } = useMemo(
-    () => createBuilderContext(props),
-    [props]
-  );
+  const { subscribe, ...builderContext } = createBuilderContext(props);
   useEffect(() => {
     const unsub = subscribe();
     return () => unsub();
   }, [subscribe]);
+
   const {
     model: { elements },
     editor: { events },

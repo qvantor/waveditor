@@ -22,11 +22,12 @@ export const Element = ({ id, width }: Props) => {
     model: { elements },
     interaction: { selected },
   } = useBuilderContext();
+
   const isSelected = useBsSelector(selected.bs, (value) => value === id);
   const element = useObservable(
     elements.bs.pipe(map(getElementById(id))),
     getElementById(id)(elements.getValue()),
-    [id]
+    [id, elements]
   );
   const attributes = { id, datatype: ELEMENT_DATATYPE };
   return match(element)

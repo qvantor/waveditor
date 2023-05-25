@@ -1,5 +1,5 @@
 import { generateId } from '@waveditors/utils';
-import { TemplateConfig } from './template-config.types';
+import { TemplateConfig, TemplateConfigFont } from './template-config.types';
 
 export const createInitialTemplateConfig = (
   rootElementId: string
@@ -27,3 +27,12 @@ export const createInitialTemplateConfig = (
     ],
   };
 };
+
+export const createConfigFont = (
+  font: Partial<TemplateConfigFont>
+): TemplateConfigFont => ({
+  id: generateId(),
+  fallback: 'Helvetica',
+  genericFamily: 'sans-serif',
+  ...font,
+});

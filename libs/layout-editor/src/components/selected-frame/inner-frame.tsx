@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { theme } from '@waveditors/theme';
-import { useSelectedElement } from '../../hooks';
+import { useSelectedElement } from '@waveditors/editor-model';
 
 const Root = styled.div`
   width: 100%;

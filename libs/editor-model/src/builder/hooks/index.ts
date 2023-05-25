@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { BuilderContext } from '../../types';
 import { BuilderContextValue } from '../constants';
 
@@ -9,9 +9,10 @@ export const useBuilderContext = (): BuilderContext => {
   return builder;
 };
 
-export const useAction = <P, R>(
-  action: (context: BuilderContext) => (params: P) => R
+export const useAction = <R>(
+  action: (context: BuilderContext) => R,
+  deps: unknown[] = []
 ) => {
   const context = useBuilderContext();
-  return action(context);
+  return useMemo(() => action(context), [context, ...deps]);
 };

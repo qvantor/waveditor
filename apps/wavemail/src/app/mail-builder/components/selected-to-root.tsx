@@ -1,13 +1,12 @@
-import { map, merge, of, switchMap } from 'rxjs';
+import { map} from 'rxjs';
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import {
-  getElementById,
   getElementParents,
   useBuilderContext,
+  useSelectedElement,
 } from '@waveditors/editor-model';
 import styled, { css } from 'styled-components';
 import { tokens, font } from '@waveditors/theme';
-import { match, P } from 'ts-pattern';
 
 const Root = styled.div`
   display: flex;
@@ -87,24 +86,7 @@ export const SelectedToRoot = () => {
     [],
     [selected.bs, elements.bs, config.bs]
   );
-  const selectedElement = useObservable(
-    merge(selected.bs, elements.bs).pipe(
-      switchMap(() =>
-        match(selected.getValue())
-          .with(P.string, (id) =>
-            of(getElementById(id)).pipe(
-              map((getElement) => getElement(elements.getValue())),
-              switchMap((elementStore) =>
-                elementStore ? elementStore.bs : of(null)
-              )
-            )
-          )
-          .otherwise(() => of(null))
-      )
-    ),
-    null,
-    [selected, elements]
-  );
+  const selectedElement = useSelectedElement();
   if (!selectedElement) return null;
   return (
     <Root>

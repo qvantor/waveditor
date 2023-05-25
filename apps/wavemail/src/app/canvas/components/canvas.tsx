@@ -26,6 +26,7 @@ export const Canvas = () => {
   const {
     interaction: { selected },
   } = useBuilderContext();
+
   return (
     <Root onClick={selected.actions.unselect}>
       <CanvasContainer>

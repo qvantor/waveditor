@@ -1,7 +1,8 @@
 import { useObservable } from '@waveditors/rxjs-react';
-import { map, switchMap, of, merge } from 'rxjs';
-import { getElementById, useBuilderContext } from '@waveditors/editor-model';
+import { map, merge, of, switchMap } from 'rxjs';
 import { match, P } from 'ts-pattern';
+import { getElementById } from '../../elements';
+import { useBuilderContext } from '../../builder';
 
 export const useSelectedElement = () => {
   const {
