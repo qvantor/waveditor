@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subscription, Unsubscribable } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 export type ActionsResult<V, A> = {
   [K in keyof A]: A[K] extends Action<V>

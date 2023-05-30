@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useObservable } from '@waveditors/rxjs-react';
-import { switchMap, map, delay, filter, of } from 'rxjs';
+import { delay, filter, map, of, switchMap } from 'rxjs';
 import { theme } from '@waveditors/theme';
 import { match, P } from 'ts-pattern';
 import { useBuilderContext } from '@waveditors/editor-model';

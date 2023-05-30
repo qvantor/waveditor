@@ -2,9 +2,9 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { Collapse, Segmented } from 'antd';
 import {
   isVariableLabelExist,
+  useBuilderContext,
   Variable,
   VariablesTypes,
-  useBuilderContext,
 } from '@waveditors/editor-model';
 import styled from 'styled-components';
 import { font, tokens } from '@waveditors/theme';

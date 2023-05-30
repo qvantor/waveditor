@@ -5,7 +5,7 @@ import { HoverStore, SelectedStore } from '../interaction';
 import { RelationsStore } from '../relations';
 import { ConfigStore } from '../config';
 import { VariablesStore } from '../variables';
-import { EditorEvents, EditorCommands, UndoRedoEvents } from './';
+import { EditorCommands, EditorEvents, UndoRedoEvents } from './';
 
 export type BuilderCore = Readonly<{
   model: {

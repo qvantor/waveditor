@@ -1,7 +1,7 @@
 import {
-  TextStore,
-  getElementTextAlign,
   Align,
+  getElementTextAlign,
+  TextStore,
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { AlignEditor } from '../../common/components';

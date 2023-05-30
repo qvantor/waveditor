@@ -1,4 +1,4 @@
-import { Menu, MenuItem, MenuDivider } from '@szhsin/react-menu';
+import { Menu, MenuDivider, MenuItem } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 import { createStore } from '@waveditors/rxjs-react';
@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { RenderContextObject } from '@waveditors/editor-model';
 import { HeaderButton } from '../common/components';
 import {
-  getTemplates,
-  getInitialTemplate,
   generateEmptyTemplate,
+  getInitialTemplate,
+  getTemplates,
 } from './services';
 // @todo the whole templates domain is for demo only
 

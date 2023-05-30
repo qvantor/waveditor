@@ -2,8 +2,8 @@ import { useCallback } from 'react';
 import { map, merge } from 'rxjs';
 import {
   ElementCommon,
-  getElementFontRelationByElementId,
   getConfigFontById,
+  getElementFontRelationByElementId,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';

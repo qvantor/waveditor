@@ -1,9 +1,9 @@
 import { match } from 'ts-pattern';
 import { Collapse } from 'antd';
 import {
-  ElementStore,
-  elementSelector,
   Element,
+  elementSelector,
+  ElementStore,
   getElementLink,
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
@@ -13,7 +13,7 @@ import { ImageParamsEditor } from '../image-params-editor';
 import { TextParamsEditor } from '../text-params-editor';
 import { CollapseStyled } from '../../../common/components';
 import { StyleEditor } from '../style-editor';
-import { LinkEditor, ElementEditorHeader } from './components';
+import { ElementEditorHeader, LinkEditor } from './components';
 
 interface Props {
   element: ElementStore;

@@ -1,14 +1,14 @@
 import { map, merge } from 'rxjs';
 import {
+  addConfigFont,
   ElementStore,
-  getConfigFonts,
   getConfigFontById,
+  getConfigFonts,
   getElementFontRelationByElementId,
   getTemplateDefaultFont,
-  useBuilderContext,
-  useAction,
   removeConfigFontById,
-  addConfigFont,
+  useAction,
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { useBsSelector, useObservable } from '@waveditors/rxjs-react';
 import { FontSelector } from './font-selector';

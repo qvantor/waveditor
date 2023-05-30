@@ -1,4 +1,4 @@
-import { LayoutStore, isLayoutStore, isParentOf } from '../layout';
+import { isLayoutStore, isParentOf, LayoutStore } from '../layout';
 import { ElementsStore } from './elements';
 import { ElementStore } from './elements.types';
 

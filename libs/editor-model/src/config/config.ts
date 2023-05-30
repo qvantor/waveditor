@@ -4,7 +4,7 @@ import {
   UndoRedoModule,
 } from '@waveditors/rxjs-react';
 import { UndoRedoEvents } from '../types';
-import { FontChangedPayload, Config, ConfigFont } from './config.types';
+import { Config, ConfigFont, FontChangedPayload } from './config.types';
 
 export const configStoreConstructor = ({
   undoRedo: { createUndoRedoEffect },

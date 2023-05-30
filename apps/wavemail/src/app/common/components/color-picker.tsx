@@ -4,7 +4,7 @@ import { Popover } from 'antd';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useDebounce } from 'react-use';
-import { tokens, EmptyPattern } from '@waveditors/theme';
+import { EmptyPattern, tokens } from '@waveditors/theme';
 import { colorValidation } from '../services';
 import { Input } from './input';
 

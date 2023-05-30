@@ -6,7 +6,7 @@ import {
   useSelectedElement,
 } from '@waveditors/editor-model';
 import styled, { css } from 'styled-components';
-import { tokens, font } from '@waveditors/theme';
+import { font, tokens } from '@waveditors/theme';
 
 const Root = styled.div`
   display: flex;

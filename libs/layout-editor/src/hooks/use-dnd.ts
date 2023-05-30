@@ -18,11 +18,10 @@ import {
 } from '@waveditors/utils';
 import {
   ElementsStore,
-  getParentElement,
   getElementPosition,
+  getParentElement,
   LayoutAddChild,
   LayoutStore,
-  BuilderContext,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { useCallback, useRef } from 'react';

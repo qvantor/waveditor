@@ -6,13 +6,13 @@ import {
   ElementStore,
   getElementName,
   getElementType,
-  useAction,
   removeSelectedElement,
+  useAction,
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { BehaviorSubject } from 'rxjs';
 import { IconButton, Input } from '../../../../common/components';
-import { validate, required, maxLength } from '../../../../common/services';
+import { maxLength, required, validate } from '../../../../common/services';
 
 const NameInput = styled(Input)`
   background: transparent;

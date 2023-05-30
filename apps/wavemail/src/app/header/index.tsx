@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { renderToString } from '@waveditors/layout-render';
-import { Modal, Button, message } from 'antd';
+import { Button, message, Modal } from 'antd';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { getConfigName, useBuilderContext } from '@waveditors/editor-model';
 import { Templates } from '../templates';

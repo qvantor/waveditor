@@ -4,9 +4,9 @@ import { Property } from 'csstype';
 import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import {
-  paddingStrToObj,
-  paddingObjToStr,
   PaddingObj,
+  paddingObjToStr,
+  paddingStrToObj,
 } from '@waveditors/utils';
 
 interface Props {

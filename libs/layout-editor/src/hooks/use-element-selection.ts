@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import { match } from 'ts-pattern';
 import { filter, noop } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
-import { BuilderContext, useBuilderContext } from '@waveditors/editor-model';
+import { useBuilderContext } from '@waveditors/editor-model';
 import { ELEMENT_DATATYPE } from '../constants';
 import { Context, RootMouseMoveEvent } from '../types';
 

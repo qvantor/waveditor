@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { TextStore, getElementColor } from '@waveditors/editor-model';
+import { getElementColor, TextStore } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { ColorPicker } from '../../../../common/components';
 

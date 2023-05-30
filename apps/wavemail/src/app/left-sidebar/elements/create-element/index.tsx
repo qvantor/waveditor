@@ -8,7 +8,7 @@ import {
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
-import { TfiText, TfiImage } from 'react-icons/tfi';
+import { TfiImage, TfiText } from 'react-icons/tfi';
 
 const Root = styled.div`
   padding: 5px 8px;

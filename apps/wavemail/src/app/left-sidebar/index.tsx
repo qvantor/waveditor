@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { BsLayoutWtf } from 'react-icons/bs';
 import { HiOutlineVariable } from 'react-icons/hi';
-import { Menu, MenuProps, ConfigProvider } from 'antd';
+import { ConfigProvider, Menu, MenuProps } from 'antd';
 import { Elements } from './elements';
 import { Variables } from './variables';
 

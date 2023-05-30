@@ -1,8 +1,8 @@
 import { generateId } from '@waveditors/utils';
 import {
-  createInitialRelations,
-  createInitialConfig,
   createEmptyColumn,
+  createInitialConfig,
+  createInitialRelations,
   RenderContextObject,
 } from '@waveditors/editor-model';
 import { LOCAL_STORAGE_KEY } from '../constants';

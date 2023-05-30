@@ -1,4 +1,4 @@
-import { PropsWithChildren, HTMLAttributes } from 'react';
+import { HTMLAttributes, PropsWithChildren } from 'react';
 import { jsonToHtml } from '@waveditors/text-editor';
 import { Text, useBuilderContext } from '@waveditors/editor-model';
 import { useStyle } from '../../hooks';

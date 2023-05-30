@@ -1,8 +1,8 @@
 import { ElementStoreDeps } from '../element';
 import { createInitialLayout, layoutStore } from '../layout';
-import { textStore, createEmptyText } from '../text';
-import { imageStore, createEmptyImage } from '../image';
-import { ElementType, Element, ElementStore } from './elements.types';
+import { createEmptyText, textStore } from '../text';
+import { createEmptyImage, imageStore } from '../image';
+import { Element, ElementStore, ElementType } from './elements.types';
 
 export function createEmptyElement<T extends ElementType>(
   type: T,

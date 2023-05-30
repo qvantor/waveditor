@@ -13,10 +13,10 @@ import { configStoreConstructor } from '../../config';
 import { variablesStoreConstructor } from '../../variables';
 import {
   BuilderCore,
+  EditorCommands,
+  EditorEvents,
   RenderContextObject,
   UndoRedoEvents,
-  EditorEvents,
-  EditorCommands,
 } from '../../types';
 
 export const createBuilderContext = (

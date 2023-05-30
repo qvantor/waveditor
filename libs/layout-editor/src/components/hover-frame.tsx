@@ -1,6 +1,6 @@
 import { useObservable } from '@waveditors/rxjs-react';
 import styled from 'styled-components';
-import { map, switchMap, merge, of } from 'rxjs';
+import { map, merge, of, switchMap } from 'rxjs';
 import { theme } from '@waveditors/theme';
 import { useBuilderContext } from '@waveditors/editor-model';
 import { resizeObservable } from '../services';

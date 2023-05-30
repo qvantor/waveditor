@@ -1,10 +1,10 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import {
-  Effect,
   Action,
-  StoreConstructor,
   ActionsResult,
+  Effect,
   Store,
+  StoreConstructor,
 } from '../types';
 
 export const createStore = <V, A = unknown, E = unknown, S = unknown>(

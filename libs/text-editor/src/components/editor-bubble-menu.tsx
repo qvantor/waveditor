@@ -2,10 +2,10 @@ import React from 'react';
 import {
   AiOutlineBold,
   AiOutlineItalic,
-  AiOutlineStrikethrough,
-  AiOutlineUnorderedList,
   AiOutlineOrderedList,
+  AiOutlineStrikethrough,
   AiOutlineUnderline,
+  AiOutlineUnorderedList,
 } from 'react-icons/ai';
 import { BubbleMenu, Editor } from '@tiptap/react';
 import styled, { css } from 'styled-components';

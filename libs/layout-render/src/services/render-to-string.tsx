@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from 'react-dom/server';
-import { BuilderProvider, BuilderContext } from '@waveditors/editor-model';
+import { BuilderContext, BuilderProvider } from '@waveditors/editor-model';
 import { Body, Head } from '../components';
 
 export const renderToString = (context: BuilderContext) =>

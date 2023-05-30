@@ -4,8 +4,8 @@ import { font, tokens } from '@waveditors/theme';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { pipe } from 'fp-ts/function';
 import {
-  generateUniqVariableLabel,
   createVariable,
+  generateUniqVariableLabel,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { IconButton } from '../../common/components';
