@@ -3,7 +3,7 @@ import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 import { createStore } from '@waveditors/rxjs-react';
 import { useState } from 'react';
-import { RenderContextObject } from '@waveditors/editor-model';
+import { EditorSnapshot } from '@waveditors/editor-model';
 import { HeaderButton } from '../common/components';
 import {
   generateEmptyTemplate,
@@ -14,9 +14,9 @@ import {
 
 export { useSaveRenderContext } from './hooks';
 
-export const RenderContextStore = createStore<RenderContextObject>()
+export const RenderContextStore = createStore<EditorSnapshot>()
   .addActions({
-    set: (value: RenderContextObject) => value,
+    set: (value: EditorSnapshot) => value,
   })
   .run(getInitialTemplate());
 

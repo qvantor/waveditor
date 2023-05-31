@@ -15,12 +15,12 @@ import {
   BuilderCore,
   EditorCommands,
   EditorEvents,
-  RenderContextObject,
+  EditorSnapshot,
   UndoRedoEvents,
 } from '../../types';
 
 export const createBuilderContext = (
-  initialState: RenderContextObject
+  initialState: EditorSnapshot
 ): BuilderCore => {
   const undoRedo = undoRedoModule<UndoRedoEvents>();
   const config = configStoreConstructor({

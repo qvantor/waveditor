@@ -4,7 +4,11 @@ import { tokens } from '@waveditors/theme';
 import { renderToString } from '@waveditors/layout-render';
 import { Button, message, Modal } from 'antd';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { getConfigName, useBuilderContext } from '@waveditors/editor-model';
+import {
+  getConfigName,
+  useBuilderContext,
+  builderContextToSnapshot,
+} from '@waveditors/editor-model';
 import { Templates } from '../templates';
 import { HeaderButton, Input } from '../common/components';
 import { emailValidation } from '../common/services';
@@ -50,7 +54,10 @@ export const Header = () => {
     data.append('from', `waveditor@${process.env.NX_MAILGUN_DOMAIN_NAME}`);
     data.append('to', email);
     data.append('subject', 'Waveditor test email');
-    data.append('html', renderToString(builderContext));
+    data.append(
+      'html',
+      renderToString(builderContextToSnapshot(builderContext))
+    );
 
     if (!process.env.NX_MAILGUN_KEY || !process.env.NX_MAILGUN_DOMAIN_NAME)
       return messageApi.error(
@@ -73,7 +80,9 @@ export const Header = () => {
   useEffect(() => {
     if (!frameRef.current || !frameRef.current.contentDocument || !open) return;
     frameRef.current.contentDocument.open();
-    frameRef.current.contentDocument.write(renderToString(builderContext));
+    frameRef.current.contentDocument.write(
+      renderToString(builderContextToSnapshot(builderContext))
+    );
     frameRef.current.contentDocument.close();
   }, [open, builderContext]);
   return (

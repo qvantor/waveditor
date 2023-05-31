@@ -7,7 +7,7 @@ import {
   createBuilderContext,
   getLayoutElement,
   getParentElement,
-  RenderContextObject,
+  EditorSnapshot,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
 import { LeftSidebar } from '../../left-sidebar';
@@ -38,7 +38,7 @@ const Footer = styled.div`
   border-top: 1px solid ${tokens.color.border.primary};
 `;
 
-export const MailBuilder = (props: RenderContextObject) => {
+export const MailBuilder = (props: EditorSnapshot) => {
   const { subscribe, ...builderContext } = createBuilderContext(props);
   useEffect(() => {
     const unsub = subscribe();

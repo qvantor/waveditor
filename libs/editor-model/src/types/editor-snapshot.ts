@@ -1,6 +1,6 @@
 import { Config, Element, Relations, Variables } from '../';
 
-export type RenderContextObject = {
+export type EditorSnapshot = {
   elements: Record<string, Element>;
   relations: Relations;
   config: Config;
