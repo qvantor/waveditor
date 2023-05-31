@@ -1,8 +1,8 @@
 import { JSONContent } from '@tiptap/core';
 import { generateHTML } from '@tiptap/html';
 import {
-  Variables as VariablesType,
   getVariableById,
+  Variables as VariablesType,
 } from '@waveditors/editor-model';
 import { Extensions } from '../constants';
 import { Variables } from '../components/tip-tap-variables-node';

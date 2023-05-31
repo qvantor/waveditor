@@ -5,10 +5,10 @@ import {
   createEmptyElement,
   ElementType,
   generateUniqElementName,
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { tokens } from '@waveditors/theme';
-import { TfiText, TfiImage } from 'react-icons/tfi';
-import { useMailBuilderContext } from '../../../common/hooks';
+import { TfiImage, TfiText } from 'react-icons/tfi';
 
 const Root = styled.div`
   padding: 5px 8px;
@@ -55,18 +55,18 @@ const Element = styled.div`
 `;
 export const CreateElement = () => {
   const {
-    stores: { elements },
-    editor: { externalEvents },
-  } = useMailBuilderContext();
+    model: { elements },
+    editor: { commands },
+  } = useBuilderContext();
   const onMouseDown = useCallback(
     (type: ElementType) => () =>
-      externalEvents.next({
+      commands.next({
         type: 'OutsideDragStarted',
         payload: createEmptyElement(type, {
           name: generateUniqElementName(type, elements),
         }),
       }),
-    [externalEvents, elements]
+    [commands, elements]
   );
   return (
     <Root>

@@ -1,0 +1,1 @@
+export { generateUniqName } from './generator';

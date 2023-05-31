@@ -1,11 +1,7 @@
 import { TextEditor } from '@waveditors/text-editor';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
-import { TextStore } from '@waveditors/editor-model';
-import {
-  TextDumb,
-  TextDumbProps,
-  useRenderContext,
-} from '@waveditors/layout-render';
+import { TextStore, useBuilderContext } from '@waveditors/editor-model';
+import { TextDumb, TextDumbProps } from '@waveditors/layout-render';
 import { useLayoutEditorContext } from '../../hooks';
 
 type Props = {
@@ -14,7 +10,9 @@ type Props = {
 } & Pick<TextDumbProps, 'attributes'>;
 
 const useFindVariables = () => {
-  const { variables } = useRenderContext();
+  const {
+    model: { variables },
+  } = useBuilderContext();
   return (query: string) => {
     return variables
       .getValue()

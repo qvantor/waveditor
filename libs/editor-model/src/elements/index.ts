@@ -42,6 +42,7 @@ export {
   elementsStoreToObject,
   elementsToElementsStore,
   generateUniqElementName,
+  removeSelectedElement,
 } from './elements';
 export type {
   ElementsStoreUndoRedoEvent,

@@ -2,27 +2,29 @@ import { useCallback } from 'react';
 import { map, merge } from 'rxjs';
 import {
   ElementCommon,
+  getConfigFontById,
   getElementFontRelationByElementId,
-  getTemplateConfigFontById,
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
-import { templateConfigFontToStyle, styleMapper } from '../services';
-import { useRenderContext } from './use-render-context';
+import { configFontToStyle, styleMapper } from '../services';
 
 const useFontFamily = (elementId: string) => {
-  const { config, relations } = useRenderContext();
+  const {
+    model: { config, relations },
+  } = useBuilderContext();
   const getFontFamily = useCallback(() => {
     const fontId = getElementFontRelationByElementId(elementId)(
       relations.getValue()
     );
     if (!fontId) return;
-    const font = getTemplateConfigFontById(fontId)(config.getValue());
+    const font = getConfigFontById(fontId)(config.getValue());
     if (!font) return;
-    return templateConfigFontToStyle(font);
+    return configFontToStyle(font);
   }, [elementId, relations, config]);
 
   return useObservable(
-    merge(config, relations).pipe(map(getFontFamily)),
+    merge(config.bs, relations.bs).pipe(map(getFontFamily)),
     getFontFamily(),
     [config, relations]
   );

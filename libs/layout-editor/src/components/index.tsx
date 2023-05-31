@@ -4,9 +4,7 @@ import styled, {
 } from 'styled-components';
 import { Iframe } from '@waveditors/ui-kit';
 import { tokens } from '@waveditors/theme';
-import { RenderContext, RenderContextValue } from '@waveditors/layout-render';
 import { TextEditorStyle } from '@waveditors/text-editor';
-import { Context } from '../types';
 import { EDITOR_ID } from '../constants';
 import { LayoutEditor as LayoutEditorInternal } from './layout-editor';
 
@@ -26,25 +24,15 @@ const Root = styled(Iframe)`
   );
 `;
 
-export const LayoutEditor = (
-  props: Omit<Context, 'internalEvents' | 'internalState' | 'iFrameDocument'> &
-    RenderContext
-) => (
+export const LayoutEditor = () => (
   <Root title='Canvas' id={EDITOR_ID}>
     {({ document }) => (
       <StyleSheetManager target={document.head}>
-        <RenderContextValue.Provider
-          value={{
-            config: props.config,
-            elements: props.elements,
-            relations: props.relations,
-            variables: props.variables,
-          }}
-        >
+        <>
           <GlobalStyle />
           <TextEditorStyle />
-          <LayoutEditorInternal {...props} iFrameDocument={document} />
-        </RenderContextValue.Provider>
+          <LayoutEditorInternal iFrameDocument={document} />
+        </>
       </StyleSheetManager>
     )}
   </Root>

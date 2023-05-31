@@ -1,6 +1,6 @@
 import { ConfigProvider } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';
-import { GlobalStyle, tokens, theme } from '@waveditors/theme';
+import { GlobalStyle, theme, tokens } from '@waveditors/theme';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { MailBuilder } from './mail-builder';
 import { RenderContextStore } from './templates';

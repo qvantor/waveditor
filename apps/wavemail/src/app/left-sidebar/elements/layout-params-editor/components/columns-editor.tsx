@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { LayoutStore, getColumns } from '@waveditors/editor-model';
+import { getColumns, LayoutStore } from '@waveditors/editor-model';
 import {
   selectorToPipe,
   useBsSelector,
@@ -7,7 +7,7 @@ import {
 } from '@waveditors/rxjs-react';
 import { filter } from 'rxjs';
 import { useState } from 'react';
-import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { IconButton } from '../../../../common/components';
 import { AlignEditor } from '../../common/components';
 import { RowContainer, SimpleEditorRow } from '../../../common/components';

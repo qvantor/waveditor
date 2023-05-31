@@ -18,7 +18,7 @@ const VariablesPluginKey = new PluginKey('variables');
 
 export const VariablesStyle = css`
   .variable {
-    background-color: ${theme.color.surface.accentSecondaryHalf};
+    background-color: ${theme.color.surface.accentSecondaryQuarter};
     border-radius: ${theme.borderRadius.m};
     padding: 0 4px;
     color: ${theme.color.text.primary};

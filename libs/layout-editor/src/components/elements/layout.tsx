@@ -32,6 +32,7 @@ export const Layout = ({ element, width, attributes }: Props) => {
   const style = {
     minHeight: isDnd ? getYPadding(layout.style.padding) + 10 : 10,
   };
+
   const columnStyle = isDnd
     ? {
         outline: '1px dashed red',

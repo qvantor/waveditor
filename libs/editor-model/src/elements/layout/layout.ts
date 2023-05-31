@@ -1,13 +1,13 @@
 import { StoreResult } from '@waveditors/rxjs-react';
-import { Lens, fromTraversable } from 'monocle-ts';
+import { fromTraversable, Lens } from 'monocle-ts';
 import { indexArray } from 'monocle-ts/Index/Array';
 import * as A from 'fp-ts/Array';
 import * as O from 'fp-ts/Option';
-import { pipe, flow } from 'fp-ts/function';
+import { flow, pipe } from 'fp-ts/function';
 import { elementStore, ElementStoreDeps } from '../element';
 import { commonUndoRedoEffect } from '../../services';
 import { Align } from '../../types';
-import { Layout, LayoutAddChild, Column } from './layout.types';
+import { Column, Layout, LayoutAddChild } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
 import { recalcProportions } from './layout.services';
 

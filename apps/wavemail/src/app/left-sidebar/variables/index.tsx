@@ -4,11 +4,11 @@ import { font, tokens } from '@waveditors/theme';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { pipe } from 'fp-ts/function';
 import {
-  generateUniqVariableLabel,
   createVariable,
+  generateUniqVariableLabel,
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { IconButton } from '../../common/components';
-import { useMailBuilderContext } from '../../common/hooks';
 import { VariablesList } from './components';
 
 const Header = styled.div`
@@ -26,8 +26,8 @@ const HeaderName = styled.div`
 
 export const Variables = () => {
   const {
-    stores: { variables },
-  } = useMailBuilderContext();
+    model: { variables },
+  } = useBuilderContext();
   const variablesList = useBehaviorSubject(variables.bs);
   const { addVariable } = variables.actions;
   const onAddClick = () =>

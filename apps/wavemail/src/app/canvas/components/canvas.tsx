@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { LayoutEditor } from '@waveditors/layout-editor';
 import { tokens } from '@waveditors/theme';
-import { useMailBuilderContext } from '../../common/hooks';
+import { useBuilderContext } from '@waveditors/editor-model';
 
 const Root = styled.div`
   background-color: ${tokens.color.surface.primary};
@@ -24,23 +24,13 @@ const CanvasContainer = styled.div`
 
 export const Canvas = () => {
   const {
-    config,
-    stores: { elements, selected, hover, relations, variables },
-    editor: { events, externalEvents },
-  } = useMailBuilderContext();
+    interaction: { selected },
+  } = useBuilderContext();
+
   return (
     <Root onClick={selected.actions.unselect}>
       <CanvasContainer>
-        <LayoutEditor
-          config={config.bs}
-          elements={elements.bs}
-          relations={relations.bs}
-          events={events}
-          externalEvents={externalEvents}
-          hover={hover.bs}
-          selected={selected.bs}
-          variables={variables.bs}
-        />
+        <LayoutEditor />
       </CanvasContainer>
     </Root>
   );

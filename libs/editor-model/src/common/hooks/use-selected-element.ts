@@ -1,15 +1,16 @@
-import { useRenderContext } from '@waveditors/layout-render';
 import { useObservable } from '@waveditors/rxjs-react';
-import { map, switchMap, of, merge } from 'rxjs';
-import { getElementById } from '@waveditors/editor-model';
+import { map, merge, of, switchMap } from 'rxjs';
 import { match, P } from 'ts-pattern';
-import { useLayoutEditorContext } from './use-layout-editor-context';
+import { getElementById } from '../../elements';
+import { useBuilderContext } from '../../builder';
 
 export const useSelectedElement = () => {
-  const { elements } = useRenderContext();
-  const { selected } = useLayoutEditorContext();
+  const {
+    model: { elements },
+    interaction: { selected },
+  } = useBuilderContext();
   return useObservable(
-    merge(selected, elements).pipe(
+    merge(selected.bs, elements.bs).pipe(
       switchMap(() =>
         match(selected.getValue())
           .with(P.string, (id) =>

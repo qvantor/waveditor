@@ -1,22 +1,22 @@
-import { Menu, MenuItem, MenuDivider } from '@szhsin/react-menu';
+import { Menu, MenuDivider, MenuItem } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 import { createStore } from '@waveditors/rxjs-react';
-import { RenderContextObject } from '@waveditors/layout-render';
 import { useState } from 'react';
+import { EditorSnapshot } from '@waveditors/editor-model';
 import { HeaderButton } from '../common/components';
 import {
-  getTemplates,
-  getInitialTemplate,
   generateEmptyTemplate,
+  getInitialTemplate,
+  getTemplates,
 } from './services';
 // @todo the whole templates domain is for demo only
 
 export { useSaveRenderContext } from './hooks';
 
-export const RenderContextStore = createStore<RenderContextObject>()
+export const RenderContextStore = createStore<EditorSnapshot>()
   .addActions({
-    set: (value: RenderContextObject) => value,
+    set: (value: EditorSnapshot) => value,
   })
   .run(getInitialTemplate());
 

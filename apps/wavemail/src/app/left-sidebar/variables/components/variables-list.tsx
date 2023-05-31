@@ -2,6 +2,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { Collapse, Segmented } from 'antd';
 import {
   isVariableLabelExist,
+  useBuilderContext,
   Variable,
   VariablesTypes,
 } from '@waveditors/editor-model';
@@ -18,7 +19,6 @@ import {
 } from '../../../common/services';
 import { RowContainer, SimpleEditorRow } from '../../common/components';
 import { CollapseStyled, IconButton, Input } from '../../../common/components';
-import { useMailBuilderContext } from '../../../common/hooks';
 
 const VarHeaderName = styled.div`
   white-space: nowrap;
@@ -65,8 +65,8 @@ const PanelInternal = styled(Collapse.Panel)`
 
 export const VariablesList = () => {
   const {
-    stores: { variables },
-  } = useMailBuilderContext();
+    model: { variables },
+  } = useBuilderContext();
   const variablesList = useBehaviorSubject(variables.bs);
   const { setVariable, removeVariable } = variables.actions;
   const setVariableInternal =

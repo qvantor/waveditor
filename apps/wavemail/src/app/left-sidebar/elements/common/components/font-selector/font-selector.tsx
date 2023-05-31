@@ -1,12 +1,12 @@
 import { Select } from 'antd';
-import { TemplateConfigFont } from '@waveditors/editor-model';
+import { ConfigFont } from '@waveditors/editor-model';
 import styled from 'styled-components';
 import { FontName } from './font-name';
 import { FontEditor, FontEditorProps } from './font-editor';
 
 type Props = {
-  value: TemplateConfigFont;
-  fonts: TemplateConfigFont[];
+  value: ConfigFont;
+  fonts: ConfigFont[];
   onSelected: (fontId: string) => void;
   inherited: boolean;
 } & Pick<FontEditorProps, 'onFontCreate' | 'onFontRemove' | 'onFontChange'>;

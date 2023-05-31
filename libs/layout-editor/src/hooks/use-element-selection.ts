@@ -2,14 +2,17 @@ import { useCallback, useRef } from 'react';
 import { match } from 'ts-pattern';
 import { filter, noop } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
+import { useBuilderContext } from '@waveditors/editor-model';
 import { ELEMENT_DATATYPE } from '../constants';
 import { Context, RootMouseMoveEvent } from '../types';
 
 export const useElementSelection = ({
-  events,
   internalEvents,
   internalState: { isDnd },
 }: Context) => {
+  const {
+    editor: { events },
+  } = useBuilderContext();
   const currentHover = useRef<string | null>(null);
 
   const setHover = useCallback(

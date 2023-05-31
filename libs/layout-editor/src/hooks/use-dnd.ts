@@ -18,13 +18,13 @@ import {
 } from '@waveditors/utils';
 import {
   ElementsStore,
-  getParentElement,
   getElementPosition,
+  getParentElement,
   LayoutAddChild,
   LayoutStore,
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { useCallback, useRef } from 'react';
-import { RenderContext } from '@waveditors/layout-render';
 import { COLUMN_DATATYPE, ELEMENT_DATATYPE } from '../constants';
 import { Context } from '../types';
 
@@ -94,16 +94,15 @@ const calculateNewPosition = (
       samePosition: false,
     }));
 
-export const useDnd = (
-  {
-    internalEvents,
-    internalState: { isDnd, dndPreview },
-    externalEvents,
-    events,
-    iFrameDocument,
-  }: Context,
-  { elements }: RenderContext
-) => {
+export const useDnd = ({
+  internalEvents,
+  internalState: { isDnd, dndPreview },
+  iFrameDocument,
+}: Context) => {
+  const {
+    model: { elements },
+    editor: { events, commands },
+  } = useBuilderContext();
   // emulate mouseUp in case of mouse move out of iFrameDocument
   const emulateMouseUp = useRef(new Subject());
   const mouseMoveSubscription = useRef<Subscription | null>(null);
@@ -117,7 +116,7 @@ export const useDnd = (
     (element: string) =>
       fromEvent<MouseEvent>(iFrameDocument, 'mousemove')
         .pipe(
-          map(detectMousePosition(elements, iFrameDocument)),
+          map(detectMousePosition(elements.bs, iFrameDocument)),
           map((position) => {
             if (!position) return null;
             return {
@@ -179,7 +178,7 @@ export const useDnd = (
   );
   // dnd start on new element from outside
   useSubscription(() =>
-    externalEvents
+    commands
       .pipe(filter(selectByType('OutsideDragStarted')))
       .subscribe(({ payload: element }) => {
         isDnd.next(true);

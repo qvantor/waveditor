@@ -1,16 +1,15 @@
 import React from 'react';
-import { Button } from 'antd';
 import {
   AiOutlineBold,
   AiOutlineItalic,
-  AiOutlineStrikethrough,
-  AiOutlineUnorderedList,
   AiOutlineOrderedList,
+  AiOutlineStrikethrough,
   AiOutlineUnderline,
+  AiOutlineUnorderedList,
 } from 'react-icons/ai';
 import { BubbleMenu, Editor } from '@tiptap/react';
-import styled from 'styled-components';
-import { tokens } from '@waveditors/theme';
+import styled, { css } from 'styled-components';
+import { theme } from '@waveditors/theme';
 
 interface Props {
   editor: Editor;
@@ -19,22 +18,36 @@ interface Props {
 const BubbleMenuInternal = styled(BubbleMenu)`
   display: flex;
   gap: 8px;
-  background: ${tokens.color.surface.quaternary};
-  border-radius: ${tokens.borderRadius.m};
-  border: 1px solid ${tokens.color.border.primary};
-  padding: 5px 8px;
 `;
 
 const Group = styled.div`
   display: flex;
   gap: 2px;
+  background: ${theme.color.surface.primary};
+  border-radius: ${theme.borderRadius.l};
+  padding: 3px 5px;
 `;
 
-const BubbleButton = styled(Button)`
-  line-height: 30px;
+const BubbleButton = styled.button<{ active: boolean }>`
+  height: 20px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${theme.borderRadius.m};
+  cursor: pointer;
 
+  ${({ active }) =>
+    !active &&
+    css`
+      color: ${theme.color.text.accent};
+    `}
   & > svg {
-    font-size: 18px;
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: ${theme.color.surface.primaryHover};
   }
 `;
 
@@ -43,49 +56,43 @@ export const EditorBubbleMenu = ({ editor }: Props) => {
     <BubbleMenuInternal editor={editor}>
       <Group>
         <BubbleButton
-          size='small'
-          type='primary'
-          ghost={!editor.isActive('bold')}
-          icon={<AiOutlineBold />}
+          active={!editor.isActive('bold')}
           onClick={() => editor.chain().focus().toggleBold().run()}
-        />
+        >
+          <AiOutlineBold />
+        </BubbleButton>
         <BubbleButton
-          size='small'
-          type='primary'
-          ghost={!editor.isActive('italic')}
-          icon={<AiOutlineItalic />}
+          active={!editor.isActive('italic')}
           onClick={() => editor.chain().focus().toggleItalic().run()}
-        />
+        >
+          <AiOutlineItalic />
+        </BubbleButton>
         <BubbleButton
-          size='small'
-          type='primary'
-          ghost={!editor.isActive('strike')}
-          icon={<AiOutlineStrikethrough />}
+          active={!editor.isActive('strike')}
           onClick={() => editor.chain().focus().toggleStrike().run()}
-        />
+        >
+          <AiOutlineStrikethrough />
+        </BubbleButton>
         <BubbleButton
-          size='small'
-          type='primary'
-          ghost={!editor.isActive('underline')}
-          icon={<AiOutlineUnderline />}
+          active={!editor.isActive('underline')}
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-        />
+        >
+          <AiOutlineUnderline />
+        </BubbleButton>
       </Group>
       <Group>
         <BubbleButton
-          size='small'
-          type='primary'
-          ghost={!editor.isActive('bulletList')}
-          icon={<AiOutlineUnorderedList />}
+          active={!editor.isActive('bulletList')}
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-        />
+        >
+          <AiOutlineUnorderedList />
+        </BubbleButton>
         <BubbleButton
-          size='small'
-          type='primary'
-          ghost={!editor.isActive('orderedList')}
-          icon={<AiOutlineOrderedList />}
+          active={!editor.isActive('orderedList')}
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        />
+        >
+          <AiOutlineOrderedList />
+        </BubbleButton>
       </Group>
     </BubbleMenuInternal>
   );

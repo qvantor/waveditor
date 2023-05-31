@@ -1,4 +1,4 @@
-import { Element, LayoutAddChild } from '@waveditors/editor-model';
+import { Element, LayoutAddChild } from '../elements';
 
 export type HoverEvents =
   | { type: 'MouseEnter'; payload: string }

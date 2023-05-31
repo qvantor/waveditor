@@ -9,8 +9,8 @@ import {
 import { CollapseStyled } from '../../../common/components';
 import {
   BackgroundEditor,
-  PaddingEditor,
   BorderRadiusEditor,
+  PaddingEditor,
 } from './components';
 
 interface Props {

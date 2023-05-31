@@ -1,9 +1,9 @@
 import { Background } from '@waveditors/editor-model';
 import { useCallback } from 'react';
 import {
+  BackgroundRepeatSelector,
   ColorPicker,
   ImageUrlInput,
-  BackgroundRepeatSelector,
 } from '../../../../common/components';
 import { RowContainer, SimpleEditorRow } from '../../../common/components';
 

@@ -1,9 +1,12 @@
-import { useRenderContext } from '@waveditors/layout-render';
 import styled from 'styled-components';
+import {
+  useBuilderContext,
+  useSelectedElement,
+} from '@waveditors/editor-model';
 import { font, theme } from '@waveditors/theme';
 import { RxDragHandleDots2 } from 'react-icons/rx';
 import { useCallback } from 'react';
-import { useLayoutEditorContext, useSelectedElement } from '../../hooks';
+import { useLayoutEditorContext } from '../../hooks';
 
 const CONTROL_HEIGHT = 16;
 
@@ -42,8 +45,11 @@ interface Props {
 }
 
 export const FrameControl = ({ top, width }: Props) => {
-  const { config } = useRenderContext();
-  const { selected, internalEvents } = useLayoutEditorContext();
+  const {
+    model: { config },
+    interaction: { selected },
+  } = useBuilderContext();
+  const { internalEvents } = useLayoutEditorContext();
   const element = useSelectedElement();
   const onMouseDown = useCallback(() => {
     const payload = selected.getValue();

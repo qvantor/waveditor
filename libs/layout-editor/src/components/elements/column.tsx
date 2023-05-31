@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { ColumnDumb } from '@waveditors/layout-render';
-import { LinkElementToLayoutEvent } from '../../types';
+import { LinkElementToLayoutEvent } from '@waveditors/editor-model';
 import { Element } from './element';
 
 interface Props {

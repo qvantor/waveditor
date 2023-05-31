@@ -1,13 +1,12 @@
 import { MouseEvent, useMemo } from 'react';
 import { Subject } from 'rxjs';
 import styled from 'styled-components';
-import {
-  Head,
-  useSetBodyStyle,
-  useRenderContext,
-} from '@waveditors/layout-render';
+import { Head, useSetBodyStyle } from '@waveditors/layout-render';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { getTemplateConfigRootElementId } from '@waveditors/editor-model';
+import {
+  getConfigRootElementId,
+  useBuilderContext,
+} from '@waveditors/editor-model';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
 import { useDnd, useElementSelection, useInternalState } from '../hooks';
 import { ContextValue } from '../constants';
@@ -21,39 +20,41 @@ const Root = styled.div`
 `;
 
 const RenderElement = () => {
-  const { config } = useRenderContext();
-  const rootElementId = useBsSelector(config, getTemplateConfigRootElementId);
+  const {
+    model: { config },
+  } = useBuilderContext();
+  const rootElementId = useBsSelector(config.bs, getConfigRootElementId);
   const width = config.getValue().viewportWidth;
   return <Element id={rootElementId} width={width} />;
 };
 
-export function LayoutEditor(
-  props: Omit<Context, 'internalEvents' | 'internalState'>
-) {
+export function LayoutEditor({ iFrameDocument }: { iFrameDocument: Document }) {
   const internalState = useInternalState();
-  const renderContext = useRenderContext();
 
-  const { internalEvents, rootMouseMove, rootClick, rootMouseLeave } =
-    useMemo(() => {
-      const internalEvents = new Subject<InternalEvents>();
-      const generalMouseEvent =
-        (type: InternalMouseEvents['type']) => (payload: MouseEvent) =>
-          internalEvents.next({ type, payload });
+  const context = useMemo(() => {
+    const internalEvents = new Subject<InternalEvents>();
+    const context: Context = {
+      internalState,
+      internalEvents,
+      iFrameDocument,
+    };
+    return context;
+  }, [internalState, iFrameDocument]);
 
-      const rootMouseMove = generalMouseEvent('RootMouseMove');
-      const rootClick = generalMouseEvent('RootClick');
-      const rootMouseLeave = generalMouseEvent('RootMouseLeave');
-      return { internalEvents, rootMouseMove, rootClick, rootMouseLeave };
-    }, []);
-  const context: Context = {
-    ...props,
-    internalState,
-    internalEvents,
-  };
+  const { rootMouseMove, rootClick, rootMouseLeave } = useMemo(() => {
+    const generalMouseEvent =
+      (type: InternalMouseEvents['type']) => (payload: MouseEvent) =>
+        context.internalEvents.next({ type, payload });
+
+    const rootMouseMove = generalMouseEvent('RootMouseMove');
+    const rootClick = generalMouseEvent('RootClick');
+    const rootMouseLeave = generalMouseEvent('RootMouseLeave');
+    return { rootMouseMove, rootClick, rootMouseLeave };
+  }, [context]);
+
   useElementSelection(context);
-  useDnd(context, renderContext);
-
-  useSetBodyStyle(props.iFrameDocument);
+  useDnd(context);
+  useSetBodyStyle(iFrameDocument);
 
   return (
     <ContextValue.Provider value={context}>

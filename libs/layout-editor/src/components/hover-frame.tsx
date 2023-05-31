@@ -1,7 +1,8 @@
 import { useObservable } from '@waveditors/rxjs-react';
 import styled from 'styled-components';
-import { map, switchMap, merge, of } from 'rxjs';
+import { map, merge, of, switchMap } from 'rxjs';
 import { theme } from '@waveditors/theme';
+import { useBuilderContext } from '@waveditors/editor-model';
 import { resizeObservable } from '../services';
 import { useLayoutEditorContext } from '../hooks';
 
@@ -13,10 +14,13 @@ export const FrameRoot = styled.div`
 `;
 
 export const HoverFrame = () => {
-  const { hover, selected, iFrameDocument } = useLayoutEditorContext();
+  const {
+    interaction: { hover, selected },
+  } = useBuilderContext();
+  const { iFrameDocument } = useLayoutEditorContext();
 
   const rect = useObservable(
-    merge(hover, selected).pipe(
+    merge(hover.bs, selected.bs).pipe(
       map(() => hover.getValue()),
       switchMap((value) => {
         if (value === null || value === selected.getValue()) return of(null);

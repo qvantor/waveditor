@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useObservable } from '@waveditors/rxjs-react';
-import { switchMap, map, delay, filter, of } from 'rxjs';
+import { delay, filter, map, of, switchMap } from 'rxjs';
 import { theme } from '@waveditors/theme';
 import { match, P } from 'ts-pattern';
+import { useBuilderContext } from '@waveditors/editor-model';
 import { useLayoutEditorContext } from '../../hooks';
 import { resizeObservable } from '../../services';
 import { FrameRoot } from '../hover-frame';
@@ -15,9 +16,12 @@ const SelectedRect = styled(FrameRoot)`
 `;
 
 export const SelectedFrame = () => {
-  const { selected, iFrameDocument } = useLayoutEditorContext();
+  const {
+    interaction: { selected },
+  } = useBuilderContext();
+  const { iFrameDocument } = useLayoutEditorContext();
   const rect = useObservable(
-    selected.pipe(
+    selected.bs.pipe(
       switchMap((value) =>
         match(value)
           .with(P.string, (id) =>

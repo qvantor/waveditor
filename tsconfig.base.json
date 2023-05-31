@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@waveditors/core": ["libs/core/src/index.ts"],
       "@waveditors/editor-model": ["libs/editor-model/src/index.ts"],
       "@waveditors/email-render": ["libs/email-render/src/index.ts"],
       "@waveditors/layout-editor": ["libs/layout-editor/src/index.ts"],

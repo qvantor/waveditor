@@ -1,18 +1,18 @@
 import {
+  forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
-  forwardRef,
   useState,
-  useCallback,
 } from 'react';
-import { useEditor, EditorContent, ReactRenderer } from '@tiptap/react';
+import { EditorContent, ReactRenderer, useEditor } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
 import { deepEqual } from 'fast-equals';
 import tippy, { Instance } from 'tippy.js';
 import { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion';
 import styled, { createGlobalStyle, css } from 'styled-components';
 import { font, theme } from '@waveditors/theme';
-import { Variables as VariablesType, Variable } from '@waveditors/editor-model';
+import { Variable, Variables as VariablesType } from '@waveditors/editor-model';
 import { Extensions } from '../constants';
 import { EditorBubbleMenu } from './editor-bubble-menu';
 import { Variables, VariablesStyle } from './tip-tap-variables-node';
@@ -182,7 +182,7 @@ const VariablesList = forwardRef<VariablesListRef, VariablesListProps>(
       <Root onClick={(e) => e.stopPropagation()}>
         {variables.map((variable, index) => (
           <VariableItem
-            onClick={(e) => selectItem(index)}
+            onClick={() => selectItem(index)}
             selected={index === selected}
             key={variable.label}
           >

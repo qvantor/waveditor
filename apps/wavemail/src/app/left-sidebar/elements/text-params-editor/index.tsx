@@ -2,8 +2,8 @@ import React from 'react';
 import { Collapse } from 'antd';
 import {
   getElementFontSize,
-  getElementLineHeight,
   getElementLetterSpacing,
+  getElementLineHeight,
   TextStore,
 } from '@waveditors/editor-model';
 import { AiOutlineFontSize, AiOutlineLineHeight } from 'react-icons/ai';
@@ -11,7 +11,7 @@ import { RxLetterSpacing } from 'react-icons/rx';
 import styled from 'styled-components';
 import { CollapseStyled } from '../../../common/components';
 import { Font } from '../common/components';
-import { PxValue, TextAlign, Color } from './components';
+import { Color, PxValue, TextAlign } from './components';
 
 const Root = styled.div`
   display: flex;

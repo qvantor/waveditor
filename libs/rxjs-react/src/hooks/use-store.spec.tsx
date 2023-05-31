@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { BehaviorSubject } from 'rxjs';
-import { useStore, createStore } from '../';
+import { createStore, useStore } from '../';
 
 type SimpleStore = { name: string; age: number };
 const simpleInitial = () => {

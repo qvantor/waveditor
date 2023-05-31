@@ -6,12 +6,13 @@ import {
   ElementStore,
   getElementName,
   getElementType,
+  removeSelectedElement,
+  useAction,
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { BehaviorSubject } from 'rxjs';
 import { IconButton, Input } from '../../../../common/components';
-import { useRemoveSelected } from '../../../../common/actions-hooks';
-import { validate, required, maxLength } from '../../../../common/services';
+import { maxLength, required, validate } from '../../../../common/services';
 
 const NameInput = styled(Input)`
   background: transparent;
@@ -43,7 +44,7 @@ interface Props {
 }
 
 export const ElementEditorHeader = ({ element }: Props) => {
-  const removeSelected = useRemoveSelected();
+  const removeSelected = useAction(removeSelectedElement);
   const name = useBsSelector(
     element.bs as BehaviorSubject<Element>,
     getElementName

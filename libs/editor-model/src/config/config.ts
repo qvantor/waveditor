@@ -4,21 +4,17 @@ import {
   UndoRedoModule,
 } from '@waveditors/rxjs-react';
 import { UndoRedoEvents } from '../types';
-import {
-  FontChangedPayload,
-  TemplateConfig,
-  TemplateConfigFont,
-} from './template-config.types';
+import { Config, ConfigFont, FontChangedPayload } from './config.types';
 
-export const templateConfigStoreConstructor = ({
+export const configStoreConstructor = ({
   undoRedo: { createUndoRedoEffect },
 }: {
   undoRedo: UndoRedoModule<UndoRedoEvents>;
 }) =>
-  createStore<TemplateConfig>()
+  createStore<Config>()
     .addActions({
       setName: (name: string, state) => ({ ...state, name }),
-      addFont: (font: TemplateConfigFont, state) => ({
+      addFont: (font: ConfigFont, state) => ({
         ...state,
         fonts: [...state.fonts, font],
       }),
@@ -26,7 +22,7 @@ export const templateConfigStoreConstructor = ({
         ...state,
         fonts: state.fonts.filter((font) => font.id !== fontId),
       }),
-      setFont: ({ id, value }: FontChangedPayload, state: TemplateConfig) => ({
+      setFont: ({ id, value }: FontChangedPayload, state) => ({
         ...state,
         fonts: state.fonts.map((font) => {
           if (font.id !== id) return font;
@@ -34,8 +30,6 @@ export const templateConfigStoreConstructor = ({
         }),
       }),
     })
-    .addEffect(createUndoRedoEffect('TemplateStore'));
+    .addEffect(createUndoRedoEffect('ConfigStore'));
 
-export type TemplateConfigStore = StoreHookResult<
-  typeof templateConfigStoreConstructor
->;
+export type ConfigStore = StoreHookResult<typeof configStoreConstructor>;

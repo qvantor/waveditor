@@ -10,6 +10,7 @@ export const theme = {
   },
   borderRadius: {
     m: '4px',
+    l: '6px',
   },
   color: {
     surface: {
@@ -22,7 +23,7 @@ export const theme = {
       accentQuarter: 'rgba(52,152,219, 0.25)',
       danger: '#f9d2ce',
       accentSecondary: '#27ae60',
-      accentSecondaryHalf: 'rgba(39,174,96, 0.5)',
+      accentSecondaryQuarter: 'rgba(39,174,96, 0.25)',
     },
     border: {
       primary: '#E8EBEB',
@@ -33,6 +34,7 @@ export const theme = {
       secondary: '#7f8c8d',
       tertiary: '#fff',
       danger: '#e74c3c',
+      accent: '#3498db',
     },
   },
   typography: {

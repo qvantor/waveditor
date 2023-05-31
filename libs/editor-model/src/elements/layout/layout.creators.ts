@@ -1,5 +1,5 @@
 import { generateId } from '@waveditors/utils';
-import { Layout, Column } from './layout.types';
+import { Column, Layout } from './layout.types';
 
 type Params = {
   name?: string;

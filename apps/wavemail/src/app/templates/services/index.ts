@@ -1,9 +1,9 @@
-import { RenderContextObject } from '@waveditors/layout-render';
 import { generateId } from '@waveditors/utils';
 import {
-  createInitialRelations,
-  createInitialTemplateConfig,
   createEmptyColumn,
+  createInitialConfig,
+  createInitialRelations,
+  EditorSnapshot,
 } from '@waveditors/editor-model';
 import { LOCAL_STORAGE_KEY } from '../constants';
 import DemoTemplates from '../constants/demo.json';
@@ -44,16 +44,16 @@ const initialTemplates = () => {
 };
 export const getTemplates = () => {
   const value = localStorage.getItem(LOCAL_STORAGE_KEY);
-  const savedProjects: Record<string, RenderContextObject> = value
+  const savedProjects: Record<string, EditorSnapshot> = value
     ? JSON.parse(value)
     : initialTemplates();
   return savedProjects;
 };
 
-export const generateEmptyTemplate = (): RenderContextObject => {
+export const generateEmptyTemplate = (): EditorSnapshot => {
   const rootId = generateId();
   return {
-    config: createInitialTemplateConfig(rootId),
+    config: createInitialConfig(rootId),
     elements: {
       [rootId]: {
         id: rootId,
@@ -74,7 +74,7 @@ export const generateEmptyTemplate = (): RenderContextObject => {
     variables: [],
   };
 };
-export const getInitialTemplate = (): RenderContextObject => {
+export const getInitialTemplate = (): EditorSnapshot => {
   const templates = getTemplates();
   const keys = Object.keys(templates);
   if (keys.length > 0) return templates[keys[0]];

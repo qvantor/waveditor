@@ -1,11 +1,12 @@
 import { filter, fromEvent, merge } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
-import { message } from 'antd';
 import {
-  useMailBuilderContext,
-  useEditorKeyboardEvents,
-} from '../../common/hooks';
-import { useRemoveSelected } from '../../common/actions-hooks';
+  removeSelectedElement,
+  useAction,
+  useBuilderContext,
+} from '@waveditors/editor-model';
+import { message } from 'antd';
+import { useEditorKeyboardEvents } from '../../common/hooks';
 import { useSaveRenderContext } from '../../templates';
 
 const HotkeyActions = {
@@ -19,9 +20,9 @@ const HotkeyActions = {
 export const Hotkeys = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const {
-    modules: { undoRedo },
-  } = useMailBuilderContext();
-  const removeSelected = useRemoveSelected();
+    module: { undoRedo },
+  } = useBuilderContext();
+  const removeSelected = useAction(removeSelectedElement);
   const editorKeyboardEvents = useEditorKeyboardEvents();
   const saveRenderContext = useSaveRenderContext();
 

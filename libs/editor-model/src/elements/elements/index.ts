@@ -13,3 +13,4 @@ export {
   elementToElementStore,
   elementsToElementsStore,
 } from './elements.creators';
+export * from './elements.actions';

@@ -7,9 +7,9 @@ import {
 } from 'react';
 import {
   createStore,
-  useStore,
   useBehaviorSubject,
   useBsSelector,
+  useStore,
 } from '@waveditors/rxjs-react';
 import styled from 'styled-components';
 import { font, tokens } from '@waveditors/theme';

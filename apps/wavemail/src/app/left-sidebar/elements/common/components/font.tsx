@@ -1,17 +1,16 @@
 import { map, merge } from 'rxjs';
 import {
+  addConfigFont,
   ElementStore,
-  getTemplateConfigFonts,
-  getTemplateConfigFontById,
+  getConfigFontById,
+  getConfigFonts,
   getElementFontRelationByElementId,
   getTemplateDefaultFont,
+  removeConfigFontById,
+  useAction,
+  useBuilderContext,
 } from '@waveditors/editor-model';
 import { useBsSelector, useObservable } from '@waveditors/rxjs-react';
-import { useMailBuilderContext } from '../../../../common/hooks';
-import {
-  useCreateTemplateConfigFont,
-  useRemoveTemplateConfigFont,
-} from '../../../../common/actions-hooks';
 import { FontSelector } from './font-selector';
 
 interface Props {
@@ -20,11 +19,10 @@ interface Props {
 
 export const Font = ({ element }: Props) => {
   const {
-    config,
-    stores: { relations },
-  } = useMailBuilderContext();
-  const createFont = useCreateTemplateConfigFont();
-  const removeFont = useRemoveTemplateConfigFont();
+    model: { config, relations },
+  } = useBuilderContext();
+  const createFont = useAction(addConfigFont);
+  const removeFont = useAction(removeConfigFontById);
   const elementFont = useObservable(
     merge(relations.bs, config.bs).pipe(
       map(() =>
@@ -33,9 +31,7 @@ export const Font = ({ element }: Props) => {
         )
       ),
       map((relation) =>
-        relation
-          ? getTemplateConfigFontById(relation)(config.getValue()) ?? null
-          : null
+        relation ? getConfigFontById(relation)(config.getValue()) ?? null : null
       )
     ),
     null,
@@ -44,7 +40,7 @@ export const Font = ({ element }: Props) => {
 
   // @todo here should be font from closest parent
   const inheritedFont = useBsSelector(config.bs, getTemplateDefaultFont);
-  const fonts = useBsSelector(config.bs, getTemplateConfigFonts);
+  const fonts = useBsSelector(config.bs, getConfigFonts);
 
   const font = elementFont || inheritedFont;
   return (
