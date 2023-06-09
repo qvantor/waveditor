@@ -1,0 +1,10 @@
+query Template($templateId: Int!) {
+  template(id: $templateId) {
+    name
+    versions {
+      json
+      name
+      createdAt
+    }
+  }
+}

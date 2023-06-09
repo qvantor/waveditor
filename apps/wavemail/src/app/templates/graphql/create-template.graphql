@@ -1,0 +1,5 @@
+mutation CreateTemplate($data: CreateTemplate!) {
+  createTemplate(data: $data) {
+    id
+  }
+}

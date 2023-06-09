@@ -1,0 +1,15 @@
+type TemplateVersion {
+  id: Int!
+  name: String
+  json: JSON!
+  createdAt: String!
+  templateId: Int!
+}
+
+type Template {
+  id: Int!
+  name: String!
+  userId: Int!
+  creator: User
+  versions(limit: Int): [TemplateVersion!]
+}

@@ -15,3 +15,13 @@ export const mapValue = <T, R, L = null>(
 
 export const optionalApply = <T, V>(fn: (value: T) => V, value?: T | null) =>
   value ? fn(value) : undefined;
+
+export const tryCatch =
+  <R, A extends unknown[] = []>(fn: (...args: A) => R) =>
+  (...args: A): [Error, null] | [null, R] => {
+    try {
+      return [null, fn(...args)];
+    } catch (e) {
+      return [e as Error, null];
+    }
+  };

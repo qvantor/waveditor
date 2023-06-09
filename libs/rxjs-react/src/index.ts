@@ -9,3 +9,4 @@ export {
 } from './hooks';
 export { createStore, selectorToPipe } from './services';
 export * from './modules';
+export * from './utils';

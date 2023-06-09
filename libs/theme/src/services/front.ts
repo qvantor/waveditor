@@ -2,7 +2,7 @@ import { css } from 'styled-components';
 import { theme } from '../constants';
 
 interface Params {
-  type?: 'paragraph';
+  type?: 'paragraph' | 'header';
   size?: 'smallest' | 'small' | 'medium' | 'large';
   weight?: 'light' | 'medium' | 'bold';
 }

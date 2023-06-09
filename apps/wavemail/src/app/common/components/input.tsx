@@ -8,7 +8,7 @@ type Props = {
   value?: string;
   onChange?: (value?: string) => void;
   validate?: (value?: string) => string | void;
-} & Omit<InputProps, 'onChange' | 'value' | 'size'>;
+} & Omit<InputProps, 'onChange' | 'value'>;
 
 const ErrorContent = styled.div`
   display: flex;

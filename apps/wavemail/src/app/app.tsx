@@ -1,12 +1,15 @@
 import { ConfigProvider } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { GlobalStyle, theme, tokens } from '@waveditors/theme';
-import { useBehaviorSubject } from '@waveditors/rxjs-react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
 import { MailBuilder } from './mail-builder';
-import { RenderContextStore } from './templates';
+import { TemplatesList } from './templates';
+import { AUTH, BUILDER, ROOT } from './common/constants';
+import { Auth, AuthRoute } from './auth';
+import { client } from './common/services';
 
 export function App() {
-  const renderContextObject = useBehaviorSubject(RenderContextStore.bs);
   return (
     <StyleProvider container={document.head}>
       <ConfigProvider
@@ -25,7 +28,23 @@ export function App() {
         }}
       >
         <GlobalStyle />
-        <MailBuilder {...renderContextObject} />
+        <ApolloProvider client={client}>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path={ROOT}
+                element={
+                  <AuthRoute>
+                    <TemplatesList />
+                  </AuthRoute>
+                }
+              />
+              <Route path={AUTH} element={<Auth />} />
+              <Route path={BUILDER} element={<MailBuilder />} />
+              <Route path='*' element={<Navigate to={ROOT} />} />
+            </Routes>
+          </BrowserRouter>
+        </ApolloProvider>
       </ConfigProvider>
     </StyleProvider>
   );

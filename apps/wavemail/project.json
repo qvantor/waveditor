@@ -50,7 +50,8 @@
       "options": {
         "buildTarget": "wavemail:build",
         "hmr": true,
-        "port": 4000
+        "port": 4000,
+        "proxyConfig": "apps/wavemail/proxy.conf.json"
       },
       "configurations": {
         "development": {

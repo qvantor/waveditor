@@ -9,7 +9,6 @@ import {
   useBuilderContext,
   builderContextToSnapshot,
 } from '@waveditors/editor-model';
-import { Templates } from '../templates';
 import { HeaderButton, Input } from '../common/components';
 import { emailValidation } from '../common/services';
 
@@ -89,7 +88,7 @@ export const Header = () => {
     <>
       {contextHolder}
       <Root>
-        <Templates />
+        <div />
         <NameInput
           value={name}
           onChange={(name) => config.actions.setName(name ?? '')}

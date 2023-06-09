@@ -1,0 +1,15 @@
+query Templates {
+  templates {
+    id
+    name
+    creator {
+      firstName
+      lastName
+    }
+    versions(limit: 1) {
+      name
+      json
+      createdAt
+    }
+  }
+}

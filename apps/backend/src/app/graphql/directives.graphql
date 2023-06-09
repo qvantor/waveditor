@@ -1,0 +1,2 @@
+directive @auth on FIELD_DEFINITION
+scalar JSON

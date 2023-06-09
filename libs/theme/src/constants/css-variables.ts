@@ -44,6 +44,12 @@ export const theme = {
       medium: 'font-size: 16px;',
       large: 'font-size: 18px;',
     },
+    header: {
+      smallest: 'font-size: 16px',
+      small: 'font-size: 18px',
+      medium: 'font-size: 24px',
+      large: 'font-size: 32px',
+    },
   },
   fontWeight: {
     light: '200',

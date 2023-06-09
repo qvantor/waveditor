@@ -1,0 +1,4 @@
+type Query {
+  # Returns the current user.
+  me: User! @auth
+}

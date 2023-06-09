@@ -1,0 +1,1 @@
+export { prismaToGql } from './prisma';

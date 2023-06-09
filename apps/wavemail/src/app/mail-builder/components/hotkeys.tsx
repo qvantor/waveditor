@@ -7,7 +7,6 @@ import {
 } from '@waveditors/editor-model';
 import { message } from 'antd';
 import { useEditorKeyboardEvents } from '../../common/hooks';
-import { useSaveRenderContext } from '../../templates';
 
 const HotkeyActions = {
   undo: 'KeyZ',
@@ -24,7 +23,6 @@ export const Hotkeys = () => {
   } = useBuilderContext();
   const removeSelected = useAction(removeSelectedElement);
   const editorKeyboardEvents = useEditorKeyboardEvents();
-  const saveRenderContext = useSaveRenderContext();
 
   useSubscription(() => {
     const keyboardEvents = fromEvent<KeyboardEvent>(document, 'keydown');
@@ -50,7 +48,7 @@ export const Hotkeys = () => {
             return undoRedo.redo.next();
           case HotkeyActions.save: {
             messageApi.info('Saved successfully');
-            return saveRenderContext();
+            return console.log('save here');
           }
           case HotkeyActions.remove:
             return removeSelected();
