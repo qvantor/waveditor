@@ -40,7 +40,14 @@ export function App() {
                 }
               />
               <Route path={AUTH} element={<Auth />} />
-              <Route path={BUILDER} element={<MailBuilder />} />
+              <Route
+                path={BUILDER}
+                element={
+                  <AuthRoute>
+                    <MailBuilder />
+                  </AuthRoute>
+                }
+              />
               <Route path='*' element={<Navigate to={ROOT} />} />
             </Routes>
           </BrowserRouter>

@@ -1,4 +1,4 @@
-import { createStore, StoreHookResult } from '@waveditors/rxjs-react';
+import { createStore, StoreResult } from '@waveditors/rxjs-react';
 
 export const selectedStoreConstructor = () =>
   createStore<string | null>().addActions({
@@ -6,4 +6,4 @@ export const selectedStoreConstructor = () =>
     unselect: () => null,
   });
 
-export type SelectedStore = StoreHookResult<typeof selectedStoreConstructor>;
+export type SelectedStore = StoreResult<typeof selectedStoreConstructor>;

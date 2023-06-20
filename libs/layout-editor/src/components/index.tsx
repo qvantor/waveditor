@@ -1,9 +1,5 @@
-import styled, {
-  createGlobalStyle,
-  StyleSheetManager,
-} from 'styled-components';
+import { createGlobalStyle, StyleSheetManager } from 'styled-components';
 import { Iframe } from '@waveditors/ui-kit';
-import { tokens } from '@waveditors/theme';
 import { TextEditorStyle } from '@waveditors/text-editor';
 import { EDITOR_ID } from '../constants';
 import { LayoutEditor as LayoutEditorInternal } from './layout-editor';
@@ -18,14 +14,13 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 `;
-const Root = styled(Iframe)`
-  height: calc(
-    100vh - ${tokens.size.headerHeight} - ${tokens.size.footerHeight}
-  );
-`;
 
-export const LayoutEditor = () => (
-  <Root title='Canvas' id={EDITOR_ID}>
+interface Props {
+  className?: string;
+}
+
+export const LayoutEditor = ({ className }: Props) => (
+  <Iframe title='Canvas' id={EDITOR_ID} className={className}>
     {({ document }) => (
       <StyleSheetManager target={document.head}>
         <>
@@ -35,5 +30,5 @@ export const LayoutEditor = () => (
         </>
       </StyleSheetManager>
     )}
-  </Root>
+  </Iframe>
 );

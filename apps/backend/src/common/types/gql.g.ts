@@ -56,6 +56,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createTemplate: Template;
   googleAuth: AuthSuccess;
+  updateVersion: TemplateVersion;
 };
 
 export type MutationCreateTemplateArgs = {
@@ -64,6 +65,11 @@ export type MutationCreateTemplateArgs = {
 
 export type MutationGoogleAuthArgs = {
   auth: GoogleAuth;
+};
+
+export type MutationUpdateVersionArgs = {
+  json: Scalars['JSON']['input'];
+  templateId: Scalars['Int']['input'];
 };
 
 export type Query = {
@@ -87,16 +93,19 @@ export type Template = {
 };
 
 export type TemplateVersionsArgs = {
+  cursor?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type TemplateVersion = {
   __typename?: 'TemplateVersion';
   createdAt: Scalars['String']['output'];
+  creator?: Maybe<User>;
   id: Scalars['Int']['output'];
   json: Scalars['JSON']['output'];
   name?: Maybe<Scalars['String']['output']>;
   templateId: Scalars['Int']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 export type User = {
@@ -287,6 +296,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationGoogleAuthArgs, 'auth'>
   >;
+  updateVersion?: Resolver<
+    ResolversTypes['TemplateVersion'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateVersionArgs, 'json' | 'templateId'>
+  >;
 }>;
 
 export type QueryResolvers<
@@ -329,10 +344,12 @@ export type TemplateVersionResolvers<
   ParentType extends ResolversParentTypes['TemplateVersion'] = ResolversParentTypes['TemplateVersion']
 > = ResolversObject<{
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   json?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   templateId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

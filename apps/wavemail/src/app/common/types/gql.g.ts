@@ -47,6 +47,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createTemplate: Template;
   googleAuth: AuthSuccess;
+  updateVersion: TemplateVersion;
 };
 
 export type MutationCreateTemplateArgs = {
@@ -55,6 +56,11 @@ export type MutationCreateTemplateArgs = {
 
 export type MutationGoogleAuthArgs = {
   auth: GoogleAuth;
+};
+
+export type MutationUpdateVersionArgs = {
+  json: Scalars['JSON']['input'];
+  templateId: Scalars['Int']['input'];
 };
 
 export type Query = {
@@ -78,16 +84,19 @@ export type Template = {
 };
 
 export type TemplateVersionsArgs = {
+  cursor?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type TemplateVersion = {
   __typename?: 'TemplateVersion';
   createdAt: Scalars['String']['output'];
+  creator?: Maybe<User>;
   id: Scalars['Int']['output'];
   json: Scalars['JSON']['output'];
   name?: Maybe<Scalars['String']['output']>;
   templateId: Scalars['Int']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 export type User = {

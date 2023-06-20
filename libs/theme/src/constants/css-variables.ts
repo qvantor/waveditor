@@ -29,6 +29,9 @@ export const theme = {
       primary: '#E8EBEB',
       secondary: '#E3E6E6',
     },
+    element: {
+      primary: '#bdc3c7',
+    },
     text: {
       primary: '#121417',
       secondary: '#7f8c8d',

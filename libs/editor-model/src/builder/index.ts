@@ -1,5 +1,6 @@
 export {
   createBuilderContext,
+  builderSubscribe,
   builderContextToSnapshot,
   createEmptySnapshot,
 } from './services';

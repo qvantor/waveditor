@@ -48,5 +48,14 @@ export const client = new ApolloClient({
     authLink,
     httpLink,
   ]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Template: {
+        keyFields: ['id'],
+      },
+      TemplateVersion: {
+        keyFields: ['id'],
+      },
+    },
+  }),
 });

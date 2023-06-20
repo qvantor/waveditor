@@ -1,3 +1,4 @@
 type Mutation {
   createTemplate(data: CreateTemplate!): Template! @auth
+  updateVersion(templateId: Int!, json: JSON!): TemplateVersion! @auth
 }

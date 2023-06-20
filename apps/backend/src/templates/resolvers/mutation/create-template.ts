@@ -13,7 +13,7 @@ export const createTemplate: MutationResolvers['createTemplate'] = (
       },
       name: `${user.firstName} ${user.lastName} untitled template`,
       versions: {
-        create: [{ json: args.data.json }],
+        create: [{ json: args.data.json, userId: user.id }],
       },
     },
   });

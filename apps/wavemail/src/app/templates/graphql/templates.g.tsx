@@ -19,6 +19,7 @@ export type TemplatesQuery = {
     } | null;
     versions?: Array<{
       __typename?: 'TemplateVersion';
+      id: number;
       name?: string | null;
       json: any;
       createdAt: string;
@@ -36,6 +37,7 @@ export const TemplatesDocument = gql`
         lastName
       }
       versions(limit: 1) {
+        id
         name
         json
         createdAt

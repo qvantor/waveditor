@@ -1,1 +1,1 @@
-export { MailBuilder } from './components';
+export { MailBuilder } from './common/components';

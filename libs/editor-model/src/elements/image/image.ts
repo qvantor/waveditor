@@ -1,7 +1,6 @@
 import { selectorToPipe, StoreResult } from '@waveditors/rxjs-react';
 import { catchError, from, map, of, switchMap } from 'rxjs';
 import { elementStore, ElementStoreDeps } from '../element';
-import { commonUndoRedoEffect } from '../../services';
 import type { Image } from './image.types';
 import { getImageUrl } from './image.selectors';
 
@@ -15,7 +14,7 @@ const getImageSize = (url: string) =>
     img.src = url;
   });
 
-export const imageStore = (deps: ElementStoreDeps) =>
+export const imageStore = (_: ElementStoreDeps) =>
   elementStore<Image>()
     .addActions({
       setImageUrl: (url: string, image) => ({
@@ -40,8 +39,5 @@ export const imageStore = (deps: ElementStoreDeps) =>
           )
           .subscribe(actions.setMeta),
       ],
-    }))
-    .addEffect(
-      commonUndoRedoEffect(deps.undoRedo, { filterActions: ['setMeta'] })
-    );
+    }));
 export type ImageStore = StoreResult<typeof imageStore>;

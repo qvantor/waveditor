@@ -9,8 +9,15 @@ export const Template: Resolvers['Template'] = {
     prisma.templateVersion
       .findMany({
         where: { templateId: parent.id },
-        orderBy: { createdAt: 'asc' },
+        orderBy: { createdAt: 'desc' },
         take: args.limit ?? undefined,
+        cursor: args.cursor ? { id: args.cursor } : undefined,
+        include: { creator: {} },
       })
-      .then((result) => result.map(prismaToGql)),
+      .then((result) =>
+        result.map((version) => ({
+          ...prismaToGql(version),
+          creator: prismaToGql(version.creator),
+        }))
+      ),
 };
