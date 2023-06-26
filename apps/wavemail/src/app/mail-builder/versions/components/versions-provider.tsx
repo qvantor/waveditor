@@ -12,6 +12,7 @@ const VersionsLoader = () => {
   const versions = useVersionsContext();
   const { data } = useTemplateQuery({
     variables: { templateId },
+    fetchPolicy: 'network-only',
   });
 
   useEffect(() => {

@@ -3,7 +3,6 @@ import { Config, ConfigFont, FontChangedPayload } from './config.types';
 
 export const configStoreConstructor = () =>
   createStore<Config>().addActions({
-    setName: (name: string, state) => ({ ...state, name }),
     addFont: (font: ConfigFont, state) => ({
       ...state,
       fonts: [...state.fonts, font],

@@ -12,7 +12,7 @@ import {
 import { tokens } from '@waveditors/theme';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
-import { Header } from '../../../header';
+import { Header } from './header';
 import { Hotkeys } from './hotkeys';
 import { BuilderContextSubscribe } from './builder-context-subscribe';
 

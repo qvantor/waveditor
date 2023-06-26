@@ -15,6 +15,7 @@ export type TemplateVersionsQuery = {
   template: {
     __typename?: 'Template';
     id: number;
+    name: string;
     versions?: Array<{
       __typename?: 'TemplateVersion';
       id: number;
@@ -35,6 +36,7 @@ export const TemplateVersionsDocument = gql`
   query TemplateVersions($templateId: Int!, $limit: Int, $cursor: Int) {
     template(id: $templateId) {
       id
+      name
       versions(limit: $limit, cursor: $cursor) {
         id
         name

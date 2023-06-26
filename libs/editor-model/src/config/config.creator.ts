@@ -3,7 +3,6 @@ import { Config, ConfigFont } from './config.types';
 
 export const createInitialConfig = (rootElementId: string): Config => {
   return {
-    name: 'Untitled',
     rootElementId,
     viewportWidth: 600,
     style: {

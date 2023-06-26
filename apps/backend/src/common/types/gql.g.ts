@@ -55,7 +55,9 @@ export type GoogleAuth = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTemplate: Template;
+  deleteTemplate: Scalars['Boolean']['output'];
   googleAuth: AuthSuccess;
+  updateTemplate: Template;
   updateVersion: TemplateVersion;
 };
 
@@ -63,8 +65,17 @@ export type MutationCreateTemplateArgs = {
   data: CreateTemplate;
 };
 
+export type MutationDeleteTemplateArgs = {
+  templateId: Scalars['Int']['input'];
+};
+
 export type MutationGoogleAuthArgs = {
   auth: GoogleAuth;
+};
+
+export type MutationUpdateTemplateArgs = {
+  data: UpdateTemplate;
+  templateId: Scalars['Int']['input'];
 };
 
 export type MutationUpdateVersionArgs = {
@@ -106,6 +117,10 @@ export type TemplateVersion = {
   name?: Maybe<Scalars['String']['output']>;
   templateId: Scalars['Int']['output'];
   updatedAt: Scalars['String']['output'];
+};
+
+export type UpdateTemplate = {
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -238,6 +253,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Template: ResolverTypeWrapper<Template>;
   TemplateVersion: ResolverTypeWrapper<TemplateVersion>;
+  UpdateTemplate: UpdateTemplate;
   User: ResolverTypeWrapper<User>;
 }>;
 
@@ -254,6 +270,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
   Template: Template;
   TemplateVersion: TemplateVersion;
+  UpdateTemplate: UpdateTemplate;
   User: User;
 }>;
 
@@ -290,11 +307,23 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationCreateTemplateArgs, 'data'>
   >;
+  deleteTemplate?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteTemplateArgs, 'templateId'>
+  >;
   googleAuth?: Resolver<
     ResolversTypes['AuthSuccess'],
     ParentType,
     ContextType,
     RequireFields<MutationGoogleAuthArgs, 'auth'>
+  >;
+  updateTemplate?: Resolver<
+    ResolversTypes['Template'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateTemplateArgs, 'data' | 'templateId'>
   >;
   updateVersion?: Resolver<
     ResolversTypes['TemplateVersion'],

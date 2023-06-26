@@ -14,6 +14,7 @@ export type TemplatesQuery = {
     name: string;
     creator?: {
       __typename?: 'User';
+      id: number;
       firstName?: string | null;
       lastName?: string | null;
     } | null;
@@ -22,7 +23,7 @@ export type TemplatesQuery = {
       id: number;
       name?: string | null;
       json: any;
-      createdAt: string;
+      updatedAt: string;
     }> | null;
   }>;
 };
@@ -33,6 +34,7 @@ export const TemplatesDocument = gql`
       id
       name
       creator {
+        id
         firstName
         lastName
       }
@@ -40,7 +42,7 @@ export const TemplatesDocument = gql`
         id
         name
         json
-        createdAt
+        updatedAt
       }
     }
   }

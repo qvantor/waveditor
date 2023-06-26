@@ -1,1 +1,1 @@
-export { TemplatesList } from './templates-list';
+export { Templates } from './templates';

@@ -1,25 +1,28 @@
-import { useEffect, useRef } from 'react';
 import { EditorSnapshot } from '@waveditors/editor-model';
-import styled from 'styled-components';
+import { Iframe } from '@waveditors/ui-kit';
+
 import { renderToString } from '../services';
 
 interface Props {
+  title: string;
   snapshot: EditorSnapshot;
   className?: string;
+  applyToDocument?: (doc: Document) => void;
 }
 
-const Root = styled.iframe`
-  border: none;
-  width: 100%;
-`;
-
-export const RenderPreview = ({ snapshot, className }: Props) => {
-  const frameRef = useRef<HTMLIFrameElement>(null);
-  useEffect(() => {
-    if (!frameRef.current || !frameRef.current.contentDocument) return;
-    frameRef.current.contentDocument.open();
-    frameRef.current.contentDocument.write(renderToString(snapshot));
-    frameRef.current.contentDocument.close();
-  }, [snapshot]);
-  return <Root ref={frameRef} className={className} title='Preview' />;
-};
+export const RenderPreview = ({
+  snapshot,
+  className,
+  title,
+  applyToDocument,
+}: Props) => (
+  <Iframe title={title} className={className}>
+    {({ document }) => {
+      document.open();
+      document.write(renderToString(snapshot));
+      document.close();
+      applyToDocument?.(document);
+      return <></>;
+    }}
+  </Iframe>
+);

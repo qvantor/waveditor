@@ -1,6 +1,7 @@
 query TemplateVersions($templateId: Int!, $limit: Int, $cursor: Int) {
   template(id: $templateId) {
     id
+    name
     versions(limit: $limit, cursor: $cursor) {
       id
       name

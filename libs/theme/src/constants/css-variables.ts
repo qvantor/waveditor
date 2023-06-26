@@ -5,12 +5,13 @@ export const theme = {
     family: `'Montserrat', 'Helvetica Neue', Roboto, sans-serif`,
   },
   size: {
-    headerHeight: '28px',
+    headerHeight: '36px',
     footerHeight: '28px',
   },
   borderRadius: {
     m: '4px',
     l: '6px',
+    xl: '8px',
   },
   color: {
     surface: {
@@ -18,6 +19,7 @@ export const theme = {
       primaryHover: '#d2d8d8',
       secondary: '#fff',
       tertiary: '#121417',
+      tertiaryHover: '#2c3138',
       quaternary: '#F9F9F9',
       accent: '#3498db',
       accentQuarter: 'rgba(52,152,219, 0.25)',
@@ -39,6 +41,12 @@ export const theme = {
       danger: '#e74c3c',
       accent: '#3498db',
     },
+  },
+  breakpoint: {
+    s: '1024px',
+    m: '1280px',
+    l: '1440px',
+    xl: '1920px',
   },
   typography: {
     paragraph: {

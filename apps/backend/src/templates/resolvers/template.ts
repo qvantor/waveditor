@@ -9,7 +9,7 @@ export const Template: Resolvers['Template'] = {
     prisma.templateVersion
       .findMany({
         where: { templateId: parent.id },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { updatedAt: 'desc' },
         take: args.limit ?? undefined,
         cursor: args.cursor ? { id: args.cursor } : undefined,
         include: { creator: {} },

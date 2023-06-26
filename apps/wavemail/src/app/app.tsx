@@ -4,7 +4,7 @@ import { GlobalStyle, theme, tokens } from '@waveditors/theme';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { MailBuilder } from './mail-builder';
-import { TemplatesList } from './templates';
+import { Templates } from './templates';
 import { AUTH, BUILDER, ROOT } from './common/constants';
 import { Auth, AuthRoute } from './auth';
 import { client } from './common/services';
@@ -35,7 +35,7 @@ export function App() {
                 path={ROOT}
                 element={
                   <AuthRoute>
-                    <TemplatesList />
+                    <Templates />
                   </AuthRoute>
                 }
               />

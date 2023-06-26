@@ -3,6 +3,7 @@ query Templates {
     id
     name
     creator {
+      id
       firstName
       lastName
     }
@@ -10,7 +11,7 @@ query Templates {
       id
       name
       json
-      createdAt
+      updatedAt
     }
   }
 }

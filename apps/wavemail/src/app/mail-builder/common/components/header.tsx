@@ -1,32 +1,29 @@
-import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
-import { renderToString } from '@waveditors/layout-render';
 import { Button, message, Modal } from 'antd';
-import { useBsSelector } from '@waveditors/rxjs-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  getConfigName,
-  useBuilderContext,
   builderContextToSnapshot,
+  useBuilderContext,
 } from '@waveditors/editor-model';
-import { HeaderButton, Input } from '../common/components';
-import { emailValidation } from '../common/services';
+import { renderToString } from '@waveditors/layout-render';
+import { useTemplateQuery } from '../graphql/template.g';
+import { useUpdateTemplateMutation } from '../graphql/update-template.g';
+import { useTemplateId } from '../hooks';
+import {
+  Header as CommonHeader,
+  HeaderButton,
+  Input,
+} from '../../../common/components';
+import { emailValidation } from '../../../common/services';
 
-const Root = styled.div`
-  height: ${tokens.size.headerHeight};
-  background: ${tokens.color.surface.tertiary};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-`;
 const IframeInternal = styled.iframe`
   height: calc(100vh - 250px);
   width: 100%;
   border: none;
 `;
 const NameInput = styled(Input)`
-  width: 200px;
+  width: 250px;
   background: transparent;
   border: none;
   color: ${tokens.color.text.tertiary};
@@ -38,15 +35,22 @@ const ModalFooter = styled.div`
   gap: 10px;
 `;
 export const Header = () => {
+  const templateId = useTemplateId();
   const [messageApi, contextHolder] = message.useMessage();
   const [email, setEmail] = useState(process.env.NX_TO_EMAIL ?? '');
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [open, setOpen] = useState(false);
   const builderContext = useBuilderContext();
-  const {
-    model: { config },
-  } = builderContext;
-  const name = useBsSelector(config.bs, getConfigName);
+  const { data } = useTemplateQuery({
+    variables: { templateId },
+  });
+  const [updateTemplate] = useUpdateTemplateMutation();
+  const onNameChange = useCallback(
+    (name: string | undefined) => {
+      if (name) updateTemplate({ variables: { templateId, data: { name } } });
+    },
+    [updateTemplate, templateId]
+  );
 
   const send = async () => {
     const data = new FormData();
@@ -87,14 +91,10 @@ export const Header = () => {
   return (
     <>
       {contextHolder}
-      <Root>
-        <div />
-        <NameInput
-          value={name}
-          onChange={(name) => config.actions.setName(name ?? '')}
-        />
+      <CommonHeader>
+        <NameInput value={data?.template.name} onChange={onNameChange} />
         <HeaderButton onClick={() => setOpen(true)}>HTML preview</HeaderButton>
-      </Root>
+      </CommonHeader>
       <Modal
         onCancel={() => setOpen(false)}
         footer={

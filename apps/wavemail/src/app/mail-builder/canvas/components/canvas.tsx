@@ -83,7 +83,10 @@ export const Canvas = () => {
         )}
         <CanvasContainer>
           {preview ? (
-            <RenderPreviewInternal snapshot={preview.snapshot} />
+            <RenderPreviewInternal
+              snapshot={preview.snapshot}
+              title={preview.name}
+            />
           ) : (
             <LayoutEditorInternal />
           )}

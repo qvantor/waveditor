@@ -46,7 +46,9 @@ export type GoogleAuth = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTemplate: Template;
+  deleteTemplate: Scalars['Boolean']['output'];
   googleAuth: AuthSuccess;
+  updateTemplate: Template;
   updateVersion: TemplateVersion;
 };
 
@@ -54,8 +56,17 @@ export type MutationCreateTemplateArgs = {
   data: CreateTemplate;
 };
 
+export type MutationDeleteTemplateArgs = {
+  templateId: Scalars['Int']['input'];
+};
+
 export type MutationGoogleAuthArgs = {
   auth: GoogleAuth;
+};
+
+export type MutationUpdateTemplateArgs = {
+  data: UpdateTemplate;
+  templateId: Scalars['Int']['input'];
 };
 
 export type MutationUpdateVersionArgs = {
@@ -97,6 +108,10 @@ export type TemplateVersion = {
   name?: Maybe<Scalars['String']['output']>;
   templateId: Scalars['Int']['output'];
   updatedAt: Scalars['String']['output'];
+};
+
+export type UpdateTemplate = {
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {

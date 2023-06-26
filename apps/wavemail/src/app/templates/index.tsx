@@ -1,1 +1,1 @@
-export { TemplatesList } from './components';
+export { Templates } from './components';
