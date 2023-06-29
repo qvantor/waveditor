@@ -13,9 +13,11 @@ import {
   ListItemHeader,
   ListItemName,
 } from '../../common';
+import { useCurrentUser } from '../../../common/hooks';
 import { TemplateActions } from './template-actions';
 
 export const TemplatesList = () => {
+  const user = useCurrentUser();
   const { data } = useTemplatesQuery({
     fetchPolicy: 'cache-and-network',
   });
@@ -30,11 +32,16 @@ export const TemplatesList = () => {
     <ListContainer>
       {data?.templates.map((template, i) => {
         const lastVersion = template?.versions?.[0];
+        const owner = user?.id === template.creator?.id;
         return (
           <ListItem onClick={edit(template.id)} key={i}>
             <ListItemContent>
               <ListItemHeader>
-                <Tag color='blue'>Personal</Tag>
+                {owner ? (
+                  <Tag color='blue'>Personal</Tag>
+                ) : (
+                  <Tag color='green'>From group</Tag>
+                )}
                 <TemplateActions templateId={template.id} />
               </ListItemHeader>
               <ListItemName>{template.name}</ListItemName>

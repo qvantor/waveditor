@@ -76,6 +76,7 @@ export type Mutation = {
   removeUserFromGroup: Scalars['Boolean']['output'];
   setGroupName: Group;
   updateTemplate: Template;
+  updateTemplateGroups: Scalars['Boolean']['output'];
   updateVersion: TemplateVersion;
 };
 
@@ -119,6 +120,12 @@ export type MutationUpdateTemplateArgs = {
   templateId: Scalars['Int']['input'];
 };
 
+export type MutationUpdateTemplateGroupsArgs = {
+  addTo: Array<Scalars['Int']['input']>;
+  removeFrom: Array<Scalars['Int']['input']>;
+  templateId: Scalars['Int']['input'];
+};
+
 export type MutationUpdateVersionArgs = {
   json: Scalars['JSON']['input'];
   templateId: Scalars['Int']['input'];
@@ -136,6 +143,10 @@ export type Query = {
 
 export type QueryGroupArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type QueryGroupsArgs = {
+  templateId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryTemplateArgs = {
@@ -443,6 +454,15 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationUpdateTemplateArgs, 'data' | 'templateId'>
   >;
+  updateTemplateGroups?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<
+      MutationUpdateTemplateGroupsArgs,
+      'addTo' | 'removeFrom' | 'templateId'
+    >
+  >;
   updateVersion?: Resolver<
     ResolversTypes['TemplateVersion'],
     ParentType,
@@ -461,7 +481,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGroupArgs, 'id'>
   >;
-  groups?: Resolver<Array<ResolversTypes['Group']>, ParentType, ContextType>;
+  groups?: Resolver<
+    Array<ResolversTypes['Group']>,
+    ParentType,
+    ContextType,
+    Partial<QueryGroupsArgs>
+  >;
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   template?: Resolver<
     ResolversTypes['Template'],

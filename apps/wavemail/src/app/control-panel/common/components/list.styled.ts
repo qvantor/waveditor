@@ -38,7 +38,7 @@ export const ListItemContent = styled.div`
   ${font({ type: 'paragraph', size: 'small' })}
 `;
 export const ListItemHeader = styled.div`
-  padding: 15px 15px 0 15px;
+  padding: 10px 15px 0 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,7 +1,7 @@
 import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
-import { Tag } from 'antd';
+import { Tag, Popconfirm } from 'antd';
 import dayjs from 'dayjs';
-import { useCallback, useEffect, useState, MouseEvent } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   AddButton,
@@ -18,7 +18,7 @@ import {
   GroupsDocument,
   GroupsQuery,
   useGroupsQuery,
-} from '../graphql/groups.g';
+} from '../../../common/graphql/groups.g';
 import { useCreateGroupMutation } from '../graphql/create-group.g';
 import { Empty, User } from '../../../common/components';
 import { useDeleteGroupMutation } from '../graphql/delete-group.g';
@@ -44,8 +44,7 @@ export const Groups = () => {
   const [deleteGroup, { loading: deleteLoading }] = useDeleteGroupMutation();
   const onClose = useCallback(() => setSelected(null), []);
   const deleteGroupInternal = useCallback(
-    (groupId: number) => async (e: MouseEvent) => {
-      e.stopPropagation();
+    (groupId: number) => async () => {
       await deleteGroup({ variables: { groupId } });
       client.cache.updateQuery(
         { query: GroupsDocument },
@@ -91,13 +90,19 @@ export const Groups = () => {
                     <Tag color='blue'>Templates: {group.templatesCount}</Tag>
                     <Tag color='green'>Users: {group.usersCount}</Tag>
                   </div>
-                  <ListItemActionButtonInternal
-                    icon={<AiOutlineDelete />}
-                    ghost
-                    size='small'
-                    onClick={deleteGroupInternal(group.id)}
-                    disabled={deleteLoading}
-                  />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <Popconfirm
+                      title={`Delete ${group.name} group?`}
+                      onConfirm={deleteGroupInternal(group.id)}
+                    >
+                      <ListItemActionButtonInternal
+                        icon={<AiOutlineDelete />}
+                        ghost
+                        size='small'
+                        disabled={deleteLoading}
+                      />
+                    </Popconfirm>
+                  </div>
                 </ListItemHeader>
                 <ListItemName>{group.name}</ListItemName>
                 <ListItemFooter>

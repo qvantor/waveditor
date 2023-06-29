@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import { tokens } from '@waveditors/theme';
+import { font, tokens } from '@waveditors/theme';
 import { BsSoundwave } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { CONTROL_PANEL } from '../constants';
@@ -22,6 +22,23 @@ const Logo = styled(BsSoundwave)`
   cursor: pointer;
   transition: all 0.3s ease-in;
 
+  &:hover {
+    background: ${tokens.color.surface.tertiaryHover};
+  }
+`;
+export const HeaderButton = styled.button`
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  height: ${tokens.size.headerHeight};
+  color: ${tokens.color.text.tertiary};
+  background: ${tokens.color.surface.tertiary};
+  transition: all 0.3s ease-in;
+  padding: 0 12px;
+  border: none;
+  cursor: pointer;
+
+  ${font({ size: 'small', weight: 'light' })}
   &:hover {
     background: ${tokens.color.surface.tertiaryHover};
   }

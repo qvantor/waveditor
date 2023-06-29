@@ -69,9 +69,9 @@ model UserOnGroup {
 }
 
 model GroupOnTemplate {
-  Group      Group    @relation(fields: [groupId], references: [id])
+  Group      Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId    Int
-  template   Template @relation(fields: [templateId], references: [id])
+  template   Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
   templateId Int
 
   @@id([groupId, templateId])

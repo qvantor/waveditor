@@ -6,7 +6,6 @@ export const BuilderContextSubscribe = () => {
   const saveSnapshot = useSaveSnapshot();
   const context = useBuilderContext();
   useEffect(() => {
-    console.log('builderSubscribe');
     const unsub = builderSubscribe(context, saveSnapshot);
     return () => unsub();
   }, [context, saveSnapshot]);

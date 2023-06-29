@@ -1,4 +1,4 @@
 type Query {
   group(id: Int!): Group! @auth
-  groups: [Group!]! @auth
+  groups(templateId: Int): [Group!]! @auth
 }

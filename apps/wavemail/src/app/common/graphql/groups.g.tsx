@@ -1,10 +1,12 @@
 /* eslint-disable */
-import * as Types from '../../../common/types/gql.g';
+import * as Types from '../types/gql.g';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
-export type GroupsQueryVariables = Types.Exact<{ [key: string]: never }>;
+export type GroupsQueryVariables = Types.Exact<{
+  templateId?: Types.InputMaybe<Types.Scalars['Int']['input']>;
+}>;
 
 export type GroupsQuery = {
   __typename?: 'Query';
@@ -25,8 +27,8 @@ export type GroupsQuery = {
 };
 
 export const GroupsDocument = gql`
-  query Groups {
-    groups {
+  query Groups($templateId: Int) {
+    groups(templateId: $templateId) {
       id
       createdAt
       name
@@ -53,6 +55,7 @@ export const GroupsDocument = gql`
  * @example
  * const { data, loading, error } = useGroupsQuery({
  *   variables: {
+ *      templateId: // value for 'templateId'
  *   },
  * });
  */

@@ -67,6 +67,7 @@ export type Mutation = {
   removeUserFromGroup: Scalars['Boolean']['output'];
   setGroupName: Group;
   updateTemplate: Template;
+  updateTemplateGroups: Scalars['Boolean']['output'];
   updateVersion: TemplateVersion;
 };
 
@@ -110,6 +111,12 @@ export type MutationUpdateTemplateArgs = {
   templateId: Scalars['Int']['input'];
 };
 
+export type MutationUpdateTemplateGroupsArgs = {
+  addTo: Array<Scalars['Int']['input']>;
+  removeFrom: Array<Scalars['Int']['input']>;
+  templateId: Scalars['Int']['input'];
+};
+
 export type MutationUpdateVersionArgs = {
   json: Scalars['JSON']['input'];
   templateId: Scalars['Int']['input'];
@@ -127,6 +134,10 @@ export type Query = {
 
 export type QueryGroupArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type QueryGroupsArgs = {
+  templateId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryTemplateArgs = {
