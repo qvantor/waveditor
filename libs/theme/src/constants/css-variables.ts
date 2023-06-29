@@ -56,10 +56,10 @@ export const theme = {
       large: 'font-size: 18px;',
     },
     header: {
-      smallest: 'font-size: 16px',
-      small: 'font-size: 18px',
-      medium: 'font-size: 24px',
-      large: 'font-size: 32px',
+      smallest: 'font-size: 16px;',
+      small: 'font-size: 18px;',
+      medium: 'font-size: 24px;',
+      large: 'font-size: 32px;',
     },
   },
   fontWeight: {

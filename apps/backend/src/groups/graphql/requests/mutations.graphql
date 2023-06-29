@@ -1,0 +1,7 @@
+type Mutation {
+  createGroup(name: String): Group! @auth
+  addUsersToGroup(users: [Int!]!, groupId: Int!): Boolean! @auth
+  removeUserFromGroup(userId: Int!, groupId: Int!): Boolean! @auth
+  setGroupName(groupId: Int!, name: String!): Group! @auth
+  deleteGroup(groupId: Int!): Boolean! @auth
+}

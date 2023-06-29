@@ -10,12 +10,14 @@ import { Resolvers } from './common/types/gql.g';
 import { userResolver } from './user';
 import { authResolver } from './auth';
 import { templateResolver } from './templates';
+import { groupResolver } from './groups';
 import { Context, context, authDirective, logger, loggerPlugin } from './app';
 
 const resolvers: Resolvers = [
   authResolver,
   userResolver,
   templateResolver,
+  groupResolver,
   { JSON: GraphQLJSON },
 ];
 

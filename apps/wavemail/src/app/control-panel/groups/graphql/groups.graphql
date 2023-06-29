@@ -1,0 +1,14 @@
+query Groups {
+  groups {
+    id
+    createdAt
+    name
+    templatesCount
+    usersCount
+    creator {
+      id
+      firstName
+      lastName
+    }
+  }
+}

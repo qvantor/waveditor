@@ -1,5 +1,5 @@
 /* eslint-disable */
-import * as Types from '../../common/types/gql.g';
+import * as Types from '../../../common/types/gql.g';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';

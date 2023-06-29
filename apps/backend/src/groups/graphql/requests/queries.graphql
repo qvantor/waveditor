@@ -1,0 +1,4 @@
+type Query {
+  group(id: Int!): Group! @auth
+  groups: [Group!]! @auth
+}

@@ -3,10 +3,10 @@ import { Popover } from 'antd';
 import styled from 'styled-components';
 import { font, tokens } from '@waveditors/theme';
 import { useCallback, useState } from 'react';
-import { IconButton } from '../../common/components';
 import { useDeleteTemplateMutation } from '../graphql/delete-template.g';
-import { client } from '../../common/services';
+import { client } from '../../../common/services';
 import { TemplatesDocument, TemplatesQuery } from '../graphql/templates.g';
+import { ListItemActionButton } from '../../common';
 
 const List = styled.div`
   margin: -6px -12px;
@@ -63,7 +63,7 @@ export const TemplateActions = ({ templateId }: Props) => {
       onOpenChange={setOpen}
       open={open}
     >
-      <IconButton
+      <ListItemActionButton
         onClick={(e) => e.stopPropagation()}
         icon={<BsThreeDotsVertical />}
         ghost

@@ -22,6 +22,7 @@ model User {
   template        Template[]
   creatorOf       Group[]
   TemplateVersion TemplateVersion[]
+  role            Role              @default(USER)
 }
 
 model Group {
@@ -58,12 +59,11 @@ model TemplateVersion {
 // M-N Relations
 
 model UserOnGroup {
-  group      Group    @relation(fields: [groupId], references: [id])
+  group      Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId    Int
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
   assignedAt DateTime @default(now())
-  role       Role     @default(USER)
 
   @@id([groupId, userId])
 }

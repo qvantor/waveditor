@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { BsSoundwave } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import { ROOT } from '../constants';
+import { CONTROL_PANEL } from '../constants';
 
 const Root = styled.div`
   height: ${tokens.size.headerHeight};
@@ -18,7 +18,7 @@ const Logo = styled(BsSoundwave)`
   font-size: 28px;
   color: ${tokens.color.text.tertiary};
   background: ${tokens.color.surface.tertiary};
-  padding: 0 15px;
+  padding: 0 6px;
   cursor: pointer;
   transition: all 0.3s ease-in;
 
@@ -31,7 +31,7 @@ export const Header = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
   return (
     <Root>
-      <Logo onClick={() => navigate(ROOT)} />
+      <Logo onClick={() => navigate(CONTROL_PANEL)} />
       {children}
     </Root>
   );

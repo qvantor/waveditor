@@ -2,6 +2,7 @@ import { AiOutlineUser } from 'react-icons/ai';
 import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { User as UserType } from '../types/gql.g';
+import { userToUserName } from '../services';
 
 type Props = {
   user?: Pick<UserType, 'id' | 'firstName' | 'lastName'> | null;
@@ -10,6 +11,7 @@ type Props = {
 const Root = styled.div`
   display: inline-flex;
   gap: 5px;
+  align-items: center;
 `;
 
 const Circle = styled.div`
@@ -29,7 +31,7 @@ export const User = ({ user }: Props) => {
       <Circle>
         <AiOutlineUser />
       </Circle>
-      {user?.firstName} {user?.lastName}
+      {userToUserName(user)}
     </Root>
   );
 };

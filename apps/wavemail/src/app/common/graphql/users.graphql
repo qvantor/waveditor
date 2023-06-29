@@ -1,0 +1,9 @@
+query Users($filter: UsersFilter) {
+  users(filter: $filter) {
+    id
+    createdAt
+    email
+    firstName
+    lastName
+  }
+}

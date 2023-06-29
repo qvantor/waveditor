@@ -5,7 +5,7 @@ import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { selectorToPipe, useSubscription } from '@waveditors/rxjs-react';
 import { Input } from '../common/components';
-import { ROOT } from '../common/constants';
+import { CONTROL_PANEL } from '../common/constants';
 import { GoogleAuth, AuthRoute } from './components';
 import { authStore, isAuthenticated, getToken } from './services';
 
@@ -77,7 +77,7 @@ export const Auth = () => {
     authStore.bs
       .pipe(selectorToPipe(isAuthenticated))
       .subscribe((authenticated) => {
-        if (authenticated) navigate(state?.path ?? ROOT);
+        if (authenticated) navigate(state?.path ?? CONTROL_PANEL);
       })
   );
   return (

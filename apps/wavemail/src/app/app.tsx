@@ -4,8 +4,8 @@ import { GlobalStyle, theme, tokens } from '@waveditors/theme';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { MailBuilder } from './mail-builder';
-import { Templates } from './templates';
-import { AUTH, BUILDER, ROOT } from './common/constants';
+import { ControlPanel } from './control-panel';
+import { AUTH, BUILDER, CONTROL_PANEL } from './common/constants';
 import { Auth, AuthRoute } from './auth';
 import { client } from './common/services';
 
@@ -23,6 +23,7 @@ export function App() {
             paddingContentHorizontalSM: 8,
             paddingSM: 8,
             paddingXS: 5,
+
             fontFamily: tokens.font.family,
           },
         }}
@@ -32,10 +33,10 @@ export function App() {
           <BrowserRouter>
             <Routes>
               <Route
-                path={ROOT}
+                path={`${CONTROL_PANEL}/*`}
                 element={
                   <AuthRoute>
-                    <Templates />
+                    <ControlPanel />
                   </AuthRoute>
                 }
               />
@@ -48,7 +49,7 @@ export function App() {
                   </AuthRoute>
                 }
               />
-              <Route path='*' element={<Navigate to={ROOT} />} />
+              <Route path='*' element={<Navigate to={CONTROL_PANEL} />} />
             </Routes>
           </BrowserRouter>
         </ApolloProvider>

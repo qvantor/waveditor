@@ -43,17 +43,48 @@ export type GoogleAuth = {
   credentials: Scalars['String']['input'];
 };
 
+export type Group = {
+  __typename?: 'Group';
+  createdAt: Scalars['String']['output'];
+  creator?: Maybe<User>;
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  templates?: Maybe<Array<Template>>;
+  templatesCount?: Maybe<Scalars['Int']['output']>;
+  userId: Scalars['Int']['output'];
+  users?: Maybe<Array<User>>;
+  usersCount?: Maybe<Scalars['Int']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addUsersToGroup: Scalars['Boolean']['output'];
+  createGroup: Group;
   createTemplate: Template;
+  deleteGroup: Scalars['Boolean']['output'];
   deleteTemplate: Scalars['Boolean']['output'];
   googleAuth: AuthSuccess;
+  removeUserFromGroup: Scalars['Boolean']['output'];
+  setGroupName: Group;
   updateTemplate: Template;
   updateVersion: TemplateVersion;
 };
 
+export type MutationAddUsersToGroupArgs = {
+  groupId: Scalars['Int']['input'];
+  users: Array<Scalars['Int']['input']>;
+};
+
+export type MutationCreateGroupArgs = {
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type MutationCreateTemplateArgs = {
   data: CreateTemplate;
+};
+
+export type MutationDeleteGroupArgs = {
+  groupId: Scalars['Int']['input'];
 };
 
 export type MutationDeleteTemplateArgs = {
@@ -62,6 +93,16 @@ export type MutationDeleteTemplateArgs = {
 
 export type MutationGoogleAuthArgs = {
   auth: GoogleAuth;
+};
+
+export type MutationRemoveUserFromGroupArgs = {
+  groupId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+};
+
+export type MutationSetGroupNameArgs = {
+  groupId: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
 };
 
 export type MutationUpdateTemplateArgs = {
@@ -76,13 +117,24 @@ export type MutationUpdateVersionArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  group: Group;
+  groups: Array<Group>;
   me: User;
   template: Template;
   templates: Array<Template>;
+  users: Array<User>;
+};
+
+export type QueryGroupArgs = {
+  id: Scalars['Int']['input'];
 };
 
 export type QueryTemplateArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type QueryUsersArgs = {
+  filter?: InputMaybe<UsersFilter>;
 };
 
 export type Template = {
@@ -121,4 +173,8 @@ export type User = {
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
+};
+
+export type UsersFilter = {
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
 };

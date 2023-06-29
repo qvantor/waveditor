@@ -52,17 +52,48 @@ export type GoogleAuth = {
   credentials: Scalars['String']['input'];
 };
 
+export type Group = {
+  __typename?: 'Group';
+  createdAt: Scalars['String']['output'];
+  creator?: Maybe<User>;
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  templates?: Maybe<Array<Template>>;
+  templatesCount?: Maybe<Scalars['Int']['output']>;
+  userId: Scalars['Int']['output'];
+  users?: Maybe<Array<User>>;
+  usersCount?: Maybe<Scalars['Int']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addUsersToGroup: Scalars['Boolean']['output'];
+  createGroup: Group;
   createTemplate: Template;
+  deleteGroup: Scalars['Boolean']['output'];
   deleteTemplate: Scalars['Boolean']['output'];
   googleAuth: AuthSuccess;
+  removeUserFromGroup: Scalars['Boolean']['output'];
+  setGroupName: Group;
   updateTemplate: Template;
   updateVersion: TemplateVersion;
 };
 
+export type MutationAddUsersToGroupArgs = {
+  groupId: Scalars['Int']['input'];
+  users: Array<Scalars['Int']['input']>;
+};
+
+export type MutationCreateGroupArgs = {
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type MutationCreateTemplateArgs = {
   data: CreateTemplate;
+};
+
+export type MutationDeleteGroupArgs = {
+  groupId: Scalars['Int']['input'];
 };
 
 export type MutationDeleteTemplateArgs = {
@@ -71,6 +102,16 @@ export type MutationDeleteTemplateArgs = {
 
 export type MutationGoogleAuthArgs = {
   auth: GoogleAuth;
+};
+
+export type MutationRemoveUserFromGroupArgs = {
+  groupId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+};
+
+export type MutationSetGroupNameArgs = {
+  groupId: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
 };
 
 export type MutationUpdateTemplateArgs = {
@@ -85,13 +126,24 @@ export type MutationUpdateVersionArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  group: Group;
+  groups: Array<Group>;
   me: User;
   template: Template;
   templates: Array<Template>;
+  users: Array<User>;
+};
+
+export type QueryGroupArgs = {
+  id: Scalars['Int']['input'];
 };
 
 export type QueryTemplateArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type QueryUsersArgs = {
+  filter?: InputMaybe<UsersFilter>;
 };
 
 export type Template = {
@@ -130,6 +182,10 @@ export type User = {
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
+};
+
+export type UsersFilter = {
+  ids?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -246,6 +302,7 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateTemplate: CreateTemplate;
   GoogleAuth: GoogleAuth;
+  Group: ResolverTypeWrapper<Group>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -255,6 +312,7 @@ export type ResolversTypes = ResolversObject<{
   TemplateVersion: ResolverTypeWrapper<TemplateVersion>;
   UpdateTemplate: UpdateTemplate;
   User: ResolverTypeWrapper<User>;
+  UsersFilter: UsersFilter;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -263,6 +321,7 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   CreateTemplate: CreateTemplate;
   GoogleAuth: GoogleAuth;
+  Group: Group;
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   Mutation: {};
@@ -272,6 +331,7 @@ export type ResolversParentTypes = ResolversObject<{
   TemplateVersion: TemplateVersion;
   UpdateTemplate: UpdateTemplate;
   User: User;
+  UsersFilter: UsersFilter;
 }>;
 
 export type AuthDirectiveArgs = {};
@@ -292,6 +352,34 @@ export type AuthSuccessResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type GroupResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Group'] = ResolversParentTypes['Group']
+> = ResolversObject<{
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  templates?: Resolver<
+    Maybe<Array<ResolversTypes['Template']>>,
+    ParentType,
+    ContextType
+  >;
+  templatesCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType
+  >;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  users?: Resolver<
+    Maybe<Array<ResolversTypes['User']>>,
+    ParentType,
+    ContextType
+  >;
+  usersCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface JsonScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
@@ -301,11 +389,29 @@ export type MutationResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
+  addUsersToGroup?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddUsersToGroupArgs, 'groupId' | 'users'>
+  >;
+  createGroup?: Resolver<
+    ResolversTypes['Group'],
+    ParentType,
+    ContextType,
+    Partial<MutationCreateGroupArgs>
+  >;
   createTemplate?: Resolver<
     ResolversTypes['Template'],
     ParentType,
     ContextType,
     RequireFields<MutationCreateTemplateArgs, 'data'>
+  >;
+  deleteGroup?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteGroupArgs, 'groupId'>
   >;
   deleteTemplate?: Resolver<
     ResolversTypes['Boolean'],
@@ -318,6 +424,18 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationGoogleAuthArgs, 'auth'>
+  >;
+  removeUserFromGroup?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveUserFromGroupArgs, 'groupId' | 'userId'>
+  >;
+  setGroupName?: Resolver<
+    ResolversTypes['Group'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSetGroupNameArgs, 'groupId' | 'name'>
   >;
   updateTemplate?: Resolver<
     ResolversTypes['Template'],
@@ -337,6 +455,13 @@ export type QueryResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
+  group?: Resolver<
+    ResolversTypes['Group'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGroupArgs, 'id'>
+  >;
+  groups?: Resolver<Array<ResolversTypes['Group']>, ParentType, ContextType>;
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   template?: Resolver<
     ResolversTypes['Template'],
@@ -348,6 +473,12 @@ export type QueryResolvers<
     Array<ResolversTypes['Template']>,
     ParentType,
     ContextType
+  >;
+  users?: Resolver<
+    Array<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    Partial<QueryUsersArgs>
   >;
 }>;
 
@@ -400,6 +531,7 @@ export type UserResolvers<
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
   AuthSuccess?: AuthSuccessResolvers<ContextType>;
+  Group?: GroupResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

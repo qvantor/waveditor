@@ -1,4 +1,5 @@
 type Query {
   # Returns the current user.
   me: User! @auth
+  users(filter: UsersFilter): [User!]! @auth
 }

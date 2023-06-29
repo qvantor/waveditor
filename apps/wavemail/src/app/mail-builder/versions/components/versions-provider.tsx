@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useStore } from '@waveditors/rxjs-react';
 import { useTemplateId } from '../../common/hooks';
 import { useTemplateQuery } from '../../common/graphql/template.g';
-import { ROOT } from '../../../common/constants';
+import { CONTROL_PANEL } from '../../../common/constants';
 import { versionsStoreConstructor, getCurrent } from '../store';
 import { VersionsContext, useVersionsContext } from '../hooks';
 
@@ -24,7 +24,7 @@ const VersionsLoader = () => {
   }, [data?.template, versions]);
 
   return !templateId || Number.isNaN(templateId) ? (
-    <Navigate to={ROOT} />
+    <Navigate to={CONTROL_PANEL} />
   ) : null;
 };
 
