@@ -2,6 +2,7 @@ query Template($templateId: Int!) {
   template(id: $templateId) {
     id
     name
+    userId
     versions(limit: 1) {
       id
       json

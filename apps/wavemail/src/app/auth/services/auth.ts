@@ -1,7 +1,8 @@
 import { createStore } from '@waveditors/rxjs-react';
 import { tryCatch } from '@waveditors/utils';
 import { skip } from 'rxjs';
-import { AuthSuccess } from '../../common/types/gql.g';
+import jwt_decode from 'jwt-decode';
+import { AuthSuccess, User } from '../../common/types/gql.g';
 
 const STORAGE_KEY = 'auth';
 const MIN_SEC_TILL_EXPIRE = 60;
@@ -14,6 +15,13 @@ export const isAuthenticated = (store: AuthStore) => {
   return secTillExpire > MIN_SEC_TILL_EXPIRE;
 };
 
+export const getUserFromToken = <
+  T extends AuthStore,
+  R = T extends null ? null : User
+>(
+  store: T
+): R => (store === null ? null : jwt_decode<User>(store.accessToken)) as R;
+
 const getStateFromLocalStorage = () => {
   const storage = localStorage.getItem(STORAGE_KEY);
   if (!storage) return null;
@@ -24,7 +32,7 @@ const getStateFromLocalStorage = () => {
 };
 
 const authStoreConstructor = () =>
-  createStore<AuthSuccess | null>()
+  createStore<AuthStore>()
     .addActions({
       set: (auth: AuthSuccess) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(auth));

@@ -2,10 +2,10 @@ import { FiShare } from 'react-icons/fi';
 import { Modal, Select } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { HeaderButton } from '../../../common/components';
-import { useGroupsQuery } from '../../../common/graphql/groups.g';
-import { useTemplateId } from '../hooks';
-import { useUpdateTemplateGroupsMutation } from '../graphql/update-template-groups.g';
+import { HeaderButton } from '../../../../common/components';
+import { useGroupsQuery } from '../../../../common/graphql/groups.g';
+import { useTemplateId } from '../../hooks';
+import { useUpdateTemplateGroupsMutation } from '../../graphql/update-template-groups.g';
 
 const SelectInternal = styled(Select)`
   width: 100%;

@@ -7,9 +7,14 @@ import { selectorToPipe, useSubscription } from '@waveditors/rxjs-react';
 import { Input } from '../common/components';
 import { CONTROL_PANEL } from '../common/constants';
 import { GoogleAuth, AuthRoute } from './components';
-import { authStore, isAuthenticated, getToken } from './services';
+import {
+  authStore,
+  isAuthenticated,
+  getToken,
+  getUserFromToken,
+} from './services';
 
-export { AuthRoute };
+export { AuthRoute, authStore, getToken, getUserFromToken };
 
 const Root = styled.div`
   min-height: 100vh;
@@ -67,8 +72,6 @@ const Separator = styled.div`
     padding: 0 10px;
   }
 `;
-
-export { authStore, getToken };
 
 export const Auth = () => {
   const navigate = useNavigate();

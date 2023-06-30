@@ -1,7 +1,12 @@
+enum Role {
+  USER
+  ADMIN
+}
 type User {
   id: Int!
   createdAt: String!
   email: String!
   firstName: String
   lastName: String
+  role: Role!
 }

@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { Tag } from 'antd';
 import { useCallback } from 'react';
+import { useBsSelector } from '@waveditors/rxjs-react';
 import { useTemplatesQuery } from '../graphql/templates.g';
 import { Empty, User } from '../../../common/components';
 import { BUILDER } from '../../../common/constants';
@@ -13,11 +14,11 @@ import {
   ListItemHeader,
   ListItemName,
 } from '../../common';
-import { useCurrentUser } from '../../../common/hooks';
+import { authStore, getUserFromToken } from '../../../auth';
 import { TemplateActions } from './template-actions';
 
 export const TemplatesList = () => {
-  const user = useCurrentUser();
+  const user = useBsSelector(authStore.bs, getUserFromToken);
   const { data } = useTemplatesQuery({
     fetchPolicy: 'cache-and-network',
   });
@@ -42,7 +43,7 @@ export const TemplatesList = () => {
                 ) : (
                   <Tag color='green'>From group</Tag>
                 )}
-                <TemplateActions templateId={template.id} />
+                {owner && <TemplateActions templateId={template.id} />}
               </ListItemHeader>
               <ListItemName>{template.name}</ListItemName>
               <ListItemFooter>

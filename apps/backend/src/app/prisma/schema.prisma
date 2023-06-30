@@ -7,7 +7,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum Role {
+enum PRole {
   USER
   ADMIN
 }
@@ -22,7 +22,7 @@ model User {
   template        Template[]
   creatorOf       Group[]
   TemplateVersion TemplateVersion[]
-  role            Role              @default(USER)
+  role            PRole             @default(USER)
 }
 
 model Group {

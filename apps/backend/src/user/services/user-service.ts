@@ -1,5 +1,4 @@
 import { Prisma, User } from '@prisma/client';
-import { User as GqlUser } from '../../common/types/gql.g';
 import { prisma } from '../../app';
 
 export class UserService {
@@ -15,12 +14,5 @@ export class UserService {
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) throw new Error(`User with id ${id} does not exists`);
     return user;
-  }
-
-  prismaUserToGqlUser(user: User): GqlUser {
-    return {
-      ...user,
-      createdAt: String(user.createdAt),
-    };
   }
 }

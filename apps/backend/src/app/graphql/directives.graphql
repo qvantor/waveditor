@@ -1,2 +1,2 @@
-directive @auth on FIELD_DEFINITION
+directive @auth(role: Role = "USER") on FIELD_DEFINITION
 scalar JSON

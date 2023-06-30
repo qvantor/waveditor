@@ -14,7 +14,7 @@ export const createTemplate: MutationResolvers['createTemplate'] = async (
       },
       name: `${user.firstName} ${user.lastName} template ${count + 1}`,
       versions: {
-        create: [{ json: args.data.json, userId: user.id }],
+        create: [{ json: args.data.json, userId: user.id, name: 'Version 1' }],
       },
     },
   });

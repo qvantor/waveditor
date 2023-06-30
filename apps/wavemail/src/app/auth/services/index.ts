@@ -1,1 +1,1 @@
-export { authStore, getToken, isAuthenticated } from './auth';
+export { authStore, getToken, isAuthenticated, getUserFromToken } from './auth';

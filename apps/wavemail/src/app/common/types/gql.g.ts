@@ -148,6 +148,11 @@ export type QueryUsersArgs = {
   filter?: InputMaybe<UsersFilter>;
 };
 
+export enum Role {
+  Admin = 'ADMIN',
+  User = 'USER',
+}
+
 export type Template = {
   __typename?: 'Template';
   creator?: Maybe<User>;
@@ -184,6 +189,7 @@ export type User = {
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
+  role: Role;
 };
 
 export type UsersFilter = {

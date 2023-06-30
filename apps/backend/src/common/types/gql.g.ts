@@ -4,6 +4,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql';
+import { PRole } from '@prisma/client';
 import { Context } from '../../app';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -25,8 +26,12 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
+};
+export type EnumResolverSignature<T, AllowedValues = any> = {
+  [key in keyof T]?: AllowedValues;
 };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -157,6 +162,11 @@ export type QueryUsersArgs = {
   filter?: InputMaybe<UsersFilter>;
 };
 
+export enum Role {
+  Admin = 'ADMIN',
+  User = 'USER',
+}
+
 export type Template = {
   __typename?: 'Template';
   creator?: Maybe<User>;
@@ -193,6 +203,7 @@ export type User = {
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
+  role: Role;
 };
 
 export type UsersFilter = {
@@ -313,16 +324,34 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateTemplate: CreateTemplate;
   GoogleAuth: GoogleAuth;
-  Group: ResolverTypeWrapper<Group>;
+  Group: ResolverTypeWrapper<
+    Omit<Group, 'creator' | 'templates' | 'users'> & {
+      creator?: Maybe<ResolversTypes['User']>;
+      templates?: Maybe<Array<ResolversTypes['Template']>>;
+      users?: Maybe<Array<ResolversTypes['User']>>;
+    }
+  >;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Role: ResolverTypeWrapper<PRole>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Template: ResolverTypeWrapper<Template>;
-  TemplateVersion: ResolverTypeWrapper<TemplateVersion>;
+  Template: ResolverTypeWrapper<
+    Omit<Template, 'creator' | 'versions'> & {
+      creator?: Maybe<ResolversTypes['User']>;
+      versions?: Maybe<Array<ResolversTypes['TemplateVersion']>>;
+    }
+  >;
+  TemplateVersion: ResolverTypeWrapper<
+    Omit<TemplateVersion, 'creator'> & {
+      creator?: Maybe<ResolversTypes['User']>;
+    }
+  >;
   UpdateTemplate: UpdateTemplate;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<
+    Omit<User, 'role'> & { role: ResolversTypes['Role'] }
+  >;
   UsersFilter: UsersFilter;
 }>;
 
@@ -332,20 +361,31 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   CreateTemplate: CreateTemplate;
   GoogleAuth: GoogleAuth;
-  Group: Group;
+  Group: Omit<Group, 'creator' | 'templates' | 'users'> & {
+    creator?: Maybe<ResolversParentTypes['User']>;
+    templates?: Maybe<Array<ResolversParentTypes['Template']>>;
+    users?: Maybe<Array<ResolversParentTypes['User']>>;
+  };
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
-  Template: Template;
-  TemplateVersion: TemplateVersion;
+  Template: Omit<Template, 'creator' | 'versions'> & {
+    creator?: Maybe<ResolversParentTypes['User']>;
+    versions?: Maybe<Array<ResolversParentTypes['TemplateVersion']>>;
+  };
+  TemplateVersion: Omit<TemplateVersion, 'creator'> & {
+    creator?: Maybe<ResolversParentTypes['User']>;
+  };
   UpdateTemplate: UpdateTemplate;
   User: User;
   UsersFilter: UsersFilter;
 }>;
 
-export type AuthDirectiveArgs = {};
+export type AuthDirectiveArgs = {
+  role?: Maybe<Role>;
+};
 
 export type AuthDirectiveResolver<
   Result,
@@ -507,6 +547,11 @@ export type QueryResolvers<
   >;
 }>;
 
+export type RoleResolvers = EnumResolverSignature<
+  { ADMIN?: any; USER?: any },
+  ResolversTypes['Role']
+>;
+
 export type TemplateResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Template'] = ResolversParentTypes['Template']
@@ -551,6 +596,7 @@ export type UserResolvers<
   >;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['Role'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -560,6 +606,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   JSON?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Role?: RoleResolvers;
   Template?: TemplateResolvers<ContextType>;
   TemplateVersion?: TemplateVersionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

@@ -32,14 +32,7 @@ export function App() {
         <ApolloProvider client={client}>
           <BrowserRouter>
             <Routes>
-              <Route
-                path={`${CONTROL_PANEL}/*`}
-                element={
-                  <AuthRoute>
-                    <ControlPanel />
-                  </AuthRoute>
-                }
-              />
+              <Route path={`${CONTROL_PANEL}/*`} element={<ControlPanel />} />
               <Route path={AUTH} element={<Auth />} />
               <Route
                 path={BUILDER}

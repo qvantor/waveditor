@@ -1,17 +1,38 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { selectorToPipe, useSubscription } from '@waveditors/rxjs-react';
+import { useSubscription } from '@waveditors/rxjs-react';
 import { PropsWithChildren } from 'react';
-import { authStore, isAuthenticated } from '../services';
-import { AUTH } from '../../common/constants';
+import { map } from 'rxjs';
+import { authStore, isAuthenticated, getUserFromToken } from '../services';
+import { AUTH, CONTROL_PANEL } from '../../common/constants';
+import { Role } from '../../common/types/gql.g';
 
-export const AuthRoute = ({ children }: PropsWithChildren) => {
+interface Props {
+  roles?: Role[];
+}
+
+export const AuthRoute = ({ children, roles }: PropsWithChildren<Props>) => {
   const navigate = useNavigate();
   const location = useLocation();
   useSubscription(() =>
-    authStore.bs.pipe(selectorToPipe(isAuthenticated)).subscribe((auth) => {
-      if (auth) return;
-      navigate(AUTH, { state: { path: location.pathname } });
-    })
+    authStore.bs
+      .pipe(
+        map((value) => {
+          if (!value || !isAuthenticated(value))
+            return { auth: false, user: null } as const;
+          return {
+            auth: true,
+            user: getUserFromToken(value),
+          } as const;
+        })
+      )
+      .subscribe((payload) => {
+        if (payload.auth) {
+          if (!roles) return;
+          if (roles.includes(payload.user.role)) return;
+          return navigate(CONTROL_PANEL);
+        }
+        navigate(AUTH, { state: { path: location.pathname } });
+      })
   );
   return <>{children}</>;
 };

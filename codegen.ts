@@ -16,6 +16,9 @@ const config: CodegenConfig = {
       config: {
         contextType: '../../app#Context',
         useIndexSignature: true,
+        mappers: {
+          Role: '@prisma/client#PRole',
+        },
       },
     },
 
