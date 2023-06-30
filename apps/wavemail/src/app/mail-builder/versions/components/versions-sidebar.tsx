@@ -95,7 +95,10 @@ type Props = {
 
 export const VersionsSidebar = ({ onClose }: Props) => {
   const templateId = useTemplateId();
-  const { data } = useTemplateVersionsQuery({ variables: { templateId } });
+  const { data } = useTemplateVersionsQuery({
+    variables: { templateId },
+    fetchPolicy: 'cache-and-network',
+  });
   const versions = useVersionsContext();
   const preview = useBsSelector(versions.bs, getPreview);
   const revertTo = useCallback(

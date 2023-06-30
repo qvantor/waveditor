@@ -12,7 +12,7 @@ import { Menu, MenuProps } from 'antd';
 import { BsLayoutWtf, BsPeople } from 'react-icons/bs';
 import { useMemo } from 'react';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { Header } from '../common/components';
+import { Header, UserControls } from '../common/components';
 import {
   CONTROL_PANEL,
   CONTROL_PANEL_GROUPS,
@@ -86,7 +86,9 @@ export const ControlPanel = () => {
   );
   return (
     <>
-      <Header />
+      <Header>
+        <UserControls />
+      </Header>
       <Root>
         <Sidebar>
           <MenuInternal

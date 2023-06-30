@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import styled from 'styled-components';
 import { useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
@@ -9,24 +8,12 @@ import {
   getParentElement,
   EditorSnapshot,
 } from '@waveditors/editor-model';
-import { tokens } from '@waveditors/theme';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
 import { Header } from './header';
 import { Hotkeys } from './hotkeys';
 import { BuilderContextSubscribe } from './builder-context-subscribe';
-
-const Root = styled.div`
-  height: 100vh;
-`;
-const Content = styled.div`
-  height: calc(100vh - ${tokens.size.headerHeight});
-  display: grid;
-  grid-template-columns: 330px 1fr;
-  justify-content: center;
-  background: ${tokens.color.surface.primary};
-  overflow: hidden;
-`;
+import { MailBuilderRoot, Content } from './mail-builder.styled';
 
 interface Props {
   snapshot: EditorSnapshot;
@@ -97,7 +84,7 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
 
   return (
     <BuilderProvider value={builderContext}>
-      <Root>
+      <MailBuilderRoot>
         <Header />
         <Content>
           <LeftSidebar />
@@ -105,7 +92,7 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
         </Content>
         <Hotkeys />
         <BuilderContextSubscribe />
-      </Root>
+      </MailBuilderRoot>
     </BuilderProvider>
   );
 });

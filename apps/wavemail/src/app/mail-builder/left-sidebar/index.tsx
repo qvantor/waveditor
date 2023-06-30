@@ -5,19 +5,12 @@ import { BsLayoutWtf, BsClockHistory } from 'react-icons/bs';
 import { HiOutlineVariable } from 'react-icons/hi';
 import { ConfigProvider, Menu, MenuProps } from 'antd';
 import { VersionsSidebar } from '../versions';
+import { SidebarRoot } from '../common/components';
 import { Elements } from './elements';
 import { Variables } from './variables';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-const Root = styled.div`
-  background: ${tokens.color.surface.secondary};
-  border-right: 1px solid ${tokens.color.border.primary};
-  height: calc(100vh - ${tokens.size.headerHeight});
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 40px 1fr;
-`;
 const MenuContent = styled.div`
   height: calc(100vh - ${tokens.size.headerHeight});
   overflow-y: auto;
@@ -68,7 +61,7 @@ const MenuItemsSwitch = ({ menuKey, setMenu }: Props) => {
 export const LeftSidebar = () => {
   const [menu, setMenu] = useState<MenuKeys>('elements');
   return (
-    <Root>
+    <SidebarRoot>
       <ConfigProvider theme={{ token: { borderRadiusLG: 4 } }}>
         <MenuInternal
           mode='inline'
@@ -81,6 +74,6 @@ export const LeftSidebar = () => {
       <MenuContent>
         <MenuItemsSwitch menuKey={menu} setMenu={setMenu} />
       </MenuContent>
-    </Root>
+    </SidebarRoot>
   );
 };

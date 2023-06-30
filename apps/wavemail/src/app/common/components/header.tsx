@@ -12,6 +12,7 @@ const Root = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 10px;
+  overflow: hidden;
 `;
 const Logo = styled(BsSoundwave)`
   height: ${tokens.size.headerHeight};

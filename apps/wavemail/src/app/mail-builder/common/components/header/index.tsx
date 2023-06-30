@@ -6,7 +6,11 @@ import { useBsSelector } from '@waveditors/rxjs-react';
 import { useTemplateQuery } from '../../graphql/template.g';
 import { useUpdateTemplateMutation } from '../../graphql/update-template.g';
 import { useTemplateId } from '../../hooks';
-import { Header as CommonHeader, Input } from '../../../../common/components';
+import {
+  Header as CommonHeader,
+  Input,
+  UserControls,
+} from '../../../../common/components';
 import { authStore, getUserFromToken } from '../../../../auth';
 import { ShareTemplate } from './share-template';
 
@@ -41,6 +45,7 @@ export const Header = () => {
         disabled={loading}
       />
       {data?.template.userId === user?.id && <ShareTemplate />}
+      <UserControls />
     </CommonHeader>
   );
 };
