@@ -128,6 +128,7 @@ export type Query = {
   groups: Array<Group>;
   me: User;
   template: Template;
+  templateToHtml: Scalars['String']['output'];
   templates: Array<Template>;
   users: Array<User>;
 };
@@ -142,6 +143,11 @@ export type QueryGroupsArgs = {
 
 export type QueryTemplateArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type QueryTemplateToHtmlArgs = {
+  templateId: Scalars['Int']['input'];
+  variables?: InputMaybe<Scalars['JSON']['input']>;
 };
 
 export type QueryUsersArgs = {

@@ -35,6 +35,10 @@ export const ShareTemplate = () => {
     await update({ variables: { templateId, addTo, removeFrom } });
     setOpen(false);
   }, [prevValues, templateId, update, value]);
+  const onCancel = useCallback(() => {
+    setValue(prevValues);
+    toggleOpen();
+  }, [toggleOpen, prevValues, setValue]);
   return (
     <>
       <HeaderButton onClick={toggleOpen}>
@@ -45,7 +49,7 @@ export const ShareTemplate = () => {
         title='Share template with group'
         open={isOpen}
         onOk={onOk}
-        onCancel={toggleOpen}
+        onCancel={onCancel}
         okText='Apply'
         cancelText='Cancel'
         confirmLoading={updateLoading}
