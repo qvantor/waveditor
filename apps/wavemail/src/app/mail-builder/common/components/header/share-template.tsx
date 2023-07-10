@@ -47,7 +47,7 @@ export const ShareTemplate = () => {
         onOk={onOk}
         onCancel={toggleOpen}
         okText='Apply'
-        cancelText='Revert'
+        cancelText='Cancel'
         confirmLoading={updateLoading}
       >
         <SelectInternal

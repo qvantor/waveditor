@@ -6,12 +6,12 @@ export const onChangeDebounceModule = (delaySec = 5) => {
   const storeChangeInternal = new Subject();
   const effect = () => ({
     subscriptions: ({ bs }: { bs: BehaviorSubject<any> }) => [
-      bs.pipe(skip(1)).subscribe(storeChangeInternal),
+      bs.subscribe(storeChangeInternal),
     ],
   });
   const subscribe = (fn: () => void) => {
     const sb = storeChangeInternal
-      .pipe(debounceTime(delaySec * 1000))
+      .pipe(debounceTime(delaySec * 1000), skip(1))
       .subscribe(fn);
     return () => sb.unsubscribe();
   };

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { font, tokens } from '@waveditors/theme';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { selectorToPipe, useSubscription } from '@waveditors/rxjs-react';
@@ -42,6 +42,12 @@ const Form = styled.div`
   background: ${tokens.color.surface.secondary};
   padding: 20px 30px;
   border-radius: ${tokens.borderRadius.l};
+`;
+
+const ManualForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Header = styled.div`
@@ -91,13 +97,21 @@ export const Auth = () => {
         <Separator>
           <span>or</span>
         </Separator>
-        <Input placeholder='Email' size='middle' prefix={<AiOutlineUser />} />
-        <Input
-          placeholder='Password'
-          size='middle'
-          prefix={<AiOutlineLock />}
-        />
-        <Button type='primary'>Sign in</Button>
+        <Spin tip='Coming soon...' indicator={<></>}>
+          <ManualForm>
+            <Input
+              placeholder='Email'
+              size='middle'
+              prefix={<AiOutlineUser />}
+            />
+            <Input
+              placeholder='Password'
+              size='middle'
+              prefix={<AiOutlineLock />}
+            />
+            <Button type='primary'>Sign in</Button>
+          </ManualForm>
+        </Spin>
       </Form>
     </Root>
   );
