@@ -39,6 +39,7 @@ export const theme = {
       secondary: '#7f8c8d',
       tertiary: '#fff',
       danger: '#e74c3c',
+      success: '#27ae60',
       accent: '#3498db',
     },
   },

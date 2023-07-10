@@ -1,8 +1,9 @@
 import { selectorToPipe, StoreResult } from '@waveditors/rxjs-react';
-import { catchError, from, map, of, switchMap } from 'rxjs';
+import { catchError, filter, from, map, of, switchMap } from 'rxjs';
+import { deepEqual } from 'fast-equals';
 import { elementStore, ElementStoreDeps } from '../element';
 import type { Image } from './image.types';
-import { getImageUrl } from './image.selectors';
+import { getImageMeta, getImageUrl } from './image.selectors';
 
 const getImageSize = (url: string) =>
   new Promise<{ width: number; height: number }>((resolve, reject) => {
@@ -35,7 +36,8 @@ export const imageStore = (_: ElementStoreDeps) =>
             map(getImageSize),
             switchMap((promise) =>
               from(promise).pipe(catchError(() => of(undefined)))
-            )
+            ),
+            filter((value) => !deepEqual(value, getImageMeta(bs.getValue())))
           )
           .subscribe(actions.setMeta),
       ],
