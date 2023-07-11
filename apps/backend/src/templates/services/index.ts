@@ -2,6 +2,8 @@ import { GraphQLError } from 'graphql/index';
 import { GQL_ERRORS } from '@waveditors/utils';
 import { prisma } from '../../app';
 
+export { TemplatesService } from './templates-service';
+
 const isUserTemplateOwner = async (userId: number, templateId: number) => {
   const template = await prisma.template.findUniqueOrThrow({
     where: { id: templateId },

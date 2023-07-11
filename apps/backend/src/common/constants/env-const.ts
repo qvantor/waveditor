@@ -14,3 +14,4 @@ export const JWT_SECRET = checkConst('JWT_SECRET');
 export const LOG_LEVEL = checkConst('LOG_LEVEL');
 export const NODE_ENV = checkConst('NODE_ENV');
 export const ADMIN_EMAILS = process.env.ADMIN_EMAILS ?? '';
+export const DEMO_MATERIALS = Number(process.env.DEMO_MATERIALS) === 1;
