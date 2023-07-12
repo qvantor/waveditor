@@ -9,9 +9,10 @@ import { onError } from '@apollo/client/link/error';
 import { RetryLink } from '@apollo/client/link/retry';
 import { GQL_ERRORS } from '@waveditors/utils';
 import { authStore, getToken } from '../../auth';
+import { NX_BACKEND_URL } from '../constants';
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: `${NX_BACKEND_URL}/graphql`,
 });
 
 const authLink = setContext(() => {

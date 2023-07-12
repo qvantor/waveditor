@@ -15,7 +15,11 @@
         "bundle": false,
         "main": "apps/backend/src/main.ts",
         "tsConfig": "apps/backend/tsconfig.app.json",
-        "assets": ["apps/backend/src/assets"],
+        "assets": [
+          "apps/backend/src/assets",
+          "apps/backend/prisma/**",
+          "apps/backend/src/**/*.graphql"
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -70,6 +74,16 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run backend:build",
+          "docker build -f ./apps/backend/Dockerfile . -t waveditor/backend"
+        ],
+        "parallel": false
       }
     }
   },

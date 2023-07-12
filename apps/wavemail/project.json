@@ -50,8 +50,7 @@
       "options": {
         "buildTarget": "wavemail:build",
         "hmr": true,
-        "port": 4000,
-        "proxyConfig": "apps/wavemail/proxy.conf.json"
+        "port": 4000
       },
       "configurations": {
         "development": {
@@ -82,6 +81,16 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run wavemail:build",
+          "docker build -f ./apps/wavemail/Dockerfile . -t waveditor/frontend"
+        ],
+        "parallel": false
       }
     }
   },

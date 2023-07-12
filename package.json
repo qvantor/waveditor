@@ -3,16 +3,19 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run wavemail:serve",
-    "start:backend": "nx run backend:serve",
+    "dev:frontend": "nx run wavemail:serve",
+    "dev:backend": "nx run backend:serve",
     "lint": "nx run-many --all --target=lint",
     "test": "nx run-many --all --target=test",
     "build": "nx run wavemail:build",
-    "codegen": "copyfiles -u 1 -V \"apps/backend/src/**/*.graphql\" dist/graphql && find ./apps/wavemail -iname '*.g.tsx' -delete && graphql-codegen"
+    "codegen": "find ./apps/wavemail -iname '*.g.tsx' -delete && graphql-codegen",
+    "prebuild": "prisma generate && graphql-codegen && nx run-many --all --target=deploy",
+    "start:backend": "npm run prebuild && docker compose up",
+    "start": "npm run prebuild && docker compose --profile with-frontend up"
   },
   "private": true,
   "prisma": {
-    "schema": "apps/backend/src/app/prisma/schema.prisma"
+    "schema": "apps/backend/prisma/schema.prisma"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
@@ -100,7 +103,6 @@
     "antd": "^5.2.2",
     "axios": "^1.4.0",
     "bunyan": "^1.8.15",
-    "copyfiles": "^2.4.1",
     "core-js": "^3.27.2",
     "dayjs": "^1.11.8",
     "express": "~4.18.1",

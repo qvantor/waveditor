@@ -1,5 +1,23 @@
 version: '3.8'
 services:
+  frontend:
+    image: waveditor/frontend:latest
+    restart: on-failure
+    depends_on:
+      - backend
+    ports:
+      - 4000:80
+    profiles:
+      - with-frontend
+  backend:
+    image: waveditor/backend:latest
+    restart: on-failure
+    depends_on:
+      - postgres
+    ports:
+      - 5555:5555
+    env_file:
+      - .env
   postgres:
     image: postgres:13.3
     restart: always

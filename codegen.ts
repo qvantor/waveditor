@@ -7,7 +7,7 @@ const eslintIgnore = {
 };
 
 const config: CodegenConfig = {
-  schema: './dist/graphql/**/*.graphql',
+  schema: './apps/backend/src/**/*.graphql',
   documents: 'apps/wavemail/src/app',
   generates: {
     // Backend

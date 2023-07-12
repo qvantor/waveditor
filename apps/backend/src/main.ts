@@ -20,9 +20,8 @@ const resolvers: Resolvers = [
   groupResolver,
   { JSON: GraphQLJSON },
 ];
-
 const typeDefs = mergeTypeDefs(
-  loadFilesSync(path.join(__dirname, '../../../../../graphql'), {
+  loadFilesSync(path.join(__dirname, '../../../src'), {
     recursive: true,
   }),
   {
