@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "prisma": "^4.16.2",
+    "@mechanicalhuman/bunyan-pretty": "^3.1.0"
+  }
+}

@@ -1,0 +1,14 @@
+query Groups($templateId: Int) {
+  groups(templateId: $templateId) {
+    id
+    createdAt
+    name
+    templatesCount
+    usersCount
+    creator {
+      id
+      firstName
+      lastName
+    }
+  }
+}

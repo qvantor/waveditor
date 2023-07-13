@@ -1,0 +1,6 @@
+mutation SetGroupName($groupId: Int!, $name: String!) {
+  setGroupName(groupId: $groupId, name: $name) {
+    id
+    name
+  }
+}

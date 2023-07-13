@@ -1,0 +1,6 @@
+mutation GoogleAuth($auth: GoogleAuth!) {
+  googleAuth(auth: $auth) {
+    accessToken
+    expires
+  }
+}

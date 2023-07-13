@@ -1,0 +1,11 @@
+type Group {
+  id: Int!
+  createdAt: String!
+  name: String!
+  userId: Int!
+  creator: User
+  users: [User!]
+  usersCount: Int
+  templatesCount: Int
+  templates: [Template!]
+}

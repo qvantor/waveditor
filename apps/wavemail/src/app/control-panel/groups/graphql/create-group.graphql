@@ -1,0 +1,7 @@
+mutation CreateGroup {
+  createGroup {
+    id
+    createdAt
+    name
+  }
+}

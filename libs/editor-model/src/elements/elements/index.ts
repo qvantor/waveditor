@@ -10,7 +10,6 @@ export * from './elements.selectors';
 export * from './elements.services';
 export {
   createEmptyElement,
-  elementToElementStore,
   elementsToElementsStore,
 } from './elements.creators';
 export * from './elements.actions';

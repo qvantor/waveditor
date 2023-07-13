@@ -1,0 +1,7 @@
+mutation UpdateVersion($templateId: Int!, $json: JSON!) {
+  updateVersion(templateId: $templateId, json: $json) {
+    id
+    json
+    updatedAt
+  }
+}

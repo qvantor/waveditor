@@ -1,0 +1,1 @@
+export { loggerPlugin } from './logger';

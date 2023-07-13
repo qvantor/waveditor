@@ -1,3 +1,4 @@
+import { StoreConstructor } from '@waveditors/rxjs-react';
 import { ElementStoreDeps } from '../element';
 import { createInitialLayout, layoutStore } from '../layout';
 import { createEmptyText, textStore } from '../text';
@@ -23,33 +24,28 @@ export function createEmptyElement<T extends ElementType>(
   }
 }
 
-export function elementToElementStore<E extends Element, T = E['type']>(
+export const elementToStoreConstructor = <E extends Element>(
   element: E,
   deps: ElementStoreDeps
-): Extract<ElementStore, { bs: { value: { type: T } } }>;
-
-export function elementToElementStore<E extends Element>(
-  element: E,
-  deps: ElementStoreDeps
-) {
+): StoreConstructor<any, any, any> => {
   switch (element.type) {
     case 'layout':
-      return layoutStore(deps).run(element);
+      return layoutStore(deps);
     case 'text':
-      return textStore(deps).run(element);
+      return textStore(deps);
     case 'image':
-      return imageStore(deps).run(element);
+      return imageStore(deps);
   }
-}
+};
 
 export const elementsToElementsStore = (
   elements: Record<string, Element>,
-  deps: ElementStoreDeps
+  toStore: (element: Element) => ElementStore
 ) =>
   Object.entries(elements).reduce<Record<string, ElementStore>>(
     (sum, [key, element]) => ({
       ...sum,
-      [key]: elementToElementStore(element, deps),
+      [key]: toStore(element),
     }),
     {}
   );

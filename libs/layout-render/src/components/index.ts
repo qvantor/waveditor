@@ -10,6 +10,8 @@ export { Helmet } from './helmet';
 export { Head } from './head';
 export { Body } from './body';
 
+export { RenderPreview } from './render-preview';
+
 export type {
   TextDumbProps,
   ImageDumbProps,

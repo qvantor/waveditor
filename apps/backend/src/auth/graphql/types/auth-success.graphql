@@ -1,0 +1,4 @@
+type AuthSuccess {
+  accessToken: String!
+  expires: Int!
+}

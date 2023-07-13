@@ -1,0 +1,11 @@
+mutation UpdateTemplateGroups(
+  $templateId: Int!
+  $addTo: [Int!]!
+  $removeFrom: [Int!]!
+) {
+  updateTemplateGroups(
+    templateId: $templateId
+    addTo: $addTo
+    removeFrom: $removeFrom
+  )
+}

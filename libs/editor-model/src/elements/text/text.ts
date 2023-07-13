@@ -2,7 +2,6 @@ import { StoreResult } from '@waveditors/rxjs-react';
 import { JSONContent } from '@tiptap/core';
 import { deepEqual } from 'fast-equals';
 import { elementStore, ElementStoreDeps } from '../element';
-import { commonUndoRedoEffect } from '../../services';
 import { getVariableById } from '../../variables';
 import { Text } from './text.types';
 
@@ -61,7 +60,6 @@ const setContent = (content: JSONContent, text: Text) => ({
 export const textStore = (deps: ElementStoreDeps) =>
   elementStore<Text>()
     .addActions({ setContent })
-    .addEffect(commonUndoRedoEffect(deps.undoRedo))
     .addEffect(() => ({
       subscriptions: (config) => [
         // subscription for update variables in text nodes

@@ -1,0 +1,5 @@
+type Query {
+  templates: [Template!]! @auth
+  template(id: Int!): Template! @auth
+  templateToHtml(templateId: Int!, variables: JSON): String!
+}

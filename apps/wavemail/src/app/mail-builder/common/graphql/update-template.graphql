@@ -1,0 +1,6 @@
+mutation UpdateTemplate($templateId: Int!, $data: UpdateTemplate!) {
+  updateTemplate(templateId: $templateId, data: $data) {
+    id
+    name
+  }
+}

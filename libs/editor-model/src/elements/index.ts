@@ -36,7 +36,6 @@ export {
   getParentElement,
   getLayoutElement,
   createEmptyElement,
-  elementToElementStore,
   getElementById,
   getElementParents,
   elementsStoreToObject,

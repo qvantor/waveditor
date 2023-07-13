@@ -1,0 +1,4 @@
+type Query {
+  group(id: Int!): Group! @auth(role: ADMIN)
+  groups(templateId: Int): [Group!]! @auth
+}
