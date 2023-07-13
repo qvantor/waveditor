@@ -1,17 +1,18 @@
 {
   "name": "waveditors",
-  "version": "0.0.0",
+  "version": "0.1.3",
   "license": "MIT",
   "scripts": {
     "dev:frontend": "nx run wavemail:serve",
     "dev:backend": "nx run backend:serve",
     "lint": "nx run-many --all --target=lint",
     "test": "nx run-many --all --target=test",
-    "build": "nx run wavemail:build",
     "codegen": "find ./apps/wavemail -iname '*.g.tsx' -delete && graphql-codegen",
-    "prebuild": "prisma generate && graphql-codegen && nx run-many --all --target=deploy",
-    "start:backend": "npm run prebuild && docker compose up",
-    "start": "npm run prebuild && docker compose --profile with-frontend up"
+    "build": "prisma generate && npm run codegen && nx run-many --all --target=build",
+    "docker:build": "nx run-many --all --target=deploy",
+    "docker:push": "docker push waveditor/backend:$(npm pkg get version --workspaces=false | tr -d \\\")",
+    "docker:start:backend": "docker compose up",
+    "docker:start": "docker compose --profile with-frontend up"
   },
   "private": true,
   "prisma": {
