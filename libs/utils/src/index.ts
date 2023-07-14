@@ -6,3 +6,4 @@ export * from './border-radius';
 export * from './css-units';
 export * from './object';
 export * from './math';
+export * from './contracts';

@@ -1,0 +1,1 @@
+export { groupResolver } from './resolvers';

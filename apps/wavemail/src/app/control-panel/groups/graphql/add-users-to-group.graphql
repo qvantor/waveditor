@@ -1,0 +1,3 @@
+mutation AddUsersToGroup($users: [Int!]!, $groupId: Int!) {
+  addUsersToGroup(users: $users, groupId: $groupId)
+}

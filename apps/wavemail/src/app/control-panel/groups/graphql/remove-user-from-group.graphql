@@ -1,0 +1,3 @@
+mutation RemoveUserFromGroup($userId: Int!, $groupId: Int!) {
+  removeUserFromGroup(userId: $userId, groupId: $groupId)
+}

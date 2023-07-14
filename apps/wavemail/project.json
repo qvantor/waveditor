@@ -82,6 +82,15 @@
           "codeCoverage": true
         }
       }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "VERSION=$(npm pkg get version --workspaces=false | tr -d \\\") && docker build -f ./apps/wavemail/Dockerfile . -t waveditor/frontend:$VERSION"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []

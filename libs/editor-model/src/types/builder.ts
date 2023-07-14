@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { UndoRedoModule } from '@waveditors/rxjs-react';
+import { UndoRedoModule, OnChangeDebounceModule } from '@waveditors/rxjs-react';
 import { ElementsStore } from '../elements';
 import { HoverStore, SelectedStore } from '../interaction';
 import { RelationsStore } from '../relations';
@@ -7,7 +7,7 @@ import { ConfigStore } from '../config';
 import { VariablesStore } from '../variables';
 import { EditorCommands, EditorEvents, UndoRedoEvents } from './';
 
-export type BuilderCore = Readonly<{
+export type BuilderContext = Readonly<{
   model: {
     elements: ElementsStore;
     relations: RelationsStore;
@@ -24,8 +24,6 @@ export type BuilderCore = Readonly<{
   };
   module: {
     undoRedo: UndoRedoModule<UndoRedoEvents>;
+    onChange: OnChangeDebounceModule;
   };
-  subscribe: () => () => void;
 }>;
-
-export type BuilderContext = Omit<BuilderCore, 'subscribe'>;

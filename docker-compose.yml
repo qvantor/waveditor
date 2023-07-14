@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  frontend:
+    image: waveditor/frontend
+    restart: on-failure
+    depends_on:
+      - backend
+    ports:
+      - 4000:80
+    profiles:
+      - with-frontend
+  backend:
+    image: waveditor/backend:0.1.4
+    restart: on-failure
+    depends_on:
+      - postgres
+    ports:
+      - 80:5555
+    env_file:
+      - .env
+  postgres:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - 2345:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}

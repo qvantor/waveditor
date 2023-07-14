@@ -1,0 +1,7 @@
+type Template {
+  id: Int!
+  name: String!
+  userId: Int!
+  creator: User
+  versions(cursor: Int, limit: Int): [TemplateVersion!]
+}

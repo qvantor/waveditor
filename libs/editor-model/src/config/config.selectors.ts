@@ -11,7 +11,6 @@ export const getTemplateDefaultFont = (config: Config) => {
   return defaultFont;
 };
 
-export const getConfigName = (config: Config) => config.name;
 export const getConfigRootElementId = (config: Config) => config.rootElementId;
 
 export const getConfigViewportWidth = (config: Config) => config.viewportWidth;

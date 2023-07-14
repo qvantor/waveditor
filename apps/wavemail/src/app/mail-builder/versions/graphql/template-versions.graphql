@@ -1,0 +1,17 @@
+query TemplateVersions($templateId: Int!, $limit: Int, $cursor: Int) {
+  template(id: $templateId) {
+    id
+    name
+    versions(limit: $limit, cursor: $cursor) {
+      id
+      name
+      json
+      updatedAt
+      creator {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+}

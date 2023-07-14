@@ -28,7 +28,6 @@ export type ConfigFont = {
 };
 
 export type Config = {
-  name: string;
   rootElementId: string;
   viewportWidth: number;
   fonts: ConfigFont[];
