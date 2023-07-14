@@ -6,13 +6,17 @@ import { useTemplateQuery } from '../../common/graphql/template.g';
 import { CONTROL_PANEL } from '../../../common/constants';
 import { versionsStoreConstructor, getCurrent } from '../store';
 import { VersionsContext, useVersionsContext } from '../hooks';
+import { handleError } from '../../../common/services';
+import { useErrorHandler } from '../../../common/hooks';
 
 const VersionsLoader = () => {
   const templateId = useTemplateId();
   const versions = useVersionsContext();
+  const { noResource } = useErrorHandler();
   const { data } = useTemplateQuery({
     variables: { templateId },
     fetchPolicy: 'network-only',
+    onError: handleError([noResource]),
   });
 
   useEffect(() => {

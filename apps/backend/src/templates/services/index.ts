@@ -37,9 +37,9 @@ export const checkUserTemplateBasePermission = async (
     where: { id: userId },
     include: {
       group: {
-        include: {
+        where: {
           group: {
-            include: { template: { where: { templateId } } },
+            template: { some: { templateId } },
           },
         },
       },
