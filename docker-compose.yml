@@ -15,7 +15,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - 80:5555
+      - 5555:5555
     env_file:
       - .env
   postgres:
