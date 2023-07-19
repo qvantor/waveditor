@@ -23,4 +23,6 @@ export type Style = {
   textAlign?: Align;
   color?: Property.Color;
   borderRadius?: string;
+  width?: string;
+  height?: string;
 } & Background;

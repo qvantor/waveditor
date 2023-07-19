@@ -1,13 +1,12 @@
-import { CSSProperties, TableHTMLAttributes } from 'react';
+import { CSSProperties } from 'react';
 import { Layout } from '@waveditors/editor-model';
 import { getXPadding } from '@waveditors/utils';
 import { useStyle } from '../../hooks';
-import { COLUMN_DATATYPE } from '../../constants';
+import { COLUMN_DATATYPE, useElementContext } from '../../constants';
 import { LinkHOC } from '../link-hoc';
 
 export interface LayoutDumbProps {
   element: Layout;
-  width: number;
   renderColumn: (props: {
     width: number;
     column: string[];
@@ -15,19 +14,17 @@ export interface LayoutDumbProps {
   }) => JSX.Element;
   style?: CSSProperties;
   columnStyle?: CSSProperties;
-  attributes?: TableHTMLAttributes<HTMLTableElement>;
 }
 
 export const LayoutDumb = LinkHOC(
   ({
     element,
-    width,
     style: externalStyle,
     columnStyle,
     renderColumn,
-    attributes,
   }: LayoutDumbProps) => {
     const style = useStyle(element);
+    const { parentWidth: width, attributes } = useElementContext();
     const actualWidth = width - getXPadding(element.style.padding);
     return (
       <table

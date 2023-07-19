@@ -3,15 +3,14 @@ import { Style } from '../../types';
 import { VariablesStore } from '../../variables';
 
 export const ElementCommonTypes = ['layout', 'text', 'image'] as const;
+export type ElementTypes = (typeof ElementCommonTypes)[number];
 
 export type ElementLink = {
   url: string;
   newTab: boolean;
 };
 
-export type ElementCommon<
-  T extends string = (typeof ElementCommonTypes)[number]
-> = {
+export type ElementCommon<T extends string = ElementTypes> = {
   id: string;
   type: T;
   name?: string;

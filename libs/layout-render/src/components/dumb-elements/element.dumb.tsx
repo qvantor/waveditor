@@ -5,6 +5,7 @@ import {
   getElementById,
   useBuilderContext,
 } from '@waveditors/editor-model';
+import { ElementContextProvider } from '../../constants';
 import { LayoutDumb } from './layout.dumb';
 import { TextDumb } from './text.dumb';
 import { ImageDumb } from './image.dumb';
@@ -24,25 +25,30 @@ export const ElementDumb = ({ id, width }: Props) => {
     () => getElementById(id)(elements.getValue()),
     [id, elements]
   );
-  return match(element)
-    .with(elementSelector('layout'), (layout) => (
-      <LayoutDumb
-        element={layout.getValue()}
-        width={width}
-        renderColumn={({ width, column }) => (
-          <ColumnDumb width={width}>
-            {column.map((col, id) => (
-              <ElementDumb id={col} width={width} key={id} />
-            ))}
-          </ColumnDumb>
-        )}
-      />
-    ))
-    .with(elementSelector('text'), (text) => (
-      <TextDumb element={text.getValue()} />
-    ))
-    .with(elementSelector('image'), (image) => (
-      <ImageDumb element={image.getValue()} />
-    ))
-    .otherwise(() => <NotFoundDumb id={id} />);
+  return (
+    <ElementContextProvider value={{ parentWidth: width, isSelected: false }}>
+      {match(element)
+        .with(elementSelector('layout'), (layout) => (
+          <LayoutDumb
+            element={layout.getValue()}
+            renderColumn={({ width, column }) => (
+              <ColumnDumb width={width}>
+                {column.map((col, id) => (
+                  <ElementDumb id={col} width={width} key={id} />
+                ))}
+              </ColumnDumb>
+            )}
+          />
+        ))
+        .with(elementSelector('text'), (text) => (
+          <TextDumb element={text.getValue()} />
+        ))
+        .with(elementSelector('image'), (image) => (
+          <ImageDumb element={image.getValue()} />
+        ))
+        .otherwise(() => (
+          <NotFoundDumb id={id} />
+        ))}
+    </ElementContextProvider>
+  );
 };

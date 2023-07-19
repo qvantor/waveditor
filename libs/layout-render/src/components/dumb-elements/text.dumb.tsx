@@ -1,17 +1,18 @@
-import { HTMLAttributes, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { jsonToHtml } from '@waveditors/text-editor';
 import { Text, useBuilderContext } from '@waveditors/editor-model';
 import { useStyle } from '../../hooks';
 import { LinkHOC } from '../link-hoc';
+import { useElementContext } from '../../constants';
 
 export interface TextDumbProps {
   element: Text;
-  attributes?: HTMLAttributes<HTMLDivElement>;
 }
 
 export const TextDumb = LinkHOC(
-  ({ element, children, attributes }: PropsWithChildren<TextDumbProps>) => {
-    const style = useStyle(element);
+  ({ element, children }: PropsWithChildren<TextDumbProps>) => {
+    const { attributes, parentWidth } = useElementContext();
+    const style = useStyle(element, parentWidth);
     const {
       model: { variables },
     } = useBuilderContext();

@@ -30,6 +30,7 @@ export const theme = {
     border: {
       primary: '#E8EBEB',
       secondary: '#E3E6E6',
+      tertiary: '#7f8c8d',
     },
     element: {
       primary: '#bdc3c7',
