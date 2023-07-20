@@ -25,13 +25,18 @@ const Circle = styled.div`
   font-size: 13px;
   border-radius: 100%;
 `;
+const Name = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
 export const User = ({ user }: Props) => {
   return (
     <Root>
       <Circle>
         <AiOutlineUser />
       </Circle>
-      {userToUserName(user)}
+      <Name>{userToUserName(user)}</Name>
     </Root>
   );
 };
