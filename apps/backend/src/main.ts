@@ -11,7 +11,14 @@ import { userResolver } from './user';
 import { authResolver } from './auth';
 import { templateResolver } from './templates';
 import { groupResolver } from './groups';
-import { Context, context, authDirective, logger, loggerPlugin } from './app';
+import {
+  Context,
+  context,
+  authDirective,
+  logger,
+  loggerPlugin,
+  formatError,
+} from './app';
 
 const resolvers: Resolvers = [
   authResolver,
@@ -39,6 +46,7 @@ const schema = pipe(
 const server = new ApolloServer<Context>({
   schema,
   logger,
+  formatError,
   plugins: [loggerPlugin()],
 });
 

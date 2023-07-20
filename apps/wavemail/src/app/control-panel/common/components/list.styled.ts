@@ -35,6 +35,8 @@ export const ListItem = styled.div`
 export const ListItemContent = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   ${font({ type: 'paragraph', size: 'small' })}
 `;
 export const ListItemHeader = styled.div`
@@ -45,6 +47,7 @@ export const ListItemHeader = styled.div`
   min-height: 39px;
 `;
 export const ListItemName = styled.div`
+  flex: 1 1;
   ${font({ type: 'paragraph', size: 'medium', weight: 'bold' })}
   padding: 15px;
 `;
@@ -60,9 +63,13 @@ export const ListItemFooter = styled.div`
   justify-content: space-between;
   border-top: 1px solid ${tokens.color.border.primary};
   padding: 15px;
+  gap: 5px;
 
   span {
     ${font({ type: 'paragraph', size: 'smallest' })}
-    color: ${tokens.color.text.secondary}
+    color: ${tokens.color.text.secondary};
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 `;
