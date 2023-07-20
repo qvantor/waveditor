@@ -1,14 +1,20 @@
 import { GraphQLError } from 'graphql/index';
 import { GQL_ERRORS } from '@waveditors/utils';
+import { Prisma } from '@prisma/client';
 import { prisma } from '../../app';
 
 export { TemplatesService } from './templates-service';
 
 const isUserTemplateOwner = async (userId: number, templateId: number) => {
+  // try {
   const template = await prisma.template.findUniqueOrThrow({
     where: { id: templateId },
   });
   return { template, owner: template.userId === userId };
+  // } catch (e) {
+  //   console.log(e instanceof Prisma.PrismaClientInitializationError);
+  //   return { template: {}, owner: true } as any;
+  // }
 };
 
 const NoTemplateAccessError = new GraphQLError('No access to template', {
