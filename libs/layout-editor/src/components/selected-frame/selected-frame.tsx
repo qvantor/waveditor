@@ -10,7 +10,7 @@ import { resizeObservable } from '../../services';
 import { FrameRoot } from '../hover-frame';
 import { FrameControl } from './frame-control';
 import { InnerFrame } from './inner-frame';
-import { Handles } from './handles';
+import { ResizeHandles } from './resize-handles';
 
 const SelectedRect = styled(FrameRoot)`
   background: transparent;
@@ -75,7 +75,7 @@ export const SelectedFrame = () => {
     >
       <InnerFrame />
       <FrameControl top={top} width={width} />
-      <Handles
+      <ResizeHandles
         left={left}
         width={width}
         height={height}

@@ -5,12 +5,15 @@ import {
   Element,
   ElementStore,
   getElementStyle,
+  typeToDimensions,
 } from '@waveditors/editor-model';
+import { useMemo } from 'react';
 import { CollapseStyled } from '../../../../common/components';
 import {
   BackgroundEditor,
   BorderRadiusEditor,
   PaddingEditor,
+  SizeEditor,
 } from './components';
 
 interface Props {
@@ -22,6 +25,10 @@ export const StyleEditor = ({ element }: Props) => {
     element.bs as BehaviorSubject<Element>,
     getElementStyle
   );
+  const dimensions = useMemo(
+    () => typeToDimensions(element.getValue().type),
+    [element]
+  );
   return (
     <CollapseStyled name='style-editor'>
       <Collapse.Panel key='padding' header='Padding'>
@@ -32,6 +39,16 @@ export const StyleEditor = ({ element }: Props) => {
           }}
         />
       </Collapse.Panel>
+      {dimensions.length !== 0 && (
+        <Collapse.Panel key='size' header='Size'>
+          <SizeEditor
+            width={style.width}
+            height={style.height}
+            onChange={element.actions.setStyle}
+            dimensions={dimensions}
+          />
+        </Collapse.Panel>
+      )}
       <Collapse.Panel key='cornerRadius' header='Corner radius'>
         <BorderRadiusEditor
           value={style.borderRadius}

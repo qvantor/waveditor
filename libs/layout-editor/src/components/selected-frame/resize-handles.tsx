@@ -16,10 +16,11 @@ import {
   Align,
   Element,
   ElementStore,
-  ElementType,
   getElementPosition,
   getParentElement,
   useBuilderContext,
+  typeToDimensions,
+  Dimensions,
 } from '@waveditors/editor-model';
 import { addPx, getXPadding, getYPadding } from '@waveditors/utils';
 import { useLayoutEditorContext } from '../../hooks';
@@ -69,16 +70,8 @@ interface Props {
   ) => void;
 }
 
-type Directions = 'w' | 'h';
-
 type Controls = 'l' | 'r' | 'b';
-
-const ControlsConfig: Partial<Record<ElementType, Directions[]>> = {
-  layout: [],
-  text: ['w'],
-  image: ['w', 'h'],
-};
-const controlToDirection = (control: Controls): Directions => {
+const controlToDimensions = (control: Controls): Dimensions => {
   switch (control) {
     case 'b':
       return 'h';
@@ -139,11 +132,11 @@ const HandlesInternal = ({
     [element]
   );
   const controls = useMemo(
-    () => ControlsConfig[element.getValue().type] ?? [],
+    () => typeToDimensions(element.getValue().type),
     [element]
   );
   const onMouseDown = (control: Controls) => (e: ReactMouseEvent) => {
-    const direction = controlToDirection(control);
+    const direction = controlToDimensions(control);
     e.stopPropagation();
     const prevX = e.clientX;
     const prevY = e.clientY;
@@ -229,7 +222,7 @@ const HandlesInternal = ({
     </>
   );
 };
-export const Handles = (props: Omit<Props, 'element'>) => {
+export const ResizeHandles = (props: Omit<Props, 'element'>) => {
   const {
     model: { elements },
     interaction: { selected },
