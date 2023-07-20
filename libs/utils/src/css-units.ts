@@ -1,4 +1,4 @@
-export const addPx = (value: string) => `${value}px`;
+export const addPx = (value: string | number) => `${value}px`;
 export const removePx = (value: string) => value.replace('px', '');
 
 export const parseCSSUnitValue = (value: string) => [

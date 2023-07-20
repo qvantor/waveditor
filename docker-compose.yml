@@ -10,7 +10,7 @@ services:
     profiles:
       - with-frontend
   backend:
-    image: waveditor/backend:0.1.4
+    image: waveditor/backend:0.1.5
     restart: on-failure
     depends_on:
       - postgres

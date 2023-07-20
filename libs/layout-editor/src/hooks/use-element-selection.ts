@@ -8,7 +8,7 @@ import { Context, RootMouseMoveEvent } from '../types';
 
 export const useElementSelection = ({
   internalEvents,
-  internalState: { isDnd },
+  internalState: { isDnd, isInteractive },
 }: Context) => {
   const {
     editor: { events },
@@ -50,7 +50,7 @@ export const useElementSelection = ({
 
   useSubscription(() =>
     internalEvents
-      .pipe(filter(() => !isDnd.value))
+      .pipe(filter(() => !isDnd.value && isInteractive.value))
       .subscribe((event) =>
         match(event)
           .with({ type: 'RootMouseMove' }, onMouseMove)

@@ -1,17 +1,23 @@
-import { HTMLAttributes } from 'react';
 import { Image } from '@waveditors/editor-model';
 import { useStyle } from '../../hooks';
 import { LinkHOC } from '../link-hoc';
+import { useElementContext } from '../../constants';
 
 export interface ImageDumbProps {
   element: Image;
-  attributes?: HTMLAttributes<HTMLDivElement>;
 }
 
-export const ImageDumb = LinkHOC(({ element, attributes }: ImageDumbProps) => {
-  const { padding, ...restStyle } = useStyle(element);
+export const ImageDumb = LinkHOC(({ element }: ImageDumbProps) => {
+  const { attributes, parentWidth } = useElementContext();
+  const { padding, width, ...restStyle } = useStyle(element, parentWidth);
   return (
-    <div style={{ padding }} {...attributes}>
+    <div
+      style={{
+        padding,
+        width,
+      }}
+      {...attributes}
+    >
       <img
         src={element.params.url}
         style={{

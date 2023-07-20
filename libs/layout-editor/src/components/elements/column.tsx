@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { ColumnDumb } from '@waveditors/layout-render';
 import { LinkElementToLayoutEvent } from '@waveditors/editor-model';
+import { theme } from '@waveditors/theme';
 import { Element } from './element';
 
 interface Props {
@@ -10,7 +11,13 @@ interface Props {
 }
 
 const DndPreview = () => (
-  <div style={{ height: 4, border: '1px dashed gray', margin: 5 }} />
+  <div
+    style={{
+      height: 4,
+      border: `1px dashed ${theme.color.border.tertiary}`,
+      margin: 5,
+    }}
+  />
 );
 
 export const Column = ({ column, width, dndPreview }: Props) => {

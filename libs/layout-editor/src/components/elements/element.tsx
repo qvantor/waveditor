@@ -6,7 +6,11 @@ import {
   getElementById,
   useBuilderContext,
 } from '@waveditors/editor-model';
-import { NotFoundDumb } from '@waveditors/layout-render';
+import {
+  ElementContextProvider,
+  NotFoundDumb,
+} from '@waveditors/layout-render';
+import { useMemo } from 'react';
 import { ELEMENT_DATATYPE } from '../../constants';
 import { Layout } from './layout';
 import { Text } from './text';
@@ -29,16 +33,27 @@ export const Element = ({ id, width }: Props) => {
     getElementById(id)(elements.getValue()),
     [id, elements]
   );
-  const attributes = { id, datatype: ELEMENT_DATATYPE };
-  return match(element)
-    .with(elementSelector('layout'), (element) => (
-      <Layout element={element} width={width} attributes={attributes} />
-    ))
-    .with(elementSelector('text'), (element) => (
-      <Text selected={isSelected} element={element} attributes={attributes} />
-    ))
-    .with(elementSelector('image'), (element) => (
-      <Image element={element} attributes={attributes} />
-    ))
-    .otherwise(() => <NotFoundDumb id={id} />);
+  const elementContext = useMemo(
+    () => ({
+      isSelected,
+      parentWidth: width,
+      attributes: { id, datatype: ELEMENT_DATATYPE },
+    }),
+    [width, id, isSelected]
+  );
+  return (
+    <ElementContextProvider value={elementContext}>
+      {match(element)
+        .with(elementSelector('layout'), (element) => (
+          <Layout element={element} />
+        ))
+        .with(elementSelector('text'), (element) => <Text element={element} />)
+        .with(elementSelector('image'), (element) => (
+          <Image element={element} />
+        ))
+        .otherwise(() => (
+          <NotFoundDumb id={id} />
+        ))}
+    </ElementContextProvider>
+  );
 };

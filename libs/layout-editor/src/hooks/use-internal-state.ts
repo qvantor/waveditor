@@ -5,6 +5,7 @@ import { LayoutAddChild } from '@waveditors/editor-model';
 export const useInternalState = () =>
   useMemo(() => {
     const isDnd = new BehaviorSubject(false);
+    const isInteractive = new BehaviorSubject(true);
     const dndPreview = new BehaviorSubject<null | LayoutAddChild>(null);
-    return { isDnd, dndPreview };
+    return { isDnd, isInteractive, dndPreview };
   }, []);

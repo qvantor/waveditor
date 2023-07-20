@@ -1,13 +1,12 @@
 import { TextEditor } from '@waveditors/text-editor';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
 import { TextStore, useBuilderContext } from '@waveditors/editor-model';
-import { TextDumb, TextDumbProps } from '@waveditors/layout-render';
+import { TextDumb, useElementContext } from '@waveditors/layout-render';
 import { useLayoutEditorContext } from '../../hooks';
 
 type Props = {
-  selected: boolean;
   element: TextStore;
-} & Pick<TextDumbProps, 'attributes'>;
+};
 
 const useFindVariables = () => {
   const {
@@ -23,16 +22,17 @@ const useFindVariables = () => {
   };
 };
 
-export const Text = ({ element, selected, attributes }: Props) => {
+export const Text = ({ element }: Props) => {
   const text = useBehaviorSubject(element.bs);
   const { iFrameDocument } = useLayoutEditorContext();
+  const { isSelected } = useElementContext();
   const findVariables = useFindVariables();
   return (
-    <TextDumb element={text} attributes={attributes}>
+    <TextDumb element={text}>
       <TextEditor
         onChange={element.actions.setContent}
         content={text.params.content}
-        editable={selected}
+        editable={isSelected}
         iFrameDocument={iFrameDocument}
         findVariables={findVariables}
       />
