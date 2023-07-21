@@ -8,6 +8,8 @@ import { authStore, getUserFromToken } from '../../auth';
 import { userToUserName } from '../services';
 
 const UserMenu = styled(Menu)`
+  min-width: 100px;
+
   &.ant-menu-dark {
     background: ${tokens.color.surface.tertiary};
   }

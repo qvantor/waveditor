@@ -5,6 +5,8 @@ export type OutsideDragStartedEvent = {
   payload: Element;
 };
 
-export type EditorCommands =
-  | OutsideDragStartedEvent
-  | { type: 'test'; payload: number };
+export type OutsideDragToClickEvent = {
+  type: 'OutsideDragToClick';
+};
+
+export type EditorCommands = OutsideDragStartedEvent | OutsideDragToClickEvent;

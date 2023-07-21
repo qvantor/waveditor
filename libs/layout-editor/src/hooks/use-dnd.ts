@@ -137,14 +137,18 @@ export const useDnd = ({
   const mouseUpObs = useCallback(() => {
     emulateMouseUp.current = new Subject();
     return merge(
+      // mouseup on editor
       fromEvent(iFrameDocument, 'mouseup'),
+      // OutsideDragClick means that user made mouseUp outside of editor, without drag an element
+      commands.pipe(filter(selectByType('OutsideDragToClick'))),
+      // emulating mouseUp if mouse leaving editor
       emulateMouseUp.current
     ).pipe(
       map(() => dndPreview.getValue()),
       tap(() => dndCleanup()),
       take(1)
     );
-  }, [dndCleanup, dndPreview, iFrameDocument]);
+  }, [dndCleanup, dndPreview, iFrameDocument, commands]);
 
   // emulate mouseUp on mouse leave
   useSubscription(() =>
@@ -184,14 +188,12 @@ export const useDnd = ({
         isDnd.next(true);
 
         mouseMoveSubscription.current = createMouseMoveSubscription(element.id);
-        mouseUpObs()
-          .pipe(filter(notNullish))
-          .subscribe((position) =>
-            events.next({
-              type: 'AddElement',
-              payload: { element, position },
-            })
-          );
+        mouseUpObs().subscribe((position) =>
+          events.next({
+            type: 'AddElement',
+            payload: { element, position: position?.position },
+          })
+        );
       })
   );
 };

@@ -23,7 +23,7 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
   const builderContext = createBuilderContext(snapshot);
 
   const {
-    model: { elements },
+    model: { elements, config },
     editor: { events },
     interaction: { hover, selected },
     module: { undoRedo },
@@ -64,15 +64,25 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
           .with(
             { type: 'AddElement' },
             ({ payload: { element, position } }) => {
+              const internalPosition = position ?? {
+                layout: config.getValue().rootElementId,
+                column: 0,
+                index: 0,
+              };
               const parent = getLayoutElement(
                 elements.getValue(),
-                position.position.layout
+                internalPosition.layout
               );
               if (!parent)
-                return console.error(`AddElement: ${position.position.layout}`);
+                return console.error(
+                  `useAddElement: ${internalPosition.layout}`
+                );
               undoRedo.startBunch();
               elements.actions.addElement(element);
-              parent.actions.addChild(position);
+              parent.actions.addChild({
+                element: element.id,
+                position: internalPosition,
+              });
               undoRedo.endBunch();
               selected.actions.setSelected(element.id);
             }

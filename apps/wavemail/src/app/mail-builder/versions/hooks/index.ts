@@ -18,7 +18,6 @@ export const useSaveSnapshot = () => {
   const [updateVersion] = useUpdateVersionMutation();
   return useCallback(
     async (json: EditorSnapshot) => {
-      console.log('updateVersion');
       const { data } = await updateVersion({ variables: { json, templateId } });
       return data;
     },
