@@ -58,32 +58,41 @@ export const CreateElement = () => {
     model: { elements },
     editor: { commands },
   } = useBuilderContext();
+  const typeToElement = useCallback(
+    (type: ElementType) =>
+      createEmptyElement(type, {
+        name: generateUniqElementName(type, elements),
+      }),
+    [elements]
+  );
   const onMouseDown = useCallback(
     (type: ElementType) => () =>
       commands.next({
         type: 'OutsideDragStarted',
-        payload: createEmptyElement(type, {
-          name: generateUniqElementName(type, elements),
-        }),
+        payload: typeToElement(type),
       }),
-    [commands, elements]
+    [commands, typeToElement]
+  );
+  const onClick = useCallback(
+    () => commands.next({ type: 'OutsideDragToClick' }),
+    [commands]
   );
   return (
     <Root>
       <Tooltip title='Add layout' placement='right'>
-        <Layout onMouseDown={onMouseDown('layout')}>
+        <Layout onMouseDown={onMouseDown('layout')} onClick={onClick}>
           <div />
           <div />
         </Layout>
       </Tooltip>
       <ElementsContainer>
         <Tooltip title='Add text' placement='bottom'>
-          <Element onMouseDown={onMouseDown('text')}>
+          <Element onMouseDown={onMouseDown('text')} onClick={onClick}>
             <TfiText />
           </Element>
         </Tooltip>
         <Tooltip title='Add image' placement='bottom'>
-          <Element onMouseDown={onMouseDown('image')}>
+          <Element onMouseDown={onMouseDown('image')} onClick={onClick}>
             <TfiImage />
           </Element>
         </Tooltip>

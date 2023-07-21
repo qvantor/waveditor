@@ -17,7 +17,7 @@ export type UnlinkElementFromLayoutEvent = {
 };
 export type AddElementEvent = {
   type: 'AddElement';
-  payload: { element: Element; position: LayoutAddChild };
+  payload: { element: Element; position?: LayoutAddChild['position'] };
 };
 export type MutationEvents =
   | AddElementEvent
