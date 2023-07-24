@@ -1,9 +1,10 @@
 import { useBehaviorSubject, useObservable } from '@waveditors/rxjs-react';
 import { distinctUntilChanged, map } from 'rxjs';
-import { LayoutStore } from '@waveditors/editor-model';
+import { LayoutStore, SMALLEST_LAYOUT_SIZE } from '@waveditors/editor-model';
 import { getYPadding } from '@waveditors/utils';
 import { LayoutDumb } from '@waveditors/layout-render';
 import { theme } from '@waveditors/theme';
+import { useMemo } from 'react';
 import { useLayoutEditorContext } from '../../hooks';
 import { Column } from './column';
 
@@ -29,25 +30,31 @@ export const Layout = ({ element }: Props) => {
   );
   const isDnd = useBehaviorSubject(internalState.isDnd);
   const layout = useBehaviorSubject(element.bs);
-  const style = {
-    minHeight: isDnd ? getYPadding(layout.style.padding) + 10 : 10,
-  };
 
-  const columnStyle = isDnd
-    ? {
-        outline: `1px dashed ${theme.color.surface.accentSecondary}`,
-        outlineOffset: -1,
-      }
-    : {};
+  const style = useMemo(() => {
+    if (!isDnd) return undefined;
+    return {
+      minHeight: getYPadding(layout.style.padding) + SMALLEST_LAYOUT_SIZE,
+    };
+  }, [isDnd, layout.style.padding]);
+  const columnsStyle = useMemo(() => {
+    if (!isDnd) return undefined;
+    return {
+      outline: `1px dashed ${theme.color.border.primary}`,
+      outlineOffset: -1,
+    };
+  }, [isDnd]);
   return (
     <LayoutDumb
       element={layout}
       style={style}
-      columnStyle={columnStyle}
-      renderColumn={({ index, ...rest }) => (
+      renderColumn={(props) => (
         <Column
-          dndPreview={dndPreview?.column === index ? dndPreview : undefined}
-          {...rest}
+          style={columnsStyle}
+          dndPreview={
+            dndPreview?.column === props.index ? dndPreview : undefined
+          }
+          {...props}
         />
       )}
     />

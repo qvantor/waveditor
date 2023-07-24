@@ -38,7 +38,8 @@ export const theme = {
     text: {
       primary: '#121417',
       secondary: '#7f8c8d',
-      tertiary: '#fff',
+      tertiary: '#ecf0f1',
+      quaternary: '#b5bcbd',
       danger: '#e74c3c',
       success: '#27ae60',
       accent: '#3498db',
