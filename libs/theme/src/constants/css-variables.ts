@@ -22,6 +22,7 @@ export const theme = {
       tertiaryHover: '#2c3138',
       quaternary: '#F9F9F9',
       accent: '#3498db',
+      accentHover: '#217dbb',
       accentQuarter: 'rgba(52,152,219, 0.25)',
       danger: '#f9d2ce',
       accentSecondary: '#27ae60',

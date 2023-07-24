@@ -1,8 +1,8 @@
 import { MouseEvent, useMemo } from 'react';
-import { Subject } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import styled from 'styled-components';
 import { Head, useSetBodyStyle } from '@waveditors/layout-render';
-import { useBsSelector } from '@waveditors/rxjs-react';
+import { useBsSelector, useSubscription } from '@waveditors/rxjs-react';
 import {
   getConfigRootElementId,
   useBuilderContext,
@@ -30,6 +30,9 @@ const RenderElement = () => {
 
 export function LayoutEditor({ iFrameDocument }: { iFrameDocument: Document }) {
   const internalState = useInternalState();
+  const {
+    editor: { events },
+  } = useBuilderContext();
 
   const context = useMemo(() => {
     const internalEvents = new Subject<InternalEvents>();
@@ -51,6 +54,13 @@ export function LayoutEditor({ iFrameDocument }: { iFrameDocument: Document }) {
     const rootMouseLeave = generalMouseEvent('RootMouseLeave');
     return { rootMouseMove, rootClick, rootMouseLeave };
   }, [context]);
+  useSubscription(
+    () =>
+      fromEvent(iFrameDocument, 'scroll').subscribe((payload) =>
+        events.next({ type: 'CanvasScroll', payload })
+      ),
+    [iFrameDocument, events]
+  );
 
   useElementSelection(context);
   useDnd(context);
