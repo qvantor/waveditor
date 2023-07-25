@@ -7,6 +7,7 @@ import {
   filter,
   forkJoin,
   Observable,
+  tap,
   take,
 } from 'rxjs';
 import { unsubscribeAll } from '@waveditors/rxjs-react';
@@ -67,9 +68,10 @@ const useGsiScript = (
       .subscribe(onSuccess);
 
     // render google button
-    const button = forkJoin([account, element]).subscribe((value) =>
-      renderButton(...value)
-    );
+    const button = forkJoin([account, element])
+      // render google prompt
+      .pipe(tap(([account]) => account.id.prompt()))
+      .subscribe((value) => renderButton(...value));
 
     document.body.appendChild(scriptTag);
 

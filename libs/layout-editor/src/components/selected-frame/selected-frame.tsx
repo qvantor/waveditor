@@ -84,7 +84,9 @@ export const SelectedFrame = () => {
     >
       <InnerFrame />
       <FrameControl top={top} width={width} />
-      {isLayoutStore(element) && <AddLayoutSibling element={element} />}
+      {isLayoutStore(element) && !previewSize && (
+        <AddLayoutSibling element={element} />
+      )}
       <ResizeHandles
         left={left}
         width={width}
