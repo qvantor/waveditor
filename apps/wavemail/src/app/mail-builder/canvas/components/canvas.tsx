@@ -8,6 +8,7 @@ import { RenderPreview } from '@waveditors/layout-render';
 import { BsClockHistory } from 'react-icons/bs';
 import { useVersionsContext, getPreview } from '../../versions';
 import { SelectedToRoot } from './selected-to-root';
+import { CreateElementPopover } from './create-element-popover';
 
 const CanvasHeight = css`
   height: calc(
@@ -17,6 +18,7 @@ const CanvasHeight = css`
 
 const Root = styled.div`
   height: calc(100vh - ${tokens.size.headerHeight});
+  position: relative;
 `;
 
 const CanvasRoot = styled.div`
@@ -72,15 +74,8 @@ export const Canvas = () => {
 
   return (
     <Root>
+      <CreateElementPopover />
       <CanvasRoot onClick={selected.actions.unselect}>
-        {preview && (
-          <PreviewWarning>
-            <BsClockHistory />
-            <div>
-              <span>{preview.name}</span> preview
-            </div>
-          </PreviewWarning>
-        )}
         <CanvasContainer>
           {preview ? (
             <RenderPreviewInternal
@@ -92,7 +87,14 @@ export const Canvas = () => {
           )}
         </CanvasContainer>
       </CanvasRoot>
-      {!preview && (
+      {preview ? (
+        <PreviewWarning>
+          <BsClockHistory />
+          <div>
+            <span>{preview.name}</span> preview
+          </div>
+        </PreviewWarning>
+      ) : (
         <Footer>
           <SelectedToRoot />
         </Footer>

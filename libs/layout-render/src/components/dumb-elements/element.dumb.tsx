@@ -31,10 +31,10 @@ export const ElementDumb = ({ id, width }: Props) => {
         .with(elementSelector('layout'), (layout) => (
           <LayoutDumb
             element={layout.getValue()}
-            renderColumn={({ width, column }) => (
-              <ColumnDumb width={width}>
-                {column.map((col, id) => (
-                  <ElementDumb id={col} width={width} key={id} />
+            renderColumn={(props) => (
+              <ColumnDumb align={props.column.align} {...props}>
+                {props.column.children.map((col, id) => (
+                  <ElementDumb id={col} width={props.width} key={id} />
                 ))}
               </ColumnDumb>
             )}

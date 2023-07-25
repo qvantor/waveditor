@@ -23,4 +23,26 @@ export type MutationEvents =
   | AddElementEvent
   | LinkElementToLayoutEvent
   | UnlinkElementFromLayoutEvent;
-export type EditorEvents = HoverEvents | SelectionEvents | MutationEvents;
+
+export type ShowAddElementControlEvent = {
+  type: 'ShowAddElementControl';
+  payload: {
+    controlPosition: { left: number; top: number };
+    elementPosition: LayoutAddChild['position'];
+  };
+};
+
+export type UIEvents = ShowAddElementControlEvent;
+
+export type CanvasScrollEvent = {
+  type: 'CanvasScroll';
+  payload: Event;
+};
+
+export type CanvasEvents = CanvasScrollEvent;
+export type EditorEvents =
+  | HoverEvents
+  | SelectionEvents
+  | MutationEvents
+  | UIEvents
+  | CanvasEvents;

@@ -22,6 +22,7 @@ export const theme = {
       tertiaryHover: '#2c3138',
       quaternary: '#F9F9F9',
       accent: '#3498db',
+      accentHover: '#217dbb',
       accentQuarter: 'rgba(52,152,219, 0.25)',
       danger: '#f9d2ce',
       accentSecondary: '#27ae60',
@@ -38,7 +39,8 @@ export const theme = {
     text: {
       primary: '#121417',
       secondary: '#7f8c8d',
-      tertiary: '#fff',
+      tertiary: '#ecf0f1',
+      quaternary: '#b5bcbd',
       danger: '#e74c3c',
       success: '#27ae60',
       accent: '#3498db',

@@ -8,6 +8,7 @@ import {
   getParentElement,
   EditorSnapshot,
 } from '@waveditors/editor-model';
+import { noop } from 'rxjs';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
 import { Header } from './header';
@@ -87,7 +88,7 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
               selected.actions.setSelected(element.id);
             }
           )
-          .exhaustive()
+          .otherwise(noop)
       ),
     [elements, hover, selected, events]
   );

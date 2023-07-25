@@ -1,6 +1,8 @@
-FROM nginx:1.15-alpine
+FROM caddy:2-alpine
 
-COPY apps/wavemail/nginx.conf /etc/nginx/nginx.conf
-COPY dist/apps/wavemail /usr/share/nginx/wavemail
+COPY dist/apps/wavemail/Caddyfile ./
+COPY dist/apps/wavemail ./dist
 
-CMD nginx -g "daemon off;"
+EXPOSE 8080
+
+ENTRYPOINT ["caddy", "run"]

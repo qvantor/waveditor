@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { theme } from '@waveditors/theme';
-import { Fragment, MouseEvent as ReactMouseEvent, useMemo } from 'react';
+import {
+  Fragment,
+  MouseEvent as ReactMouseEvent,
+  useMemo,
+  useCallback,
+} from 'react';
 import {
   fromEvent,
   map,
@@ -91,7 +96,7 @@ const calcNewLeft = (align: Align, left: number, diff: number) => {
   }
 };
 
-const HandlesInternal = ({
+export const ResizeHandles = ({
   width,
   height,
   left,
@@ -136,8 +141,8 @@ const HandlesInternal = ({
     [element]
   );
   const onMouseDown = (control: Controls) => (e: ReactMouseEvent) => {
-    const direction = controlToDimensions(control);
     e.stopPropagation();
+    const direction = controlToDimensions(control);
     const prevX = e.clientX;
     const prevY = e.clientY;
     const paddingX = getXPadding(element.getValue().style.padding);
@@ -193,47 +198,64 @@ const HandlesInternal = ({
     // make interactive with small delay (to avoid onClick)
     lastMove.pipe(delay(1)).subscribe(() => isInteractive.next(true));
   };
+  const onClick = useCallback(
+    (e: ReactMouseEvent) => {
+      e.stopPropagation();
+      setPreviewSize(null);
+      isInteractive.next(true);
+    },
+    [setPreviewSize, isInteractive]
+  );
   return (
     <>
       {controls.map((direction) => {
         switch (direction) {
           case 'h':
-            return <HandleBottom onMouseDown={onMouseDown('b')} key='h' />;
-          case 'w':
+            return (
+              width >= 15 && (
+                <HandleBottom
+                  onMouseDown={onMouseDown('b')}
+                  onClick={onClick}
+                  key='h'
+                />
+              )
+            );
+          case 'w': {
+            if (height < 15) return null;
             switch (columnAlign) {
               case 'left':
-                return <HandleRight onMouseDown={onMouseDown('r')} key='w' />;
+                return (
+                  <HandleRight
+                    onMouseDown={onMouseDown('r')}
+                    onClick={onClick}
+                    key='w'
+                  />
+                );
               case 'center':
                 return (
                   <Fragment key='w'>
-                    <HandleRight onMouseDown={onMouseDown('r')} />
-                    <HandleLeft onMouseDown={onMouseDown('l')} />
+                    <HandleRight
+                      onMouseDown={onMouseDown('r')}
+                      onClick={onClick}
+                    />
+                    <HandleLeft
+                      onMouseDown={onMouseDown('l')}
+                      onClick={onClick}
+                    />
                   </Fragment>
                 );
               case 'right':
-                return <HandleLeft onMouseDown={onMouseDown('l')} key='w' />;
-              default:
-                return null;
+                return (
+                  <HandleLeft
+                    onMouseDown={onMouseDown('l')}
+                    onClick={onClick}
+                    key='w'
+                  />
+                );
             }
-          default:
-            return null;
+          }
         }
       })}
     </>
   );
-};
-export const ResizeHandles = (props: Omit<Props, 'element'>) => {
-  const {
-    model: { elements },
-    interaction: { selected },
-  } = useBuilderContext();
-  const element = useObservable(
-    selected.bs.pipe(
-      map((selected) => (selected ? elements.bs.value[selected] : null))
-    ),
-    null,
-    [selected.bs]
-  );
-  if (!element) return null;
-  return <HandlesInternal {...props} element={element} />;
 };

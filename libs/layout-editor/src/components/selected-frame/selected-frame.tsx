@@ -3,7 +3,7 @@ import { useObservable } from '@waveditors/rxjs-react';
 import { delay, filter, map, of, switchMap } from 'rxjs';
 import { theme, font } from '@waveditors/theme';
 import { match, P } from 'ts-pattern';
-import { useBuilderContext } from '@waveditors/editor-model';
+import { isLayoutStore, useBuilderContext } from '@waveditors/editor-model';
 import { useState } from 'react';
 import { useLayoutEditorContext } from '../../hooks';
 import { resizeObservable } from '../../services';
@@ -11,6 +11,7 @@ import { FrameRoot } from '../hover-frame';
 import { FrameControl } from './frame-control';
 import { InnerFrame } from './inner-frame';
 import { ResizeHandles } from './resize-handles';
+import { AddLayoutSibling } from './add-layout-sibling';
 
 const SelectedRect = styled(FrameRoot)`
   background: transparent;
@@ -35,6 +36,7 @@ export const SelectedFrame = () => {
   } | null>(null);
   const {
     interaction: { selected },
+    model: { elements },
   } = useBuilderContext();
   const { iFrameDocument } = useLayoutEditorContext();
   const rect = useObservable(
@@ -57,8 +59,15 @@ export const SelectedFrame = () => {
     null,
     [selected]
   );
+  const element = useObservable(
+    selected.bs.pipe(
+      map((selected) => (selected ? elements.bs.value[selected] : null))
+    ),
+    null,
+    [selected.bs]
+  );
 
-  if (!rect) return null;
+  if (!rect || !element) return null;
 
   const { left, top, width, height } = rect;
   const resultLeft = previewSize ? previewSize.left : left;
@@ -75,11 +84,15 @@ export const SelectedFrame = () => {
     >
       <InnerFrame />
       <FrameControl top={top} width={width} />
+      {isLayoutStore(element) && !previewSize && (
+        <AddLayoutSibling element={element} />
+      )}
       <ResizeHandles
         left={left}
         width={width}
         height={height}
         setPreviewSize={setPreviewSize}
+        element={element}
       />
       {previewSize && (
         <SizePreview>

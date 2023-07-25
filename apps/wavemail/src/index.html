@@ -16,6 +16,13 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap"
       rel="stylesheet"
     />
+    <!--  Replace variables on response by Caddy -->
+    <script>
+      var Env = {
+        NX_BACKEND_URL: `{{ env "NX_BACKEND_URL" }}`,
+        NX_GOOGLE_OAUTH_CLIENT: `{{ env "NX_GOOGLE_OAUTH_CLIENT" }}`,
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>
