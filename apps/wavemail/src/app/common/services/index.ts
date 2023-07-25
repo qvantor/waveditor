@@ -3,3 +3,4 @@ export * from './axios';
 export * from './apollo-client';
 export * from './user';
 export * from './gql-error-handlng';
+export * from './env-variables';

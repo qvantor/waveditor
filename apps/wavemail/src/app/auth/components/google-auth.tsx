@@ -13,7 +13,7 @@ import {
 import { unsubscribeAll } from '@waveditors/rxjs-react';
 import { useGoogleAuthMutation } from '../graphql/google-auth.g';
 import { AuthSuccess } from '../../common/types/gql.g';
-import { NX_GOOGLE_OAUTH_CLIENT } from '../../common/constants';
+import { getEnvValue } from '../../common/services';
 
 const renderButton = (account: typeof google.accounts, element: HTMLElement) =>
   account.id.renderButton(element, {
@@ -26,7 +26,7 @@ const renderButton = (account: typeof google.accounts, element: HTMLElement) =>
 const onAuth = (account: typeof google.accounts) =>
   new Observable<google.accounts.id.CredentialResponse>((observer) => {
     account.id.initialize({
-      client_id: NX_GOOGLE_OAUTH_CLIENT,
+      client_id: getEnvValue('NX_GOOGLE_OAUTH_CLIENT'),
       callback: (payload) => {
         observer.next(payload);
         observer.complete();

@@ -1,0 +1,24 @@
+:8080
+
+log {
+  output stdout
+  format filter {
+    wrap json
+    fields {
+      request>headers delete
+      common_log delete
+      resp_headers delete
+    }
+  }
+}
+
+encode zstd gzip
+
+handle {
+  root * ./dist
+
+  try_files {path} {path}/ /index.html
+
+  file_server
+  templates
+}
