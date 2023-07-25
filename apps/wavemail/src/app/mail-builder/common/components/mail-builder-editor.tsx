@@ -29,9 +29,6 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
     interaction: { hover, selected },
     module: { undoRedo },
   } = builderContext;
-  document.addEventListener('scroll', (e) => {
-    console.log(e);
-  });
 
   useUnsubscribable(
     () =>
