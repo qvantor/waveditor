@@ -27,7 +27,7 @@ const Logo = styled(BsSoundwave)`
     background: ${tokens.color.surface.tertiaryHover};
   }
 `;
-export const HeaderButton = styled.button`
+export const HeaderButton = styled.button<{ size?: 'small' | 'medium' }>`
   display: flex;
   gap: 6px;
   align-items: center;
@@ -35,13 +35,18 @@ export const HeaderButton = styled.button`
   color: ${tokens.color.text.tertiary};
   background: ${tokens.color.surface.tertiary};
   transition: all 0.3s ease-in;
-  padding: 0 12px;
+  padding: ${({ size }) => (size === 'small' ? '0 6px' : '0 12px')};
   border: none;
   cursor: pointer;
 
   ${font({ size: 'small', weight: 'light' })}
   &:hover {
     background: ${tokens.color.surface.tertiaryHover};
+  }
+
+  &:disabled{
+    cursor: not-allowed;
+    color: ${tokens.color.text.secondary};
   }
 `;
 
