@@ -79,7 +79,6 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
             actions.removeEvent(lastAction.id);
             undoStore.actions.addEvents(lastAction);
           }),
-        // update redoCounter
       ],
     }))
     .run([]);

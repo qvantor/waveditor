@@ -8,7 +8,7 @@ import {
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { useObservable } from '@waveditors/rxjs-react';
-import { addPx, removePx } from '@waveditors/utils';
+import { addPx, getXPadding, removePx } from '@waveditors/utils';
 import { configFontToStyle, styleMapper } from '../services';
 
 const useFontFamily = (elementId: string) => {
@@ -49,8 +49,11 @@ export const useStyle = (
   maxWidth = Number.MAX_SAFE_INTEGER
 ) => {
   const fontFamily = useFontFamily(element.id);
+  const paddingX = getXPadding(element.style.padding);
   const width = element.style.width
-    ? addPx(Math.min(Number(removePx(element.style.width)), maxWidth))
+    ? addPx(
+        Math.min(Number(removePx(element.style.width)), maxWidth - paddingX)
+      )
     : undefined;
   const style = elementStyle(element.type);
   return styleMapper({
