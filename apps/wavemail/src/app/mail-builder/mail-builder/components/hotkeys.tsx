@@ -1,16 +1,16 @@
-import { filter, fromEvent, merge } from 'rxjs';
+import { filter, fromEvent, merge, map } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
 import {
+  CanvasKeyDownEvent,
   removeSelectedElement,
   useAction,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { message } from 'antd';
-import { useEditorKeyboardEvents } from '../../../common/hooks';
 
 const HotkeyActions = {
   undo: 'KeyZ',
-  redo: 'KeyX',
+  redo: 'KeyY',
   save: 'KeyS',
   load: 'KeyL',
   remove: 'Backspace',
@@ -20,18 +20,20 @@ export const Hotkeys = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const {
     module: { undoRedo },
+    editor: { events },
   } = useBuilderContext();
   const removeSelected = useAction(removeSelectedElement);
-  const editorKeyboardEvents = useEditorKeyboardEvents();
 
   useSubscription(() => {
     const keyboardEvents = fromEvent<KeyboardEvent>(document, 'keydown');
+    const canvasKeyboardEvents = events.pipe(
+      filter(
+        (event): event is CanvasKeyDownEvent => event.type === 'CanvasKeyDown'
+      ),
+      map((e) => e.payload)
+    );
 
-    return (
-      editorKeyboardEvents
-        ? merge(editorKeyboardEvents, keyboardEvents)
-        : keyboardEvents
-    )
+    return merge(canvasKeyboardEvents, keyboardEvents)
       .pipe(
         filter(
           (e) =>
@@ -54,6 +56,6 @@ export const Hotkeys = () => {
             return removeSelected();
         }
       });
-  }, [undoRedo, editorKeyboardEvents]);
+  }, [undoRedo, events]);
   return contextHolder;
 };

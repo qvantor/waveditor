@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useObservable } from '@waveditors/rxjs-react';
-import { delay, filter, map, of, switchMap } from 'rxjs';
+import { delay, filter, map, of, switchMap, combineLatest } from 'rxjs';
 import { theme, font } from '@waveditors/theme';
 import { match, P } from 'ts-pattern';
 import { isLayoutStore, useBuilderContext } from '@waveditors/editor-model';
@@ -10,7 +10,7 @@ import { resizeObservable } from '../../services';
 import { FrameRoot } from '../hover-frame';
 import { FrameControl } from './frame-control';
 import { InnerFrame } from './inner-frame';
-import { ResizeHandles } from './resize-handles';
+import { ResizeHandles, Sizes } from './resize-handles';
 import { AddLayoutSibling } from './add-layout-sibling';
 
 const SelectedRect = styled(FrameRoot)`
@@ -29,14 +29,10 @@ const SizePreview = styled.div`
 `;
 
 export const SelectedFrame = () => {
-  const [previewSize, setPreviewSize] = useState<{
-    width: number;
-    height: number;
-    left: number;
-  } | null>(null);
+  const [previewSize, setPreviewSize] = useState<Sizes | null>(null);
   const {
     interaction: { selected },
-    model: { elements },
+    model: { elements, config },
   } = useBuilderContext();
   const { iFrameDocument } = useLayoutEditorContext();
   const rect = useObservable(
@@ -66,7 +62,13 @@ export const SelectedFrame = () => {
     null,
     [selected.bs]
   );
-
+  const isRoot = useObservable(
+    combineLatest([selected.bs, config.bs]).pipe(
+      map(([selected, config]) => selected === config.rootElementId)
+    ),
+    null,
+    [selected.bs]
+  );
   if (!rect || !element) return null;
 
   const { left, top, width, height } = rect;
@@ -84,7 +86,7 @@ export const SelectedFrame = () => {
     >
       <InnerFrame />
       <FrameControl top={top} width={width} />
-      {isLayoutStore(element) && !previewSize && (
+      {isLayoutStore(element) && !previewSize && !isRoot && (
         <AddLayoutSibling element={element} />
       )}
       <ResizeHandles

@@ -39,7 +39,12 @@ export type CanvasScrollEvent = {
   payload: Event;
 };
 
-export type CanvasEvents = CanvasScrollEvent;
+export type CanvasKeyDownEvent = {
+  type: 'CanvasKeyDown';
+  payload: KeyboardEvent;
+};
+
+export type CanvasEvents = CanvasScrollEvent | CanvasKeyDownEvent;
 export type EditorEvents =
   | HoverEvents
   | SelectionEvents

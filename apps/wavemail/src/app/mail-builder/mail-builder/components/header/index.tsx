@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { tokens, font } from '@waveditors/theme';
 import { useCallback } from 'react';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { useTemplateQuery } from '../../graphql/template.g';
+import { useTemplateQuery } from '../../../common/graphql/template.g';
 import { useUpdateTemplateMutation } from '../../graphql/update-template.g';
-import { useTemplateId } from '../../hooks';
+import { useTemplateId } from '../../../common/hooks';
 import {
   Header as CommonHeader,
   Input,
@@ -13,6 +13,7 @@ import {
 import { authStore, getUserFromToken } from '../../../../auth';
 import { ShareTemplate } from './share-template';
 import { SavedStatus } from './saved-status';
+import { UndoRedo } from './undo-redo';
 
 const NameInput = styled(Input)`
   flex: 1;
@@ -40,6 +41,7 @@ export const Header = () => {
   return (
     <CommonHeader>
       <SavedStatus />
+      <UndoRedo />
       <NameInput
         value={data?.template.name}
         onChange={onNameChange}

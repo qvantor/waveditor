@@ -1,4 +1,4 @@
-import { filter, map, pipe, Subject } from 'rxjs';
+import { filter, map, Observable, pipe, Subject } from 'rxjs';
 import { createStore } from '../services';
 import { Effect } from '../types';
 
@@ -23,9 +23,8 @@ export interface UndoRedoModule<E extends CommonUndoEvent<string, unknown>> {
   undo: Subject<void>;
   redo: Subject<void>;
 
-  onChange: Subject<E>;
-  onUndo: Subject<E>;
-  onRedo: Subject<E>;
+  redoCounter: Observable<number>;
+  undoCounter: Observable<number>;
 
   removeLastEvent: () => void;
   startBunch: () => void;
@@ -172,14 +171,16 @@ export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
     );
     return () => subscriptions.forEach((unsub) => unsub());
   };
-  // redoStore.bs.subscribe((value) => console.log('redo', value));
-  // undoStore.bs.subscribe((value) => console.log('undo', value));
+
+  // undo counter
+  const undoCounter = undoStore.bs.pipe(map((value) => value.length));
+  // redo counter
+  const redoCounter = redoStore.bs.pipe(map((value) => value.length));
   return {
     undo,
     redo,
-    onUndo,
-    onRedo,
-    onChange,
+    undoCounter,
+    redoCounter,
     createUndoRedoEffect,
     removeLastEvent: undoStore.actions.removeLastEvent,
     subscribe,

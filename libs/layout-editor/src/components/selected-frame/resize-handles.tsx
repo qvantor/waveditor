@@ -61,18 +61,18 @@ const HandleBottom = styled(HandleY)`
   bottom: -2px;
 `;
 
+export interface Sizes {
+  width: number;
+  height: number;
+  left: number;
+}
+
 interface Props {
   element: ElementStore;
   width: number;
   height: number;
   left: number;
-  setPreviewSize: (
-    size: {
-      width: number;
-      height: number;
-      left: number;
-    } | null
-  ) => void;
+  setPreviewSize: (size: Sizes | null) => void;
 }
 
 type Controls = 'l' | 'r' | 'b';
@@ -187,10 +187,7 @@ export const ResizeHandles = ({
     lastMove.subscribe(({ width, height }) => {
       element.actions.setStyle(
         direction === 'w'
-          ? {
-              key: 'width',
-              value: addPx(width - paddingX),
-            }
+          ? { key: 'width', value: addPx(width - paddingX) }
           : { key: 'height', value: addPx(height - paddingY) }
       );
       setPreviewSize(null);

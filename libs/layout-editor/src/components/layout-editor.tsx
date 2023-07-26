@@ -54,10 +54,19 @@ export function LayoutEditor({ iFrameDocument }: { iFrameDocument: Document }) {
     const rootMouseLeave = generalMouseEvent('RootMouseLeave');
     return { rootMouseMove, rootClick, rootMouseLeave };
   }, [context]);
+  // pass scroll event to global context
   useSubscription(
     () =>
       fromEvent(iFrameDocument, 'scroll').subscribe((payload) =>
         events.next({ type: 'CanvasScroll', payload })
+      ),
+    [iFrameDocument, events]
+  );
+  // pass keydown event to global context
+  useSubscription(
+    () =>
+      fromEvent<KeyboardEvent>(iFrameDocument, 'keydown').subscribe((payload) =>
+        events.next({ type: 'CanvasKeyDown', payload })
       ),
     [iFrameDocument, events]
   );
