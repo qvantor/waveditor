@@ -11,10 +11,10 @@ import {
 import { noop } from 'rxjs';
 import { LeftSidebar } from '../../left-sidebar';
 import { Canvas } from '../../canvas';
+import { MailBuilderRoot, Content } from '../../common/components';
 import { Header } from './header';
 import { Hotkeys } from './hotkeys';
 import { BuilderContextSubscribe } from './builder-context-subscribe';
-import { MailBuilderRoot, Content } from './mail-builder.styled';
 
 interface Props {
   snapshot: EditorSnapshot;
