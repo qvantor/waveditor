@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { map, merge } from 'rxjs';
 import {
   ElementCommon,
+  ElementType,
   getConfigFontById,
   getElementFontRelationByElementId,
   useBuilderContext,
@@ -31,6 +32,18 @@ const useFontFamily = (elementId: string) => {
   );
 };
 
+const elementStyle = (type: ElementType): Partial<ElementCommon['style']> => {
+  switch (type) {
+    case 'image':
+      return {
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+      };
+    default:
+      return {};
+  }
+};
 export const useStyle = (
   element: ElementCommon,
   maxWidth = Number.MAX_SAFE_INTEGER
@@ -39,7 +52,9 @@ export const useStyle = (
   const width = element.style.width
     ? addPx(Math.min(Number(removePx(element.style.width)), maxWidth))
     : undefined;
+  const style = elementStyle(element.type);
   return styleMapper({
+    ...style,
     fontFamily,
     ...element.style,
     width,

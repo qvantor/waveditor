@@ -13,8 +13,5 @@ export const createEmptyImage = (params?: Params): Image => ({
   params: {
     url: 'https://temp.im/200x200',
   },
-  style: {
-    display: 'block',
-    maxWidth: '100%',
-  },
+  style: {},
 });

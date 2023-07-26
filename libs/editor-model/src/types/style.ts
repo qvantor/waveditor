@@ -16,6 +16,7 @@ export type Style = {
   padding?: Property.Padding<string>;
   margin?: Property.Margin<string>;
   maxWidth?: Property.MaxWidth<string>;
+  maxHeight?: Property.MaxHeight<string>;
   fontFamily?: string;
   fontSize?: string;
   lineHeight?: string;

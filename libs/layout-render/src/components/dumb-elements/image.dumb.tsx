@@ -9,12 +9,16 @@ export interface ImageDumbProps {
 
 export const ImageDumb = LinkHOC(({ element }: ImageDumbProps) => {
   const { attributes, parentWidth } = useElementContext();
-  const { padding, width, ...restStyle } = useStyle(element, parentWidth);
+  const { padding, width, height, ...restStyle } = useStyle(
+    element,
+    parentWidth
+  );
   return (
     <div
       style={{
         padding,
         width,
+        height,
       }}
       {...attributes}
     >

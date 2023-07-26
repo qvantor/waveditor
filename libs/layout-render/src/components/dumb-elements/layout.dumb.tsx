@@ -19,7 +19,7 @@ export const LayoutDumb = LinkHOC(
   ({ element, style: externalStyle, renderColumn }: LayoutDumbProps) => {
     const layoutStyle = useStyle(element);
     const { parentWidth: width, attributes } = useElementContext();
-    const style = useMemo(() => {
+    const { height, ...restStyle } = useMemo(() => {
       const style = {
         borderSpacing: 0,
         width,
@@ -31,9 +31,9 @@ export const LayoutDumb = LinkHOC(
     }, [externalStyle, layoutStyle, width]);
     const columnsWidth = width - getXPadding(element.style.padding);
     return (
-      <table style={style} {...attributes}>
+      <table style={restStyle} {...attributes}>
         <tbody>
-          <tr>
+          <tr style={{ height }}>
             {element.params.columns.map((column, i) => {
               return (
                 <Fragment key={i}>

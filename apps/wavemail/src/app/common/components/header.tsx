@@ -44,7 +44,7 @@ export const HeaderButton = styled.button<{ size?: 'small' | 'medium' }>`
     background: ${tokens.color.surface.tertiaryHover};
   }
 
-  &:disabled{
+  &:disabled {
     cursor: not-allowed;
     color: ${tokens.color.text.secondary};
   }
