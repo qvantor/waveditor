@@ -22,11 +22,7 @@ const Root = styled.div`
 `;
 
 const CanvasRoot = styled.div`
-  background-color: ${tokens.color.surface.primary};
-  background-image: radial-gradient(
-    #a8b0b5 0.5px,
-    ${tokens.color.surface.primary} 0.5px
-  );
+  background-color: white;
   background-size: 10px 10px;
   ${CanvasHeight};
 `;

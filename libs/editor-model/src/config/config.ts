@@ -1,4 +1,5 @@
 import { createStore, StoreResult } from '@waveditors/rxjs-react';
+import { ElementCommon } from '../elements';
 import { Config, ConfigFont, FontChangedPayload } from './config.types';
 
 export const configStoreConstructor = () =>
@@ -18,6 +19,17 @@ export const configStoreConstructor = () =>
         return value;
       }),
     }),
+    setStyle: <K extends keyof ElementCommon['style']>(
+      { key, value }: { key: K; value: ElementCommon['style'][K] },
+      state: Config
+    ) => ({
+      ...state,
+      style: {
+        ...state.style,
+        [key]: value,
+      },
+    }),
+    setWidth: (viewportWidth: number, state) => ({ ...state, viewportWidth }),
   });
 
 export type ConfigStore = StoreResult<typeof configStoreConstructor>;

@@ -9,12 +9,8 @@ import {
 } from '@waveditors/editor-model';
 import { useMemo } from 'react';
 import { CollapseStyled } from '../../../../common/components';
-import {
-  BackgroundEditor,
-  BorderRadiusEditor,
-  PaddingEditor,
-  SizeEditor,
-} from './components';
+import { BackgroundEditor, SizeEditor } from '../../common/components';
+import { BorderRadiusEditor, PaddingEditor } from './components';
 
 interface Props {
   element: ElementStore;

@@ -14,23 +14,13 @@ import {
 import { IconButton, User } from '../../../common/components';
 import { useVersionsContext } from '../hooks';
 import { getPreview } from '../store';
+import { SidebarHeader } from '../../left-sidebar/common/components';
 
 dayjs.extend(relativeTime);
 
 type QueriedVersion = NonNullable<
   TemplateVersionsQuery['template']['versions']
 >[number];
-
-const Header = styled.div`
-  padding: 0 8px;
-  height: 34px;
-  border-bottom: 1px solid ${tokens.color.border.primary};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  ${font({ weight: 'bold', size: 'small' })}
-  color: ${tokens.color.text.secondary}
-`;
 
 const VersionActions = styled.div`
   display: none;
@@ -117,7 +107,7 @@ export const VersionsSidebar = ({ onClose }: Props) => {
   );
   return (
     <div>
-      <Header>Versions</Header>
+      <SidebarHeader>Versions</SidebarHeader>
       {data?.template.versions?.map((version) => {
         const name = version.name ?? `Version ${version.id}`;
         return (

@@ -5,6 +5,7 @@ import { Head, useSetBodyStyle } from '@waveditors/layout-render';
 import { useBsSelector, useSubscription } from '@waveditors/rxjs-react';
 import {
   getConfigRootElementId,
+  getConfigViewportWidth,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { Context, InternalEvents, InternalMouseEvents } from '../types';
@@ -24,8 +25,8 @@ const RenderElement = () => {
     model: { config },
   } = useBuilderContext();
   const rootElementId = useBsSelector(config.bs, getConfigRootElementId);
-  const width = config.getValue().viewportWidth;
-  return <Element id={rootElementId} width={width} />;
+  const viewportWidth = useBsSelector(config.bs, getConfigViewportWidth);
+  return <Element id={rootElementId} width={viewportWidth} />;
 };
 
 export function LayoutEditor({ iFrameDocument }: { iFrameDocument: Document }) {
