@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { tokens } from '@waveditors/theme';
 import { BsLayoutWtf, BsClockHistory } from 'react-icons/bs';
 import { HiOutlineVariable } from 'react-icons/hi';
+import { AiOutlineSetting } from 'react-icons/ai';
 import { ConfigProvider, Menu, MenuProps } from 'antd';
 import { VersionsSidebar } from '../versions';
 import { SidebarRoot } from '../common/components';
 import { Elements } from './elements';
 import { Variables } from './variables';
+import { Config } from './config';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -28,11 +30,10 @@ const items = [
     key: 'versions',
     icon: <BsClockHistory />,
   },
-  // {
-  //   label: 'Settings',
-  //   key: 'settings',
-  //   icon: <AiOutlineSetting />,
-  // },
+  {
+    key: 'config',
+    icon: <AiOutlineSetting />,
+  },
 ] as const;
 type MenuKeys = (typeof items)[number]['key'];
 
@@ -55,6 +56,8 @@ const MenuItemsSwitch = ({ menuKey, setMenu }: Props) => {
       return <Variables />;
     case 'versions':
       return <VersionsSidebar onClose={onVersionsClose} />;
+    case 'config':
+      return <Config />;
   }
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "waveditors",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "MIT",
   "scripts": {
     "dev:frontend": "nx run wavemail:serve",

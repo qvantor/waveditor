@@ -32,7 +32,7 @@ export const emailValidation = regexp(
 );
 
 export const imageLinkValidation = regexp(
-  /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/,
+  /(http(s?):)([/|.|\w|\s|-])*/,
   'Link to image is incorrect'
 );
 

@@ -1,19 +1,20 @@
 import {
+  getConfigStyle,
   getTemplateDefaultFont,
-  Style,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
-import { configFontToStyle } from '../services';
+import * as CSS from 'csstype';
+import { configFontToStyle, styleMapper } from '../services';
 
-export const useRootStyle = (): Style => {
+export const useRootStyle = (): CSS.Properties => {
   const {
     model: { config },
   } = useBuilderContext();
-  const configValue = config.getValue();
+  const configStyle = useBsSelector(config.bs, getConfigStyle);
   const defaultFont = useBsSelector(config.bs, getTemplateDefaultFont);
-  return {
+  return styleMapper({
     fontFamily: configFontToStyle(defaultFont),
-    ...configValue.style,
-  };
+    ...configStyle,
+  });
 };

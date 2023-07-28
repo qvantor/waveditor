@@ -1,8 +1,8 @@
 import { addPx, removePx } from '@waveditors/utils';
 import { useCallback, useMemo } from 'react';
 import { Dimensions } from '@waveditors/editor-model';
-import { SimpleEditorRow, RowContainer } from '../../../common/components';
-import { InputNumber } from '../../../../../common/components';
+import { InputNumber } from '../../../../common/components';
+import { SimpleEditorRow, RowContainer } from './editor-row.styled';
 
 type SizeKey = 'width' | 'height';
 
