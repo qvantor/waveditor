@@ -13,6 +13,7 @@ enum PRole {
 }
 
 enum PProviderType {
+  SMTP
   SEND_GRID
 }
 

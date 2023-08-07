@@ -7,11 +7,11 @@ export const setActiveProvider: MutationResolvers['setActiveProvider'] = async (
   { providerId, active = true }
 ) => {
   const result = await prisma.$transaction(async (tx) => {
-    tx.provider.updateMany({
+    await tx.provider.updateMany({
       where: { active: true },
       data: { active: null },
     });
-    return await prisma.provider.update({
+    return await tx.provider.update({
       where: { id: providerId },
       data: { active: active ? true : null },
     });

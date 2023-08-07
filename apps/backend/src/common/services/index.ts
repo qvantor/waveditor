@@ -1,3 +1,3 @@
 export { prismaToGql } from './prisma';
 export { to, prismaToApolloError } from './error-handling';
-export { providers } from './providers';
+export { providers, Provider } from './providers';

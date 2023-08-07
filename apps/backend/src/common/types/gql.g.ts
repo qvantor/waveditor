@@ -168,6 +168,7 @@ export type Provider = {
 
 export enum ProviderType {
   SendGrid = 'SEND_GRID',
+  Smtp = 'SMTP',
 }
 
 export type Query = {
@@ -215,6 +216,7 @@ export enum Role {
 
 export type SendEmailConfig = {
   from?: InputMaybe<Scalars['String']['input']>;
+  fromName?: InputMaybe<Scalars['String']['input']>;
   providerId?: InputMaybe<Scalars['Int']['input']>;
   subject: Scalars['String']['input'];
   templateId: Scalars['Int']['input'];
@@ -609,7 +611,7 @@ export type ProviderResolvers<
 }>;
 
 export type ProviderTypeResolvers = EnumResolverSignature<
-  { SEND_GRID?: any },
+  { SEND_GRID?: any; SMTP?: any },
   ResolversTypes['ProviderType']
 >;
 

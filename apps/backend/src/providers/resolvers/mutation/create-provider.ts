@@ -21,7 +21,7 @@ export const createProvider: MutationResolvers['createProvider'] = async (
   const provider = await prisma.provider.create({
     data: {
       name,
-      config: providerClass.toJSON(config),
+      config,
       type,
       creator: {
         connect: { id: user.id },

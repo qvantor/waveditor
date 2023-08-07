@@ -38,6 +38,7 @@ const formatReport: Reporter<Array<[key: string, error: string]>>['report'] =
 
 export type EmailSendConfig = {
   from?: string;
+  fromName?: string;
   to: string[];
   subject: string;
   content: string;
@@ -54,7 +55,7 @@ export abstract class Provider<T> {
     return this.validate(json).length === 0;
   }
 
-  toJSON(data: T): string {
+  toString(data: T): string {
     return JSON.stringify(data);
   }
 

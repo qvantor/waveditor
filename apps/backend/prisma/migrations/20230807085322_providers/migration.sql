@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "PProviderType" AS ENUM ('SEND_GRID');
+CREATE TYPE "PProviderType" AS ENUM ('SMTP', 'SEND_GRID');
 
 -- CreateTable
 CREATE TABLE "Provider" (
