@@ -4,7 +4,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql';
-import { PRole } from '@prisma/client';
+import { PRole, PProviderType } from '@prisma/client';
 import { Context } from '../../app';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -49,6 +49,12 @@ export type AuthSuccess = {
   expires: Scalars['Int']['output'];
 };
 
+export type CreateProvider = {
+  config: Scalars['JSON']['input'];
+  name: Scalars['String']['input'];
+  type: ProviderType;
+};
+
 export type CreateTemplate = {
   json: Scalars['JSON']['input'];
 };
@@ -74,11 +80,13 @@ export type Mutation = {
   __typename?: 'Mutation';
   addUsersToGroup: Scalars['Boolean']['output'];
   createGroup: Group;
+  createProvider: Provider;
   createTemplate: Template;
   deleteGroup: Scalars['Boolean']['output'];
   deleteTemplate: Scalars['Boolean']['output'];
   googleAuth: AuthSuccess;
   removeUserFromGroup: Scalars['Boolean']['output'];
+  setActiveProvider: Provider;
   setGroupName: Group;
   updateTemplate: Template;
   updateTemplateGroups: Scalars['Boolean']['output'];
@@ -92,6 +100,10 @@ export type MutationAddUsersToGroupArgs = {
 
 export type MutationCreateGroupArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type MutationCreateProviderArgs = {
+  provider: CreateProvider;
 };
 
 export type MutationCreateTemplateArgs = {
@@ -115,6 +127,11 @@ export type MutationRemoveUserFromGroupArgs = {
   userId: Scalars['Int']['input'];
 };
 
+export type MutationSetActiveProviderArgs = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  providerId: Scalars['Int']['input'];
+};
+
 export type MutationSetGroupNameArgs = {
   groupId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
@@ -136,11 +153,30 @@ export type MutationUpdateVersionArgs = {
   templateId: Scalars['Int']['input'];
 };
 
+export type Provider = {
+  __typename?: 'Provider';
+  active?: Maybe<Scalars['Boolean']['output']>;
+  config: Scalars['JSON']['output'];
+  createdAt: Scalars['String']['output'];
+  creator?: Maybe<User>;
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  type: ProviderType;
+  updatedAt: Scalars['String']['output'];
+  userId: Scalars['Int']['output'];
+};
+
+export enum ProviderType {
+  SendGrid = 'SEND_GRID',
+}
+
 export type Query = {
   __typename?: 'Query';
   group: Group;
   groups: Array<Group>;
   me: User;
+  providers: Array<Provider>;
+  sendEmail: Scalars['Boolean']['output'];
   template: Template;
   templateToHtml: Scalars['String']['output'];
   templates: Array<Template>;
@@ -153,6 +189,10 @@ export type QueryGroupArgs = {
 
 export type QueryGroupsArgs = {
   templateId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type QuerySendEmailArgs = {
+  data: SendEmailConfig;
 };
 
 export type QueryTemplateArgs = {
@@ -172,6 +212,15 @@ export enum Role {
   Admin = 'ADMIN',
   User = 'USER',
 }
+
+export type SendEmailConfig = {
+  from?: InputMaybe<Scalars['String']['input']>;
+  providerId?: InputMaybe<Scalars['Int']['input']>;
+  subject: Scalars['String']['input'];
+  templateId: Scalars['Int']['input'];
+  to: Array<Scalars['String']['input']>;
+  variables?: InputMaybe<Scalars['JSON']['input']>;
+};
 
 export type Template = {
   __typename?: 'Template';
@@ -328,6 +377,7 @@ export type DirectiveResolverFn<
 export type ResolversTypes = ResolversObject<{
   AuthSuccess: ResolverTypeWrapper<AuthSuccess>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CreateProvider: CreateProvider;
   CreateTemplate: CreateTemplate;
   GoogleAuth: GoogleAuth;
   Group: ResolverTypeWrapper<
@@ -340,8 +390,16 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
+  Provider: ResolverTypeWrapper<
+    Omit<Provider, 'creator' | 'type'> & {
+      creator?: Maybe<ResolversTypes['User']>;
+      type: ResolversTypes['ProviderType'];
+    }
+  >;
+  ProviderType: ResolverTypeWrapper<PProviderType>;
   Query: ResolverTypeWrapper<{}>;
   Role: ResolverTypeWrapper<PRole>;
+  SendEmailConfig: SendEmailConfig;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Template: ResolverTypeWrapper<
     Omit<Template, 'creator' | 'versions'> & {
@@ -365,6 +423,7 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   AuthSuccess: AuthSuccess;
   Boolean: Scalars['Boolean']['output'];
+  CreateProvider: CreateProvider;
   CreateTemplate: CreateTemplate;
   GoogleAuth: GoogleAuth;
   Group: Omit<Group, 'creator' | 'templates' | 'users'> & {
@@ -375,7 +434,11 @@ export type ResolversParentTypes = ResolversObject<{
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   Mutation: {};
+  Provider: Omit<Provider, 'creator'> & {
+    creator?: Maybe<ResolversParentTypes['User']>;
+  };
   Query: {};
+  SendEmailConfig: SendEmailConfig;
   String: Scalars['String']['output'];
   Template: Omit<Template, 'creator' | 'versions'> & {
     creator?: Maybe<ResolversParentTypes['User']>;
@@ -458,6 +521,12 @@ export type MutationResolvers<
     ContextType,
     Partial<MutationCreateGroupArgs>
   >;
+  createProvider?: Resolver<
+    ResolversTypes['Provider'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProviderArgs, 'provider'>
+  >;
   createTemplate?: Resolver<
     ResolversTypes['Template'],
     ParentType,
@@ -488,6 +557,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationRemoveUserFromGroupArgs, 'groupId' | 'userId'>
   >;
+  setActiveProvider?: Resolver<
+    ResolversTypes['Provider'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSetActiveProviderArgs, 'providerId'>
+  >;
   setGroupName?: Resolver<
     ResolversTypes['Group'],
     ParentType,
@@ -517,6 +592,27 @@ export type MutationResolvers<
   >;
 }>;
 
+export type ProviderResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Provider'] = ResolversParentTypes['Provider']
+> = ResolversObject<{
+  active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  config?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['ProviderType'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ProviderTypeResolvers = EnumResolverSignature<
+  { SEND_GRID?: any },
+  ResolversTypes['ProviderType']
+>;
+
 export type QueryResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
@@ -534,6 +630,17 @@ export type QueryResolvers<
     Partial<QueryGroupsArgs>
   >;
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  providers?: Resolver<
+    Array<ResolversTypes['Provider']>,
+    ParentType,
+    ContextType
+  >;
+  sendEmail?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<QuerySendEmailArgs, 'data'>
+  >;
   template?: Resolver<
     ResolversTypes['Template'],
     ParentType,
@@ -617,6 +724,8 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Group?: GroupResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
+  Provider?: ProviderResolvers<ContextType>;
+  ProviderType?: ProviderTypeResolvers;
   Query?: QueryResolvers<ContextType>;
   Role?: RoleResolvers;
   Template?: TemplateResolvers<ContextType>;

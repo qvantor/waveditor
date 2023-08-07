@@ -1,0 +1,3 @@
+type Query {
+  sendEmail(data:SendEmailConfig!): Boolean! @auth
+}

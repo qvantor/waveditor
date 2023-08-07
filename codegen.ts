@@ -18,6 +18,7 @@ const config: CodegenConfig = {
         useIndexSignature: true,
         mappers: {
           Role: '@prisma/client#PRole',
+          ProviderType: '@prisma/client#PProviderType',
         },
       },
     },

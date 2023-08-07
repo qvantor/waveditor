@@ -35,6 +35,12 @@ export type AuthSuccess = {
   expires: Scalars['Int']['output'];
 };
 
+export type CreateProvider = {
+  config: Scalars['JSON']['input'];
+  name: Scalars['String']['input'];
+  type: ProviderType;
+};
+
 export type CreateTemplate = {
   json: Scalars['JSON']['input'];
 };
@@ -60,11 +66,13 @@ export type Mutation = {
   __typename?: 'Mutation';
   addUsersToGroup: Scalars['Boolean']['output'];
   createGroup: Group;
+  createProvider: Provider;
   createTemplate: Template;
   deleteGroup: Scalars['Boolean']['output'];
   deleteTemplate: Scalars['Boolean']['output'];
   googleAuth: AuthSuccess;
   removeUserFromGroup: Scalars['Boolean']['output'];
+  setActiveProvider: Provider;
   setGroupName: Group;
   updateTemplate: Template;
   updateTemplateGroups: Scalars['Boolean']['output'];
@@ -78,6 +86,10 @@ export type MutationAddUsersToGroupArgs = {
 
 export type MutationCreateGroupArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type MutationCreateProviderArgs = {
+  provider: CreateProvider;
 };
 
 export type MutationCreateTemplateArgs = {
@@ -101,6 +113,11 @@ export type MutationRemoveUserFromGroupArgs = {
   userId: Scalars['Int']['input'];
 };
 
+export type MutationSetActiveProviderArgs = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  providerId: Scalars['Int']['input'];
+};
+
 export type MutationSetGroupNameArgs = {
   groupId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
@@ -122,11 +139,30 @@ export type MutationUpdateVersionArgs = {
   templateId: Scalars['Int']['input'];
 };
 
+export type Provider = {
+  __typename?: 'Provider';
+  active?: Maybe<Scalars['Boolean']['output']>;
+  config: Scalars['JSON']['output'];
+  createdAt: Scalars['String']['output'];
+  creator?: Maybe<User>;
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  type: ProviderType;
+  updatedAt: Scalars['String']['output'];
+  userId: Scalars['Int']['output'];
+};
+
+export enum ProviderType {
+  SendGrid = 'SEND_GRID',
+}
+
 export type Query = {
   __typename?: 'Query';
   group: Group;
   groups: Array<Group>;
   me: User;
+  providers: Array<Provider>;
+  sendEmail: Scalars['Boolean']['output'];
   template: Template;
   templateToHtml: Scalars['String']['output'];
   templates: Array<Template>;
@@ -139,6 +175,10 @@ export type QueryGroupArgs = {
 
 export type QueryGroupsArgs = {
   templateId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type QuerySendEmailArgs = {
+  data: SendEmailConfig;
 };
 
 export type QueryTemplateArgs = {
@@ -158,6 +198,15 @@ export enum Role {
   Admin = 'ADMIN',
   User = 'USER',
 }
+
+export type SendEmailConfig = {
+  from?: InputMaybe<Scalars['String']['input']>;
+  providerId?: InputMaybe<Scalars['Int']['input']>;
+  subject: Scalars['String']['input'];
+  templateId: Scalars['Int']['input'];
+  to: Array<Scalars['String']['input']>;
+  variables?: InputMaybe<Scalars['JSON']['input']>;
+};
 
 export type Template = {
   __typename?: 'Template';

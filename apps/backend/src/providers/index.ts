@@ -1,0 +1,1 @@
+export { providerResolver } from './resolvers';
