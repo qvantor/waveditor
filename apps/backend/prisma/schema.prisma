@@ -12,6 +12,11 @@ enum PRole {
   ADMIN
 }
 
+enum PProviderType {
+  SMTP
+  SEND_GRID
+}
+
 model User {
   id              Int               @id @default(autoincrement())
   createdAt       DateTime          @default(now())
@@ -23,6 +28,7 @@ model User {
   creatorOf       Group[]
   TemplateVersion TemplateVersion[]
   role            PRole             @default(USER)
+  Provider        Provider[]
 }
 
 model Group {
@@ -54,6 +60,18 @@ model TemplateVersion {
   templateId Int
   creator    User      @relation(fields: [userId], references: [id])
   userId     Int
+}
+
+model Provider {
+  id        Int           @id @default(autoincrement())
+  type      PProviderType
+  name      String
+  config    Json
+  active    Boolean?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now())
+  creator   User          @relation(fields: [userId], references: [id])
+  userId    Int
 }
 
 // M-N Relations

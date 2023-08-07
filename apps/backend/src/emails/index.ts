@@ -1,0 +1,1 @@
+export { emailsResolver } from './resolvers';

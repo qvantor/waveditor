@@ -1,0 +1,16 @@
+enum ProviderType {
+  SMTP
+  SEND_GRID
+}
+
+type Provider {
+  id: Int!
+  type: ProviderType!
+  name: String!
+  config: JSON!
+  active: Boolean
+  createdAt: String!
+  updatedAt: String!
+  userId: Int!
+  creator: User
+}

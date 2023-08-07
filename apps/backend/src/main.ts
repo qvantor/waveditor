@@ -11,6 +11,8 @@ import { userResolver } from './user';
 import { authResolver } from './auth';
 import { templateResolver } from './templates';
 import { groupResolver } from './groups';
+import { providerResolver } from './providers';
+import { emailsResolver } from './emails';
 import {
   Context,
   context,
@@ -25,6 +27,8 @@ const resolvers: Resolvers = [
   userResolver,
   templateResolver,
   groupResolver,
+  providerResolver,
+  emailsResolver,
   { JSON: GraphQLJSON },
 ];
 const typeDefs = mergeTypeDefs(

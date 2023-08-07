@@ -1,0 +1,9 @@
+input SendEmailConfig {
+  to: [String!]!
+  templateId: Int!
+  subject: String!
+  providerId: Int
+  from: String
+  fromName: String
+  variables: JSON
+}

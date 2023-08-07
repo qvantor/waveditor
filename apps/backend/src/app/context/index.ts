@@ -5,6 +5,7 @@ import { UserService } from '../../user';
 import { EnvConst } from '../../common/constants';
 import { DemoMaterials } from '../services';
 import { TemplatesService } from '../../templates';
+import { providers } from '../../common/services';
 
 export const context = ({ req }: StandaloneServerContextFunctionArgument) => {
   const auth = new AuthService(EnvConst.JWT_SECRET);
@@ -17,6 +18,7 @@ export const context = ({ req }: StandaloneServerContextFunctionArgument) => {
       templates,
       user: new UserService(),
       demo: new DemoMaterials(templates),
+      providers,
     },
   };
 };

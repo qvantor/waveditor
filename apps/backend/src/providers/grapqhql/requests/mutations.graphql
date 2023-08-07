@@ -1,0 +1,5 @@
+type Mutation {
+  createProvider(provider: CreateProvider!): Provider! @auth(role: ADMIN)
+  setActiveProvider(providerId: Int!, active: Boolean): Provider!
+    @auth(role: ADMIN)
+}

@@ -1,0 +1,5 @@
+input CreateProvider {
+  name: String!
+  type: ProviderType!
+  config: JSON!
+}
