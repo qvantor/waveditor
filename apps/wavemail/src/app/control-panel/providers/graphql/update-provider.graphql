@@ -1,0 +1,8 @@
+mutation UpdateProvider($updateProviderId: Int!, $provider: CreateProvider!) {
+  updateProvider(id: $updateProviderId, provider: $provider) {
+    id
+    name
+    type
+    config
+  }
+}

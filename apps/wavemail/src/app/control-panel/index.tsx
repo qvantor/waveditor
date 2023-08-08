@@ -12,16 +12,19 @@ import { Menu, MenuProps } from 'antd';
 import { BsLayoutWtf, BsPeople } from 'react-icons/bs';
 import { useMemo } from 'react';
 import { useBsSelector } from '@waveditors/rxjs-react';
+import { RiMailSendLine } from 'react-icons/ri';
 import { Header, UserControls } from '../common/components';
 import {
   CONTROL_PANEL,
   CONTROL_PANEL_GROUPS,
+  CONTROL_PANEL_PROVIDERS,
   CONTROL_PANEL_TEMPLATES,
 } from '../common/constants';
 import { AuthRoute, authStore, getUserFromToken } from '../auth';
 import { Role } from '../common/types/gql.g';
 import { Templates } from './templates';
 import { Groups } from './groups';
+import { Providers } from './providers';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -53,6 +56,12 @@ const MenuItems = [
     icon: <BsPeople />,
     role: [Role.Admin] as Role[],
   },
+  {
+    key: 'providers',
+    label: 'Providers',
+    icon: <RiMailSendLine />,
+    role: [Role.Admin] as Role[],
+  },
 ] as const;
 
 type Keys = (typeof MenuItems)[number]['key'];
@@ -60,6 +69,7 @@ type Keys = (typeof MenuItems)[number]['key'];
 const keyToRoute: Record<(typeof MenuItems)[number]['key'], string[]> = {
   templates: [CONTROL_PANEL_TEMPLATES],
   groups: [CONTROL_PANEL_GROUPS],
+  providers: [CONTROL_PANEL_PROVIDERS],
 };
 export const ControlPanel = () => {
   const user = useBsSelector(authStore.bs, getUserFromToken);
@@ -112,6 +122,14 @@ export const ControlPanel = () => {
               element={
                 <AuthRoute roles={[Role.Admin]}>
                   <Groups />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path={CONTROL_PANEL_PROVIDERS}
+              element={
+                <AuthRoute roles={[Role.Admin]}>
+                  <Providers />
                 </AuthRoute>
               }
             />

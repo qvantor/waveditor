@@ -37,6 +37,6 @@ export class SMTPProvider extends Provider<SMTPConfigT> {
       })
     );
     logger.debug(result);
-    return !!err;
+    return err === null;
   }
 }

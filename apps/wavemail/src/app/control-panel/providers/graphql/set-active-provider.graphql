@@ -1,0 +1,6 @@
+mutation SetActiveProvider($providerId: Int!) {
+  setActiveProvider(providerId: $providerId) {
+    id
+    active
+  }
+}

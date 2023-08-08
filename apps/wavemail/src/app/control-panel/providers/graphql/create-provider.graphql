@@ -1,0 +1,8 @@
+mutation CreateProvider($provider: CreateProvider!) {
+  createProvider(provider: $provider) {
+    id
+    type
+    name
+    config
+  }
+}

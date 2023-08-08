@@ -42,6 +42,6 @@ export class SendGridProvider extends Provider<SendGridConfigT> {
       )
     );
 
-    return !!err;
+    return err === null;
   }
 }
