@@ -20,7 +20,7 @@ const renderButton = (account: typeof google.accounts, element: HTMLElement) =>
     theme: 'outline',
     type: 'standard',
     text: 'continue_with',
-    width: '300',
+    width: 300 as unknown as string, // incorrect typings
   });
 
 const onAuth = (account: typeof google.accounts) =>

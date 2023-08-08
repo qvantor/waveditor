@@ -1,0 +1,16 @@
+query Providers {
+  providers {
+    id
+    type
+    name
+    active
+    createdAt
+    updatedAt
+    config
+    creator {
+      id
+      firstName
+      lastName
+    }
+  }
+}

@@ -88,6 +88,7 @@ export type Mutation = {
   removeUserFromGroup: Scalars['Boolean']['output'];
   setActiveProvider: Provider;
   setGroupName: Group;
+  updateProvider: Provider;
   updateTemplate: Template;
   updateTemplateGroups: Scalars['Boolean']['output'];
   updateVersion: TemplateVersion;
@@ -135,6 +136,11 @@ export type MutationSetActiveProviderArgs = {
 export type MutationSetGroupNameArgs = {
   groupId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
+};
+
+export type MutationUpdateProviderArgs = {
+  id: Scalars['Int']['input'];
+  provider: CreateProvider;
 };
 
 export type MutationUpdateTemplateArgs = {
@@ -570,6 +576,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationSetGroupNameArgs, 'groupId' | 'name'>
+  >;
+  updateProvider?: Resolver<
+    ResolversTypes['Provider'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProviderArgs, 'id' | 'provider'>
   >;
   updateTemplate?: Resolver<
     ResolversTypes['Template'],
