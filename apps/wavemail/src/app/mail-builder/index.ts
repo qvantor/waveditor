@@ -1,1 +1,3 @@
-export { MailBuilder } from './mail-builder';
+import { MailBuilder } from './mail-builder';
+
+export default MailBuilder;

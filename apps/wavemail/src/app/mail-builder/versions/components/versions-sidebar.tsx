@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { font, tokens } from '@waveditors/theme';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import { useEffect, MouseEvent, useCallback } from 'react';
 import { useBsSelector } from '@waveditors/rxjs-react';
@@ -15,8 +14,6 @@ import { IconButton, User } from '../../../common/components';
 import { useVersionsContext } from '../hooks';
 import { getPreview } from '../store';
 import { SidebarHeader } from '../../left-sidebar/common/components';
-
-dayjs.extend(relativeTime);
 
 type QueriedVersion = NonNullable<
   TemplateVersionsQuery['template']['versions']

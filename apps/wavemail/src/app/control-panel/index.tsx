@@ -71,7 +71,7 @@ const keyToRoute: Record<(typeof MenuItems)[number]['key'], string[]> = {
   groups: [CONTROL_PANEL_GROUPS],
   providers: [CONTROL_PANEL_PROVIDERS],
 };
-export const ControlPanel = () => {
+export default () => {
   const user = useBsSelector(authStore.bs, getUserFromToken);
   const location = useLocation();
   const navigate = useNavigate();
