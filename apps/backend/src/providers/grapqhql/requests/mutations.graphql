@@ -4,4 +4,5 @@ type Mutation {
     @auth(role: ADMIN)
   setActiveProvider(providerId: Int!, active: Boolean): Provider!
     @auth(role: ADMIN)
+  deleteProvider(providerId: Int!): Boolean!
 }

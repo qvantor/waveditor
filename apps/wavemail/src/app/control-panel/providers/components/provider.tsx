@@ -69,9 +69,9 @@ const validateProvider = (
   }
 };
 export const Provider = ({ id, onClose }: Props) => {
-  const { data: providers } = useProvidersQuery();
+  const { data: providers, refetch } = useProvidersQuery();
   const [createProvider, { loading: creating, error: cError }] =
-    useCreateProviderMutation();
+    useCreateProviderMutation({ onCompleted: () => refetch() });
   const [updateProvider, { loading: updating, error: uError }] =
     useUpdateProviderMutation();
   const error = cError ?? uError;
