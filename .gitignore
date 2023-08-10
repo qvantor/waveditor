@@ -5,7 +5,7 @@ dist
 tmp
 /out-tsc
 *.g.tsx
-
+*.g.ts
 # dependencies
 node_modules
 
