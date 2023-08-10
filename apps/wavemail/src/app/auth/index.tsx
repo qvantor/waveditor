@@ -79,7 +79,7 @@ const Separator = styled.div`
   }
 `;
 
-export const Auth = () => {
+export default () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   useSubscription(() =>
