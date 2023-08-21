@@ -8,6 +8,11 @@ export const optional =
   (value?: string) =>
     value ? fn(value) : undefined;
 
+export const minLength = (size: number) =>
+  optional((value: string) => {
+    if (value.length < size) return `Min field size is ${size} chars`;
+  });
+
 export const maxLength = (size: number) =>
   optional((value: string) => {
     if (value.length > size) return `Max field size is ${size} chars`;

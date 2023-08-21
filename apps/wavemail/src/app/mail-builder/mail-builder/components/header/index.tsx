@@ -14,6 +14,7 @@ import { authStore, getUserFromToken } from '../../../../auth';
 import { ShareTemplate } from './share-template';
 import { SavedStatus } from './saved-status';
 import { UndoRedo } from './undo-redo';
+import { Preview } from './preview';
 
 const NameInput = styled(Input)`
   flex: 1;
@@ -42,6 +43,7 @@ export const Header = () => {
     <CommonHeader>
       <SavedStatus />
       <UndoRedo />
+      <Preview />
       <NameInput
         value={data?.template.name}
         onChange={onNameChange}
