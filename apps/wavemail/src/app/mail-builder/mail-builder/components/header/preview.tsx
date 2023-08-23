@@ -89,7 +89,10 @@ export const Preview = () => {
   } = context;
   const width = useBsSelector(config.bs, getConfigViewportWidth);
   const previewWidth = width + PADDING;
-  const snapshot = useMemo(() => builderContextToSnapshot(context), [context]);
+  const snapshot = useMemo(
+    () => builderContextToSnapshot(context),
+    [context, open]
+  );
   const sendEmailInternal = useCallback(async () => {
     await sendEmail({
       variables: {

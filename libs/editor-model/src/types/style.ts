@@ -10,6 +10,7 @@ export type Background = {
 };
 
 export type Align = 'left' | 'right' | 'center';
+export type VerticalAlign = 'top' | 'middle' | 'bottom';
 
 export type Style = {
   display?: Property.Display;
@@ -22,6 +23,7 @@ export type Style = {
   lineHeight?: string;
   letterSpacing?: string;
   textAlign?: Align;
+  verticalAlign?: VerticalAlign;
   color?: Property.Color;
   borderRadius?: string;
   width?: string;

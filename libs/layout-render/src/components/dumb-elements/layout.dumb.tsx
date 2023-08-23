@@ -19,7 +19,7 @@ export const LayoutDumb = LinkHOC(
   ({ element, style: externalStyle, renderColumn }: LayoutDumbProps) => {
     const layoutStyle = useStyle(element);
     const { parentWidth: width, attributes } = useElementContext();
-    const { height, ...restStyle } = useMemo(() => {
+    const { height, verticalAlign, ...restStyle } = useMemo(() => {
       const style = {
         borderSpacing: 0,
         width,
@@ -33,7 +33,7 @@ export const LayoutDumb = LinkHOC(
     return (
       <table style={restStyle} {...attributes}>
         <tbody>
-          <tr style={{ height }}>
+          <tr style={{ height, verticalAlign }}>
             {element.params.columns.map((column, i) => {
               return (
                 <Fragment key={i}>
