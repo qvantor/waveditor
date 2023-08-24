@@ -7,6 +7,7 @@ interface Props {
   align?: Align;
   index: number;
   style?: CSSProperties;
+  padding: string;
 }
 
 export const ColumnDumb = ({
@@ -15,11 +16,12 @@ export const ColumnDumb = ({
   align,
   index,
   style,
+  padding,
 }: PropsWithChildren<Props>) => (
   <td
     style={{
       ...style,
-      padding: 0,
+      padding,
     }}
     align={align}
     datatype={COLUMN_DATATYPE}

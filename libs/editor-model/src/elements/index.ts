@@ -21,6 +21,8 @@ export {
   isParentOf,
   getElementPosition,
   getColumns,
+  getColumnsCount,
+  getGap,
   createEmptyColumn,
 } from './layout';
 export type { LayoutStore, Layout, LayoutAddChild, Column } from './layout';

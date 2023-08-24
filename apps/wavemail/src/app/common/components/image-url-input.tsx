@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Popover } from 'antd';
 import { EmptyPattern, font, tokens } from '@waveditors/theme';
 import { imageLinkValidation } from '../services';
-import { Input } from './input';
+import { Input } from './inputs';
 
 interface Props {
   value?: string;

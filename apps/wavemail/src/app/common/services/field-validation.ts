@@ -1,11 +1,11 @@
-type ValidateFn = (value?: string) => string | void;
+type ValidateFn<T = string> = (value?: T) => string | void;
 export const required: ValidateFn = (value?: string) => {
   if (!value || value === '') return 'Field cannot be empty';
 };
 
 export const optional =
-  (fn: (value: string) => string | void): ValidateFn =>
-  (value?: string) =>
+  <T>(fn: (value: T) => string | void): ValidateFn<T> =>
+  (value?: T) =>
     value ? fn(value) : undefined;
 
 export const minLength = (size: number) =>
@@ -16,6 +16,11 @@ export const minLength = (size: number) =>
 export const maxLength = (size: number) =>
   optional((value: string) => {
     if (value.length > size) return `Max field size is ${size} chars`;
+  });
+
+export const minValue = (min: number) =>
+  optional((value: number) => {
+    if (value < min) return `Min value is ${min}`;
   });
 
 export const regexp = (

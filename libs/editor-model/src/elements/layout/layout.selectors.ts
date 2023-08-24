@@ -4,6 +4,11 @@ import { LayoutAddChild } from './layout.types';
 export const getColumns = (layout: LayoutStore['bs']['value']) =>
   layout.params.columns;
 
+export const getColumnsCount = (layout: LayoutStore['bs']['value']) =>
+  getColumns(layout).length;
+
+export const getGap = (layout: LayoutStore['bs']['value']) => layout.params.gap;
+
 export const isParentOf = (
   layout: LayoutStore['bs']['value'],
   elementId: string

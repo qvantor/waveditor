@@ -129,7 +129,8 @@ export const ResizeHandles = ({
         if (!parent) return 'left';
         const position = getElementPosition(parent.getValue(), element.id);
         return (
-          parent.getValue().params.columns[position.column].align ?? 'left'
+          parent.getValue().params.columns[position.column].style?.textAlign ??
+          'left'
         );
       })
     ),

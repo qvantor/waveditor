@@ -5,14 +5,15 @@ import * as A from 'fp-ts/Array';
 import * as O from 'fp-ts/Option';
 import { flow, pipe } from 'fp-ts/function';
 import { elementStore, ElementStoreDeps } from '../element';
-import { Align } from '../../types';
+import { Style } from '../../types';
 import { Column, Layout, LayoutAddChild } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
 import { recalcProportions } from './layout.services';
 
+const gap = Lens.fromPath<Layout>()(['params', 'gap']);
 const column = Lens.fromPath<Layout>()(['params', 'columns']);
 const columnChildren = Lens.fromProp<Column>()('children');
-const columnAlign = Lens.fromProp<Column>()('align');
+const columnStyle = Lens.fromProp<Column>()('style');
 const columnByIndex = (index: number) => indexArray<Column>().index(index);
 const columnTraversal = fromTraversable(A.Traversable)<Column>();
 
@@ -85,14 +86,16 @@ export const layoutStore = (_: ElementStoreDeps) =>
         )
       )(prev);
     },
-    setColumnAlign: (
-      { index, align }: { index: number; align?: Align },
-      prev
+    setColumnStyle: <K extends keyof Style>(
+      { index, style }: { index: number; style: { key: K; value: Style[K] } },
+      prev: Layout
     ) =>
       column
         .composeOptional(columnByIndex(index))
-        .composeLens(columnAlign)
-        .modify(() => align)(prev),
+        .composeLens(columnStyle)
+        .modify((prev) => ({ ...prev, [style.key]: style.value }))(prev),
+    setGap: (newGap: number | undefined, prev) =>
+      gap.modify(() => newGap)(prev),
   });
 
 export type LayoutStore = StoreResult<typeof layoutStore>;
