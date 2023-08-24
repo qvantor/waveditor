@@ -11,18 +11,21 @@ interface Props {
   onChange: (value?: Align) => void;
 }
 
+const EMPTY_VALUE = 0;
+
 export const AlignEditor = ({ value, onChange }: Props) => {
   return (
     <Segmented
-      value={value ?? 'left'}
+      value={value ?? EMPTY_VALUE}
       size='small'
       options={[
+        { label: 'A', title: 'Auto', value: EMPTY_VALUE },
         { icon: <AiOutlineAlignLeft />, value: 'left' },
         { icon: <AiOutlineAlignCenter />, value: 'center' },
         { icon: <AiOutlineAlignRight />, value: 'right' },
       ]}
       onChange={(value) =>
-        onChange(value === 'left' ? undefined : (value as Align))
+        onChange(value === EMPTY_VALUE ? undefined : (value as Align))
       }
       block
     />

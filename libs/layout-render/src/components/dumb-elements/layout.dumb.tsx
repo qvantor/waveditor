@@ -42,7 +42,7 @@ export const LayoutDumb = LinkHOC(
       return { gap, colCount, gapOffset };
     }, [element.params.gap, element.params.columns.length]);
 
-    const { verticalAlign, ...restStyle } = useMemo(() => {
+    const { verticalAlign, textAlign, ...restStyle } = useMemo(() => {
       const style = {
         borderSpacing: 0,
         width,
@@ -54,10 +54,11 @@ export const LayoutDumb = LinkHOC(
     }, [externalStyle, layoutStyle, width]);
 
     const columnsWidth = width - getXPadding(element.style.padding);
+    const trAttributes = { align: textAlign };
     return (
       <table style={restStyle} {...attributes}>
         <tbody>
-          <tr style={{ verticalAlign }}>
+          <tr style={{ verticalAlign }} {...trAttributes}>
             {element.params.columns.map((column, i) => {
               const colWidth = (column.proportion / 100) * columnsWidth;
               const skipGap = gapOffset > colWidth;

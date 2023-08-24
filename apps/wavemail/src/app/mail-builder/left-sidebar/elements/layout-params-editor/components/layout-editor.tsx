@@ -7,7 +7,7 @@ import {
 } from '@waveditors/editor-model';
 import { RowContainer, SimpleEditorRow } from '../../../common/components';
 import { InputNumber } from '../../../../../common/components';
-import { VerticalAlignEditor } from '../../common/components';
+import { VerticalAlignEditor, AlignEditor } from '../../common/components';
 import { minValue } from '../../../../../common/services';
 
 interface Props {
@@ -20,6 +20,15 @@ export const LayoutEditor = ({ layout }: Props) => {
   const colCount = useBsSelector(layout.bs, getColumnsCount);
   return (
     <RowContainer>
+      <SimpleEditorRow>
+        <div>Align</div>
+        <AlignEditor
+          value={style.textAlign}
+          onChange={(value) =>
+            layout.actions.setStyle({ key: 'textAlign', value })
+          }
+        />
+      </SimpleEditorRow>
       <SimpleEditorRow>
         <div>Vertical align</div>
         <VerticalAlignEditor

@@ -43,16 +43,19 @@ export const Column = ({
 }: Props) => {
   const isEmpty = column.children.length === 0;
   const newStyle = useMemo(() => {
-    if (!isEmpty) return style;
+    const verticalAlign = column.style?.verticalAlign;
+    const baseStyle = { ...style, verticalAlign };
+
+    if (!isEmpty) return baseStyle;
     return {
       outline: `1px dashed ${theme.color.border.primary}`,
       outlineOffset: -2,
-      ...style,
+      ...baseStyle,
     };
-  }, [style, isEmpty]);
+  }, [style, isEmpty, column.style]);
   return (
     <ColumnDumb
-      align={column.align}
+      align={column.style?.textAlign}
       index={index}
       width={width}
       style={newStyle}

@@ -11,18 +11,22 @@ interface Props {
   onChange: (value?: VerticalAlign) => void;
 }
 
-export const VerticalAlignEditor = ({ onChange, value }: Props) => (
-  <Segmented
-    value={value ?? 'middle'}
-    size='small'
-    options={[
-      { icon: <PiAlignTopSimpleBold />, value: 'top' },
-      { icon: <PiAlignCenterVerticalSimpleBold />, value: 'middle' },
-      { icon: <PiAlignBottomSimpleBold />, value: 'bottom' },
-    ]}
-    onChange={(value) =>
-      onChange(value === 'middle' ? undefined : (value as VerticalAlign))
-    }
-    block
-  />
-);
+const EMPTY_VALUE = 0;
+export const VerticalAlignEditor = ({ onChange, value }: Props) => {
+  return (
+    <Segmented
+      value={value ?? EMPTY_VALUE}
+      size='small'
+      options={[
+        { label: 'A', value: EMPTY_VALUE },
+        { icon: <PiAlignTopSimpleBold />, value: 'top' },
+        { icon: <PiAlignCenterVerticalSimpleBold />, value: 'middle' },
+        { icon: <PiAlignBottomSimpleBold />, value: 'bottom' },
+      ]}
+      onChange={(value) =>
+        onChange(value === EMPTY_VALUE ? undefined : (value as VerticalAlign))
+      }
+      block
+    />
+  );
+};

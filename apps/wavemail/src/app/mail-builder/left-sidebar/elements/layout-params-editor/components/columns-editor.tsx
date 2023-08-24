@@ -9,7 +9,7 @@ import { filter } from 'rxjs';
 import { useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { IconButton } from '../../../../../common/components';
-import { AlignEditor } from '../../common/components';
+import { AlignEditor, VerticalAlignEditor } from '../../common/components';
 import { SimpleEditorRow, RowContainer } from '../../../common/components';
 import { ColumnsProportions } from './columns-proportions';
 
@@ -35,6 +35,7 @@ export const ColumnsEditor = ({ layout }: Props) => {
       )
       .subscribe(() => setColumn(columns.length - 1))
   );
+  const style = columns[column]?.style;
 
   return (
     <RowContainer>
@@ -64,9 +65,24 @@ export const ColumnsEditor = ({ layout }: Props) => {
       <SimpleEditorRow>
         <div>Align</div>
         <AlignEditor
-          value={columns[column]?.align}
-          onChange={(align) =>
-            layout.actions.setColumnAlign({ index: column, align })
+          value={style?.textAlign}
+          onChange={(value) =>
+            layout.actions.setColumnStyle({
+              index: column,
+              style: { key: 'textAlign', value },
+            })
+          }
+        />
+      </SimpleEditorRow>
+      <SimpleEditorRow>
+        <div>Vertical align</div>
+        <VerticalAlignEditor
+          value={style?.verticalAlign}
+          onChange={(value) =>
+            layout.actions.setColumnStyle({
+              index: column,
+              style: { key: 'verticalAlign', value },
+            })
           }
         />
       </SimpleEditorRow>

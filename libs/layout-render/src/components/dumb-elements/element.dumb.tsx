@@ -32,7 +32,11 @@ export const ElementDumb = ({ id, width }: Props) => {
           <LayoutDumb
             element={layout.getValue()}
             renderColumn={(props) => (
-              <ColumnDumb align={props.column.align} {...props}>
+              <ColumnDumb
+                style={{ verticalAlign: props.column.style?.verticalAlign }}
+                align={props.column.style?.textAlign}
+                {...props}
+              >
                 {props.column.children.map((col, id) => (
                   <ElementDumb id={col} width={props.width} key={id} />
                 ))}
