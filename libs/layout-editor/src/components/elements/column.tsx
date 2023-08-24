@@ -15,6 +15,7 @@ interface Props {
   dndPreview?: LinkElementToLayoutEvent['payload']['position'];
   index: number;
   style?: CSSProperties;
+  padding: string;
 }
 
 const DndPreview = styled.div`
@@ -32,7 +33,14 @@ const EmptyColPreview = styled.div`
   ${font({ type: 'paragraph', size: 'smallest' })}
 `;
 
-export const Column = ({ column, width, dndPreview, index, style }: Props) => {
+export const Column = ({
+  column,
+  width,
+  dndPreview,
+  index,
+  style,
+  padding,
+}: Props) => {
   const isEmpty = column.children.length === 0;
   const newStyle = useMemo(() => {
     if (!isEmpty) return style;
@@ -48,6 +56,7 @@ export const Column = ({ column, width, dndPreview, index, style }: Props) => {
       index={index}
       width={width}
       style={newStyle}
+      padding={padding}
     >
       {column.children.map((id, i) => {
         const dndBefore = dndPreview?.index === 0 && dndPreview?.index === i;

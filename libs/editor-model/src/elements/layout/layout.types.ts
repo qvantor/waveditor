@@ -10,6 +10,7 @@ export interface Column {
 export interface Layout extends ElementCommon<'layout'> {
   params: {
     columns: Column[];
+    gap?: number;
   };
 }
 

@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import {
-  getColumns,
-  getElementStyle,
-  LayoutStore,
-} from '@waveditors/editor-model';
+import { getColumns, LayoutStore } from '@waveditors/editor-model';
 import {
   selectorToPipe,
   useBsSelector,
@@ -13,22 +9,13 @@ import { filter } from 'rxjs';
 import { useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { IconButton } from '../../../../../common/components';
-import { AlignEditor, VerticalAlignEditor } from '../../common/components';
-import { RowContainer, SimpleEditorRow } from '../../../common/components';
+import { AlignEditor } from '../../common/components';
+import { SimpleEditorRow, RowContainer } from '../../../common/components';
 import { ColumnsProportions } from './columns-proportions';
 
 interface Props {
   layout: LayoutStore;
 }
-
-const Root = styled(RowContainer)`
-  gap: 30px;
-`;
-
-const RowContainerInternal = styled(RowContainer)`
-  gap: 10px;
-  padding: 0;
-`;
 
 const ColumnsCount = styled.div`
   display: flex;
@@ -37,7 +24,6 @@ const ColumnsCount = styled.div`
 
 export const ColumnsEditor = ({ layout }: Props) => {
   const columns = useBsSelector(layout.bs, getColumns);
-  const style = useBsSelector(layout.bs, getElementStyle);
   const [column, setColumn] = useState<number>(0);
 
   // if selected column is out of columns range, select the last column
@@ -51,52 +37,39 @@ export const ColumnsEditor = ({ layout }: Props) => {
   );
 
   return (
-    <Root>
-      <RowContainerInternal>
-        <SimpleEditorRow>
-          <div>Vertical align</div>
-          <VerticalAlignEditor
-            value={style.verticalAlign}
-            onChange={(value) =>
-              layout.actions.setStyle({ key: 'verticalAlign', value })
-            }
+    <RowContainer>
+      <SimpleEditorRow>
+        <div>Count</div>
+        <ColumnsCount>
+          <IconButton
+            icon={<AiOutlineMinus />}
+            size='small'
+            onClick={() => layout.actions.removeColumn(column)}
+            disabled={columns.length <= 1}
           />
-        </SimpleEditorRow>
-      </RowContainerInternal>
-      <RowContainerInternal>
-        <SimpleEditorRow>
-          <div>Columns</div>
-          <ColumnsCount>
-            <IconButton
-              icon={<AiOutlineMinus />}
-              size='small'
-              onClick={() => layout.actions.removeColumn(column)}
-              disabled={columns.length <= 1}
-            />
-            {columns.length}
-            <IconButton
-              icon={<AiOutlinePlus />}
-              size='small'
-              onClick={layout.actions.addColumn}
-              disabled={columns.length >= 6}
-            />
-          </ColumnsCount>
-        </SimpleEditorRow>
-        <ColumnsProportions
-          layout={layout}
-          onColumnSelect={setColumn}
-          column={column}
+          {columns.length}
+          <IconButton
+            icon={<AiOutlinePlus />}
+            size='small'
+            onClick={layout.actions.addColumn}
+            disabled={columns.length >= 6}
+          />
+        </ColumnsCount>
+      </SimpleEditorRow>
+      <ColumnsProportions
+        layout={layout}
+        onColumnSelect={setColumn}
+        column={column}
+      />
+      <SimpleEditorRow>
+        <div>Align</div>
+        <AlignEditor
+          value={columns[column]?.align}
+          onChange={(align) =>
+            layout.actions.setColumnAlign({ index: column, align })
+          }
         />
-        <SimpleEditorRow>
-          <div>Align</div>
-          <AlignEditor
-            value={columns[column]?.align}
-            onChange={(align) =>
-              layout.actions.setColumnAlign({ index: column, align })
-            }
-          />
-        </SimpleEditorRow>
-      </RowContainerInternal>
-    </Root>
+      </SimpleEditorRow>
+    </RowContainer>
   );
 };

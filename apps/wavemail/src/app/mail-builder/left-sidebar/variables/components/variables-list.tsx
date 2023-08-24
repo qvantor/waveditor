@@ -84,7 +84,7 @@ export const VariablesList = () => {
   );
   const uniqName = useCallback(
     (id: string) =>
-      optional((value) => {
+      optional((value: string) => {
         if (isVariableLabelExist(removeVarById(id))(value))
           return `Variable with a name ${value} already exists`;
       }),

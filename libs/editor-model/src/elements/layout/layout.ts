@@ -10,6 +10,7 @@ import { Column, Layout, LayoutAddChild } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
 import { recalcProportions } from './layout.services';
 
+const gap = Lens.fromPath<Layout>()(['params', 'gap']);
 const column = Lens.fromPath<Layout>()(['params', 'columns']);
 const columnChildren = Lens.fromProp<Column>()('children');
 const columnAlign = Lens.fromProp<Column>()('align');
@@ -93,6 +94,8 @@ export const layoutStore = (_: ElementStoreDeps) =>
         .composeOptional(columnByIndex(index))
         .composeLens(columnAlign)
         .modify(() => align)(prev),
+    setGap: (newGap: number | undefined, prev) =>
+      gap.modify(() => newGap)(prev),
   });
 
 export type LayoutStore = StoreResult<typeof layoutStore>;
