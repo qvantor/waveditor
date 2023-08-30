@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useDebounce } from 'react-use';
 import { EmptyPattern, tokens } from '@waveditors/theme';
+import { Input } from '@waveditors/ui-kit';
 import { colorValidation } from '../services';
-import { Input } from './inputs';
 
 interface Props {
   value?: string;

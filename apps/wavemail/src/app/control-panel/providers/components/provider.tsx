@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import { GQL_ERRORS } from '@waveditors/utils';
 import { font, tokens } from '@waveditors/theme';
-import { Input } from '../../../common/components';
+import { Input } from '@waveditors/ui-kit';
 import { CreateProvider, ProviderType } from '../../../common/types/gql.g';
 import { maxLength, required, validate } from '../../../common/services';
 import { useProvidersQuery } from '../graphql/providers.g';

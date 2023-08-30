@@ -5,8 +5,8 @@ import {
   getGap,
   LayoutStore,
 } from '@waveditors/editor-model';
+import { InputNumber } from '@waveditors/ui-kit';
 import { RowContainer, SimpleEditorRow } from '../../../common/components';
-import { InputNumber } from '../../../../../common/components';
 import { VerticalAlignEditor, AlignEditor } from '../../common/components';
 import { minValue } from '../../../../../common/services';
 

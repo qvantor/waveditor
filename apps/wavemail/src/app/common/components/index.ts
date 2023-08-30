@@ -1,4 +1,3 @@
-export { InputNumber, Input } from './inputs';
 export { ColorPicker } from './color-picker';
 export { ImageUrlInput } from './image-url-input';
 export { User } from './user';

@@ -5,7 +5,7 @@ import { mergeAttributes, Node } from '@tiptap/core';
 import { css } from 'styled-components';
 import { theme } from '@waveditors/theme';
 
-type VariablesNodeOptions = {
+export type VariablesNodeOptions = {
   HTMLAttributes: Record<string, string>;
   renderLabel: (props: {
     options: VariablesNodeOptions;

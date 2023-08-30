@@ -1,21 +1,13 @@
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
-import { EditorContent, ReactRenderer, useEditor } from '@tiptap/react';
+import { useEffect, useMemo } from 'react';
+import { EditorContent, useEditor } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
 import { deepEqual } from 'fast-equals';
-import tippy, { Instance } from 'tippy.js';
-import { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion';
-import styled, { createGlobalStyle, css } from 'styled-components';
-import { font, theme } from '@waveditors/theme';
-import { Variable, Variables as VariablesType } from '@waveditors/editor-model';
+import { createGlobalStyle } from 'styled-components';
+import { Subject } from 'rxjs';
 import { Extensions } from '../constants';
-import { EditorBubbleMenu } from './editor-bubble-menu';
-import { Variables, VariablesStyle } from './tip-tap-variables-node';
+import { useVariablesEditor, VariablesStyle } from '../variables';
+import { TextEditorContextProvider, TextEditorEvents } from '../hooks';
+import { BubbleMenu } from './bubble-menu';
 
 export interface Props {
   onChange: (value: JSONContent) => void;
@@ -23,7 +15,6 @@ export interface Props {
   className?: string;
   editable?: boolean;
   iFrameDocument?: Document;
-  findVariables: (query: string) => VariablesType;
 }
 
 export const TextEditorStyle = createGlobalStyle`
@@ -105,156 +96,19 @@ export const TextEditorStyle = createGlobalStyle`
   }
 `;
 
-const Root = styled.div`
-  background: white;
-  padding: 5px;
-  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
-    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
-  font-family: ${theme.font.family};
-`;
-
-const VariableItem = styled.div<{ selected?: boolean }>`
-  padding: 2px 5px;
-  border-radius: ${theme.borderRadius.m};
-  ${font({ size: 'small' })}
-  color: ${theme.color.text.secondary};
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-
-  span {
-    color: ${theme.color.text.primary};
-  }
-
-  &:hover {
-    background-color: ${theme.color.surface.primary};
-  }
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      background-color: ${theme.color.surface.accentQuarter};
-    `}
-`;
-type VariablesListProps = {
-  variables: Variable[];
-  command: (value: Variable) => void;
-};
-type VariablesListRef = {
-  onKeyDown: (props: SuggestionKeyDownProps) => boolean;
-};
-const VariablesList = forwardRef<VariablesListRef, VariablesListProps>(
-  ({ variables, command }, ref) => {
-    const [selected, setSelected] = useState(0);
-    const selectItem = useCallback(
-      (index: number) => {
-        const variable = variables[index];
-        if (variable) command(variable);
-      },
-      [command, variables]
-    );
-    useImperativeHandle(
-      ref,
-      () => ({
-        onKeyDown: ({ event }: SuggestionKeyDownProps) => {
-          if (event.key === 'ArrowUp') {
-            setSelected((selected + variables.length - 1) % variables.length);
-            return true;
-          }
-
-          if (event.key === 'ArrowDown') {
-            setSelected((selected + 1) % variables.length);
-            return true;
-          }
-
-          if (event.key === 'Enter') {
-            selectItem(selected);
-            return true;
-          }
-
-          return false;
-        },
-      }),
-      [selectItem, selected, variables.length]
-    );
-    useEffect(() => setSelected(0), [variables.length]);
-    return (
-      <Root onClick={(e) => e.stopPropagation()}>
-        {variables.map((variable, index) => (
-          <VariableItem
-            onClick={() => selectItem(index)}
-            selected={index === selected}
-            key={variable.label}
-          >
-            <span>{variable.label}</span> {variable.type}
-          </VariableItem>
-        ))}
-        {variables.length === 0 && (
-          <VariableItem>variables not found</VariableItem>
-        )}
-      </Root>
-    );
-  }
-);
-
 export function TextEditor({
   onChange,
   content,
   className,
-  findVariables,
   editable = false,
   iFrameDocument = document,
 }: Props) {
+  const variablesEditor = useVariablesEditor({
+    body: iFrameDocument.body,
+  });
   const editor = useEditor({
     injectCSS: false,
-    extensions: [
-      Variables.configure({
-        suggestion: {
-          items: ({ query }) => findVariables(query),
-          render: () => {
-            let popup: Instance;
-            let component: ReactRenderer<VariablesListRef, VariablesListProps>;
-            return {
-              onStart: (props: SuggestionProps<Variable>) => {
-                if (!props.clientRect) return;
-                component = new ReactRenderer(VariablesList, {
-                  props: { variables: props.items, command: props.command },
-                  editor: props.editor,
-                });
-
-                popup = tippy(iFrameDocument.body, {
-                  getReferenceClientRect: () => props.clientRect?.() as DOMRect,
-                  appendTo: () => iFrameDocument.body,
-                  content: component.element,
-                  showOnCreate: true,
-                  interactive: true,
-                  trigger: 'manual',
-                  placement: 'bottom-start',
-                  offset: [0, 5],
-                  popperOptions: {
-                    strategy: 'absolute',
-                  },
-                });
-              },
-              onUpdate: (props) => {
-                component.updateProps({
-                  variables: props.items,
-                  command: props.command,
-                });
-              },
-              onKeyDown: (props) => {
-                return component.ref?.onKeyDown(props) ?? false;
-              },
-              onExit() {
-                popup.destroy();
-                component.destroy();
-              },
-            };
-          },
-        },
-      }),
-      ...Extensions,
-    ],
+    extensions: [variablesEditor, ...Extensions],
     content,
     editable,
     editorProps: {
@@ -278,13 +132,14 @@ export function TextEditor({
     if (!editor || deepEqual(content, editor.getJSON())) return;
     editor.chain().setContent(content, false).run();
   }, [editor, content]);
+  const events = useMemo(() => new Subject<TextEditorEvents>(), []);
 
   if (!editor) return null;
 
   return (
-    <>
-      <EditorBubbleMenu editor={editor} />
+    <TextEditorContextProvider value={{ editor, events }}>
+      <BubbleMenu />
       <EditorContent editor={editor} />
-    </>
+    </TextEditorContextProvider>
   );
 }

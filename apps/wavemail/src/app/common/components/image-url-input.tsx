@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Popover } from 'antd';
 import { EmptyPattern, font, tokens } from '@waveditors/theme';
+import { Input } from '@waveditors/ui-kit';
 import { imageLinkValidation } from '../services';
-import { Input } from './inputs';
 
 interface Props {
   value?: string;

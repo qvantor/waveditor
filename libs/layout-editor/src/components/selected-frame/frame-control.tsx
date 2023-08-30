@@ -27,6 +27,7 @@ const Root = styled.div<{ top: boolean; $width: number }>`
   align-items: center;
   gap: 5px;
   max-width: ${({ $width }) => Math.max($width, 60)};
+  font-family: ${theme.font.family};
 `;
 
 const Icon = styled(RxDragHandleDots2)`

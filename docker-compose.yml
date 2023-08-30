@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   frontend:
-    image: waveditor/frontend:0.1.15
+    image: waveditor/frontend:0.1.16
     restart: on-failure
     depends_on:
       - backend
@@ -10,7 +10,7 @@ services:
     profiles:
       - with-frontend
   backend:
-    image: waveditor/backend:0.1.15
+    image: waveditor/backend:0.1.16
     restart: on-failure
     depends_on:
       - postgres

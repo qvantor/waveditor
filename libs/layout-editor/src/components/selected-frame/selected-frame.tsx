@@ -25,6 +25,7 @@ const SizePreview = styled.div`
   padding: 0 2px;
   background: ${theme.color.surface.accent};
   color: ${theme.color.text.tertiary};
+  font-family: ${theme.font.family};
   ${font({ type: 'paragraph', size: 'smallest' })}
 `;
 
