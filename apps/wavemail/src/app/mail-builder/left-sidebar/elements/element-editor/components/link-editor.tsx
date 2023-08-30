@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { ElementLink } from '@waveditors/editor-model';
 import { Checkbox } from 'antd';
 import styled from 'styled-components';
-import { Input } from '../../../../../common/components';
+import { Input } from '@waveditors/ui-kit';
 
 interface Props {
   value: ElementLink | null;

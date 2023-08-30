@@ -11,7 +11,8 @@ import {
 } from '@waveditors/editor-model';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { BehaviorSubject } from 'rxjs';
-import { IconButton, Input } from '../../../../../common/components';
+import { Input } from '@waveditors/ui-kit';
+import { IconButton } from '../../../../../common/components';
 import { maxLength, required, validate } from '../../../../../common/services';
 
 const NameInput = styled(Input)`

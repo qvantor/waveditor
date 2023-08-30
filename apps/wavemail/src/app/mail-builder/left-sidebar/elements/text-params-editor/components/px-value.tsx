@@ -3,7 +3,7 @@ import React from 'react';
 import { InputNumberProps } from 'antd';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { addPx, optionalApply, removePx } from '@waveditors/utils';
-import { InputNumber } from '../../../../../common/components';
+import { InputNumber } from '@waveditors/ui-kit';
 
 type Props = {
   text: TextStore;

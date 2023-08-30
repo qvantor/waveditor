@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { font, tokens } from '@waveditors/theme';
 import { useCallback } from 'react';
 import { useBehaviorSubject } from '@waveditors/rxjs-react';
+import { Input } from '@waveditors/ui-kit';
 import {
   maxLength,
   nameValidation,
@@ -18,11 +19,7 @@ import {
   validate,
 } from '../../../../common/services';
 import { RowContainer, SimpleEditorRow } from '../../common/components';
-import {
-  CollapseStyled,
-  IconButton,
-  Input,
-} from '../../../../common/components';
+import { CollapseStyled, IconButton } from '../../../../common/components';
 
 const VarHeaderName = styled.div`
   white-space: nowrap;

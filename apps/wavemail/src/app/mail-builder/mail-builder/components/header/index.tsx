@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { tokens, font } from '@waveditors/theme';
 import { useCallback } from 'react';
 import { useBsSelector } from '@waveditors/rxjs-react';
+import { Input } from '@waveditors/ui-kit';
 import { useTemplateQuery } from '../../../common/graphql/template.g';
 import { useUpdateTemplateMutation } from '../../graphql/update-template.g';
 import { useTemplateId } from '../../../common/hooks';
 import {
   Header as CommonHeader,
-  Input,
   UserControls,
 } from '../../../../common/components';
 import { authStore, getUserFromToken } from '../../../../auth';

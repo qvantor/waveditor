@@ -5,7 +5,7 @@ import { deepEqual } from 'fast-equals';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineSave } from 'react-icons/ai';
 import { ConfigFont, FontChangedPayload } from '@waveditors/editor-model';
 import { removeKey } from '@waveditors/utils';
-import { Input } from '../../../../../../common/components';
+import { Input } from '@waveditors/ui-kit';
 import { FontPreview } from './font-preview';
 
 const FallbackFonts = [

@@ -7,7 +7,8 @@ import {
   borderRadiusToObj,
 } from '@waveditors/utils';
 import { RxLink1, RxLinkNone1 } from 'react-icons/rx';
-import { IconButton, InputNumber } from '../../../../../common/components';
+import { InputNumber } from '@waveditors/ui-kit';
+import { IconButton } from '../../../../../common/components';
 
 interface Props {
   value?: string;

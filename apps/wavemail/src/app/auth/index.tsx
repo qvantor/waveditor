@@ -4,7 +4,7 @@ import { Button, Spin } from 'antd';
 import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { selectorToPipe, useSubscription } from '@waveditors/rxjs-react';
-import { Input } from '../common/components';
+import { Input } from '@waveditors/ui-kit';
 import { CONTROL_PANEL } from '../common/constants';
 import { GoogleAuth, AuthRoute } from './components';
 import {

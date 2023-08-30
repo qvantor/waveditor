@@ -8,6 +8,7 @@ import { Bold } from '@tiptap/extension-bold';
 import { Italic } from '@tiptap/extension-italic';
 import { Strike } from '@tiptap/extension-strike';
 import { Underline } from '@tiptap/extension-underline';
+import { Link } from '@tiptap/extension-link';
 
 const DefaultConfig = {
   HTMLAttributes: {
@@ -26,4 +27,8 @@ export const Extensions = [
   Italic,
   Strike,
   Underline,
+  Link.configure({
+    openOnClick: false,
+    HTMLAttributes: { style: 'color:inherit;text-decoration:none;' },
+  }),
 ];

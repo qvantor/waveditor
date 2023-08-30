@@ -11,7 +11,8 @@ import { RenderPreview } from '@waveditors/layout-render';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { addPx } from '@waveditors/utils';
 import { tokens, font } from '@waveditors/theme';
-import { HeaderButton, Input } from '../../../../common/components';
+import { Input } from '@waveditors/ui-kit';
+import { HeaderButton } from '../../../../common/components';
 import {
   emailValidation,
   handleError,
