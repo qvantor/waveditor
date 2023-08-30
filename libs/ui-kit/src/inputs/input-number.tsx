@@ -45,7 +45,7 @@ export const InputNumber = <T extends number | string>({
       <AntInputNumber
         size='small'
         value={internalValue}
-        onChange={setInternalValue}
+        onChange={value => setInternalValue(value)}
         onBlur={onBlurInternal}
         style={{ width: '100%' }}
         {...rest}

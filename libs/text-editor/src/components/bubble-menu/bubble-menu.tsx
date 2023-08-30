@@ -8,6 +8,7 @@ import {
 } from 'react-icons/ai';
 import { BubbleMenu as TBubbleMenu } from '@tiptap/react';
 import styled from 'styled-components';
+import { theme } from '@waveditors/theme';
 import { useTextEditorContext } from '../../hooks';
 import { Link } from './link';
 import { Group, BubbleButton } from './bubble-menu.styled';
@@ -15,6 +16,7 @@ import { Group, BubbleButton } from './bubble-menu.styled';
 const BubbleMenuInternal = styled(TBubbleMenu)`
   display: flex;
   gap: 8px;
+  font-family: ${theme.font.family};
 `;
 
 export const BubbleMenu = () => {
