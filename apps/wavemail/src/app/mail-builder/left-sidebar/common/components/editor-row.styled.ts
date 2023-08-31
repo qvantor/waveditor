@@ -6,8 +6,8 @@ export const RowContainer = styled.div`
   gap: 5px;
   padding: 5px 0;
 `;
-export const SimpleEditorRow = styled.div`
+export const SimpleEditorRow = styled.div<{ half?: true }>`
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: ${({ half }) => (half ? '1fr 1fr' : '2fr 3fr')};
   align-items: center;
 `;
