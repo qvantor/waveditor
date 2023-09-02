@@ -10,7 +10,7 @@ const config = {
   tagline:
     'Developer-friendly open-source low-code platform for easily building, \n' +
     'storing, and sending emails.',
-  url: 'https://demo.waveditor.qvantor.space',
+  url: 'https://waveditor.qvantor.space',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -26,7 +26,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/qvantor/waveditor/edit/apps/',
+          editUrl: 'https://github.com/qvantor/waveditor/tree/main/apps/docs/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -38,6 +38,7 @@ const config = {
   themeConfig:
     /** @type {import("@docusaurus/preset-classic").ThemeConfig} */
     ({
+      image: 'img/logo.png',
       navbar: {
         title: 'Waveditor',
         logo: {

@@ -42,13 +42,15 @@
 @media (max-width: 768px) {
   .main-container {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
 .main-image {
   max-width: 600px;
+  width: 100%;
 }
 
 footer.footer {
-  height: 206px;
+  min-height: 206px;
 }
