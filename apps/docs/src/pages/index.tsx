@@ -25,17 +25,16 @@ function HomepageHeader() {
             </Link>
           </div>
         </div>
-        <img src='/img/screenshot.png' className='main-image' />
+        <img src='/img/screenshot.png' className='main-image' alt='Project screenshot'/>
       </div>
     </header>
   );
 }
 
 export default function Home(): JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
+      title={`Waveditor - open-source email builder`}
       description='Waveditor is a developer-friendly open-source low-code platform for easily building,
 storing, and sending emails.'
     >
