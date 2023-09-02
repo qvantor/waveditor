@@ -1,16 +1,16 @@
 version: '3.8'
 services:
   frontend:
-    image: waveditor/frontend:0.1.17
+    image: waveditor/frontend:0.2.0
     restart: on-failure
     depends_on:
       - backend
     ports:
-      - 4000:80
+      - 4000:8080
     profiles:
       - with-frontend
   backend:
-    image: waveditor/backend:0.1.17
+    image: waveditor/backend:0.2.0
     restart: on-failure
     depends_on:
       - postgres

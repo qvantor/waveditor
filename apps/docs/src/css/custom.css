@@ -1,0 +1,54 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #3498db;
+  --ifm-color-primary-dark: #1d6fa5;
+  --ifm-color-primary-darker: #217dbb;
+  --ifm-color-primary-darkest: #258cd1;
+  --ifm-color-primary-light: #4aa3df;
+  --ifm-color-primary-lighter: #5faee3;
+  --ifm-color-primary-lightest: #75b9e7;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #4aa3df;
+  --ifm-color-primary-dark: #217dbb;
+  --ifm-color-primary-darker: #258cd1;
+  --ifm-color-primary-darkest: #3498db;
+  --ifm-color-primary-light: #60aee3;
+  --ifm-color-primary-lighter: #75b9e7;
+  --ifm-color-primary-lightest: #8bc4ea;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+.main-header {
+  min-height: calc(100vh - 266px);
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.main-image {
+  max-width: 600px;
+}
+
+footer.footer {
+  height: 206px;
+}
