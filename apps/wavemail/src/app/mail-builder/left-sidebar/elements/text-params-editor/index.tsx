@@ -11,22 +11,12 @@ import { RxLetterSpacing } from 'react-icons/rx';
 import styled from 'styled-components';
 import { CollapseStyled } from '../../../../common/components';
 import { Font } from '../common/components';
+import { SimpleEditorRow, RowContainer } from '../../common/components';
 import { Color, PxValue, TextAlign } from './components';
-
-const Root = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
 
 const Params = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px;
-`;
-
-const PairedCell = styled.div`
-  display: flex;
   gap: 5px;
 `;
 
@@ -41,7 +31,7 @@ export const TextParamsEditor = ({ text }: Props) => {
         <Font element={text} />
       </Collapse.Panel>
       <Collapse.Panel key='text' header='Text'>
-        <Root>
+        <RowContainer>
           <Params>
             <PxValue
               text={text}
@@ -64,12 +54,13 @@ export const TextParamsEditor = ({ text }: Props) => {
               max='100'
               step='0.1'
             />
-            <PairedCell>
-              <TextAlign text={text} />
-              <Color text={text} />
-            </PairedCell>
+            <TextAlign text={text} />
           </Params>
-        </Root>
+          <SimpleEditorRow half>
+            <div>Color</div>
+            <Color text={text} />
+          </SimpleEditorRow>
+        </RowContainer>
       </Collapse.Panel>
     </CollapseStyled>
   );
