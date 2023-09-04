@@ -1,5 +1,5 @@
 import { AiOutlineDelete } from 'react-icons/ai';
-import { Collapse, Segmented } from 'antd';
+import { Checkbox, Collapse, Segmented } from 'antd';
 import {
   isVariableLabelExist,
   useBuilderContext,
@@ -73,7 +73,8 @@ export const VariablesList = () => {
   const setVariableInternal =
     <K extends keyof Variable>(index: number, key: K) =>
     (value?: Variable[K]) => {
-      if (value) setVariable({ index, variable: { [key]: value } });
+      if (value !== undefined)
+        setVariable({ index, variable: { [key]: value } });
     };
   const removeVarById = useCallback(
     (id: string) => variablesList.filter((variable) => variable.id !== id),
@@ -94,7 +95,10 @@ export const VariablesList = () => {
           key={variable.id}
           header={
             <VariableHeader>
-              <VarHeaderName>{variable.label}</VarHeaderName>
+              <VarHeaderName>
+                {variable.label}
+                {variable.required && '*'}
+              </VarHeaderName>
               <HeaderRight>
                 <span>{variable.type}</span>
                 <HeaderDeleteIcon
@@ -141,7 +145,18 @@ export const VariablesList = () => {
               <Input
                 value={variable.defaultValue}
                 onChange={setVariableInternal(index, 'defaultValue')}
+                disabled={variable?.required}
               />
+            </SimpleEditorRow>
+            <SimpleEditorRow>
+              <Checkbox
+                checked={variable?.required}
+                onChange={(e) =>
+                  setVariableInternal(index, 'required')(e.target.checked)
+                }
+              >
+                Required
+              </Checkbox>
             </SimpleEditorRow>
           </RowContainer>
         </PanelInternal>

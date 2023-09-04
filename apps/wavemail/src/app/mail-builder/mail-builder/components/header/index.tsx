@@ -18,11 +18,14 @@ import { Preview } from './preview';
 
 const NameInput = styled(Input)`
   flex: 1;
-  background: transparent;
-  border: none;
-  color: ${tokens.color.text.tertiary};
-  text-align: center;
-  ${font({ size: 'small', weight: 'bold' })}
+
+  input {
+    background: transparent;
+    border: none;
+    color: ${tokens.color.text.tertiary};
+    text-align: center;
+    ${font({ size: 'small', weight: 'bold' })}
+  }
 `;
 
 export const Header = () => {

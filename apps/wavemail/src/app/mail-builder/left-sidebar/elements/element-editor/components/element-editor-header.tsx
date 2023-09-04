@@ -16,17 +16,19 @@ import { IconButton } from '../../../../../common/components';
 import { maxLength, required, validate } from '../../../../../common/services';
 
 const NameInput = styled(Input)`
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  input {
+    background: transparent;
+    border: none;
+    cursor: pointer;
 
-  &:hover {
-    background: ${tokens.color.surface.primary};
-  }
+    &:hover {
+      background: ${tokens.color.surface.primary};
+    }
 
-  &:focus {
-    border: inherit;
-    color: inherit;
+    &:focus {
+      border: inherit;
+      color: inherit;
+    }
   }
 `;
 

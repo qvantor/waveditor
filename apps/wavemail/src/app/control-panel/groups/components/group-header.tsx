@@ -18,9 +18,11 @@ const Header = styled.div`
   ${font({ type: 'header', size: 'small', weight: 'bold' })}
 `;
 const NameInput = styled(Input)`
-  ${font({ type: 'header', size: 'small', weight: 'bold' })}
-  &.ant-input-disabled:disabled {
-    color: ${tokens.color.text.primary};
+  input {
+    ${font({ type: 'header', size: 'small', weight: 'bold' })}
+    &.ant-input-disabled:disabled {
+      color: ${tokens.color.text.primary};
+    }
   }
 `;
 const AddUserPanel = styled.div`

@@ -6,7 +6,8 @@ type VariableCommon = {
   id: string;
   type: VariablesTypes;
   label: string;
-  defaultValue: string;
+  defaultValue?: string;
+  required?: boolean;
 };
 
 export type Variable = VariableCommon;

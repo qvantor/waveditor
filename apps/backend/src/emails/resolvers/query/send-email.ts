@@ -1,13 +1,29 @@
-import { renderToString } from '@waveditors/layout-render';
+import { renderToString, applyVariables } from '@waveditors/layout-render';
 import { EditorSnapshot } from '@waveditors/editor-model';
 import { GraphQLError } from 'graphql/index';
 import { GQL_ERRORS } from '@waveditors/utils';
+import * as t from 'io-ts';
+import { isLeft } from 'fp-ts/Either';
 import { QueryResolvers } from '../../../common/types/gql.g';
 import { prisma } from '../../../app';
+import { formatReport } from '../../../common/services';
+
+// @todo move snap validation into the model lib
+const Variable = t.type({
+  id: t.string,
+  type: t.union([t.literal('string'), t.literal('number')]),
+  label: t.string,
+  defaultValue: t.union([t.string, t.undefined]),
+  required: t.union([t.boolean, t.undefined]),
+});
+
+const Snapshot = t.type({
+  variables: t.array(Variable),
+});
 
 export const sendEmail: QueryResolvers['sendEmail'] = async (
   _,
-  { data: { providerId, templateId, to, subject, from, fromName } },
+  { data: { providerId, templateId, to, subject, from, fromName, variables } },
   { services: { providers } }
 ) => {
   const provider = providerId
@@ -37,8 +53,21 @@ export const sendEmail: QueryResolvers['sendEmail'] = async (
     });
 
   const [lastVersion] = template.versions;
+  const snap = Snapshot.decode(lastVersion.json);
+  if (isLeft(snap))
+    throw new GraphQLError(
+      `Template ${template.id}, version ${lastVersion.id} is invalid`,
+      {
+        extensions: {
+          code: GQL_ERRORS.OPERATION_ERROR,
+          validation: formatReport(snap),
+        },
+      }
+    );
   // const content = `<b>Hello world<b/>`;
-  const content = renderToString(lastVersion.json as unknown as EditorSnapshot);
+  const content = renderToString(
+    applyVariables(variables)(snap.right as EditorSnapshot)
+  );
 
   return await providerInstance.sendEmail(
     {
