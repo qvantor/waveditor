@@ -12,7 +12,7 @@ export const jsonToHtml = (doc: JSONContent, variables: VariablesType) =>
     Variables.configure({
       renderLabel: ({ node }) => {
         const variable = getVariableById(node.attrs.id)(variables);
-        return variable ? variable.defaultValue : '';
+        return variable?.defaultValue ?? '';
       },
     }),
     ...Extensions,

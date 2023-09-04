@@ -1,40 +1,6 @@
-import { TypeC, Props, Context } from 'io-ts';
+import { TypeC, Props } from 'io-ts';
 import { pipe } from 'fp-ts/function';
-import { Reporter } from 'io-ts/Reporter';
-import { fold } from 'fp-ts/Either';
-
-function stringify(v: unknown): string {
-  if (typeof v === 'number' && !isFinite(v)) {
-    if (isNaN(v)) {
-      return 'NaN';
-    }
-    return v > 0 ? 'Infinity' : '-Infinity';
-  }
-  return JSON.stringify(v);
-}
-
-const geyKey = (context: Context) =>
-  context.find((entry) => entry.key !== '') || null;
-
-const formatReport: Reporter<Array<[key: string, error: string]>>['report'] =
-  fold(
-    (errors) =>
-      errors.reduce<Array<[string, string]>>((sum, error) => {
-        const entry = geyKey(error.context);
-        if (!entry) return sum;
-        return [
-          ...sum,
-          [
-            entry.key,
-            error.message ??
-              `Invalid value ${stringify(error.value)}, should be ${
-                entry.type.name
-              }`,
-          ],
-        ];
-      }, []),
-    () => []
-  );
+import { formatReport } from '../error-handling';
 
 export type EmailSendConfig = {
   from?: string;
