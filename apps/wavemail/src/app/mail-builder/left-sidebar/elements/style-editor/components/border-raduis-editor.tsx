@@ -7,6 +7,12 @@ import {
   borderRadiusToObj,
 } from '@waveditors/utils';
 import { RxLink1, RxLinkNone1 } from 'react-icons/rx';
+import {
+  AiOutlineRadiusBottomleft,
+  AiOutlineRadiusBottomright,
+  AiOutlineRadiusUpleft,
+  AiOutlineRadiusUpright,
+} from 'react-icons/ai';
 import { InputNumber } from '@waveditors/ui-kit';
 import { IconButton } from '../../../../../common/components';
 
@@ -52,22 +58,22 @@ export const BorderRadiusEditor = ({ value = '0px', onChange }: Props) => {
       <InputNumber
         value={brObject.TL}
         onChange={onChangeInternal('TL')}
-        addonBefore='px'
+        addonBefore={<AiOutlineRadiusUpleft />}
       />
       <InputNumber
         value={brObject.TR}
         onChange={onChangeInternal('TR')}
-        addonAfter='px'
+        addonAfter={<AiOutlineRadiusUpright />}
       />
       <InputNumber
         value={brObject.BL}
         onChange={onChangeInternal('BL')}
-        addonBefore='px'
+        addonBefore={<AiOutlineRadiusBottomleft />}
       />
       <InputNumber
         value={brObject.BR}
         onChange={onChangeInternal('BR')}
-        addonAfter='px'
+        addonAfter={<AiOutlineRadiusBottomright />}
       />
     </Root>
   );

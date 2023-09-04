@@ -9,6 +9,9 @@ services:
       - 4000:8080
     profiles:
       - with-frontend
+    environment:
+      - NX_BACKEND_URL=${NX_BACKEND_URL}
+      - NX_GOOGLE_OAUTH_CLIENT=${NX_GOOGLE_OAUTH_CLIENT}
   backend:
     image: waveditor/backend:0.2.1
     restart: on-failure
