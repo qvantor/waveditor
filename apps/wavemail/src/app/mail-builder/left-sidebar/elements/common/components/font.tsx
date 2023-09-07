@@ -35,7 +35,7 @@ export const Font = ({ element }: Props) => {
       )
     ),
     null,
-    [relations.bs, config.bs]
+    [relations.bs, config.bs, element.bs]
   );
 
   // @todo here should be font from closest parent

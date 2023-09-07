@@ -26,8 +26,8 @@ export const createInitialConfig = (rootElementId: string): Config => {
 };
 
 export const createConfigFont = (font: Partial<ConfigFont>): ConfigFont => ({
-  id: generateId(),
   fallback: 'Helvetica',
   genericFamily: 'sans-serif',
   ...font,
+  id: generateId(),
 });
