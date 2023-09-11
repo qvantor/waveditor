@@ -23,9 +23,26 @@ function HomepageHeader() {
             >
               Documentation
             </Link>
+            <a
+              href='https://www.producthunt.com/posts/waveditor?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-waveditor'
+              target='_blank'
+              style={{ width: 250, height: 46 }}
+            >
+              <img
+                src='https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=413639&theme=neutral'
+                alt='Waveditor - Open&#0045;source&#0032;platform&#0032;for&#0032;easily&#0032;building&#0032;and&#0032;sending&#0032;emails | Product Hunt'
+                style={{ width: 250, height: 46 }}
+                width='250'
+                height='46'
+              />
+            </a>
           </div>
         </div>
-        <img src='/img/screenshot.png' className='main-image' alt='Project screenshot'/>
+        <img
+          src='/img/screenshot.png'
+          className='main-image'
+          alt='Project screenshot'
+        />
       </div>
     </header>
   );
