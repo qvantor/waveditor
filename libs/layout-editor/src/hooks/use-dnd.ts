@@ -20,8 +20,8 @@ import {
   ElementsStore,
   getElementPosition,
   getParentElement,
-  LayoutAddChild,
   LayoutStore,
+  Position,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { useCallback, useRef } from 'react';
@@ -67,22 +67,14 @@ const detectMousePosition =
     };
   };
 
-const calculateNewPosition = (
-  id: string,
-  newPos: LayoutAddChild | null,
-  prev: LayoutAddChild['position'] | null
-) =>
+const calculateNewPosition = (newPos: Position | null, prev: Position | null) =>
   match(newPos)
-    .with(P.nullish, () =>
-      prev ? { element: id, position: prev, samePosition: true } : null
-    )
+    .with(P.nullish, () => (prev ? { ...prev, samePosition: true } : null))
     .with(
       {
-        position: {
-          layout: prev?.layout,
-          column: prev?.column,
-          index: prev?.index,
-        },
+        layout: prev?.layout,
+        column: prev?.column,
+        index: prev?.index,
       },
       (value) => ({
         ...value,
@@ -113,17 +105,10 @@ export const useDnd = ({
   }, [isDnd, dndPreview]);
 
   const createMouseMoveSubscription = useCallback(
-    (element: string) =>
+    () =>
       fromEvent<MouseEvent>(iFrameDocument, 'mousemove')
         .pipe(
           map(detectMousePosition(elements.bs, iFrameDocument)),
-          map((position) => {
-            if (!position) return null;
-            return {
-              element,
-              position,
-            };
-          }),
           filter((e) =>
             match(e)
               .with(dndPreview.value, returnValue(false))
@@ -169,14 +154,17 @@ export const useDnd = ({
         );
         events.next({ type: 'UnlinkElementFromLayout', payload: id });
 
-        mouseMoveSubscription.current = createMouseMoveSubscription(id);
+        mouseMoveSubscription.current = createMouseMoveSubscription();
         mouseUpObs()
           .pipe(
-            map((value) => calculateNewPosition(id, value, position)),
+            map((value) => calculateNewPosition(value, position)),
             filter(notNullish)
           )
-          .subscribe((payload) =>
-            events.next({ type: 'LinkElementToLayout', payload })
+          .subscribe((position) =>
+            events.next({
+              type: 'LinkElementToLayout',
+              payload: { position, element: id },
+            })
           );
       })
   );
@@ -184,15 +172,22 @@ export const useDnd = ({
   useSubscription(() =>
     commands
       .pipe(filter(selectByType('OutsideDragStarted')))
-      .subscribe(({ payload: element }) => {
+      .subscribe(({ payload }) => {
         isDnd.next(true);
 
-        mouseMoveSubscription.current = createMouseMoveSubscription(element.id);
+        mouseMoveSubscription.current = createMouseMoveSubscription();
         mouseUpObs().subscribe((position) =>
-          events.next({
-            type: 'AddElement',
-            payload: { element, position: position?.position },
-          })
+          events.next(
+            payload.type === 'element'
+              ? {
+                  type: 'AddElement',
+                  payload: { element: payload.element, position },
+                }
+              : {
+                  type: 'AddComponent',
+                  payload: { element: payload.element, position },
+                }
+          )
         );
       })
   );

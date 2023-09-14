@@ -1,8 +1,11 @@
 import { Element } from '../elements';
+import { EditorSnapshot } from './editor-snapshot';
 
 export type OutsideDragStartedEvent = {
   type: 'OutsideDragStarted';
-  payload: Element;
+  payload:
+    | { type: 'element'; element: Element }
+    | { type: 'component'; element: EditorSnapshot };
 };
 
 export type OutsideDragToClickEvent = {

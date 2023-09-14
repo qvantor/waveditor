@@ -7,6 +7,7 @@ import {
   getLayoutElement,
   getParentElement,
   EditorSnapshot,
+  cloneComponent,
 } from '@waveditors/editor-model';
 import { noop } from 'rxjs';
 import { LeftSidebar } from '../../left-sidebar';
@@ -60,7 +61,7 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
               );
             parent.actions.addChild(payload);
             undoRedo.endBunch();
-            if (payload.samePosition) undoRedo.removeLastEvent();
+            if (payload.position.samePosition) undoRedo.removeLastEvent();
           })
           .with(
             { type: 'AddElement' },
@@ -86,6 +87,36 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
               });
               undoRedo.endBunch();
               selected.actions.setSelected(element.id);
+            }
+          )
+          .with(
+            { type: 'AddComponent' },
+            ({ payload: { position, element } }) => {
+              const internalPosition = position ?? {
+                layout: config.getValue().rootElementId,
+                column: 0,
+                index: 0,
+              };
+              const component = cloneComponent(element);
+              console.log(component);
+              const parent = getLayoutElement(
+                elements.getValue(),
+                internalPosition.layout
+              );
+              if (!parent)
+                return console.error(
+                  `useAddElement: ${internalPosition.layout}`
+                );
+              undoRedo.startBunch();
+              Object.values(component.elements).forEach((element) =>
+                elements.actions.addElement(element)
+              );
+              parent.actions.addChild({
+                element: component.config.rootElementId,
+                position: internalPosition,
+              });
+              undoRedo.endBunch();
+              selected.actions.setSelected(component.config.rootElementId);
             }
           )
           .otherwise(noop)

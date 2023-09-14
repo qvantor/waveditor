@@ -1,5 +1,7 @@
+import { ElementStore, getElementById } from '../elements';
 import { LayoutStore } from './layout';
 import { LayoutAddChild } from './layout.types';
+import { isLayoutStore } from './layout.guards';
 
 export const getColumns = (layout: LayoutStore['bs']['value']) =>
   layout.params.columns;
@@ -38,3 +40,24 @@ export const getElementPosition = (
       index: 0,
     }
   );
+
+export const getLayoutChildren =
+  (elements: Record<string, ElementStore>) =>
+  (layout: LayoutStore['bs']['value']): ElementStore[] =>
+    layout.params.columns.reduce<ElementStore[]>(
+      (sum, col) => [
+        ...sum,
+        ...col.children
+          .map((child) => {
+            const element = getElementById(child)(elements) as ElementStore;
+            if (isLayoutStore(element))
+              return [
+                element,
+                ...getLayoutChildren(elements)(element.getValue()),
+              ];
+            return element;
+          })
+          .flat(),
+      ],
+      []
+    );

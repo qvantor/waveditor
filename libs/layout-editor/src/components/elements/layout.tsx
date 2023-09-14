@@ -17,9 +17,8 @@ export const Layout = ({ element }: Props) => {
 
   const dndPreview = useObservable(
     internalState.dndPreview.pipe(
-      map((val) => {
-        if (!val) return undefined;
-        const { position } = val;
+      map((position) => {
+        if (!position) return undefined;
         if (position.layout !== element.getValue().id) return undefined;
         return position;
       }),

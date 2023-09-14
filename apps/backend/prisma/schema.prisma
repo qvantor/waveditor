@@ -29,6 +29,7 @@ model User {
   TemplateVersion TemplateVersion[]
   role            PRole             @default(USER)
   Provider        Provider[]
+  Component       Component[]
 }
 
 model Group {
@@ -39,6 +40,16 @@ model Group {
   template  GroupOnTemplate[]
   creator   User              @relation(fields: [userId], references: [id])
   userId    Int
+}
+
+model Component {
+  id        Int      @id @default(autoincrement())
+  name      String
+  creator   User     @relation(fields: [userId], references: [id])
+  userId    Int
+  json      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Template {

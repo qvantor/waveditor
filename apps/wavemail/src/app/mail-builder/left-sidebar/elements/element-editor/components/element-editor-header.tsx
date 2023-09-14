@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineDelete, AiOutlineSave } from 'react-icons/ai';
 import { theme, tokens } from '@waveditors/theme';
 import {
   Element,
   ElementStore,
+  extractComponent,
   getElementName,
   getElementType,
   removeSelectedElement,
@@ -48,6 +49,7 @@ interface Props {
 
 export const ElementEditorHeader = ({ element }: Props) => {
   const removeSelected = useAction(removeSelectedElement);
+  const extractComp = useAction(extractComponent);
   const name = useBsSelector(
     element.bs as BehaviorSubject<Element>,
     getElementName
@@ -56,12 +58,22 @@ export const ElementEditorHeader = ({ element }: Props) => {
     element.bs as BehaviorSubject<Element>,
     getElementType
   );
+  const getComponent = () => {
+    // @ts-ignore
+    window.__component = extractComp(element.getValue().id);
+  };
   return (
     <Root>
       <NameInput
         value={name ?? type}
         onChange={element.actions.setName}
         validate={validate(required, maxLength(16))}
+      />
+      <IconButton
+        size='small'
+        type='text'
+        icon={<AiOutlineSave />}
+        onClick={getComponent}
       />
       <IconButton
         size='small'
