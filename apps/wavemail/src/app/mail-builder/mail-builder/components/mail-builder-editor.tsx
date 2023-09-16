@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
@@ -7,7 +7,7 @@ import {
   getLayoutElement,
   getParentElement,
   EditorSnapshot,
-  cloneComponent,
+  mergeComponent,
 } from '@waveditors/editor-model';
 import { noop } from 'rxjs';
 import { LeftSidebar } from '../../left-sidebar';
@@ -23,6 +23,10 @@ interface Props {
 
 export const MailBuilderEditor = memo(({ snapshot }: Props) => {
   const builderContext = createBuilderContext(snapshot);
+  const onAddComponent = useMemo(
+    () => mergeComponent(builderContext),
+    [builderContext]
+  );
 
   const {
     model: { elements, config },
@@ -89,35 +93,8 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
               selected.actions.setSelected(element.id);
             }
           )
-          .with(
-            { type: 'AddComponent' },
-            ({ payload: { position, element } }) => {
-              const internalPosition = position ?? {
-                layout: config.getValue().rootElementId,
-                column: 0,
-                index: 0,
-              };
-              const component = cloneComponent(element);
-              console.log(component);
-              const parent = getLayoutElement(
-                elements.getValue(),
-                internalPosition.layout
-              );
-              if (!parent)
-                return console.error(
-                  `useAddElement: ${internalPosition.layout}`
-                );
-              undoRedo.startBunch();
-              Object.values(component.elements).forEach((element) =>
-                elements.actions.addElement(element)
-              );
-              parent.actions.addChild({
-                element: component.config.rootElementId,
-                position: internalPosition,
-              });
-              undoRedo.endBunch();
-              selected.actions.setSelected(component.config.rootElementId);
-            }
+          .with({ type: 'AddComponent' }, ({ payload }) =>
+            onAddComponent(payload)
           )
           .otherwise(noop)
       ),

@@ -1,65 +1,20 @@
 import { StoreResult } from '@waveditors/rxjs-react';
 import { JSONContent } from '@tiptap/core';
 import { deepEqual } from 'fast-equals';
+import { mapJSONContent, filterJSONContent } from '@waveditors/utils';
 import { elementStore, ElementStoreDeps } from '../element';
 import { getVariableById } from '../../variables';
 import { Text } from './text.types';
+import { content as contentLens } from './text.lens';
 
 const getTextContent = (text: Text) => text.params.content;
 
-const mapJSONContent = (
-  content: JSONContent,
-  mapper: (value: JSONContent) => JSONContent
-): JSONContent => {
-  const root = mapper(content);
-  if (content.content) {
-    return {
-      ...root,
-      content: content.content.map((value) => mapJSONContent(value, mapper)),
-    };
-  }
-  return root;
-};
-
-const filterChildren = (
-  children: JSONContent[],
-  predicate: (content: JSONContent) => boolean
-): JSONContent[] =>
-  children.reduce<JSONContent[]>((sum, content) => {
-    if (!predicate(content)) return sum;
-    if (!content.content) return [...sum, content];
-
-    return [
-      ...sum,
-      {
-        ...content,
-        content: filterChildren(content.content, predicate),
-      },
-    ];
-  }, []);
-
-const filterJSONContent = (
-  content: JSONContent,
-  predicate: (content: JSONContent) => boolean
-): JSONContent => {
-  if (!content.content) return content;
-
-  return {
-    ...content,
-    content: filterChildren(content.content, predicate),
-  };
-};
-
-const setContent = (content: JSONContent, text: Text) => ({
-  ...text,
-  params: {
-    ...text.params,
-    content,
-  },
-});
 export const textStore = (deps: ElementStoreDeps) =>
   elementStore<Text>()
-    .addActions({ setContent })
+    .addActions({
+      setContent: (content: JSONContent, text: Text) =>
+        contentLens.set(content)(text),
+    })
     .addEffect(() => ({
       subscriptions: (config) => [
         // subscription for update variables in text nodes
@@ -81,7 +36,7 @@ export const textStore = (deps: ElementStoreDeps) =>
           });
           const filtered = filterJSONContent(mapped, (val) => val !== null);
           if (deepEqual(filtered, content)) return;
-          config.bs.next(setContent(filtered, config.bs.value));
+          config.bs.next(contentLens.set(filtered)(config.bs.value));
         }),
       ],
     }));

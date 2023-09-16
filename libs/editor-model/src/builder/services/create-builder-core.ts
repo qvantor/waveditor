@@ -35,6 +35,7 @@ export const createBuilderContext = (
     .addEffect(onChange.effect)
     .run(initialState.config);
 
+  // @todo questionable part of the model, mb remove in the future
   const relations = relationsStoreConstructor()
     .addEffect(createUndoRedoEffect('RelationsStore'))
     .addEffect(onChange.effect)

@@ -19,6 +19,7 @@ export const removeElementById =
     return true;
   };
 
+// @todo critical - remove layout children as well
 export const removeSelectedElement = (context: BuilderContext) => () => {
   const { selected } = context.interaction;
   const selectedValue = selected.getValue();
