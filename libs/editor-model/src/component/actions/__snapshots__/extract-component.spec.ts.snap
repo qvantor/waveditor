@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`extract component layout with 2 font and 2 variables 1`] = `
+Object {
+  "elementFont": Object {
+    "0.09364994320533238": "0.7248257932515505",
+    "0.7402764635803678": "0.1332247839013243",
+  },
+}
+`;
