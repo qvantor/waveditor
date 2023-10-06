@@ -11,4 +11,5 @@ type Component {
   createdAt: String!
   updatedAt: String!
   tags: [Tag!]
+  userId: Int!
 }

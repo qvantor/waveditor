@@ -5,8 +5,11 @@ import {
   useSubscription,
 } from '@waveditors/rxjs-react';
 import { EditorSnapshot } from '@waveditors/editor-model';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import { debounceTime, filter, fromEvent, map, merge, of } from 'rxjs';
+import { calcScrollbarWidth } from '@waveditors/utils';
+import styled from 'styled-components';
+import { Spin } from 'antd';
 import { useComponentsLazyQuery } from '../graphql/components.g';
 import { PADDING } from '../constants';
 import { TagsSelector } from './tags-selector';
@@ -17,6 +20,14 @@ const tags = createStore<number[]>()
     setTags: (value: number[]) => value,
   })
   .run([]);
+
+const scrollbarWidth = calcScrollbarWidth();
+
+const Root = styled.div`
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+`;
 
 export const CreateComponent = ({
   onMouseDown,
@@ -37,25 +48,6 @@ export const CreateComponent = ({
       }),
     []
   );
-  const scrollbarWidth = useMemo(() => {
-    // Creating invisible container
-    const outer = document.createElement('div');
-    outer.style.visibility = 'hidden';
-    outer.style.overflow = 'scroll'; // forcing scrollbar to appear
-    document.body.appendChild(outer);
-
-    // Creating inner element and placing it in the container
-    const inner = document.createElement('div');
-    outer.appendChild(inner);
-
-    // Calculating difference between container's full width and the child width
-    const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-
-    // Removing temporary elements from the DOM
-    outer.parentNode?.removeChild(outer);
-
-    return scrollbarWidth;
-  }, []);
 
   const size = useObservable(
     merge(fromEvent(window, 'resize').pipe(debounceTime(300)), of(null)).pipe(
@@ -68,17 +60,19 @@ export const CreateComponent = ({
   return (
     <>
       <TagsSelector value={tagsList} onChange={tags.actions.setTags} />
-      <div style={{ height: '100%', overflow: 'hidden' }} ref={ref}>
+      <Root ref={ref}>
         {data?.components && size ? (
           <ComponentsList
             onMouseDown={onMouseDown}
             onClick={onClick}
             components={data.components}
             width={size[0] - PADDING * 2 - scrollbarWidth}
-            h={size[1]}
+            height={size[1]}
           />
-        ) : null}
-      </div>
+        ) : (
+          <Spin />
+        )}
+      </Root>
     </>
   );
 };

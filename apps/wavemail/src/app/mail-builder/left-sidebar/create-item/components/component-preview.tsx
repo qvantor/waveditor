@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import {
   ConfigStore,
   EditorSnapshot,
@@ -7,7 +7,12 @@ import {
 import styled from 'styled-components';
 import { font, tokens } from '@waveditors/theme';
 import { RenderPreview } from '@waveditors/layout-render';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { Popconfirm } from 'antd';
 import { ComponentsQuery } from '../graphql/components.g';
+import { IconButton } from '../../../../common/components';
+import { useDeleteComponentMutation } from '../graphql/delete-component.g';
+import { client } from '../../../../common/services';
 
 const componentToPreview = (
   component: EditorSnapshot,
@@ -39,6 +44,20 @@ const Hover = styled.div`
   transition: opacity 0.15s ease-in;
 `;
 
+const HoverContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  height: calc(100% - 14px);
+  padding: 7px;
+`;
+const HoverHeader = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: end;
+`;
+
 const Root = styled.div`
   width: 100%;
   border: 1px solid ${tokens.color.border.primary};
@@ -56,10 +75,6 @@ const Root = styled.div`
 `;
 const Name = styled.h5`
   margin: 0;
-  padding: 0 10px;
-  height: 100%;
-  display: flex;
-  align-items: center;
   color: ${tokens.color.text.tertiary};
   ${font({ type: 'paragraph', size: 'small', weight: 'bold' })}
 `;
@@ -71,25 +86,54 @@ const PreviewInternal = styled(RenderPreview)`
   pointer-events: none;
   border-radius: ${tokens.borderRadius.m};
 `;
+
+interface Props {
+  component: ComponentsQuery['components'][0];
+  height: number;
+  scale: number;
+  edit: boolean;
+}
+
 export const ComponentPreview = memo(
-  ({
-    component,
-    height,
-    scale,
-  }: {
-    component: ComponentsQuery['components'][0];
-    height: number;
-    scale: number;
-  }) => {
+  ({ component, height, scale, edit }: Props) => {
+    const [deleteComponent, { loading }] = useDeleteComponentMutation();
     const {
       model: { config },
     } = useBuilderContext();
     const componentWidth = component.json.config.viewportWidth as number;
     const componentHeight = component.previewHeight;
+    const deleteInternal = useCallback(async () => {
+      await deleteComponent({ variables: { id: component.id } });
+      client.cache.modify({
+        id: client.cache.identify(component),
+        fields: (ref, { DELETE }) => DELETE,
+      });
+    }, [component, deleteComponent]);
     return (
       <Root style={{ height }}>
         <Hover>
-          <Name>{component.name}</Name>
+          <HoverContainer>
+            <HoverHeader>
+              {edit && (
+                <div onMouseDown={(e) => e.stopPropagation()}>
+                  <Popconfirm
+                    title={`Delete ${component.name}?`}
+                    placement='bottomRight'
+                    disabled={loading}
+                    onConfirm={deleteInternal}
+                  >
+                    <IconButton
+                      icon={<AiOutlineDelete />}
+                      size='small'
+                      ghost
+                      disabled={loading}
+                    />
+                  </Popconfirm>
+                </div>
+              )}
+            </HoverHeader>
+            <Name>{component.name}</Name>
+          </HoverContainer>
         </Hover>
         <div
           style={{

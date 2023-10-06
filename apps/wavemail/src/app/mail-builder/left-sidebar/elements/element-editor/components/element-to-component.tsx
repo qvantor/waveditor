@@ -70,7 +70,13 @@ export const ElementToComponent = ({ elementId }: Props) => {
   const previewDoc = useRef<Document | null>(null);
   const [createComponent, { loading }] = useCreateComponentMutation();
   const [createTag, { loading: tagCreating }] = useCreateTagMutation();
-  const [component, setComponent] = useState<EditorSnapshot | null>(null);
+  const [{ open, component }, setComponent] = useState<
+    | {
+        open: true;
+        component: EditorSnapshot;
+      }
+    | { open: false; component: EditorSnapshot | null }
+  >({ open: false, component: null });
   const [form, setForm] = useState<{ name: string; tags: (string | number)[] }>(
     {
       name: 'Component',
@@ -79,11 +85,14 @@ export const ElementToComponent = ({ elementId }: Props) => {
   );
   const extractComp = useAction(extractComponent);
   const openModal = useCallback(
-    () => setComponent(extractComp(elementId)),
+    () => setComponent({ open: true, component: extractComp(elementId) }),
     [extractComp, elementId]
   );
   const previewWidth = component?.config.viewportWidth ?? 0;
-  const closeModal = useCallback(() => setComponent(null), []);
+  const closeModal = useCallback(
+    () => setComponent((prev) => ({ ...prev, open: false })),
+    []
+  );
   const { data } = useTagsQuery();
   const tagOptions = useMemo(
     () => (data?.tags ?? []).map((tag) => ({ value: tag.id, label: tag.name })),
@@ -132,7 +141,7 @@ export const ElementToComponent = ({ elementId }: Props) => {
       },
       refetchQueries: [ComponentsDocument],
     });
-    setComponent(null);
+    setComponent((prev) => ({ ...prev, open: false }));
   }, [form, createComponent, component, createTag]);
   return (
     <>
@@ -145,7 +154,7 @@ export const ElementToComponent = ({ elementId }: Props) => {
       <NoPaddingModal
         footer={null}
         closeIcon={null}
-        open={component !== null}
+        open={open}
         width={addPx(previewWidth + FORM_WIDTH)}
         onCancel={closeModal}
       >

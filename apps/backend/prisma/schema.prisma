@@ -99,9 +99,9 @@ model Provider {
 // M-N Relations
 
 model TagOnComponent {
-  tag         Tag       @relation(fields: [tagId], references: [id])
+  tag         Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
   tagId       Int
-  component   Component @relation(fields: [componentId], references: [id])
+  component   Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
   componentId Int
   assignedAt  DateTime  @default(now())
 

@@ -2,8 +2,10 @@ import { EditorSnapshot } from '@waveditors/editor-model';
 import { useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import styled from 'styled-components';
+import { useBsSelector } from '@waveditors/rxjs-react';
 import { ComponentsQuery } from '../graphql/components.g';
 import { MIN_SIZE, MAX_SIZE, PADDING } from '../constants';
+import { authStore, getUserFromToken } from '../../../../auth';
 import { ComponentPreview } from './component-preview';
 
 const Container = styled.div`
@@ -27,17 +29,18 @@ const calcComponentSize = (
 export const ComponentsList = ({
   components,
   width,
-  h,
+  height,
   onMouseDown,
   onClick,
 }: {
   components: ComponentsQuery['components'];
   width: number;
-  h: number;
+  height: number;
   onMouseDown: (component: EditorSnapshot) => void;
   onClick: () => void;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const user = useBsSelector(authStore.bs, getUserFromToken);
   const rows = useVirtualizer({
     count: components.length,
     getScrollElement: () => ref.current,
@@ -45,7 +48,7 @@ export const ComponentsList = ({
       calcComponentSize(components[i], width).height + PADDING,
   });
   return (
-    <Container style={{ height: h }} ref={ref}>
+    <Container style={{ height }} ref={ref}>
       <div
         style={{
           height: `${rows.getTotalSize()}px`,
@@ -73,6 +76,7 @@ export const ComponentsList = ({
                 component={components[virtualRow.index]}
                 height={height}
                 scale={scale}
+                edit={user?.id === component.userId}
               />
             </div>
           );

@@ -4,5 +4,6 @@ query Components($tags: [Int!]) {
     name
     previewHeight
     json
+    userId
   }
 }

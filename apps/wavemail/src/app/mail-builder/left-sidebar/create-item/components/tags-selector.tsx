@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { useMemo } from 'react';
 import { Select } from '@waveditors/ui-kit';
+import { calcScrollbarWidth } from '@waveditors/utils';
 import { useTagsQuery } from '../../elements/element-editor/graphql/tags.g';
 
+const scrollbarWidth = calcScrollbarWidth();
+
 const TagSelectorRoot = styled.div`
-  padding: 0 10px 10px 10px;
+  padding: 0 calc(10px + ${scrollbarWidth}px) 10px 10px;
 `;
 
 export const TagsSelector = ({

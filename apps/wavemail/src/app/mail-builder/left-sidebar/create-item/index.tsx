@@ -1,22 +1,15 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import {
   EditorSnapshot,
   ElementType,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { Tabs } from 'antd';
-import { createStore, useBehaviorSubject } from '@waveditors/rxjs-react';
 import styled from 'styled-components';
 import { CreateElement } from '../../common/components';
 import { useTypeToElement } from '../../common/hooks';
 import { Hider } from '../../../common/components';
 import { CreateComponent } from './components';
-
-const currentTab = createStore<'components' | 'elements'>()
-  .addActions({
-    setTab: (value: 'components' | 'elements') => value,
-  })
-  .run('components');
 
 const items = [
   {
@@ -55,7 +48,7 @@ export const CreateItem = ({ className }: Props) => {
   const {
     editor: { commands },
   } = useBuilderContext();
-  const tab = useBehaviorSubject(currentTab.bs);
+  const [tab, setTab] = useState<'components' | 'elements'>('components');
   const typeToElement = useTypeToElement();
   const onMouseDown = useCallback(
     (type: ElementType) =>
@@ -84,9 +77,7 @@ export const CreateItem = ({ className }: Props) => {
         items={items}
         activeKey={tab}
         onChange={(value) =>
-          currentTab.actions.setTab(
-            value === 'components' ? 'components' : 'elements'
-          )
+          setTab(value === 'components' ? 'components' : 'elements')
         }
       />
       <HiderInternal isHidden={tab === 'elements'}>
