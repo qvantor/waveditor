@@ -1,4 +1,4 @@
-import { mapJSONContent } from '@waveditors/utils';
+import { mapJSONContent, removePx } from '@waveditors/utils';
 import { ElementStore, isLayoutStore, getElementById } from '../../elements';
 import { EditorSnapshot, BuilderContext } from '../../types';
 import { getLayoutChildren } from '../../elements/layout';
@@ -91,6 +91,7 @@ export const extractComponent =
     );
 
     const relations = extractUsedRelations(elements, relationsValue);
+    const rootWidth = rootElement.getValue().style.width;
 
     return {
       elements,
@@ -98,7 +99,9 @@ export const extractComponent =
       relations,
       config: {
         rootElementId,
-        viewportWidth: configValue.viewportWidth,
+        viewportWidth: rootWidth
+          ? Number(removePx(rootWidth))
+          : configValue.viewportWidth,
         fonts,
         style: {},
       },

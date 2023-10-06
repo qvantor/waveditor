@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
@@ -12,9 +12,10 @@ interface Props {
   title: string;
   children: (props: { document: Document }) => JSX.Element;
   className?: string;
+  style?: CSSProperties;
 }
 
-export const Iframe = ({ children, title, id, className }: Props) => {
+export const Iframe = ({ children, title, id, className, style }: Props) => {
   const [, setState] = useState(false);
   const frame = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
@@ -31,7 +32,7 @@ export const Iframe = ({ children, title, id, className }: Props) => {
     }
   }, []);
   return (
-    <Root ref={frame} title={title} className={className} id={id}>
+    <Root ref={frame} title={title} className={className} id={id} style={style}>
       {frame.current?.contentDocument &&
         createPortal(
           children({ document: frame.current.contentDocument }),

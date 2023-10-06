@@ -7,3 +7,4 @@ export { CollapseStyled } from './collapse.styled';
 export { IconButton } from './icon-button.styled';
 export { Empty } from './empty';
 export { UserControls } from './user-controls';
+export { Hider } from './hider.styled';

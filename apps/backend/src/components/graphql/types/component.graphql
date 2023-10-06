@@ -1,0 +1,14 @@
+type Tag {
+  id: Int!
+  name: String!
+  userId: Int!
+}
+type Component {
+  id: Int!
+  name: String!
+  json: JSON!
+  previewHeight: Int!
+  createdAt: String!
+  updatedAt: String!
+  tags: [Tag!]
+}

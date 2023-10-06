@@ -1,0 +1,8 @@
+query Components($tags: [Int!]) {
+  components(tags: $tags) {
+    id
+    name
+    previewHeight
+    json
+  }
+}

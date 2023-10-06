@@ -1,0 +1,1 @@
+export { componentResolver } from './resolvers';

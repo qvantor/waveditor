@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { AiOutlineDelete, AiOutlineSave } from 'react-icons/ai';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { theme, tokens } from '@waveditors/theme';
 import {
   Element,
   ElementStore,
-  extractComponent,
   getElementName,
   getElementType,
   removeSelectedElement,
@@ -15,6 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Input } from '@waveditors/ui-kit';
 import { IconButton } from '../../../../../common/components';
 import { maxLength, required, validate } from '../../../../../common/services';
+import { ElementToComponent } from './element-to-component';
 
 const NameInput = styled(Input)`
   input {
@@ -49,7 +49,6 @@ interface Props {
 
 export const ElementEditorHeader = ({ element }: Props) => {
   const removeSelected = useAction(removeSelectedElement);
-  const extractComp = useAction(extractComponent);
   const name = useBsSelector(
     element.bs as BehaviorSubject<Element>,
     getElementName
@@ -58,10 +57,6 @@ export const ElementEditorHeader = ({ element }: Props) => {
     element.bs as BehaviorSubject<Element>,
     getElementType
   );
-  const getComponent = () => {
-    // @ts-ignore
-    window.__component = extractComp(element.getValue().id);
-  };
   return (
     <Root>
       <NameInput
@@ -69,12 +64,7 @@ export const ElementEditorHeader = ({ element }: Props) => {
         onChange={element.actions.setName}
         validate={validate(required, maxLength(16))}
       />
-      <IconButton
-        size='small'
-        type='text'
-        icon={<AiOutlineSave />}
-        onClick={getComponent}
-      />
+      <ElementToComponent elementId={element.getValue().id} />
       <IconButton
         size='small'
         type='text'

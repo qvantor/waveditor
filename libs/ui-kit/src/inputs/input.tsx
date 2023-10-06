@@ -7,9 +7,12 @@ import {
   ReactNode,
 } from 'react';
 import { Input as AntInput, InputRef, InputProps } from 'antd';
-import styled from 'styled-components';
-import { font } from '@waveditors/theme';
-import { useValidation, InputValidation } from './input-validation';
+import {
+  useValidation,
+  useValidateValue,
+  InputValidation,
+} from './input-validation';
+import { Root, Label } from './input.styled';
 
 type Props = {
   value?: string;
@@ -18,20 +21,15 @@ type Props = {
   label?: ReactNode;
 } & Omit<InputProps, 'onChange' | 'value'>;
 
-const Root = styled.div`
-  width: 100%;
-`;
-const Label = styled.label`
-  ${font({ size: 'smallest', weight: 'bold' })}
-`;
-
 export const Input = forwardRef<InputRef, Props>(
   ({ value, onChange, validate, label, onBlur, className, ...rest }, ref) => {
     const [internalValue, setInternalValue] = useState(value);
-    const { validation, onBlur: onBlurValidation } = useValidation(
-      internalValue,
-      validate
-    );
+    const {
+      validation,
+      onBlur: onBlurValidation,
+      validateValue,
+    } = useValidation(validate);
+    useValidateValue(validateValue, internalValue);
 
     useEffect(() => {
       if (value !== internalValue) setInternalValue(value);

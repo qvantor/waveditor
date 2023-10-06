@@ -1,0 +1,4 @@
+type Mutation {
+  createTag(name: String!): Tag! @auth
+  createComponent(data: CreateComponent!): Component! @auth
+}

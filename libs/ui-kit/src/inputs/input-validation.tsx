@@ -19,24 +19,34 @@ const ErrorContent = styled.div`
 type Validation =
   | { error: false; message?: string }
   | { error: true; message: string };
-export const useValidation = <T,>(
-  internalValue?: T | null,
-  validate?: (value?: T) => string | void
-) => {
+
+export const useValidateValue = <T,>(
+  validateValue: (value?: T | null) => void,
+  internalValue?: T | null
+) =>
+  useEffect(() => {
+    validateValue(internalValue);
+  }, [validateValue, internalValue]);
+export const useValidation = <T,>(validate?: (value?: T) => string | void) => {
   const [validation, setValidation] = useState<Validation>({
     error: false,
   });
 
-  useEffect(() => {
-    if (validate) {
-      const message = validate(internalValue ?? undefined);
-      setValidation((error) =>
-        message
-          ? { error: true, message }
-          : { error: false, message: error.message }
-      );
-    }
-  }, [validate, internalValue]);
+  const validateValue = useCallback(
+    (value?: T | null) => {
+      if (validate) {
+        const message = validate(value ?? undefined);
+        setValidation((error) =>
+          message
+            ? { error: true, message }
+            : { error: false, message: error.message }
+        );
+        return typeof message !== 'string';
+      }
+      return true;
+    },
+    [validate]
+  );
 
   const onBlur = useCallback(() => {
     setValidation((validation) => ({
@@ -44,7 +54,7 @@ export const useValidation = <T,>(
       message: validation.message,
     }));
   }, []);
-  return { onBlur, validation };
+  return { onBlur, validation, validateValue };
 };
 
 export const InputValidation = ({

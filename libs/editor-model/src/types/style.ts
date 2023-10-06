@@ -28,4 +28,5 @@ export type Style = {
   borderRadius?: string;
   width?: string;
   height?: string;
+  overflow?: Property.Overflow;
 } & Background;
