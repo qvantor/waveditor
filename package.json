@@ -1,6 +1,6 @@
 {
   "name": "waveditors",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "license": "MIT",
   "scripts": {
     "dev:frontend": "nx run wavemail:serve",
@@ -12,11 +12,13 @@
     "docker:build": "nx run-many --all --target=deploy",
     "docker:push": "docker push waveditor/backend:$(npm pkg get version --workspaces=false | tr -d \\\")",
     "docker:start:backend": "docker compose up",
-    "docker:start": "docker compose --profile with-frontend up"
+    "docker:start": "docker compose --profile with-frontend up",
+    "seed-generate": "ts-node --compiler-options {\\\"module\\\":\\\"commonjs\\\"} apps/backend/prisma/seed/generator.ts"
   },
   "private": true,
   "prisma": {
-    "schema": "apps/backend/prisma/schema.prisma"
+    "schema": "apps/backend/prisma/schema.prisma",
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} apps/backend/prisma/seed/index.ts"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
