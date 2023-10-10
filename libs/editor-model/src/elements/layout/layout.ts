@@ -1,6 +1,4 @@
 import { StoreResult } from '@waveditors/rxjs-react';
-import { fromTraversable, Lens } from 'monocle-ts';
-import { indexArray } from 'monocle-ts/Index/Array';
 import * as A from 'fp-ts/Array';
 import * as O from 'fp-ts/Option';
 import { flow, pipe } from 'fp-ts/function';
@@ -9,13 +7,14 @@ import { Style } from '../../types';
 import { Column, Layout, LayoutAddChild } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
 import { recalcProportions } from './layout.services';
-
-const gap = Lens.fromPath<Layout>()(['params', 'gap']);
-const column = Lens.fromPath<Layout>()(['params', 'columns']);
-const columnChildren = Lens.fromProp<Column>()('children');
-const columnStyle = Lens.fromProp<Column>()('style');
-const columnByIndex = (index: number) => indexArray<Column>().index(index);
-const columnTraversal = fromTraversable(A.Traversable)<Column>();
+import {
+  columnTraversal,
+  columnStyle,
+  columnChildren,
+  columnByIndex,
+  gap,
+  column,
+} from './layout.lens';
 
 export const layoutStore = (_: ElementStoreDeps) =>
   elementStore<Layout>().addActions({

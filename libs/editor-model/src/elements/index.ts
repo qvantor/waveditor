@@ -24,11 +24,17 @@ export {
   getColumnsCount,
   getGap,
   createEmptyColumn,
+  LayoutLens,
 } from './layout';
-export type { LayoutStore, Layout, LayoutAddChild, Column } from './layout';
+export type {
+  LayoutStore,
+  Layout,
+  LayoutAddChild,
+  Column,
+  Position,
+} from './layout';
 
-export { textStore } from './text';
-export type { TextStore, Text } from './text';
+export * from './text';
 
 export { imageStore, getImageMeta, getImageUrl } from './image';
 export type { ImageStore, Image } from './image';

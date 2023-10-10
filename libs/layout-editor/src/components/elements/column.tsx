@@ -1,9 +1,6 @@
 import { CSSProperties, Fragment, useMemo } from 'react';
 import { ColumnDumb } from '@waveditors/layout-render';
-import {
-  Column as ColumnType,
-  LinkElementToLayoutEvent,
-} from '@waveditors/editor-model';
+import { Column as ColumnType, Position } from '@waveditors/editor-model';
 import { font, theme } from '@waveditors/theme';
 import styled from 'styled-components';
 import { BsBoxArrowInDown } from 'react-icons/bs';
@@ -12,7 +9,7 @@ import { Element } from './element';
 interface Props {
   column: ColumnType;
   width: number;
-  dndPreview?: LinkElementToLayoutEvent['payload']['position'];
+  dndPreview?: Position;
   index: number;
   style?: CSSProperties;
   padding: string;

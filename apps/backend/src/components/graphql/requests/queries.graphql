@@ -1,0 +1,4 @@
+type Query {
+  tags: [Tag!]! @auth
+  components(tags: [Int!]): [Component!]! @auth
+}

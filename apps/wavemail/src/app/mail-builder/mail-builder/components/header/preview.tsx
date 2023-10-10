@@ -1,16 +1,15 @@
 import { AiOutlineEye } from 'react-icons/ai';
 import styled from 'styled-components';
-import { Tooltip, Modal, Button, notification } from 'antd';
+import { Tooltip, Button, notification } from 'antd';
 import {
   builderContextToSnapshot,
   getConfigViewportWidth,
   useBuilderContext,
 } from '@waveditors/editor-model';
 import { useCallback, useMemo, useState } from 'react';
-import { applyVariables, RenderPreview } from '@waveditors/layout-render';
+import { applyVariables } from '@waveditors/layout-render';
 import { useBsSelector } from '@waveditors/rxjs-react';
 import { addPx } from '@waveditors/utils';
-import { tokens, font } from '@waveditors/theme';
 import { Input } from '@waveditors/ui-kit';
 import { HeaderButton } from '../../../../common/components';
 import {
@@ -25,55 +24,24 @@ import { useSendEmailLazyQuery } from '../../graphql/send-email.g';
 import { useTemplateId } from '../../../common/hooks';
 import { useErrorHandler } from '../../../../common/hooks';
 import { authStore, getUserFromToken } from '../../../../auth';
+import { PreviewModal } from '../../../common/components';
+
+const {
+  ModalRoot,
+  ModalPreview,
+  NoPaddingModal,
+  Content,
+  Header,
+  Form,
+  PADDING,
+  FORM_WIDTH,
+} = PreviewModal;
 
 const PreviewButton = styled(HeaderButton)`
   margin-left: 15px;
 `;
-const PADDING = 40;
-const FORM_WIDTH = 340;
 
-const PreviewInternal = styled(RenderPreview)`
-  display: block;
-  height: 80vh;
-`;
-
-const ModalInternal = styled(Modal)`
-  .ant-modal-content {
-    padding: 0;
-  }
-
-  .ant-modal-close-x {
-    display: none;
-  }
-`;
-const ModalRoot = styled.div<{ width: number }>`
-  display: grid;
-  grid-template-columns: ${({ width }) => width}px 1fr;
-  height: 80vh;
-`;
-
-const Content = styled.div`
-  padding: 10px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-  max-height: 80vh;
-  overflow-y: auto;
-`;
-
-const Header = styled.div`
-  ${font({ weight: 'bold', size: 'medium' })}
-  color: ${tokens.color.text.secondary}
-`;
-
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
-
-const PreviewModal = ({ onCancel }: { onCancel: () => void }) => {
+const Modal = ({ onCancel }: { onCancel: () => void }) => {
   const templateId = useTemplateId();
   const { toastAll } = useErrorHandler();
   const user = useBsSelector(authStore.bs, getUserFromToken);
@@ -124,7 +92,7 @@ const PreviewModal = ({ onCancel }: { onCancel: () => void }) => {
     [setFormData]
   );
   return (
-    <ModalInternal
+    <NoPaddingModal
       open
       footer={null}
       closeIcon={null}
@@ -132,7 +100,7 @@ const PreviewModal = ({ onCancel }: { onCancel: () => void }) => {
       onCancel={onCancel}
     >
       <ModalRoot width={previewWidth}>
-        <PreviewInternal snapshot={snapshot} title='Preview' />
+        <ModalPreview snapshot={snapshot} title='Preview' />
         <Content>
           <Header>Send preview</Header>
           <Form>
@@ -172,7 +140,7 @@ const PreviewModal = ({ onCancel }: { onCancel: () => void }) => {
           </Button>
         </Content>
       </ModalRoot>
-    </ModalInternal>
+    </NoPaddingModal>
   );
 };
 export const Preview = () => {
@@ -184,7 +152,7 @@ export const Preview = () => {
           <AiOutlineEye />
         </PreviewButton>
       </Tooltip>
-      {open && <PreviewModal onCancel={() => setOpen(false)} />}
+      {open && <Modal onCancel={() => setOpen(false)} />}
     </>
   );
 };

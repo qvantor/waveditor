@@ -1,4 +1,5 @@
-import { Element, LayoutAddChild } from '../elements';
+import { Element, LayoutAddChild, Position } from '../elements';
+import { EditorSnapshot } from './editor-snapshot';
 
 export type HoverEvents =
   | { type: 'MouseEnter'; payload: string }
@@ -9,7 +10,9 @@ export type SelectionEvents =
 
 export type LinkElementToLayoutEvent = {
   type: 'LinkElementToLayout';
-  payload: LayoutAddChild & { samePosition: boolean };
+  payload: Omit<LayoutAddChild, 'position'> & {
+    position: LayoutAddChild['position'] & { samePosition: boolean };
+  };
 };
 export type UnlinkElementFromLayoutEvent = {
   type: 'UnlinkElementFromLayout';
@@ -17,10 +20,15 @@ export type UnlinkElementFromLayoutEvent = {
 };
 export type AddElementEvent = {
   type: 'AddElement';
-  payload: { element: Element; position?: LayoutAddChild['position'] };
+  payload: { element: Element; position: Position | null };
+};
+export type AddComponentEvent = {
+  type: 'AddComponent';
+  payload: { element: EditorSnapshot; position: Position | null };
 };
 export type MutationEvents =
   | AddElementEvent
+  | AddComponentEvent
   | LinkElementToLayoutEvent
   | UnlinkElementFromLayoutEvent;
 
@@ -28,7 +36,7 @@ export type ShowAddElementControlEvent = {
   type: 'ShowAddElementControl';
   payload: {
     controlPosition: { left: number; top: number };
-    elementPosition: LayoutAddChild['position'];
+    elementPosition: Position;
   };
 };
 

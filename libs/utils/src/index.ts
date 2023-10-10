@@ -7,3 +7,5 @@ export * from './css-units';
 export * from './object';
 export * from './math';
 export * from './contracts';
+export * from './tip-tap';
+export * from './dom';

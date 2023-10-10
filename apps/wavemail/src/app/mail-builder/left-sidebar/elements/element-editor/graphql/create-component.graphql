@@ -1,0 +1,7 @@
+mutation CreateComponent($data: CreateComponent!) {
+  createComponent(data: $data) {
+    id
+    json
+    name
+  }
+}

@@ -14,11 +14,13 @@ export interface Layout extends ElementCommon<'layout'> {
   };
 }
 
+export interface Position {
+  layout: string;
+  column: number;
+  index: number;
+}
+
 export interface LayoutAddChild {
   element: string;
-  position: {
-    layout: string;
-    column: number;
-    index: number;
-  };
+  position: Position;
 }

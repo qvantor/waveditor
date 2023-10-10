@@ -29,6 +29,8 @@ model User {
   TemplateVersion TemplateVersion[]
   role            PRole             @default(USER)
   Provider        Provider[]
+  Component       Component[]
+  Tag             Tag[]
 }
 
 model Group {
@@ -39,6 +41,26 @@ model Group {
   template  GroupOnTemplate[]
   creator   User              @relation(fields: [userId], references: [id])
   userId    Int
+}
+
+model Component {
+  id            Int              @id @default(autoincrement())
+  name          String
+  creator       User             @relation(fields: [userId], references: [id])
+  userId        Int
+  json          Json
+  previewHeight Int
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @default(now())
+  tags          TagOnComponent[]
+}
+
+model Tag {
+  id         Int              @id @default(autoincrement())
+  name       String
+  creator    User             @relation(fields: [userId], references: [id])
+  userId     Int
+  components TagOnComponent[]
 }
 
 model Template {
@@ -75,6 +97,16 @@ model Provider {
 }
 
 // M-N Relations
+
+model TagOnComponent {
+  tag         Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId       Int
+  component   Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
+  componentId Int
+  assignedAt  DateTime  @default(now())
+
+  @@id([tagId, componentId])
+}
 
 model UserOnGroup {
   group      Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)

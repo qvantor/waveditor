@@ -14,6 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Input } from '@waveditors/ui-kit';
 import { IconButton } from '../../../../../common/components';
 import { maxLength, required, validate } from '../../../../../common/services';
+import { ElementToComponent } from './element-to-component';
 
 const NameInput = styled(Input)`
   input {
@@ -63,6 +64,7 @@ export const ElementEditorHeader = ({ element }: Props) => {
         onChange={element.actions.setName}
         validate={validate(required, maxLength(16))}
       />
+      <ElementToComponent elementId={element.getValue().id} />
       <IconButton
         size='small'
         type='text'

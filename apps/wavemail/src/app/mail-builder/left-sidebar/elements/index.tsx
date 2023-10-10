@@ -1,8 +1,9 @@
 import { map } from 'rxjs';
 import { useObservable } from '@waveditors/rxjs-react';
 import { useBuilderContext } from '@waveditors/editor-model';
+import { Hider } from '../../../common/components';
+import { CreateItem } from '../create-item';
 import { ElementEditor } from './element-editor';
-import { CreateElement } from './create-element';
 
 export const Elements = () => {
   const {
@@ -16,5 +17,12 @@ export const Elements = () => {
     null,
     [selected.bs]
   );
-  return element ? <ElementEditor element={element} /> : <CreateElement />;
+  return (
+    <>
+      {element && <ElementEditor element={element} />}
+      <Hider isHidden={Boolean(element)}>
+        <CreateItem />
+      </Hider>
+    </>
+  );
 };

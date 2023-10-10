@@ -1,6 +1,10 @@
 import { FocusEvent, useCallback, useEffect, useState } from 'react';
 import { InputNumber as AntInputNumber, InputNumberProps } from 'antd';
-import { useValidation, InputValidation } from './input-validation';
+import {
+  useValidation,
+  InputValidation,
+  useValidateValue,
+} from './input-validation';
 
 type Props<T extends number | string> = {
   value?: T | null;
@@ -16,10 +20,12 @@ export const InputNumber = <T extends number | string>({
   ...rest
 }: Props<T>) => {
   const [internalValue, setInternalValue] = useState(value);
-  const { validation, onBlur: onBlurValidation } = useValidation(
-    internalValue,
-    validate
-  );
+  const {
+    validation,
+    onBlur: onBlurValidation,
+    validateValue,
+  } = useValidation(validate);
+  useValidateValue(validateValue, internalValue);
 
   useEffect(() => {
     if (value !== internalValue) setInternalValue(value);
@@ -45,7 +51,7 @@ export const InputNumber = <T extends number | string>({
       <AntInputNumber
         size='small'
         value={internalValue}
-        onChange={value => setInternalValue(value)}
+        onChange={(value) => setInternalValue(value)}
         onBlur={onBlurInternal}
         style={{ width: '100%' }}
         {...rest}

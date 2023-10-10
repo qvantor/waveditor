@@ -13,6 +13,7 @@ import { templateResolver } from './templates';
 import { groupResolver } from './groups';
 import { providerResolver } from './providers';
 import { emailsResolver } from './emails';
+import { componentResolver } from './components';
 import {
   Context,
   context,
@@ -29,6 +30,7 @@ const resolvers: Resolvers = [
   groupResolver,
   providerResolver,
   emailsResolver,
+  componentResolver,
   { JSON: GraphQLJSON },
 ];
 const typeDefs = mergeTypeDefs(

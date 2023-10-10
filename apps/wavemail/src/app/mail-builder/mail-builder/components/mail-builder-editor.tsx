@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useUnsubscribable } from '@waveditors/rxjs-react';
 import { match } from 'ts-pattern';
 import {
@@ -7,6 +7,7 @@ import {
   getLayoutElement,
   getParentElement,
   EditorSnapshot,
+  mergeComponent,
 } from '@waveditors/editor-model';
 import { noop } from 'rxjs';
 import { LeftSidebar } from '../../left-sidebar';
@@ -22,6 +23,10 @@ interface Props {
 
 export const MailBuilderEditor = memo(({ snapshot }: Props) => {
   const builderContext = createBuilderContext(snapshot);
+  const onAddComponent = useMemo(
+    () => mergeComponent(builderContext),
+    [builderContext]
+  );
 
   const {
     model: { elements, config },
@@ -60,7 +65,7 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
               );
             parent.actions.addChild(payload);
             undoRedo.endBunch();
-            if (payload.samePosition) undoRedo.removeLastEvent();
+            if (payload.position.samePosition) undoRedo.removeLastEvent();
           })
           .with(
             { type: 'AddElement' },
@@ -87,6 +92,9 @@ export const MailBuilderEditor = memo(({ snapshot }: Props) => {
               undoRedo.endBunch();
               selected.actions.setSelected(element.id);
             }
+          )
+          .with({ type: 'AddComponent' }, ({ payload }) =>
+            onAddComponent(payload)
           )
           .otherwise(noop)
       ),

@@ -1,0 +1,6 @@
+input CreateComponent {
+  name: String!
+  json: JSON!
+  tags: [Int!]!
+  previewHeight: Int!
+}

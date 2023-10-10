@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`clone component applyFontsIdTableToRelations should work with partial table 1`] = `
+Object {
+  "elementFont": Object {
+    "0.09364994320533238": "0.7248257932515505",
+    "0.5151065661804399": "test",
+    "0.7402764635803678": "test",
+    "0.8154554735234014": "test",
+  },
+}
+`;
+
+exports[`clone component applyVariablesTableToElements should work with partial table 1`] = `
+Object {
+  "content": Object {
+    "content": Array [
+      Object {
+        "content": Array [
+          Object {
+            "text": "A have ",
+            "type": "text",
+          },
+          Object {
+            "attrs": Object {
+              "id": "test",
+              "label": "name",
+            },
+            "type": "variable",
+          },
+          Object {
+            "text": " and ",
+            "type": "text",
+          },
+          Object {
+            "attrs": Object {
+              "id": "0.24456524413525726",
+              "label": "age",
+            },
+            "type": "variable",
+          },
+          Object {
+            "text": " and ",
+            "type": "text",
+          },
+          Object {
+            "marks": Array [
+              Object {
+                "type": "italic",
+              },
+            ],
+            "text": "Inter",
+            "type": "text",
+          },
+          Object {
+            "text": " font",
+            "type": "text",
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+    "type": "doc",
+  },
+}
+`;
