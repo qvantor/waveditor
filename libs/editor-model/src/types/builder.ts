@@ -5,6 +5,7 @@ import { HoverStore, SelectedStore } from '../interaction';
 import { RelationsStore } from '../relations';
 import { ConfigStore } from '../config';
 import { VariablesStore } from '../variables';
+import { UsedColorsModule } from '../common/modules';
 import { EditorCommands, EditorEvents, UndoRedoEvents } from './';
 
 export type BuilderContext = Readonly<{
@@ -25,5 +26,6 @@ export type BuilderContext = Readonly<{
   module: {
     undoRedo: UndoRedoModule<UndoRedoEvents>;
     onChange: OnChangeDebounceModule;
+    usedColors: UsedColorsModule;
   };
 }>;

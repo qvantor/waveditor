@@ -21,6 +21,7 @@ import {
 } from '../../types';
 import { elementToStoreConstructor } from '../../elements/elements/elements.creators';
 import { commonUndoRedoEffect } from '../../services';
+import { usedColorsModule } from '../../common/modules';
 import { builderContextToSnapshot } from './mappers';
 
 export const createBuilderContext = (
@@ -28,6 +29,7 @@ export const createBuilderContext = (
 ): BuilderContext => {
   const undoRedo = undoRedoModule<UndoRedoEvents>();
   const onChange = onChangeDebounceModule();
+  const usedColors = usedColorsModule();
   const { createUndoRedoEffect } = undoRedo;
 
   const config = configStoreConstructor()
@@ -52,6 +54,7 @@ export const createBuilderContext = (
     elementToStoreConstructor(element, { variables })
       .addEffect(commonUndoRedoEffect(undoRedo))
       .addEffect(onChange.effect)
+      .addEffect(usedColors.elementEffect)
       .run(element);
 
   const elements = elementsStoreConstructor({ toStore })
@@ -69,7 +72,7 @@ export const createBuilderContext = (
       events: new Subject<EditorEvents>(),
       commands: new Subject<EditorCommands>(),
     },
-    module: { undoRedo, onChange },
+    module: { undoRedo, onChange, usedColors },
   };
 };
 
@@ -79,13 +82,14 @@ export const builderSubscribe = (
   saveVersion: (snap: EditorSnapshot) => void
 ) => {
   const {
-    module: { undoRedo, onChange },
+    module: { undoRedo, onChange, usedColors },
     model: { config, relations, variables, elements },
     interaction: { hover, selected },
   } = context;
   const storeChangeSb = onChange.subscribe(() =>
     saveVersion(builderContextToSnapshot(context))
   );
+  const usedColorsSb = usedColors.subscribe(elements);
   const subscriptions = [
     undoRedo,
     config,
@@ -95,8 +99,8 @@ export const builderSubscribe = (
     hover,
     selected,
   ].map((value) => value.subscribe());
-  return () => {
-    subscriptions.forEach((unsubscribe) => unsubscribe());
-    storeChangeSb();
-  };
+  return () =>
+    [...subscriptions, storeChangeSb, usedColorsSb].forEach((unsubscribe) =>
+      unsubscribe()
+    );
 };
