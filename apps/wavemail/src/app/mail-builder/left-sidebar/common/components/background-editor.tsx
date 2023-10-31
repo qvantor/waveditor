@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 import { Select } from 'antd';
 import {
   BackgroundRepeatSelector,
-  ColorPicker,
   ImageUrlInput,
 } from '../../../../common/components';
+import { BuilderColorPicker } from '../../../common/components';
 import { RowContainer, SimpleEditorRow } from './editor-row.styled';
 
 interface Props {
@@ -38,7 +38,7 @@ export const BackgroundEditor = ({ value, onChange }: Props) => {
     <RowContainer>
       <SimpleEditorRow>
         <div>Color</div>
-        <ColorPicker
+        <BuilderColorPicker
           value={value?.backgroundColor}
           onChange={onChangeInternal('backgroundColor')}
         />
