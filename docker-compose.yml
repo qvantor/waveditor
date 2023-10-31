@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   frontend:
-    image: waveditor/frontend:0.3.0
+    image: waveditor/frontend:0.3.1
     restart: on-failure
     depends_on:
       - backend
@@ -13,7 +13,7 @@ services:
       - NX_BACKEND_URL=${NX_BACKEND_URL}
       - NX_GOOGLE_OAUTH_CLIENT=${NX_GOOGLE_OAUTH_CLIENT}
   backend:
-    image: waveditor/backend:0.3.0
+    image: waveditor/backend:0.3.1
     restart: on-failure
     depends_on:
       - postgres

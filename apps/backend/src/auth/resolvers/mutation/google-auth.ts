@@ -15,7 +15,10 @@ export const googleAuth: MutationResolvers['googleAuth'] = async (
   const role = admins.includes(userInput.email) ? 'ADMIN' : 'USER';
   const user = await prisma.user.upsert({
     where: { email: userInput.email },
-    update: {},
+    update: {
+      firstName: userInput.firstName,
+      lastName: userInput.lastName,
+    },
     create: {
       ...userInput,
       role,
