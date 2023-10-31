@@ -278,7 +278,7 @@ export default [
           type: 'image',
           style: { width: '200px' },
           params: {
-            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.svg',
+            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.png',
           },
         },
         '0.6433852536468228': {
@@ -462,7 +462,7 @@ export default [
           type: 'image',
           style: { width: '200px' },
           params: {
-            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.svg',
+            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.png',
           },
         },
       },
@@ -508,7 +508,7 @@ export default [
           type: 'image',
           style: { width: '200px' },
           params: {
-            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.svg',
+            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.png',
           },
         },
         '0.5570919937897845': {
@@ -919,7 +919,7 @@ export default [
           type: 'image',
           style: { width: '130px', padding: '0px 0px 20px' },
           params: {
-            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.svg',
+            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.png',
           },
         },
       },
@@ -1350,7 +1350,7 @@ export default [
           type: 'image',
           style: { width: '200px', padding: '0px 0px 60px' },
           params: {
-            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.svg',
+            url: 'https://wave-editor.s3.eu-central-1.amazonaws.com/components/logo-placeholder.png',
           },
         },
         '0.05210121443646454': {

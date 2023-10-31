@@ -1,4 +1,4 @@
-export { ColorPicker } from './color-picker';
+export * from './color-picker';
 export { ImageUrlInput } from './image-url-input';
 export { User } from './user';
 export { Header, HeaderButton } from './header';
