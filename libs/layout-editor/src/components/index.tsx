@@ -7,7 +7,12 @@ import { LayoutEditor as LayoutEditorInternal } from './layout-editor';
 const GlobalStyle = createGlobalStyle`
   * {
     user-select: none;
+    -webkit-user-drag: none;
     outline: none;
+  }
+
+  a {
+    cursor: default;
   }
 
   body {
