@@ -66,7 +66,10 @@ const applyIdTableToConfig = (
   fontsIdTable: IdRemapTable
 ) => ({
   ...config,
-  fonts: config.fonts.map((font) => ({ ...font, id: fontsIdTable[font.id] })),
+  fonts: config.fonts.map((font) => ({
+    ...font,
+    id: fontsIdTable[font.id],
+  })),
   rootElementId: idTable[config.rootElementId],
 });
 
@@ -125,5 +128,26 @@ export const cloneComponent = ({
       applyFontsIdTableToRelations(relations, fontsIdTable),
       idTable
     ),
+  };
+};
+
+// duplicate updates elements id's, but keep font and variables id's the same
+export const duplicateCloneComponent = ({
+  elements,
+  config,
+  relations,
+}: EditorSnapshot): EditorSnapshot => {
+  const idTable = genArrayWithIdTable(Object.values(elements));
+
+  return {
+    elements: applyIdTableToElements(elements, idTable),
+    config: {
+      rootElementId: idTable[config.rootElementId],
+      style: {},
+      fonts: [],
+      viewportWidth: 0,
+    },
+    variables: [],
+    relations: applyIdTableToRelations(relations, idTable),
   };
 };

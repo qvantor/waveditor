@@ -17,6 +17,7 @@ import {
   selectByType,
 } from '@waveditors/utils';
 import {
+  cloneComponent,
   ElementsStore,
   getElementPosition,
   getParentElement,
@@ -185,7 +186,10 @@ export const useDnd = ({
                 }
               : {
                   type: 'AddComponent',
-                  payload: { element: payload.element, position },
+                  payload: {
+                    element: cloneComponent(payload.element),
+                    position,
+                  },
                 }
           )
         );

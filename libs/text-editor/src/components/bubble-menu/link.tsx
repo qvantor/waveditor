@@ -69,7 +69,12 @@ export const Link = () => {
   }, [events]);
 
   return (
-    <Group onClick={(e) => e.stopPropagation()}>
+    <Group
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+    >
       {state.open && (
         <PopupRoot>
           <Input

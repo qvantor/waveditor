@@ -2,7 +2,6 @@ import { ConfigFont } from '../../config';
 import {
   applyFontsIdTableToRelations,
   applyVariablesTableToElements,
-  cloneComponent,
 } from '../../component';
 import { Position, getLayoutElement } from '../../elements';
 import { BuilderContext, EditorSnapshot } from '../../types';
@@ -53,46 +52,39 @@ const detectVariablesToAdd = (
     },
     [[], {}]
   );
-
+type Params = {
+  position: Position | null;
+  element: EditorSnapshot;
+};
 export const mergeComponent =
   ({
     model: { elements, config, variables, relations },
     module: { undoRedo },
   }: BuilderContext) =>
-  ({
-    position,
-    element,
-  }: {
-    position: Position | null;
-    element: EditorSnapshot;
-  }) => {
+  ({ position, element }: Params) => {
     const internalPosition = position ?? {
       layout: config.getValue().rootElementId,
       column: 0,
       index: 0,
     };
 
-    const componentClone = cloneComponent(element);
     // detecting intersections between variables in template and component
     const [varsToAdd, variablesIdTable] = detectVariablesToAdd(
-      componentClone.variables,
+      element.variables,
       variables.getValue()
     );
     // detecting intersections between fonts from component and current template
     const [fontsToAdd, fontsIdTable] = detectFontToAdd(
-      componentClone.config.fonts,
+      element.config.fonts,
       config.getValue().fonts
     );
     const component = {
-      ...componentClone,
+      ...element,
       elements: applyVariablesTableToElements(
-        componentClone.elements,
+        element.elements,
         variablesIdTable
       ),
-      relations: applyFontsIdTableToRelations(
-        componentClone.relations,
-        fontsIdTable
-      ),
+      relations: applyFontsIdTableToRelations(element.relations, fontsIdTable),
     };
     const parent = getLayoutElement(
       elements.getValue(),

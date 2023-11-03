@@ -2,6 +2,7 @@ import { filter, fromEvent, merge, map } from 'rxjs';
 import { useSubscription } from '@waveditors/rxjs-react';
 import {
   CanvasKeyDownEvent,
+  duplicateComponent,
   removeSelectedElement,
   useAction,
   useBuilderContext,
@@ -13,6 +14,7 @@ const HotkeyActions = {
   redo: 'KeyY',
   save: 'KeyS',
   load: 'KeyL',
+  duplicate: 'KeyD',
   remove: 'Backspace',
 };
 
@@ -23,6 +25,7 @@ export const Hotkeys = () => {
     editor: { events },
   } = useBuilderContext();
   const removeSelected = useAction(removeSelectedElement);
+  const duplicate = useAction(duplicateComponent);
 
   useSubscription(() => {
     const keyboardEvents = fromEvent<KeyboardEvent>(document, 'keydown');
@@ -54,6 +57,8 @@ export const Hotkeys = () => {
           }
           case HotkeyActions.remove:
             return removeSelected();
+          case HotkeyActions.duplicate:
+            return duplicate();
         }
       });
   }, [undoRedo, events]);

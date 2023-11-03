@@ -41,6 +41,7 @@ type UndoRedoEvents<E> = UndoRedoEvent<E>[];
 
 export const generateId = () => Math.random().toString();
 
+// double undo added when duplicate text with variable (because text's not equal - key ordering changed)
 export const undoRedoModule = <E extends CommonUndoEvent<string, unknown>>(
   size = 10
 ): UndoRedoModule<E> => {
