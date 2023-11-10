@@ -8,9 +8,17 @@ export interface TipTapVariable extends JSONContent {
   };
 }
 
+export interface TipTapText extends JSONContent {
+  type: 'text';
+  text: string;
+}
+
 export const isTipTapVariable = (
   content: JSONContent
 ): content is TipTapVariable => content.type === 'variable';
+
+export const isTipTapText = (content: JSONContent): content is TipTapText =>
+  content.type === 'text';
 
 export const mapJSONContent = (
   content: JSONContent,
