@@ -4,7 +4,7 @@ import {
   getVariableById,
   Variables as VariablesType,
 } from '@waveditors/editor-model';
-import { Extensions } from '../constants';
+import { EditorExtensions } from '../constants';
 import { Variables } from '../variables';
 
 export const jsonToHtml = (doc: JSONContent, variables: VariablesType) =>
@@ -15,5 +15,5 @@ export const jsonToHtml = (doc: JSONContent, variables: VariablesType) =>
         return variable?.defaultValue ?? '';
       },
     }),
-    ...Extensions,
+    ...EditorExtensions,
   ]);

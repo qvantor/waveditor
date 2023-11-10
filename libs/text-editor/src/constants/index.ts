@@ -1,1 +1,1 @@
-export { Extensions } from './extensions';
+export * from './extensions';

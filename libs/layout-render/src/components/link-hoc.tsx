@@ -4,11 +4,12 @@ import { ElementCommon } from '@waveditors/editor-model';
 export const LinkHOC =
   <P extends { element: ElementCommon }>(Component: FC<P>) =>
   (props: P) => {
-    if (props.element.link && props.element.link.url !== '')
+    if (props.element.link)
       return (
         <a
-          href={props.element.link.url}
-          target={props.element.link.newTab ? '_blank' : undefined}
+          // href={props.element.link.url}
+          href=''
+          target={props.element.link.newTab ? '_blank' : ''}
           rel='noreferrer'
           onClick={(e) => e.preventDefault()}
           style={{ color: 'inherit', textDecoration: 'none' }}

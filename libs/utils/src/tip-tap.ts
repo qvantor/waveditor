@@ -1,5 +1,17 @@
 import { JSONContent } from '@tiptap/core';
 
+export interface TipTapVariable extends JSONContent {
+  type: 'variable';
+  attrs: {
+    id: string;
+    label: string;
+  };
+}
+
+export const isTipTapVariable = (
+  content: JSONContent
+): content is TipTapVariable => content.type === 'variable';
+
 export const mapJSONContent = (
   content: JSONContent,
   mapper: (value: JSONContent) => JSONContent
@@ -41,4 +53,18 @@ export const filterJSONContent = (
     ...content,
     content: filterChildren(content.content, predicate),
   };
+};
+
+export const reduceTipTapContent = <T>(
+  content: JSONContent,
+  fn: (sum: T, item: JSONContent) => T,
+  initial: T
+): T => {
+  const start = fn(initial, content);
+  return (
+    content.content?.reduce<T>(
+      (acc, current) => reduceTipTapContent(current, fn, acc),
+      start
+    ) ?? start
+  );
 };
