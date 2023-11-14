@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import { ElementLink } from '@waveditors/editor-model';
-import { Checkbox } from 'antd';
+import { Checkbox, Tooltip } from 'antd';
 import styled from 'styled-components';
 import { InputVariables } from '@waveditors/text-editor';
 import { JSONContent } from '@tiptap/core';
+import { HiOutlineVariable } from 'react-icons/hi';
+import { InputWithLabel, Label } from '../../../common/components';
 
 interface Props {
   value: ElementLink | null;
@@ -52,11 +54,19 @@ export const LinkEditor = ({ value, onChange }: Props) => {
   );
   return (
     <Root>
-      <InputVariables
-        onChange={onChangeInternal('url')}
-        content={mapValue(value?.url) ?? EmptyUrl}
-        editable
-      />
+      <InputWithLabel>
+        <Label>
+          Url:
+          <Tooltip title='Variables support. Try with `{`'>
+            <HiOutlineVariable />
+          </Tooltip>
+        </Label>
+        <InputVariables
+          onChange={onChangeInternal('url')}
+          content={mapValue(value?.url) ?? EmptyUrl}
+          editable
+        />
+      </InputWithLabel>
       <Checkbox
         checked={value?.newTab}
         onChange={(e) => onChangeInternal('newTab')(e.target.checked)}
