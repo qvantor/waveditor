@@ -7,21 +7,35 @@ import TAG_ON_COMPONENTS from './seeds/tagOnComponent';
 const admins = ADMIN_EMAILS.split(',');
 const prisma = new PrismaClient();
 const createTags = async (userId: number) => {
-  await prisma.tag.createMany({
-    data: TAGS.map((tag) => ({ ...tag, userId })),
-  });
+  const idTable: Record<number, number> = {};
+  for (const { id, name } of TAGS) {
+    const tag = await prisma.tag.create({ data: { name, userId } });
+    idTable[id] = tag.id;
+  }
   console.log(`${TAGS.length} tags created`);
+  return idTable;
 };
 
-const createComponents = async (userId: number) => {
-  await prisma.component.createMany({
-    data: COMPONENTS.map((component) => ({
-      ...component,
-      userId,
-    })),
-  });
+const createComponents = async (
+  userId: number,
+  tagIdTable: Record<number, number>
+) => {
+  const idTable: Record<number, number> = {};
+  for (const { id, ...component } of COMPONENTS) {
+    const comp = await prisma.component.create({
+      data: { ...component, userId },
+    });
+    idTable[id] = comp.id;
+  }
   console.log(`${COMPONENTS.length} components created`);
-  await prisma.tagOnComponent.createMany({ data: TAG_ON_COMPONENTS });
+  for (const relation of TAG_ON_COMPONENTS) {
+    await prisma.tagOnComponent.create({
+      data: {
+        tagId: tagIdTable[relation.tagId],
+        componentId: idTable[relation.componentId],
+      },
+    });
+  }
   console.log(`${TAG_ON_COMPONENTS.length} tagOnComponent created`);
 };
 
@@ -36,8 +50,8 @@ const main = async () => {
         role: 'ADMIN',
       },
     }));
-  await createTags(admin.id);
-  await createComponents(admin.id);
+  const tagsId = await createTags(admin.id);
+  await createComponents(admin.id, tagsId);
 };
 
 main().then(() => {
