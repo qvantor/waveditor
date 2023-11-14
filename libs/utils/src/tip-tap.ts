@@ -26,35 +26,6 @@ export const mapJSONContent = (
   return root;
 };
 
-const filterChildren = (
-  children: JSONContent[],
-  predicate: (content: JSONContent) => boolean
-): JSONContent[] =>
-  children.reduce<JSONContent[]>((sum, content) => {
-    if (!predicate(content)) return sum;
-    if (!content.content) return [...sum, content];
-
-    return [
-      ...sum,
-      {
-        ...content,
-        content: filterChildren(content.content, predicate),
-      },
-    ];
-  }, []);
-
-export const filterJSONContent = (
-  content: JSONContent,
-  predicate: (content: JSONContent) => boolean
-): JSONContent => {
-  if (!content.content) return content;
-
-  return {
-    ...content,
-    content: filterChildren(content.content, predicate),
-  };
-};
-
 export const reduceTipTapContent = <T>(
   content: JSONContent,
   fn: (sum: T, item: JSONContent) => T,
@@ -67,4 +38,17 @@ export const reduceTipTapContent = <T>(
       start
     ) ?? start
   );
+};
+
+export const mapTipTapParentsContent = (
+  content: JSONContent,
+  mapper: (item: JSONContent[]) => JSONContent[]
+): JSONContent => {
+  if (!content.content) return content;
+  return {
+    ...content,
+    content: mapper(content.content).map((value) =>
+      mapTipTapParentsContent(value, mapper)
+    ),
+  };
 };

@@ -1,7 +1,7 @@
-import { Node } from "@tiptap/core";
+import { Node } from '@tiptap/core';
 
 export const OneLiner = Node.create({
-  name: "oneLiner",
+  name: 'oneLiner',
   topNode: true,
-  content: "block",
+  content: 'block',
 });

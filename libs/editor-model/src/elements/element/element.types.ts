@@ -1,7 +1,6 @@
 import { CommonUndoEvent } from '@waveditors/rxjs-react';
 import { JSONContent } from '@tiptap/core';
 import { Style } from '../../types';
-import { VariablesStore } from '../../variables';
 
 export const ElementCommonTypes = ['layout', 'text', 'image'] as const;
 export type ElementTypes = (typeof ElementCommonTypes)[number];
@@ -19,11 +18,6 @@ export type ElementCommon<T extends string = ElementTypes> = {
   link: ElementLink | null;
 
   style: Style;
-};
-
-export type ElementStoreDeps = {
-  // undoRedo: UndoRedoModule<UndoRedoEvents>;
-  variables: VariablesStore;
 };
 
 export type ElementStoreUndoRedoEvent = CommonUndoEvent<

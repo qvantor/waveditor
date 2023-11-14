@@ -54,7 +54,7 @@ export const createBuilderContext = (
   // function for wrap any element json to ElementStore
   // with all effects required
   const toStore = (element: Element) =>
-    elementToStoreConstructor(element, { variables })
+    elementToStoreConstructor(element)
       .addEffect(commonUndoRedoEffect(undoRedo))
       .addEffect(onChange.effect)
       .addEffect(usedColors.elementEffect)
