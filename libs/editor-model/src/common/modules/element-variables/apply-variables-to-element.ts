@@ -2,9 +2,17 @@ import {
   isTipTapVariable,
   mapTipTapParentsContent,
   TipTapVariable,
+  TipTapVarLabel,
 } from '@waveditors/utils';
 import { JSONContent } from '@tiptap/core';
-import { ElementCommon, Text } from '../../../elements';
+import {
+  ElementCommon,
+  ElementLinkUrl,
+  getElementLinkUrl,
+  isTextElement,
+  Text,
+  TextContent,
+} from '../../../elements';
 import { Variable, Variables } from '../../../variables';
 
 const applyVariableToTipTapVariable = (
@@ -12,13 +20,7 @@ const applyVariableToTipTapVariable = (
   tipTapVar: TipTapVariable
 ): TipTapVariable | null => {
   if (variable.label === tipTapVar.attrs.label) return null;
-  return {
-    ...tipTapVar,
-    attrs: {
-      ...tipTapVar.attrs,
-      label: variable.label,
-    },
-  };
+  return TipTapVarLabel.set(variable.label)(tipTapVar);
 };
 
 const applyVariablesToJSONContent = (
@@ -52,16 +54,11 @@ const applyVariablesToCommonElement = (
   variables: Variables,
   element: ElementCommon
 ): ElementCommon | null => {
-  if (!element.link?.url || typeof element.link.url === 'string') return null;
-  const newUrl = applyVariablesToJSONContent(variables, element.link.url);
+  const url = getElementLinkUrl(element);
+  if (!url || typeof url === 'string') return null;
+  const newUrl = applyVariablesToJSONContent(variables, url);
   if (!newUrl) return null;
-  return {
-    ...element,
-    link: {
-      ...element.link,
-      url: newUrl,
-    },
-  };
+  return ElementLinkUrl.set(newUrl)(element);
 };
 
 const applyVariablesToText = (
@@ -70,20 +67,15 @@ const applyVariablesToText = (
 ): Text | null => {
   const content = applyVariablesToJSONContent(variables, text.params.content);
   if (!content) return null;
-  return { ...text, params: { ...text.params, content } };
+  return TextContent.set(content)(text);
 };
 
 const applyVariablesByType = (
   variables: Variables,
   element: ElementCommon
 ): ElementCommon | null => {
-  switch (element.type) {
-    case 'text':
-      return applyVariablesToText(variables, element as Text);
-    case 'image':
-    case 'layout':
-      return null;
-  }
+  if (isTextElement(element)) return applyVariablesToText(variables, element);
+  return null;
 };
 
 export const applyVariablesToElement = (

@@ -2,9 +2,10 @@ import { FC } from 'react';
 import { ElementCommon } from '@waveditors/editor-model';
 import { useTipTapToString } from '@waveditors/text-editor';
 
-export const LinkHOC =
-  <P extends { element: ElementCommon }>(Component: FC<P>) =>
-  (props: P) => {
+export const LinkHOC = <P extends { element: ElementCommon }>(
+  Component: FC<P>
+) =>
+  function Element(props: P) {
     const toString = useTipTapToString();
     if (props.element.link) {
       return (

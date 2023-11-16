@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`apply variables should change the var name in text content, if name is changed 1`] = `
+Object {
+  "id": "0.47976090123156934",
+  "link": null,
+  "name": "text1",
+  "params": Object {
+    "content": Object {
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "text": "hello ",
+              "type": "text",
+            },
+            Object {
+              "attrs": Object {
+                "id": "0.7830225981794139",
+                "label": "Hello world",
+              },
+              "type": "variable",
+            },
+            Object {
+              "text": " ",
+              "type": "text",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "doc",
+    },
+  },
+  "style": Object {},
+  "type": "text",
+}
+`;
+
+exports[`apply variables should remove variable, if variable gone 1`] = `
+Object {
+  "id": "0.47976090123156934",
+  "link": null,
+  "name": "text1",
+  "params": Object {
+    "content": Object {
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "text": "hello ",
+              "type": "text",
+            },
+            Object {
+              "text": " ",
+              "type": "text",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "doc",
+    },
+  },
+  "style": Object {},
+  "type": "text",
+}
+`;

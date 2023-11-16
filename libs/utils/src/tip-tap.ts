@@ -1,4 +1,5 @@
 import { JSONContent } from '@tiptap/core';
+import { Lens } from 'monocle-ts';
 
 export interface TipTapVariable extends JSONContent {
   type: 'variable';
@@ -7,6 +8,11 @@ export interface TipTapVariable extends JSONContent {
     label: string;
   };
 }
+
+export const TipTapVarLabel = Lens.fromPath<TipTapVariable>()([
+  'attrs',
+  'label',
+]);
 
 export interface TipTapText extends JSONContent {
   type: 'text';

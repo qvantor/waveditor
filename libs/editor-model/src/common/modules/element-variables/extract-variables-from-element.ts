@@ -1,6 +1,12 @@
 import { JSONContent } from '@tiptap/core';
 import { isTipTapVariable, reduceTipTapContent } from '@waveditors/utils';
-import { ElementCommon, getElementLinkUrl, Text } from '../../../elements';
+import { flow } from 'fp-ts/function';
+import {
+  ElementCommon,
+  getElementLinkUrl,
+  getTextContent,
+  isTextElement,
+} from '../../../elements';
 
 const extractUniqueVarIdsFromJSONContent = (content: JSONContent) =>
   Array.from(
@@ -23,17 +29,14 @@ const extractVariablesFromCommonElement = (
   return extractUniqueVarIdsFromJSONContent(url);
 };
 
-const extractVariablesFromText = (text: Text) =>
-  extractUniqueVarIdsFromJSONContent(text.params.content);
+const extractVariablesFromText = flow(
+  getTextContent,
+  extractUniqueVarIdsFromJSONContent
+);
 
 const extractVariablesByType = (element: ElementCommon) => {
-  switch (element.type) {
-    case 'text':
-      return extractVariablesFromText(element as Text);
-    case 'image':
-    case 'layout':
-      return [];
-  }
+  if (isTextElement(element)) return extractVariablesFromText(element);
+  return [];
 };
 
 export const extractVariablesFromElement = (element: ElementCommon) => [

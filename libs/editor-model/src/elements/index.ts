@@ -14,6 +14,7 @@ export {
   getElementLinkUrl,
   getElementName,
   getElementType,
+  ElementLinkUrl,
 } from './element';
 
 export {
