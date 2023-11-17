@@ -36,8 +36,11 @@ export function BaseEditor({
     },
     // sync outside content value with editor value, when not editable
     onBlur: ({ editor }) => {
-      if (deepEqual(content, editor.getJSON())) return;
-      onChange(editor.getJSON());
+      // editor.getJSON return some object without prototype (from ProseMirror model)
+      // https://github.com/ProseMirror/prosemirror/issues/761#issuecomment-362794646
+      const editorJson = window.structuredClone(editor.getJSON());
+      if (deepEqual(content, editorJson)) return;
+      onChange(editorJson);
     },
   });
 
