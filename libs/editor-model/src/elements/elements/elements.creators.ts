@@ -1,5 +1,4 @@
 import { StoreConstructor } from '@waveditors/rxjs-react';
-import { ElementStoreDeps } from '../element';
 import { createInitialLayout, layoutStore } from '../layout';
 import { createEmptyText, textStore } from '../text';
 import { createEmptyImage, imageStore } from '../image';
@@ -25,16 +24,15 @@ export function createEmptyElement<T extends ElementType>(
 }
 
 export const elementToStoreConstructor = <E extends Element>(
-  element: E,
-  deps: ElementStoreDeps
+  element: E
 ): StoreConstructor<any, any, any> => {
   switch (element.type) {
     case 'layout':
-      return layoutStore(deps);
+      return layoutStore();
     case 'text':
-      return textStore(deps);
+      return textStore();
     case 'image':
-      return imageStore(deps);
+      return imageStore();
   }
 };
 

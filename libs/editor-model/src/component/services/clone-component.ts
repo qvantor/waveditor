@@ -1,5 +1,5 @@
 import { generateId, mapJSONContent } from '@waveditors/utils';
-import { TextLens } from '../../elements';
+import { TextContent } from '../../elements';
 import {
   column,
   columnChildren,
@@ -24,7 +24,7 @@ export const applyVariablesTableToElements = (
     if (element.type === 'text') {
       return {
         ...sum,
-        [element.id]: TextLens.content.modify((content) =>
+        [element.id]: TextContent.modify((content) =>
           mapJSONContent(content, (item) => {
             if (item.type !== 'variable' || !item.attrs) return item;
             return {

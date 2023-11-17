@@ -1,2 +1,3 @@
-export { TextEditor, TextEditorStyle } from './components';
+export { TextEditor, TextEditorStyle, InputVariables } from './components';
 export { jsonToHtml } from './services';
+export { useTipTapToString } from './hooks';

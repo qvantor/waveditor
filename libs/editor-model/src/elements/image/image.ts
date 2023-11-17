@@ -1,7 +1,7 @@
 import { selectorToPipe, StoreResult } from '@waveditors/rxjs-react';
 import { catchError, filter, from, map, of, switchMap } from 'rxjs';
 import { deepEqual } from 'fast-equals';
-import { elementStore, ElementStoreDeps } from '../element';
+import { elementStore } from '../element';
 import type { Image } from './image.types';
 import { getImageMeta, getImageUrl } from './image.selectors';
 
@@ -15,7 +15,7 @@ const getImageSize = (url: string) =>
     img.src = url;
   });
 
-export const imageStore = (_: ElementStoreDeps) =>
+export const imageStore = () =>
   elementStore<Image>()
     .addActions({
       setImageUrl: (url: string, image) => ({

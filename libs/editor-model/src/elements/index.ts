@@ -11,8 +11,10 @@ export {
   getElementTextAlign,
   getElementColor,
   getElementLink,
+  getElementLinkUrl,
   getElementName,
   getElementType,
+  ElementLinkUrl,
 } from './element';
 
 export {

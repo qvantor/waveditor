@@ -2,7 +2,7 @@ import { StoreResult } from '@waveditors/rxjs-react';
 import * as A from 'fp-ts/Array';
 import * as O from 'fp-ts/Option';
 import { flow, pipe } from 'fp-ts/function';
-import { elementStore, ElementStoreDeps } from '../element';
+import { elementStore } from '../element';
 import { Style } from '../../types';
 import { Column, Layout, LayoutAddChild } from './layout.types';
 import { createEmptyColumn } from './layout.creators';
@@ -16,7 +16,7 @@ import {
   column,
 } from './layout.lens';
 
-export const layoutStore = (_: ElementStoreDeps) =>
+export const layoutStore = () =>
   elementStore<Layout>().addActions({
     addChild: (
       {

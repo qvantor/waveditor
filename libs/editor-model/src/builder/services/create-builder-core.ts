@@ -21,7 +21,10 @@ import {
 } from '../../types';
 import { elementToStoreConstructor } from '../../elements/elements/elements.creators';
 import { commonUndoRedoEffect } from '../../services';
-import { usedColorsModule } from '../../common/modules';
+import {
+  usedColorsModule,
+  variableElementRelationEffect,
+} from '../../common/modules';
 import { builderContextToSnapshot } from './mappers';
 
 export const createBuilderContext = (
@@ -51,10 +54,11 @@ export const createBuilderContext = (
   // function for wrap any element json to ElementStore
   // with all effects required
   const toStore = (element: Element) =>
-    elementToStoreConstructor(element, { variables })
+    elementToStoreConstructor(element)
       .addEffect(commonUndoRedoEffect(undoRedo))
       .addEffect(onChange.effect)
       .addEffect(usedColors.elementEffect)
+      .addEffect(variableElementRelationEffect(variables))
       .run(element);
 
   const elements = elementsStoreConstructor({ toStore })

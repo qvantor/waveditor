@@ -9,14 +9,15 @@ import { Italic } from '@tiptap/extension-italic';
 import { Strike } from '@tiptap/extension-strike';
 import { Underline } from '@tiptap/extension-underline';
 import { Link } from '@tiptap/extension-link';
+import { OneLiner } from '../tip-tap-nodes';
 
 const DefaultConfig = {
   HTMLAttributes: {
     style: 'margin:0;',
   },
 };
-
-export const Extensions = [
+export const OneLine = [OneLiner, Paragraph.configure(DefaultConfig), Text];
+export const EditorExtensions = [
   Document,
   Paragraph.configure(DefaultConfig),
   Text,

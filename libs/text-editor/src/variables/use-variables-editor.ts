@@ -27,7 +27,7 @@ const useFindVariables = () => {
   };
 };
 
-export const useVariablesEditor = ({ body = document.body }: Params) => {
+export const useVariablesEditor = ({ body = document.body }: Params = {}) => {
   const findVariables = useFindVariables();
   return Variables.configure({
     suggestion: {

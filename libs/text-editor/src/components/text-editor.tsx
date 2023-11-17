@@ -1,21 +1,8 @@
-import { useEffect, useMemo } from 'react';
-import { EditorContent, useEditor } from '@tiptap/react';
-import { JSONContent } from '@tiptap/core';
-import { deepEqual } from 'fast-equals';
 import { createGlobalStyle } from 'styled-components';
-import { Subject } from 'rxjs';
-import { Extensions } from '../constants';
+import { useMemo } from 'react';
 import { useVariablesEditor, VariablesStyle } from '../variables';
-import { TextEditorContextProvider, TextEditorEvents } from '../hooks';
-import { BubbleMenu } from './bubble-menu';
-
-export interface Props {
-  onChange: (value: JSONContent) => void;
-  content: JSONContent;
-  className?: string;
-  editable?: boolean;
-  iFrameDocument?: Document;
-}
+import { EditorExtensions } from '../constants';
+import { BaseEditor, Props as BaseProps } from './base-editor';
 
 export const TextEditorStyle = createGlobalStyle`
   ${VariablesStyle}
@@ -96,50 +83,17 @@ export const TextEditorStyle = createGlobalStyle`
   }
 `;
 
-export function TextEditor({
-  onChange,
-  content,
-  className,
-  editable = false,
-  iFrameDocument = document,
-}: Props) {
+type Props = Omit<BaseProps, 'extensions' | 'menu'> & {
+  iFrameDocument?: Document;
+};
+
+export const TextEditor = ({ iFrameDocument, ...rest }: Props) => {
   const variablesEditor = useVariablesEditor({
-    body: iFrameDocument.body,
+    body: iFrameDocument?.body,
   });
-  const editor = useEditor({
-    injectCSS: false,
-    extensions: [variablesEditor, ...Extensions],
-    content,
-    editable,
-    editorProps: {
-      attributes: className ? { class: className } : undefined,
-    },
-    // sync outside content value with editor value, when not editable
-    onBlur: ({ editor }) => {
-      if (deepEqual(content, editor.getJSON())) return;
-      onChange(editor.getJSON());
-    },
-  });
-
-  // focus if editable
-  useEffect(() => {
-    editor?.setEditable(editable);
-    if (editable) editor?.chain().focus('end').run();
-  }, [editor, editable]);
-
-  // sync editor with outside content value
-  useEffect(() => {
-    if (!editor || deepEqual(content, editor.getJSON())) return;
-    editor.chain().setContent(content, false).run();
-  }, [editor, content]);
-  const events = useMemo(() => new Subject<TextEditorEvents>(), []);
-
-  if (!editor) return null;
-
-  return (
-    <TextEditorContextProvider value={{ editor, events }}>
-      <BubbleMenu />
-      <EditorContent editor={editor} />
-    </TextEditorContextProvider>
+  const extensions = useMemo(
+    () => [variablesEditor, ...EditorExtensions],
+    [variablesEditor]
   );
-}
+  return <BaseEditor extensions={extensions} {...rest} />;
+};
